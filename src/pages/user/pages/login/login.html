@@ -1,3 +1,26 @@
 <h1>Login html</h1>
 
-<button type="button" routerLink="/">Home</button>
+
+<button type="button" routerLink="/">Go to home</button>
+<button type="button" routerLink="/user/register">Go to Register</button>
+
+<hr>
+
+
+<div id="naver_id_login"></div>
+
+  <button (click)="onClickLoginWithGoogle()">Google Login</button>
+<!--   
+  <button (click)="onClickLoginWithCordovaGoogle()">Cordova Google Login</button>
+  <button (click)="onClickLoginWithFacebook()">Facebook Login</button>
+  <button (click)="onClickLoginWithCordovaFacebook()">Cordova Facebook Login</button>
+  <button (click)="onClickLoginWithKakao()">Kakao Login</button>
+  <button (click)="onClickLoginWithNaver()">Naver Login</button>
+  <div>
+    <form (ngSubmit)="onSubmitLogin()">
+      <input type="text" name="email" [(ngModel)]="email">
+      <input type="password" name="password" [(ngModel)]="password">
+      <button type="submit">Login</button>
+    </form>
+  </div> -->
+

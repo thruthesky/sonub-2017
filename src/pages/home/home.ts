@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { WordpressApiService } from './../../providers/wordpress-api';
+import { AppService } from './../../providers/app.service';
+import { TestService } from './../../providers/test.service';
+
+
 
 
 @Component({
@@ -9,10 +12,15 @@ import { WordpressApiService } from './../../providers/wordpress-api';
 
 export class HomePage implements OnInit {
     constructor(
-        wp: WordpressApiService
+        private app: AppService,
+        private test: TestService
     ) {
-        wp.getPosts().subscribe( data => console.log(data) );
     }
 
     ngOnInit() { }
+
+
+
+
+
 }

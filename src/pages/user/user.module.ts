@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 
 
 
-// import { RegisterPage } from './pages/register/register';
+import { RegisterPage } from './pages/register/register';
 import { LoginPage } from './pages/login/login';
 // import { ProfilePage } from './pages/profile/profile';
 
@@ -15,13 +15,14 @@ const appRoutes: Routes = [
     // { path: 'register', component: RegisterPage },
     // { path: 'profile', component: ProfilePage },
     { path: 'login', component: LoginPage },
+    { path: 'register', component: RegisterPage },
     { path: '', pathMatch: 'full', component: LoginPage },
     { path: '**', component: LoginPage }
 ];
 
 @NgModule({
     declarations: [
-        // RegisterPage,
+        RegisterPage,
         LoginPage,
         // ProfilePage
     ],

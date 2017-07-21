@@ -3,11 +3,26 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes, Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
+
+
+import { environment } from '../environments/environment'; // environment
+
+
+//// firebase
+import * as firebase from 'firebase';
+firebase.initializeApp(environment.firebase);
+
+
+
 import { AppComponent } from './app.component';
 import { HomeModule, HomePage } from './../pages/home/home.module';
 
 
-import { WordpressApiService } from './../providers/wordpress-api';
+import { WordpressApiService } from './../providers/wordpress-api.service';
+import { UserService } from './../providers/user.service';
+import { AppService } from './../providers/app.service';
+import { TestService } from './../providers/test.service';
+
 
 
 const appRoutes: Routes = [
@@ -28,7 +43,7 @@ const appRoutes: Routes = [
     HomeModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [WordpressApiService],
+  providers: [AppService, UserService, WordpressApiService, TestService],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
