@@ -1,14 +1,17 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
-import { Base } from './base';
+import { Base } from './../etc/base';
 
 import { config } from './../app/config';
 
-import { UserService, SOCIAL_PROFILE } from './user.service';
-export { SOCIAL_PROFILE } from './user.service';
+
 
 import { WordpressApiService } from './wordpress-api.service';
+import { UserService, SOCIAL_PROFILE } from './user.service';
+import { ForumService } from './forum.service';
+export { SOCIAL_PROFILE } from './user.service';
+
 
 
 
@@ -20,6 +23,7 @@ export class AppService extends Base {
     db: firebase.database.Reference;
     constructor(
         public user: UserService,
+        public forum: ForumService,
         public wp: WordpressApiService,
         private ngZone: NgZone,
         private router: Router
@@ -42,11 +46,11 @@ export class AppService extends Base {
     displayError(e) {
 
         /// for firebase and other error
-    
-    
+
+
         let code = e['code'] || '';
         let message = e['message'] || '';
         let msg = `${code}: ${message}`;
-        alert( msg );
+        alert(msg);
     }
 }

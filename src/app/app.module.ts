@@ -20,6 +20,7 @@ import { HomeModule, HomePage } from './../pages/home/home.module';
 
 import { WordpressApiService } from './../providers/wordpress-api.service';
 import { UserService } from './../providers/user.service';
+import { ForumService } from './../providers/forum.service';
 import { AppService } from './../providers/app.service';
 import { TestService } from './../providers/test.service';
 
@@ -43,7 +44,12 @@ const appRoutes: Routes = [
     HomeModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [AppService, UserService, WordpressApiService, TestService],
+  providers: [
+    AppService,
+    UserService,
+    ForumService,
+    WordpressApiService,
+    TestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
