@@ -18,9 +18,9 @@ import { AppComponent } from './app.component';
 import { HomeModule, HomePage } from './../pages/home/home.module';
 
 
-import { WordpressApiService } from './../providers/wordpress-api.service';
-import { UserService } from './../providers/user.service';
-import { ForumService } from './../providers/forum.service';
+import { WordpressApiService } from './../providers/wordpress-api/wordpress-api.service';
+import { UserService } from './../providers/wordpress-api/user.service';
+import { ForumService } from './../providers/wordpress-api/forum.service';
 import { AppService } from './../providers/app.service';
 import { TestService } from './../providers/test.service';
 

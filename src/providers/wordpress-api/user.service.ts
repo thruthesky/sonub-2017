@@ -1,53 +1,16 @@
+/**
+ * This has combination codes of Wordpress API, Firebase SDK, Kakao, Naver, and other 
+ */
 import { Injectable } from '@angular/core';
-import { Base } from '../etc/base';
-import { ERROR, KEY_LOGIN } from '../etc/define';
-import { REQUEST } from './../etc/interface';
+import { Base } from '../../etc/base';
+import { ERROR, KEY_LOGIN } from '../../etc/define';
 import { WordpressApiService } from './wordpress-api.service';
 import { Observable } from 'rxjs/Observable';
 
-
-
-export interface SOCIAL_PROFILE {
-    uid: string;                // User ID of the social.
-    email?: string;
-    providerId?: string;
-    name?: string;              // displayName
-    photoURL?: string;
-};
-
-
-export interface USER_LOGIN {
-    route?: string;
-    user_login: string;
-    user_pass: string;
-}
-
-export interface USER_COMMON {
-    user_email: string;
-    name?: string;
-    mobile?: string;
-    gender?: string;
-    address?: string;
-    birthday?: string;
-    landline?: string;
-}
-export interface USER_REGISTER extends USER_LOGIN, USER_COMMON { };
-
-
-export interface USER_REGISTER_RESPONSE {
-    user_login: string;
-    user_email: string;
-    user_nicename: string;
-    session_id: string;
-};
-export interface USER_LOGIN_RESPONSE extends USER_REGISTER_RESPONSE { };
-export interface USER_UPDATE_RESPONSE extends USER_REGISTER_RESPONSE { };
-
-export interface USER_UPDATE extends REQUEST, USER_COMMON { };
-
-export interface USER_DATA extends REQUEST { };
-export interface USER_DATA_RESPONSE extends USER_COMMON { };
-
+import {
+    SOCIAL_PROFILE, USER_REGISTER, USER_REGISTER_RESPONSE, USER_LOGIN, USER_LOGIN_RESPONSE,
+    USER_UPDATE, USER_UPDATE_RESPONSE, USER_DATA_RESPONSE, USER_DATA
+} from './interface';
 
 @Injectable()
 export class UserService extends Base {
@@ -106,27 +69,37 @@ export class UserService extends Base {
         return false;
 
     }
-
+    
 
     login(user_login: string, user_pass: string): Observable<USER_REGISTER_RESPONSE> {
-        return this.wp.login(user_login, user_pass)
+        let data: USER_LOGIN = {
+            user_login: user_login,
+            user_pass: user_pass,
+            route: 'user.login'
+        };
+        return this.wp.post(data)
             .map(res => this.setUserProfile(res));
     }
 
     register(data: USER_REGISTER): Observable<USER_REGISTER_RESPONSE> {
-        return this.wp.register(data)
+        data.route = 'user.register';
+        return this.wp.post(data)
             .map(res => this.setUserProfile(res));
     }
 
     update(data: USER_UPDATE): Observable<USER_UPDATE_RESPONSE> {
         data.session_id = this.userProfile.session_id;
-        return this.wp.userUpdate(data)
+        data.route = 'user.profile';
+        return this.wp.post(data)
             .map(res => this.setUserProfile(res));
     }
 
     data(): Observable<USER_DATA_RESPONSE> {
-        return this.wp.userData({ session_id: this.userProfile.session_id });
-            // .map(res => this.setUserProfile(res));
+        let data: USER_DATA = {
+            route: 'user.data',
+            session_id: this.userProfile.session_id
+        };
+        return this.wp.post(data);
     }
 
     setUserProfile(res) {

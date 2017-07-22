@@ -3,9 +3,12 @@ import { Injectable } from '@angular/core';
 import { AppService } from './app.service';
 import { Base } from '../etc/base';
 
-import { USER_REGISTER, USER_REGISTER_RESPONSE, USER_UPDATE, USER_UPDATE_RESPONSE } from './user.service';
+import {
+    USER_REGISTER, USER_REGISTER_RESPONSE, USER_UPDATE, USER_UPDATE_RESPONSE,
+    POST_CREATE, POST_UPDATE
+} from './wordpress-api/interface';
 
-import { POST_CREATE, POST_UPDATE } from './forum.service';
+
 
 @Injectable()
 export class TestService extends Base {
@@ -101,6 +104,7 @@ export class TestService extends Base {
         this.app.user.register(<any>{ user_login: this.randomString(), user_pass: 'user-pass', user_email: this.randomString() + '@gmail.com' }).subscribe(res => {
             // console.log(res);
             this.good('User register success: ' + res.session_id);
+            
         }, error => {
             this.bad("Expecting registraion.");
         });
@@ -166,7 +170,7 @@ export class TestService extends Base {
 
     testPostCreate() {
 
-        console.log("tesetPostCreate(): ", this.app.user.userProfile);
+        // console.log("tesetPostCreate(): ", this.app.user.userProfile);
         let data: POST_CREATE = {
             category: 'abc',
             post_title: 'Just a title - A'
@@ -176,8 +180,13 @@ export class TestService extends Base {
             let edit: POST_UPDATE = Object.assign( data, { ID: postNo } );
             edit.post_title = 'Edited Title';
             edit.category = 'def';
-            this.app.forum.postUpdate( edit ).subscribe( postNo => {
-                console.log("post update success");
+            this.app.forum.postUpdate( edit ).subscribe( postNo2 => {
+                this.test( postNo == postNo2, "post update success");
+                this.app.forum.postData( postNo2 ).subscribe( res => {
+                    console.log('post data', res);
+                }, err => {
+                    console.log(err);
+                });
             }, err => {
                 console.log('error:', err);
             })

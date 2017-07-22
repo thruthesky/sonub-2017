@@ -7,10 +7,9 @@ import { config } from './../app/config';
 
 
 
-import { WordpressApiService } from './wordpress-api.service';
-import { UserService, SOCIAL_PROFILE } from './user.service';
-import { ForumService } from './forum.service';
-export { SOCIAL_PROFILE } from './user.service';
+import { WordpressApiService } from './wordpress-api/wordpress-api.service';
+import { UserService } from './wordpress-api/user.service';
+import { ForumService } from './wordpress-api/forum.service';
 
 
 

@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import * as firebase from 'firebase/app';
 
-import { AppService, SOCIAL_PROFILE } from './../../../../providers/app.service';
+import { AppService } from './../../../../providers/app.service';
+import { SOCIAL_PROFILE } from './../../../../providers/wordpress-api/interface';
+
 
 
 @Component({
