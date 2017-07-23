@@ -5,7 +5,9 @@ import { Base } from '../etc/base';
 
 import {
     USER_REGISTER, USER_REGISTER_RESPONSE, USER_UPDATE, USER_UPDATE_RESPONSE,
-    POST_CREATE, POST_UPDATE
+    POST_CREATE, POST_UPDATE, POST_DATA, POST, POST_LIST,
+    COMMENT, COMMENT_CREATE, COMMENT_CREATE_RESPONSE,
+    COMMENT_UPDATE, COMMENT_UPDATE_RESPONSE
 } from './wordpress-api/interface';
 
 
@@ -24,8 +26,13 @@ export class TestService extends Base {
 
         this.testApi();
         this.testRegister();
-        this.testLogin(() => this.testPostCreate());
+        this.testLogin(() => this.testPostCreateUpdateGet(() => this.testPostDelete(a => {
+            this.testCommentCRUD();
+        })));
 
+        
+
+        this.testQuery();
     }
 
 
@@ -104,7 +111,7 @@ export class TestService extends Base {
         this.app.user.register(<any>{ user_login: this.randomString(), user_pass: 'user-pass', user_email: this.randomString() + '@gmail.com' }).subscribe(res => {
             // console.log(res);
             this.good('User register success: ' + res.session_id);
-            
+
         }, error => {
             this.bad("Expecting registraion.");
         });
@@ -168,22 +175,23 @@ export class TestService extends Base {
 
 
 
-    testPostCreate() {
-
+    testPostCreateUpdateGet(callback) {
         // console.log("tesetPostCreate(): ", this.app.user.userProfile);
         let data: POST_CREATE = {
             category: 'abc',
             post_title: 'Just a title - A'
         }
         this.app.forum.postCreate(data).subscribe(postNo => {
-            this.test( typeof postNo === 'number', 'post created' );
-            let edit: POST_UPDATE = Object.assign( data, { ID: postNo } );
+            this.test(typeof postNo === 'number', 'post created');
+            let edit: POST_UPDATE = Object.assign(data, { ID: postNo });
             edit.post_title = 'Edited Title';
             edit.category = 'def';
-            this.app.forum.postUpdate( edit ).subscribe( postNo2 => {
-                this.test( postNo == postNo2, "post update success");
-                this.app.forum.postData( postNo2 ).subscribe( res => {
-                    console.log('post data', res);
+            this.app.forum.postUpdate(edit).subscribe(postNo2 => {
+                this.test(postNo == postNo2, `post update. postNo: ${postNo2}`);
+
+                this.app.forum.postData(postNo2).subscribe(post => {
+                    this.test(data.post_title == post.post_title, "post update success");
+                    callback();
                 }, err => {
                     console.log(err);
                 });
@@ -194,4 +202,105 @@ export class TestService extends Base {
             console.log(err);
         });
     }
+
+    testPostDelete(callback) {
+        this.postCreate(id => {
+            this.postData(id, post => {
+                // console.log("testPostDelete => before delete: ", post);
+                this.postDelete(id, deletedID => {
+                    this.postData(deletedID, deletedPost => {
+                        // console.log("testPostDelete => after delete: ", deletedPost );
+                        callback();
+                    });
+                });
+            });
+        });
+    }
+
+
+    testQuery() {
+        this.app.forum.postList({ category_name: 'abc', paged: 2, posts_per_page: 5 }).subscribe(res => {
+            console.log('query: ', res);
+        }, err => console.error(err));
+        this.app.forum.postSearch({ s: '5544', category_name: 'abc', paged: 1, posts_per_page: 5 }).subscribe(res => {
+            console.log('search query: ', res);
+        }, err => console.error(err));
+
+    }
+
+    testCommentCRUD() {
+        this.postCreate(ID => {
+            this.commentCreate( ID, 0, comment_ID => {
+                // this.commentCreate( ID, comment_ID, comment_comment_ID => {
+                //     this.postData( ID, post => {
+                        // console.log(post);
+                    // });
+                // } )
+
+                this.commentUpdate( comment_ID, 'This is updated content.', comment_ID => {
+                    this.good("comment updated: " + comment_ID );
+                    this.commentData( comment_ID, comment => {
+                        console.log(comment);
+                    });
+                });
+            });
+
+        });
+    }
+
+
+    postCreate(callback) {
+        let data: POST_CREATE = {
+            category: 'abc',
+            post_title: 'POST TITLE: ' + this.randomString()
+        };
+        this.app.forum.postCreate(data).subscribe(postNo => {
+            callback(postNo);
+        }, err => {
+            console.log(err);
+        });
+    }
+
+    postData(no, callback: (post: POST) => void ) {
+        this.app.forum.postData(no).subscribe(post => {
+            callback(post);
+        }, err => {
+            console.log(err);
+        });
+    }
+    postDelete(no, callback) {
+        this.app.forum.postDelete(no).subscribe(ID => {
+            callback(ID);
+        }, err => {
+            console.log(err);
+        });
+    }
+
+    commentCreate(ID, parent_comment_ID, callback) {
+
+        let req: COMMENT_CREATE = {
+            comment_post_ID: ID,
+            comment_parent: parent_comment_ID || 0,
+            comment_content: 'comment' + this.randomString()
+        };
+
+        this.app.forum.commentCreate( req ).subscribe( id => {
+            // console.log("comment created", id);
+            callback( id );
+        }, err => this.bad( this.getErrorString(err) ) );
+    }
+
+    commentUpdate( comment_ID, content, callback ) {
+        let req: COMMENT_UPDATE = {
+            comment_ID: comment_ID,
+            comment_content: content
+        };
+        this.app.forum.commentUpdate(req).subscribe( id => callback(id), err => this.bad( this.getErrorString(err) ) );
+    }
+
+    commentData( comment_ID, callback ) {
+        this.app.forum.commentData(comment_ID).subscribe( comment => callback(comment), err => this.bad( this.getErrorString(err) ) );
+    }
+
+
 }

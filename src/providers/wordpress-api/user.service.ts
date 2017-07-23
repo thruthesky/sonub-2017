@@ -15,7 +15,7 @@ import {
 @Injectable()
 export class UserService extends Base {
 
-    userProfile: USER_LOGIN_RESPONSE = null;
+    profile: USER_LOGIN_RESPONSE = null;
 
     constructor(
         private wp: WordpressApiService
@@ -60,12 +60,12 @@ export class UserService extends Base {
      */
     get isLogin(): boolean {
         /// one time data load from localStorage
-        if (this.userProfile === null) {
+        if (this.profile === null) {
             let re = this.storage.get(KEY_LOGIN);
-            if (re === null) this.userProfile = <USER_LOGIN_RESPONSE>{};
-            else this.userProfile = re;
+            if (re === null) this.profile = <USER_LOGIN_RESPONSE>{};
+            else this.profile = re;
         }
-        if (this.userProfile.user_login) return true;
+        if (this.profile.user_login) return true;
         return false;
 
     }
@@ -88,7 +88,7 @@ export class UserService extends Base {
     }
 
     update(data: USER_UPDATE): Observable<USER_UPDATE_RESPONSE> {
-        data.session_id = this.userProfile.session_id;
+        data.session_id = this.profile.session_id;
         data.route = 'user.profile';
         return this.wp.post(data)
             .map(res => this.setUserProfile(res));
@@ -97,13 +97,13 @@ export class UserService extends Base {
     data(): Observable<USER_DATA_RESPONSE> {
         let data: USER_DATA = {
             route: 'user.data',
-            session_id: this.userProfile.session_id
+            session_id: this.profile.session_id
         };
         return this.wp.post(data);
     }
 
     setUserProfile(res) {
-        this.userProfile = res;
+        this.profile = res;
         this.storage.set(KEY_LOGIN, res);
         return res;
     }

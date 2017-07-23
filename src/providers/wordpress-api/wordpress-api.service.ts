@@ -45,5 +45,12 @@ export class WordpressApiService extends Base {
         return res;
     }
 
+
+    query( req ): Observable<any> {
+        req['route'] = 'wordpress.wp_query';
+        req['paged'] = req['paged'] ? req['paged'] : 1;
+        return this.post( req );
+    }
+
     
 }

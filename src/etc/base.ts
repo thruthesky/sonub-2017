@@ -10,6 +10,14 @@
  */
 import { Library } from './library';
 
+
+export interface ERROR_INFO {
+    code: string;
+    message?: string;
+}
+
+
+
 export class Base extends Library {
     constructor() {
         super();
@@ -22,6 +30,25 @@ export class Base extends Library {
         }
     }
 
+    /**
+     * 
+     * @param str 
+     */
+    getError(e): ERROR_INFO {
+        if (!e) return { code: 'error-object-is-empty-in-getError' };
+        if ( e.error !== void 0 ) e = e.error;  /// Wordpress Error Object returned from Wordpress api.
+        if (e.code === void 0 && e.message === void 0) return { code: 'error-object-has-no-code-and-message-in-getErrror' };
+        e.code = e.code || e.message;
+        e.message = e.message || e.code;
+        return {
+            code: e.code,
+            message: e.message
+        };
+    }
+
+    getErrorString(e): string {
+        return this.getError(e).code + ': ' + this.getError(e).message;
+    }
 
 
 
