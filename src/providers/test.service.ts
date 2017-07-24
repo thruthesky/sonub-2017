@@ -241,6 +241,12 @@ export class TestService extends Base {
                     this.good("comment updated: " + comment_ID );
                     this.commentData( comment_ID, comment => {
                         console.log(comment);
+                        this.commentDelete( comment_ID, deleted_ID => {
+                            this.test( comment_ID == deleted_ID, "comment deleted.");
+                            this.commentData( deleted_ID, deleted_comment => {
+                                console.log("deleted coment:", deleted_comment);
+                            });
+                        });
                     });
                 });
             });
@@ -300,6 +306,10 @@ export class TestService extends Base {
 
     commentData( comment_ID, callback ) {
         this.app.forum.commentData(comment_ID).subscribe( comment => callback(comment), err => this.bad( this.getErrorString(err) ) );
+    }
+
+    commentDelete( comment_ID, callback ) {
+        this.app.forum.commentDelete(comment_ID).subscribe( comment => callback(comment), err => this.bad( this.getErrorString(err) ) );
     }
 
 

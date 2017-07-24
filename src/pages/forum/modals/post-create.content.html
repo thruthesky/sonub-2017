@@ -1,0 +1,23 @@
+<div class="modal-header">
+  <h4 class="modal-title">Post create</h4>
+  <button type="button" class="close" aria-label="Close" (click)="onClickCancel()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+</div>
+<div class="modal-body">
+    
+    
+    Author Name: <input type="text" name="post_author" [(ngModel)]="post_author"><br>
+    Author Email: <input type="text" name="post_author_email" [(ngModel)]="post_author_email"><br>
+    Author Mobile No.: <input type="text" name="post_author_phone_number" [(ngModel)]="post_author_phone_number"><br>
+    
+    Password: <input type="password" name="post_password" [(ngModel)]="post_password">
+          Title: <input type="text" name="post_title" [(ngModel)]="post_title"><br>
+          <textarea name="post_content" [(ngModel)]="post_content"></textarea>
+          
+          
+</div>
+<div class="modal-footer">
+  <button type="submit" class="btn btn-secondary" (click)="onClickSubmit()">Submit</button>
+  <button type="button" class="btn btn-secondary" (click)="onClickCancel()">Cancel</button>
+</div>

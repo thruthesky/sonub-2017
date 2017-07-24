@@ -69,7 +69,7 @@ export class UserService extends Base {
         return false;
 
     }
-    
+
 
     login(user_login: string, user_pass: string): Observable<USER_REGISTER_RESPONSE> {
         let data: USER_LOGIN = {
@@ -116,5 +116,11 @@ export class UserService extends Base {
     loginSuccess(successCallback, errorCallback) {
 
         successCallback();
+    }
+
+
+    get sessionId(): string {
+        if (this.profile && this.profile.session_id) return this.profile.session_id;
+        else return '';
     }
 }

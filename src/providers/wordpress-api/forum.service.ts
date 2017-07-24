@@ -8,8 +8,9 @@ import { Observable } from 'rxjs/Observable';
 
 import { POST_CREATE, POST_UPDATE, POST_DATA, POST, POST_DELETE, POST_LIST, POST_LIST_RESPONSE,
     POST_SEARCH, POST_SEARCH_RESPONSE,
-    COMMENT, COMMENT_CREATE, COMMENT_CREATE_RESPONSE,
-    COMMENT_UPDATE, COMMENT_UPDATE_RESPONSE, COMMENT_DATA, COMMENT_DATA_RESPONSE
+    COMMENT, COMMENT_CREATE, COMMENT_CREATE_RESPONSE, POST_CREATE_RESPONSE,
+    COMMENT_UPDATE, COMMENT_UPDATE_RESPONSE, COMMENT_DATA, COMMENT_DATA_RESPONSE,
+    CATEGORIES
 } from './interface';
 
 
@@ -26,15 +27,15 @@ export class ForumService extends Base {
 
 
 
-    postCreate(data: POST_CREATE): Observable<number> {
-        data.session_id = this.user.profile.session_id;
+    postCreate(data: POST_CREATE): Observable<POST_CREATE_RESPONSE> {
+        data.session_id = this.user.sessionId;
         data.route = 'post.create';
         // console.log(data);
         return this.wp.post(data);
     }
     postData(no): Observable<POST> {
         let data: POST_DATA = {
-            session_id: this.user.profile.session_id,
+            session_id: this.user.sessionId,
             route: 'wordpress.get_post',
             ID: no
         }
@@ -42,7 +43,7 @@ export class ForumService extends Base {
     }
 
     postUpdate(data: POST_UPDATE): Observable<number> {
-        data.session_id = this.user.profile.session_id;
+        data.session_id = this.user.sessionId;
         data.route = 'post.update';
         return this.wp.post(data);
     }
@@ -51,7 +52,7 @@ export class ForumService extends Base {
     postDelete(no): Observable<number> {
         let data: POST_DELETE = {
             ID: no,
-            session_id: this.user.profile.session_id,
+            session_id: this.user.sessionId,
             route: 'wordpress.delete_post'
         };
         return this.wp.post(data);
@@ -81,29 +82,41 @@ export class ForumService extends Base {
      */
     commentCreate( req: COMMENT_CREATE ): Observable<COMMENT_CREATE_RESPONSE> {
         req.route = 'wordpress.wp_new_comment';
-        req.session_id = this.user.profile.session_id;
+        req.session_id = this.user.sessionId;
         return this.wp.post( req );
     }
 
     commentUpdate( req: COMMENT_UPDATE ): Observable<COMMENT_UPDATE_RESPONSE> {
         req.route = 'wordpress.wp_update_comment';
-        req.session_id = this.user.profile.session_id;
+        req.session_id = this.user.sessionId;
         return this.wp.post( req );
     }
 
     commentData(comment_ID): Observable<COMMENT_DATA_RESPONSE> {
         let req: COMMENT_DATA = {
             route: 'wordpress.get_comment',
-            session_id: this.user.profile.session_id,
+            session_id: this.user.sessionId,
             comment_ID: comment_ID
         };
         return this.wp.post( req );
     }
-    commentDelete() {
-
+    
+    
+    commentDelete(comment_ID: number): Observable<number> {
+        let req: COMMENT_DATA = {
+            route: 'wordpress.wp_delete_comment',
+            session_id: this.user.sessionId,
+            comment_ID: comment_ID
+        };
+        return this.wp.post( req );
     }
 
-    page() {
 
+    getCategories(): Observable<CATEGORIES> {
+        return this.wp.post( { route: 'wordpress.get_categories'} );
     }
+
+
+    
+    
 }

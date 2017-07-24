@@ -1,3 +1,18 @@
 <h1>Forum Index</h1>
 
 <button type="button" routerLink="/">Home</button>
+
+
+
+<form>
+    <input type="file" (change)="onChangeFile($event)">
+</form>
+
+
+<!-- {{ categories | json }} -->
+
+<div *ngIf="categories">
+    <div *ngFor="let category of categories">
+        <a routerLink="/forum/{{category.slug}}">{{ category.name }} : {{ category.description }}</a>
+    </div>
+</div>

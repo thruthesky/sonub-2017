@@ -8,9 +8,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { environment } from '../environments/environment'; // environment
 
 
+
+
 //// firebase
 import * as firebase from 'firebase';
 firebase.initializeApp(environment.firebase);
+
+
+/// Ng Bootstrap
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -21,8 +27,10 @@ import { HomeModule, HomePage } from './../pages/home/home.module';
 import { WordpressApiService } from './../providers/wordpress-api/wordpress-api.service';
 import { UserService } from './../providers/wordpress-api/user.service';
 import { ForumService } from './../providers/wordpress-api/forum.service';
+import { FileService } from './../providers/wordpress-api/file.service';
 import { AppService } from './../providers/app.service';
 import { TestService } from './../providers/test.service';
+import { PageScroll } from './../providers/page-scroll';
 
 
 
@@ -42,14 +50,18 @@ const appRoutes: Routes = [
     BrowserModule,
     HttpClientModule,
     HomeModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    NgbModule.forRoot(),
   ],
   providers: [
     AppService,
     UserService,
     ForumService,
+    FileService,
     WordpressApiService,
-    TestService],
+    TestService,
+    PageScroll
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

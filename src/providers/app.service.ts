@@ -10,6 +10,8 @@ import { config } from './../app/config';
 import { WordpressApiService } from './wordpress-api/wordpress-api.service';
 import { UserService } from './wordpress-api/user.service';
 import { ForumService } from './wordpress-api/forum.service';
+import { FileService } from './wordpress-api/file.service';
+
 
 
 
@@ -24,6 +26,7 @@ export class AppService extends Base {
         public user: UserService,
         public forum: ForumService,
         public wp: WordpressApiService,
+        public file: FileService,
         private ngZone: NgZone,
         private router: Router
     ) {
@@ -40,16 +43,16 @@ export class AppService extends Base {
      * Display erorr.
      * @note all kinds of error will be displayed here.
      * @attention Input object must have a property of 'code' for error code and 'message' for explanation of the error.
-     * @param e Error object
+     * @param e Error object or can be a string.
      */
     displayError(e) {
-
-        /// for firebase and other error
-
-
-        let code = e['code'] || '';
-        let message = e['message'] || '';
-        let msg = `${code}: ${message}`;
+        let msg;
+        if (typeof e === 'string') msg = e;
+        else {
+            let code = e['code'] || '';
+            let message = e['message'] || '';
+            msg = `${code}: ${message}`;
+        }
         alert(msg);
     }
 }

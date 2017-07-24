@@ -82,6 +82,10 @@ export type COMMENTS = Array<COMMENT>;
 export interface POST_CREATE_COMMON {
     post_title: string;
     post_content?: string;
+    post_password?: string;
+    post_author?: string;
+    post_author_email?: string;
+    post_author_phone_number?: string;
 };
 export interface POST_READ_COMMON extends ID, POST_CREATE_COMMON {
     author_name: string;
@@ -89,13 +93,13 @@ export interface POST_READ_COMMON extends ID, POST_CREATE_COMMON {
     comments: COMMENTS;
     guid: string;
     meta: Array<{ [key: string]: any }>;
-    post_author: string;
+    post_author?: string;
     post_date: string;
     post_parent: number;
 };
 
 export interface POST_CREATE extends REQUEST, CATEGORY, POST_CREATE_COMMON { };
-
+export type POST_CREATE_RESPONSE = number;
 
 export interface POST_UPDATE extends REQUEST, ID, CATEGORY_O, POST_CREATE_COMMON { };
 
@@ -128,7 +132,7 @@ export interface POST_LIST_RESPONSE {
     cat: string;                    // catgory no
     category_name: string;          // category name
     comments_per_page: string;      // comments_per_page
-    paged: string;                  // paged
+    paged: number;                  // paged
 
 };
 
@@ -178,3 +182,25 @@ export interface COMMENT_DATA_RESPONSE {
         comment_parent: number;
         user_id: number;
 };
+
+
+export interface CATEGORY_ENTITY {
+    term_id: number;
+    name:string;
+    slug: string;
+    term_group: number;
+    term_taxonomy_id: number;
+    taxonomy: string;
+    description: string;
+    parent: number;
+    count: number;
+    filter: string;
+    cat_ID: number;
+    category_count:number;
+    category_description: string;
+    cat_name: string;
+    category_nicename: string;
+    category_parent: number;
+};
+
+export type CATEGORIES = Array<CATEGORY_ENTITY>;

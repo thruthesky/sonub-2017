@@ -19,9 +19,15 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.scss"
+        "styles.scss",
+        "./third-party/css/font-awesome-4/css/font-awesome.min.css",
+        "./third-party/css/bootstrap-alpha-6/bootstrap.min.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "./third-party/js/naverLogin_implicit-1.0.3.js",
+        "./third-party/js/jquery-3.2.1.min.js",
+        "./third-party/js/kakao.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
