@@ -1,3 +1,26 @@
 <h1>Register Page</h1>
 
 <button type="button" routerLink="/">Go to home</button>
+
+<hr>
+<div id="registerForm">
+    <div>
+        <label for="user_login">UserLogin</label>
+        <input type="text" id="user_login" [(ngModel)]="userLogin">
+    </div>
+    <div>
+        <label for="user_pass">Password</label>
+        <input type="password" id="user_pass" [(ngModel)]="userPass">
+    </div>
+    <div>
+        <label for="user_email">Email</label>
+        <input type="text" id="user_email" [(ngModel)]="userEmail">
+    </div>
+
+    <div *ngIf="errorMessage">
+        <div id="error_message">{{this.errorMessage}}</div>
+    </div>
+
+    <button type="button" id="registerButton" (click)="onClickUserRegister()">Register</button>
+
+</div>
