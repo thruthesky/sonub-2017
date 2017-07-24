@@ -59,4 +59,9 @@ export class LoginPage implements OnInit {
     }
 
 
+    onSubmitLogin() {
+
+    }
+
+
 }
