@@ -58,4 +58,12 @@ export class FileUploadComponent implements OnInit {
         if ( typeof file.type === 'string' ) return file.type.indexOf('image/') == -1 ? 'attachment': 'image';
         else return 'attachment';
     }
+
+
+    onClickDeleteButton(file) {
+        this.app.file.delete( file.id ).subscribe( id => {
+            console.log("file deleted: ", id);
+            this.files = this.files.filter( v => v.id != id );
+        }, err => this.app.displayError(err) );
+    }
 }

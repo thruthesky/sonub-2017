@@ -13,6 +13,9 @@ import { environment } from './../../environments/environment';
 
 import { Base } from './../../etc/base';
 
+import { WordpressApiService } from './wordpress-api.service';
+import { UserService } from './user.service';
+
 
 @Injectable()
 export class FileService extends Base {
@@ -20,7 +23,9 @@ export class FileService extends Base {
 
     private url: string = environment.xapiUrl;
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private wp: WordpressApiService,
+        private user: UserService
     ) {
         super();
     }
@@ -63,4 +68,15 @@ export class FileService extends Base {
             });
 
     }
+
+    
+    delete(id: number): Observable<number> {
+        let req = {
+            route: 'wordpress.delete_attachment',
+            session_id: this.user.sessionId,
+            id: id
+        };
+        return this.wp.post(req);
+    }
+    
 }
