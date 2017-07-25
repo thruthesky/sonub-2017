@@ -16,6 +16,9 @@ import { Base } from './../../etc/base';
 import { WordpressApiService } from './wordpress-api.service';
 import { UserService } from './user.service';
 
+import { FILE } from './interface';
+
+
 
 @Injectable()
 export class FileService extends Base {
@@ -79,4 +82,12 @@ export class FileService extends Base {
         return this.wp.post(req);
     }
     
+
+
+    getFileType(file: FILE ) {
+        if ( typeof file.type === 'string' ) return file.type.indexOf('image/') == -1 ? 'attachment': 'image';
+        else return 'attachment';
+    }
+
+
 }

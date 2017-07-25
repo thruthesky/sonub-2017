@@ -10,15 +10,15 @@
 
 
     <div class="files uploaded-files" *ngIf=" files.length ">
-        <div class="file" *ngFor=" let file of files " [attr.type]="getFileType(file)">
+        <div class="file" *ngFor=" let file of files " [attr.type]="app.file.getFileType(file)">
             <div class='content' (click)="onClickDeleteButton(file)">
                 <span class="trash-button fa-stack fa-lg">
                 <i class="fa fa-circle fa-stack-2x" aria-hidden="true"></i>
                 <i class="fa fa-trash fa-stack-1x fa-inverse" aria-hidden="true"></i>
             </span>
-                <div [class]="getFileType(file)">
-                    <img src="{{ file.url }}" *ngIf="getFileType(file) == 'image'">
-                    <a href="{{ file.url }}" target="_blank" *ngIf="getFileType(file) == 'attachment'">{{ file.name }}</a>
+                <div [class]="app.file.getFileType(file)">
+                    <img src="{{ file.url }}" *ngIf="app.file.getFileType(file) == 'image'">
+                    <a href="{{ file.url }}" target="_blank" *ngIf="app.file.getFileType(file) == 'attachment'">{{ file.name }}</a>
                 </div>
             </div>
         </div>

@@ -5,6 +5,8 @@
 <button type="button" id="post-list-create-button" (click)="onClickPostCreate()">POST</button>
 
 
+
+
 <div *ngIf="pages">
     <div *ngFor="let page of pages">
         <h2>Page No. {{ page.paged }}</h2>
@@ -12,15 +14,27 @@
             <h2>{{ post.post_title }}</h2>
             {{ post.post_content }}
 
+            <div class="display-uploaded-files" *ngIf=" post.files.length ">
+
+                <div class="file" *ngFor=" let file of post.files " [attr.type]="app.file.getFileType(file)">
+
+                    <div [class]="app.file.getFileType(file)">
+                        <img src="{{ file.url }}" *ngIf="app.file.getFileType(file) == 'image'">
+                        <a href="{{ file.url }}" target="_blank" *ngIf="app.file.getFileType(file) == 'attachment'">{{ file.name }}</a>
+                    </div>
+                </div>
+            </div>
             <div class="buttons">
                 <span (click)="onClickPostEdit( post )">Edit</span>
             </div>
-
         </div>
+
 
 
     </div>
 </div>
+
+
 
 
 <div *ngIf="inLoading" class="p-5">

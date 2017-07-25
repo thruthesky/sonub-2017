@@ -12,7 +12,7 @@
     
     Password: <input type="password" name="post_password" [(ngModel)]="post_password"><br>
 
-    <file-upload-component></file-upload-component>
+    <file-upload-component [files]="files"></file-upload-component>
     
           Title: <input type="text" name="post_title" [(ngModel)]="post_title"><br>
           <textarea name="post_content" [(ngModel)]="post_content"></textarea>

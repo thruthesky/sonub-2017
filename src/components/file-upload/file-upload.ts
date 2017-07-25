@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 
 
@@ -12,7 +12,7 @@ import { FILES, FILE } from './../../providers/wordpress-api/interface';
 
 export class FileUploadComponent implements OnInit {
     url: string = '';
-    files: FILES = [];
+    @Input() files: FILES = [];
     constructor(
         public app: AppService
     ) {
@@ -49,21 +49,16 @@ export class FileUploadComponent implements OnInit {
         } );
 
     }
-
-    onClickDeletePhoto(image) {
-
-    }
-
-    getFileType(file: FILE ) {
-        if ( typeof file.type === 'string' ) return file.type.indexOf('image/') == -1 ? 'attachment': 'image';
-        else return 'attachment';
-    }
-
+    
 
     onClickDeleteButton(file) {
         this.app.file.delete( file.id ).subscribe( id => {
             console.log("file deleted: ", id);
-            this.files = this.files.filter( v => v.id != id );
+            // this.files = this.files.filter( file => file.id != id ); //
+            let index = this.files.findIndex( file => file.id == id );
+            this.files.splice( index, 1 );
+            console.log(this.files);
+
         }, err => this.app.displayError(err) );
     }
 }

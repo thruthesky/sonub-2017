@@ -4,7 +4,8 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppService } from './../../../providers/app.service';
 import {
-    POST, POST_CREATE, POST_CREATE_RESPONSE, POST_UPDATE, POST_UPDATE_RESPONSE
+    POST, POST_CREATE, POST_CREATE_RESPONSE, POST_UPDATE, POST_UPDATE_RESPONSE,
+    FILES, FILE
 } from './../../../providers/wordpress-api/interface';
 
 
@@ -33,6 +34,9 @@ export class PostCreateEditContent implements OnInit {
     post_author_phone_number;
     post_password;
 
+    /// files
+    files: FILES = [];
+
     /// callbacks
     // successCallback;
     // failureCallback;
@@ -53,6 +57,7 @@ export class PostCreateEditContent implements OnInit {
             this.post_author_name = options.post.meta.post_author_name;
             this.post_author_email = options.post.meta.post_author_email;
             this.post_author_phone_number = options.post.meta.post_author_phone_number;
+            this.files = options.post.files;
         }
     }
 
@@ -68,6 +73,12 @@ export class PostCreateEditContent implements OnInit {
             post_author_phone_number: this.post_author_phone_number,
             post_password: this.post_password
         };
+
+
+        data.fid = this.files.reduce( (_, file) => { _.push(file.id) ; return _; }, [] );
+
+        console.log(data);
+
         this.app.forum.postCreate(data).subscribe((ID: POST_CREATE_RESPONSE) => {
             console.log(ID);
             this.activeModal.close(ID);

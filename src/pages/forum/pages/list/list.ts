@@ -50,7 +50,7 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
     ngAfterViewInit() {
         this.watch = this.pageScroll.watch('body', 350).subscribe(e => this.loadPage());
 
-        setTimeout( () => this.onClickPostCreate(), 0);
+        // setTimeout( () => this.onClickPostCreate(), 0);
         
     }
 
