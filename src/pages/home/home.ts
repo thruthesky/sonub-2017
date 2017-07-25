@@ -12,7 +12,7 @@ import { TestService } from './../../providers/test.service';
 
 export class HomePage implements OnInit {
     constructor(
-        private app: AppService,
+        public app: AppService,
         // private test: TestService
     ) {
     }

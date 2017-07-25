@@ -6,7 +6,8 @@ import { UserService } from './user.service';
 import { Observable } from 'rxjs/Observable';
 
 
-import { POST_CREATE, POST_UPDATE, POST_DATA, POST, POST_DELETE, POST_LIST, POST_LIST_RESPONSE,
+import {
+    POST_CREATE, POST_UPDATE, POST_DATA, POST, POST_DELETE, POST_LIST, POST_LIST_RESPONSE,
     POST_SEARCH, POST_SEARCH_RESPONSE,
     COMMENT, COMMENT_CREATE, COMMENT_CREATE_RESPONSE, POST_CREATE_RESPONSE,
     COMMENT_UPDATE, COMMENT_UPDATE_RESPONSE, COMMENT_DATA, COMMENT_DATA_RESPONSE,
@@ -48,7 +49,7 @@ export class ForumService extends Base {
         return this.wp.post(data);
     }
 
-    
+
     postDelete(no): Observable<number> {
         let data: POST_DELETE = {
             ID: no,
@@ -58,17 +59,17 @@ export class ForumService extends Base {
         return this.wp.post(data);
     }
 
-    postList( req: POST_LIST ): Observable<POST_LIST_RESPONSE> {
+    postList(req: POST_LIST): Observable<POST_LIST_RESPONSE> {
         return this.wp.query(req)
     }
 
-    postSearch( req: POST_SEARCH ): Observable<POST_SEARCH_RESPONSE> {
+    postSearch(req: POST_SEARCH): Observable<POST_SEARCH_RESPONSE> {
         return this.wp.query(req)
     }
 
-    
-    postLatest( category_name, no_of_posts ) {
-        return this.postList( { category_name: category_name, paged: 1, posts_per_page: no_of_posts  });
+
+    postLatest(category_name, no_of_posts) {
+        return this.postList({ category_name: category_name, paged: 1, posts_per_page: no_of_posts });
     }
     postPopular() {
 
@@ -80,16 +81,16 @@ export class ForumService extends Base {
      * @example test.service.ts
      * @param req Comment create data
      */
-    commentCreate( req: COMMENT_CREATE ): Observable<COMMENT_CREATE_RESPONSE> {
+    commentCreate(req: COMMENT_CREATE): Observable<COMMENT_CREATE_RESPONSE> {
         req.route = 'wordpress.wp_new_comment';
         req.session_id = this.user.sessionId;
-        return this.wp.post( req );
+        return this.wp.post(req);
     }
 
-    commentUpdate( req: COMMENT_UPDATE ): Observable<COMMENT_UPDATE_RESPONSE> {
+    commentUpdate(req: COMMENT_UPDATE): Observable<COMMENT_UPDATE_RESPONSE> {
         req.route = 'wordpress.wp_update_comment';
         req.session_id = this.user.sessionId;
-        return this.wp.post( req );
+        return this.wp.post(req);
     }
 
     commentData(comment_ID): Observable<COMMENT_DATA_RESPONSE> {
@@ -98,25 +99,25 @@ export class ForumService extends Base {
             session_id: this.user.sessionId,
             comment_ID: comment_ID
         };
-        return this.wp.post( req );
+        return this.wp.post(req);
     }
-    
-    
+
+
     commentDelete(comment_ID: number): Observable<number> {
         let req: COMMENT_DATA = {
             route: 'wordpress.wp_delete_comment',
             session_id: this.user.sessionId,
             comment_ID: comment_ID
         };
-        return this.wp.post( req );
+        return this.wp.post(req);
     }
 
 
     getCategories(): Observable<CATEGORIES> {
-        return this.wp.post( { route: 'wordpress.get_categories'} );
+        return this.wp.post({ route: 'wordpress.get_categories' });
     }
 
 
-    
-    
+
+
 }

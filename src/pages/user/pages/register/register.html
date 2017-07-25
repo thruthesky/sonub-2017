@@ -6,15 +6,15 @@
 <div id="registerForm">
     <div>
         <label for="user_login">UserLogin</label>
-        <input type="text" id="user_login" [(ngModel)]="userLogin">
+        <input type="text" id="user_login" [(ngModel)]="user_login">
     </div>
     <div>
         <label for="user_pass">Password</label>
-        <input type="password" id="user_pass" [(ngModel)]="userPass">
+        <input type="password" id="user_pass" [(ngModel)]="user_pass">
     </div>
     <div>
         <label for="user_email">Email</label>
-        <input type="text" id="user_email" [(ngModel)]="userEmail">
+        <input type="text" id="user_email" [(ngModel)]="user_email">
     </div>
 
     <div *ngIf="errorMessage">
@@ -23,4 +23,5 @@
 
     <button type="button" id="registerButton" (click)="onClickUserRegister()">Register</button>
 
+    
 </div>

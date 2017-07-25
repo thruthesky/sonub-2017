@@ -2,16 +2,24 @@
 
 <a routerLink="/forum">Forum Index</a>
 
-<button type="button" (click)="onClickPost()">POST</button>
+<button type="button" id="post-list-create-button" (click)="onClickPostCreate()">POST</button>
+
 
 <div *ngIf="pages">
-  <div *ngFor="let page of pages">
-      <h2>Page No. {{ page.paged }}</h2>
-      <div *ngFor="let post of page.posts ">
-          <h2>{{ post.post_title }}</h2>
-          {{ post.post_content }}
-      </div>
-  </div>
+    <div *ngFor="let page of pages">
+        <h2>Page No. {{ page.paged }}</h2>
+        <div *ngFor="let post of page.posts ">
+            <h2>{{ post.post_title }}</h2>
+            {{ post.post_content }}
+
+            <div class="buttons">
+                <span (click)="onClickPostEdit( post )">Edit</span>
+            </div>
+
+        </div>
+
+
+    </div>
 </div>
 
 

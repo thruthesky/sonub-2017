@@ -7,7 +7,7 @@ import { POST_LIST, POST_LIST_RESPONSE } from './../../../../providers/wordpress
 
 import { PageScroll } from './../../../../providers/page-scroll';
 
-import { PostCreateModalService } from './../../modals/post-create.modal';
+import { PostCreateEditModalService } from './../../modals/post-create-edit.modal';
 
 import { ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
@@ -34,7 +34,7 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
         public app: AppService,
         private active: ActivatedRoute,
         private pageScroll: PageScroll,
-        private postCreateModal: PostCreateModalService
+        private postCreateEditModal: PostCreateEditModalService
     ) {
 
         active.params.subscribe(params => {
@@ -50,18 +50,8 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
     ngAfterViewInit() {
         this.watch = this.pageScroll.watch('body', 350).subscribe(e => this.loadPage());
 
-        // this.watch = this.pageScroll.watch('body').subscribe(e => {
-        //     if (this.inLoading) {
-        //         console.log("Page is in loading...");
-        //         return;
-        //     }
-        //     this.inLoading = true;
-        //     this.pageNo++;
-        //     console.log("Going to load Page No. ", this.pageNo);
-        //     setTimeout(() => { this.inLoading = false; console.log(`Page No. ${this.pageNo} loaded!`); }, 3000);
-        // });
-
-
+        setTimeout( () => this.onClickPostCreate(), 0);
+        
     }
 
 
@@ -87,16 +77,17 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
     }
 
 
-    onClickPost() {
+    onClickPostCreate() {
 
-        // this.postCreateModal.open().result.then((result) => {
-        //     console.log( `Closed with: ${result}` );
-        // }, (reason) => {
-        //     console.log(`Dismissed ${reason}`);
-        // });
+        this.postCreateEditModal.open({ category: this.slug }).then(res => {
+            console.log(res);
+        }, err => console.error(err));
 
+    }
 
-        this.postCreateModal.open().then(res => {
+    onClickPostEdit( post ) {
+
+        this.postCreateEditModal.open({ post: post }).then(res => {
             console.log(res);
         }, err => console.error(err));
 

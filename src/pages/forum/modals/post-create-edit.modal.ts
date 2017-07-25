@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { NgbModal, NgbModalRef, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { PostCreateContent } from './post-create.content';
+import { PostCreateEditContent, OPTIONS } from './post-create-edit.content';
+export { OPTIONS } from './post-create-edit.content';
 
 @Injectable()
-export class PostCreateModalService {
+export class PostCreateEditModalService {
 
 
     modalRef = null;
@@ -13,11 +14,11 @@ export class PostCreateModalService {
 
     }
 
-    open(): Promise<any> {
+    open( options: OPTIONS ): Promise<any> {
         if (this.modalRef) this.modalRef.close();
-        this.modalRef = this.modalService.open(PostCreateContent, { windowClass: 'post-create-modal', backdrop: 'static' });
+        this.modalRef = this.modalService.open(PostCreateEditContent, { windowClass: 'post-create-modal', backdrop: 'static' });
 
-        // this.modalRef.componentInstance['successCallback'] = successCallback;
+        this.modalRef.componentInstance.setOptions( options );
         // this.modalRef.componentInstance['failureCallback'] = failureCallback;
 
         return this.modalRef.result;

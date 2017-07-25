@@ -13,6 +13,9 @@ import { SOCIAL_PROFILE } from './../../../../providers/wordpress-api/interface'
 })
 
 export class LoginPage implements OnInit {
+
+    user_login;
+    user_pass;
     constructor(
         private app: AppService
     ) {
@@ -60,6 +63,10 @@ export class LoginPage implements OnInit {
 
 
     onSubmitLogin() {
+
+        this.app.user.login( this.user_login, this.user_pass).subscribe( profile => {
+            console.log( profile );
+        }, err => this.app.displayError( err ) );
 
     }
 

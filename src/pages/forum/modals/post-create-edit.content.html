@@ -6,18 +6,21 @@
 </div>
 <div class="modal-body">
     
-    
-    Author Name: <input type="text" name="post_author" [(ngModel)]="post_author"><br>
-    Author Email: <input type="text" name="post_author_email" [(ngModel)]="post_author_email"><br>
+    Author Name: <input type="text" name="post_author_name" [(ngModel)]="post_author_name"><br>
+    Author Email: <input type="email" name="post_author_email" [(ngModel)]="post_author_email"><br>
     Author Mobile No.: <input type="text" name="post_author_phone_number" [(ngModel)]="post_author_phone_number"><br>
     
-    Password: <input type="password" name="post_password" [(ngModel)]="post_password">
+    Password: <input type="password" name="post_password" [(ngModel)]="post_password"><br>
+
+    <file-upload-component></file-upload-component>
+    
           Title: <input type="text" name="post_title" [(ngModel)]="post_title"><br>
           <textarea name="post_content" [(ngModel)]="post_content"></textarea>
           
           
 </div>
 <div class="modal-footer">
-  <button type="submit" class="btn btn-secondary" (click)="onClickSubmit()">Submit</button>
+  <button *ngIf="options.category" type="submit" class="btn btn-secondary" (click)="onClickSubmit()">Submit Post</button>
+  <button *ngIf="options.post" type="submit" class="btn btn-secondary" (click)="onClickEdit()">Edit Post</button>
   <button type="button" class="btn btn-secondary" (click)="onClickCancel()">Cancel</button>
 </div>

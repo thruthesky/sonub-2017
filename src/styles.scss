@@ -1,6 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 
 
+@import './styles/base';
+@import './styles/layout';
+@import './styles/component.file-upload';
+@import './styles/component.forum-index';
+
+
+
 button {
     padding: 1em;
     border: 0;

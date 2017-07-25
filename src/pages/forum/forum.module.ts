@@ -9,10 +9,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ForumIndexPage } from './pages/index/index';
 import { ForumListPage } from './pages/list/list';
-import { PostCreateModalService } from './modals/post-create.modal';
-import { PostCreateContent } from './modals/post-create.content'
+import { PostCreateEditModalService } from './modals/post-create-edit.modal';
+import { PostCreateEditContent } from './modals/post-create-edit.content'
 
 
+import { FileUploadComponent } from './../../components/file-upload/file-upload'
 
 
 const appRoutes: Routes = [
@@ -25,10 +26,11 @@ const appRoutes: Routes = [
     declarations: [
         ForumIndexPage,
         ForumListPage,
-        PostCreateContent
+        PostCreateEditContent,
+        FileUploadComponent
     ],
     entryComponents: [
-        PostCreateContent
+        PostCreateEditContent
     ],
     imports: [
         CommonModule,
@@ -37,7 +39,7 @@ const appRoutes: Routes = [
         NgbModule
     ],
     providers: [
-        PostCreateModalService
+        PostCreateEditModalService
     ]
 })
 export class ForumModule { }

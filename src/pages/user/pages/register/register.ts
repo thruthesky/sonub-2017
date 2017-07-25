@@ -11,9 +11,9 @@ import {AppService} from "../../../../providers/app.service";
 
 export class RegisterPage implements OnInit {
 
-    userLogin: string = '';
-    userPass: string = '';
-    userEmail: string = '';
+    user_login: string = '';
+    user_pass: string = '';
+    user_email: string = '';
 
 
     errorMessage: string = null;
@@ -32,14 +32,14 @@ export class RegisterPage implements OnInit {
         console.log('onClickUserRegister::');
         this.errorMessage = null;
 
-        if( !this.userLogin && this.userLogin.length ==  0 ) return this.errorMessage = '*Username is required';
-        if( !this.userPass && this.userPass.length ==  0 ) return this.errorMessage = '*Password is required';
-        if( !this.userEmail && this.userEmail.length ==  0 ) return this.errorMessage = '*Email is required';
+        if( !this.user_login && this.user_login.length ==  0 ) return this.errorMessage = '*Username is required';
+        if( !this.user_pass && this.user_pass.length ==  0 ) return this.errorMessage = '*Password is required';
+        if( !this.user_email && this.user_email.length ==  0 ) return this.errorMessage = '*Email is required';
 
         let data: USER_REGISTER = {
-            user_login: this.userLogin,
-            user_pass: this.userPass,
-            user_email: this.userEmail
+            user_login: this.user_login,
+            user_pass: this.user_pass,
+            user_email: this.user_email
         };
         this.app.user.register( data ).subscribe(res => {
             console.log('app.user.register::res', res);

@@ -4,3 +4,10 @@
 <button type="button" routerLink="/user/register">Register Page</button>
 
 <button type="button" routerLink="/forum">Forum page</button>
+
+
+<div *ngIf="app.user.isLogin">
+    {{ app.user.profile | json }}
+
+<button type="button" (click)="app.user.logout()">Logout</button>
+</div>

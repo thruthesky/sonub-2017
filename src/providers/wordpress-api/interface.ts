@@ -61,6 +61,18 @@ export interface USER_DATA extends REQUEST { };
 export interface USER_DATA_RESPONSE extends USER_COMMON { };
 
 
+
+export interface UPLOADED_FILE {
+    id: number;
+    type: any;          // can be 'false' if file type is not recognized.
+    url: string;
+    name: string;
+}
+export type UPLOADED_FILES = Array<UPLOADED_FILE>;
+export type FILE = UPLOADED_FILE;
+export type FILES = UPLOADED_FILES;
+
+
 /**
  * Used by forum.postList(), forum.postSearch()
  */
@@ -77,22 +89,34 @@ export interface COMMENT {
     user_id: number;
 };
 
+
+interface POST_META {
+    post_author_name?: string;
+    post_author_email?: string;
+    post_author_phone_number?: string;
+}
+// interface IMAGE {
+//     [ID: number]: string;
+// };
+// type IMAGES = Array<IMAGE>;
 export type COMMENTS = Array<COMMENT>;
 
 export interface POST_CREATE_COMMON {
     post_title: string;
     post_content?: string;
     post_password?: string;
-    post_author?: string;
-    post_author_email?: string;
-    post_author_phone_number?: string;
+    post_author_name?: string;                  /// This is anonymous user name when a anonymous post without login.
+    post_author_email?: string;                 /// Anonymous email
+    post_author_phone_number?: string;          /// Anonymous phone number.
+    fid?: Array<number>;
 };
 export interface POST_READ_COMMON extends ID, POST_CREATE_COMMON {
     author_name: string;
     comment_count: number;
     comments: COMMENTS;
     guid: string;
-    meta: Array<{ [key: string]: any }>;
+    meta: POST_META;
+    files: UPLOADED_FILES;
     post_author?: string;
     post_date: string;
     post_parent: number;
@@ -102,6 +126,8 @@ export interface POST_CREATE extends REQUEST, CATEGORY, POST_CREATE_COMMON { };
 export type POST_CREATE_RESPONSE = number;
 
 export interface POST_UPDATE extends REQUEST, ID, CATEGORY_O, POST_CREATE_COMMON { };
+export type POST_UPDATE_RESPONSE = number;
+
 
 export interface POST_DATA extends REQUEST, ID { };
 export interface POST_DELETE extends REQUEST, ID { };
@@ -204,3 +230,5 @@ export interface CATEGORY_ENTITY {
 };
 
 export type CATEGORIES = Array<CATEGORY_ENTITY>;
+
+

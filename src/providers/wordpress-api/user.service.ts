@@ -81,6 +81,10 @@ export class UserService extends Base {
             .map(res => this.setUserProfile(res));
     }
 
+    logout() {
+        this.setUserProfile( null );
+    }
+
     register(data: USER_REGISTER): Observable<USER_REGISTER_RESPONSE> {
         data.route = 'user.register';
         return this.wp.post(data)

@@ -1,0 +1,26 @@
+<section class="file-upload">
+    <h2 class="title">File upload</h2>
+
+
+    <label class="custom-file">
+        <input type="file" id="file" class="custom-file-input" (change)="onChangeFile($event)">
+        <span class="custom-file-control"></span>
+    </label>
+
+
+
+    <div class="files uploaded-files" *ngIf=" files.length ">
+        <div class="file" *ngFor=" let file of files " [attr.type]="getFileType(file)">
+            <div class='content'>
+                <span class="trash-button fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x" aria-hidden="true"></i>
+                <i class="fa fa-trash fa-stack-1x fa-inverse" aria-hidden="true"></i>
+            </span>
+                <div [class]="getFileType(file)">
+                    <img src="{{ file.url }}" *ngIf="getFileType(file) == 'image'">
+                    <a href="{{ file.url }}" target="_blank" *ngIf="getFileType(file) == 'attachment'">{{ file.name }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

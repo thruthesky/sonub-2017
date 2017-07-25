@@ -18,8 +18,8 @@
   <button (click)="onClickLoginWithNaver()">Naver Login</button> -->
   <div>
     <form (ngSubmit)="onSubmitLogin()">
-      <input type="text" id="user_login" [(ngModel)]="userLogin">
-      <input type="password" id="user_pass" [(ngModel)]="userPass">
+      <input type="text" id="register_user_login" name="user_login" [(ngModel)]="user_login">
+      <input type="password" id="register_user_pass" name="user_pass" [(ngModel)]="user_pass">
       <button type="submit">Login</button>
     </form>
   </div>
