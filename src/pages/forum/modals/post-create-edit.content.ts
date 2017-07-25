@@ -96,6 +96,7 @@ export class PostCreateEditContent implements OnInit {
             post_title: this.post_title,
             post_content: this.post_content
         };
+        data.fid = this.files.reduce( (_, file) => { _.push(file.id) ; return _; }, [] );
 
         if (this.post_password) data.post_password = this.post_password;
         if (this.post_author_name) data.post_author_name = this.post_author_name;

@@ -21,6 +21,7 @@ export class UserService extends Base {
         private wp: WordpressApiService
     ) {
         super();
+        this.loadProfile();
     }
 
 
@@ -55,19 +56,27 @@ export class UserService extends Base {
         });
     }
 
-    /**
-     * 
-     */
     get isLogin(): boolean {
         /// one time data load from localStorage
-        if (this.profile === null) {
-            let re = this.storage.get(KEY_LOGIN);
-            if (re === null) this.profile = <USER_LOGIN_RESPONSE>{};
-            else this.profile = re;
-        }
+        if (this.profile === null) this.loadProfile();
         if (this.profile.user_login) return true;
         return false;
 
+    }
+
+
+    /**
+     * 
+     * @Warning This will load user profile from localStorage.
+     * @Warning So, this must be case on every bootstrap.
+     * @Attention This is being called in UserService::constructor which will be called by AppService::constructor.
+     *          Meaning, if you inject AppService on every module, user profile will be loaded automatically.
+     */
+    loadProfile() {
+        let re = this.storage.get(KEY_LOGIN);
+        if (re === null) this.profile = <USER_LOGIN_RESPONSE>{};
+        else this.profile = re;
+        return this.profile;
     }
 
 
@@ -82,7 +91,7 @@ export class UserService extends Base {
     }
 
     logout() {
-        this.setUserProfile( null );
+        this.setUserProfile(null);
     }
 
     register(data: USER_REGISTER): Observable<USER_REGISTER_RESPONSE> {

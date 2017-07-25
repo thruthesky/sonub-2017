@@ -11,10 +11,14 @@
     <div *ngFor="let page of pages">
         <h2>Page No. {{ page.paged }}</h2>
         <div *ngFor="let post of page.posts ">
+
+
+            <!-- display author info. Anonymous have his info on meta -->
+            Author : {{ post.author_name }}
             <h2>{{ post.post_title }}</h2>
             {{ post.post_content }}
 
-            <div class="display-uploaded-files" *ngIf=" post.files.length ">
+            <div class="display-files" *ngIf=" post.files.length ">
 
                 <div class="file" *ngFor=" let file of post.files " [attr.type]="app.file.getFileType(file)">
 
@@ -25,7 +29,12 @@
                 </div>
             </div>
             <div class="buttons">
-                <span (click)="onClickPostEdit( post )">Edit</span>
+                <button class="btn btn-secondary btn-sm" (click)="onClickPostEdit( post )">Edit</button>
+                <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post, page )">Delete</button>
+                <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">Reply</button>
+                <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">Like</button>
+                <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">More</button>
+                dislike, report, favorate, share
             </div>
         </div>
 

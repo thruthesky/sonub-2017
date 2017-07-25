@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { AppService } from './../../../../providers/app.service';
-import { POST_LIST, POST_LIST_RESPONSE } from './../../../../providers/wordpress-api/interface';
+import { POST_LIST, POST_LIST_RESPONSE, POST, PAGE } from './../../../../providers/wordpress-api/interface';
 
 
 import { PageScroll } from './../../../../providers/page-scroll';
@@ -51,7 +51,7 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
         this.watch = this.pageScroll.watch('body', 350).subscribe(e => this.loadPage());
 
         // setTimeout( () => this.onClickPostCreate(), 0);
-        
+
     }
 
 
@@ -85,7 +85,7 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
 
     }
 
-    onClickPostEdit( post ) {
+    onClickPostEdit(post) {
 
         this.postCreateEditModal.open({ post: post }).then(res => {
             console.log(res);
@@ -94,4 +94,28 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
     }
 
 
+    onClickPostDelete(post: POST, page: PAGE) {
+
+        if (post.post_author) {
+            let re = this.app.confirm('Do you want to delete?');
+            if (re) {
+                this.postDelete(page, post.ID);
+            }
+        }
+        else {
+            let password = this.app.input('Input password');
+            if (password) this.postDelete(page, post.ID, password);
+        }
+    }
+
+    postDelete(page, ID, password?) {
+        // debugger;
+        this.app.forum.postDelete({ ID: ID, post_password: password }).subscribe(id => {
+            console.log("file deleted: ", id);
+
+            let index = page.posts.findIndex(post => post.ID == id);
+            page.posts.splice(index, 1);
+
+        }, err => this.app.warning(err));
+    }
 }

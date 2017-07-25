@@ -72,6 +72,12 @@ export type UPLOADED_FILES = Array<UPLOADED_FILE>;
 export type FILE = UPLOADED_FILE;
 export type FILES = UPLOADED_FILES;
 
+export interface FILE_DELETE extends REQUEST {
+    id: number;
+    post_password?: string;
+};
+
+
 
 /**
  * Used by forum.postList(), forum.postSearch()
@@ -117,9 +123,10 @@ export interface POST_READ_COMMON extends ID, POST_CREATE_COMMON {
     guid: string;
     meta: POST_META;
     files: UPLOADED_FILES;
-    post_author?: string;
+    post_author: number;
     post_date: string;
     post_parent: number;
+    post_password?: string; // password does not come from server.
 };
 
 export interface POST_CREATE extends REQUEST, CATEGORY, POST_CREATE_COMMON { };
@@ -130,7 +137,9 @@ export type POST_UPDATE_RESPONSE = number;
 
 
 export interface POST_DATA extends REQUEST, ID { };
-export interface POST_DELETE extends REQUEST, ID { };
+export interface POST_DELETE extends REQUEST, ID {
+    post_password?: string;
+};
 
 export interface POST_DATA_RESPONSE extends ID, POST_READ_COMMON { };
 
@@ -161,6 +170,8 @@ export interface POST_LIST_RESPONSE {
     paged: number;                  // paged
 
 };
+
+export type PAGE = POST_LIST_RESPONSE;
 
 
 export interface POST_SEARCH extends POST_LIST {
@@ -230,5 +241,6 @@ export interface CATEGORY_ENTITY {
 };
 
 export type CATEGORIES = Array<CATEGORY_ENTITY>;
+
 
 

@@ -50,13 +50,12 @@ export class ForumService extends Base {
     }
 
 
-    postDelete(no): Observable<number> {
-        let data: POST_DELETE = {
-            ID: no,
-            session_id: this.user.sessionId,
-            route: 'wordpress.delete_post'
-        };
-        return this.wp.post(data);
+    postDelete(req: POST_DELETE): Observable<number> {
+        req.session_id = this.user.sessionId;
+        req.route = 'wordpress.delete_post';
+        // debugger;
+        // console.log( this.user.sessionId );
+        return this.wp.post(req);
     }
 
     postList(req: POST_LIST): Observable<POST_LIST_RESPONSE> {

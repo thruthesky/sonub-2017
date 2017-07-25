@@ -13,6 +13,7 @@ import { FILES, FILE } from './../../providers/wordpress-api/interface';
 export class FileUploadComponent implements OnInit {
     url: string = '';
     @Input() files: FILES = [];
+    @Input() post_password;
     constructor(
         public app: AppService
     ) {
@@ -52,7 +53,7 @@ export class FileUploadComponent implements OnInit {
     
 
     onClickDeleteButton(file) {
-        this.app.file.delete( file.id ).subscribe( id => {
+        this.app.file.delete( { id: file.id, post_password: this.post_password } ).subscribe( id => {
             console.log("file deleted: ", id);
             // this.files = this.files.filter( file => file.id != id ); //
             let index = this.files.findIndex( file => file.id == id );

@@ -41,6 +41,7 @@ export class AppService extends Base {
 
     /**
      * Display erorr.
+     * @deprecated use .warning();
      * @note all kinds of error will be displayed here.
      * @attention Input object must have a property of 'code' for error code and 'message' for explanation of the error.
      * @param e Error object or can be a string.
@@ -54,5 +55,15 @@ export class AppService extends Base {
             msg = `${code}: ${message}`;
         }
         alert(msg);
+    }
+
+    warning(e) {
+        return this.displayError(e);
+    }
+    confirm( title ) {
+        return confirm(title);
+    }
+    input( title ) {
+        return prompt(title);
     }
 }

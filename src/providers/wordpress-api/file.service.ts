@@ -16,7 +16,7 @@ import { Base } from './../../etc/base';
 import { WordpressApiService } from './wordpress-api.service';
 import { UserService } from './user.service';
 
-import { FILE } from './interface';
+import { FILE, FILE_DELETE } from './interface';
 
 
 
@@ -47,6 +47,7 @@ export class FileService extends Base {
         let formData = new FormData();
         formData.append('userfile', file, file.name);
         formData.append('route', 'file.upload');
+        formData.append('session_id', this.user.sessionId);
 
         let req = new HttpRequest('POST', this.url, formData, {
             reportProgress: true,
@@ -73,12 +74,9 @@ export class FileService extends Base {
     }
 
     
-    delete(id: number): Observable<number> {
-        let req = {
-            route: 'wordpress.delete_attachment',
-            session_id: this.user.sessionId,
-            id: id
-        };
+    delete( req: FILE_DELETE ): Observable<number> {
+        req.route =  'wordpress.delete_attachment';
+        req.session_id = this.user.sessionId;
         return this.wp.post(req);
     }
     
