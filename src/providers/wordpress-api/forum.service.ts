@@ -40,8 +40,9 @@ export class ForumService extends Base {
         let data: POST_DATA = {
             session_id: this.user.sessionId,
             route: 'wordpress.get_post',
-            ID: no
-        }
+            ID: no,
+            thumbnail: '200x200'
+        };
         return this.wp.post(data);
     }
 
@@ -99,7 +100,8 @@ export class ForumService extends Base {
         let req: COMMENT_DATA = {
             route: 'wordpress.get_comment',
             session_id: this.user.sessionId,
-            comment_ID: comment_ID
+            comment_ID: comment_ID,
+            thumbnail: '200x200'
         };
         return this.wp.post(req);
     }

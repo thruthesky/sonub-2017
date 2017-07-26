@@ -27,7 +27,12 @@ Welcome, {{ app.user.name }}.
                         </div>
                     </div>
 
-                    <comment-create-component [post]="post"></comment-create-component>
+
+
+                    <!-- post view comment create box -->
+                    <comment-create-component
+                    [post]="post"
+                    (create)="onCommentCreate($event, post)"></comment-create-component>
                     <div class="buttons">
                         <button class="btn btn-secondary btn-sm" (click)="onClickPostEdit( post )">Edit</button>
                         <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post, page )">Delete</button>

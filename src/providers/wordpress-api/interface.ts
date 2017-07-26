@@ -81,6 +81,10 @@ export interface FILE_DELETE extends REQUEST {
 
 /**
  * Used by forum.postList(), forum.postSearch()
+ * 
+ * COMMENT differs from COMMENT_DATA_RESPONSE which does not have 'depth' property.
+ * 'depth' property comes with the whole list of comments of a post.
+ * When you get a comment alone, you cannot have 'depth'.
  */
 export interface COMMENT {
     comment_ID: number;
@@ -95,6 +99,26 @@ export interface COMMENT {
     user_id: number;
     files: FILES;
 };
+
+/**
+ * This is being used by forum.commentData()
+ * COMMENT_DATA_RESPONSE is different from COMMENT which has 'depth'.
+ */
+export type COMMENT_DATA_RESPONSE = COMMENT;
+// {
+//     comment_ID: number;
+//     comment_post_ID: number;
+//     comment_author: string;
+//     comment_author_email: string;
+//     comment_author_url: string;
+//     comment_date: string;
+//     comment_content: string;
+//     comment_parent: number;
+//     user_id: number;
+//     files: FILES;
+// };
+
+
 
 
 interface POST_META {
@@ -137,7 +161,9 @@ export interface POST_UPDATE extends REQUEST, ID, CATEGORY_O, POST_CREATE_COMMON
 export type POST_UPDATE_RESPONSE = number;
 
 
-export interface POST_DATA extends REQUEST, ID { };
+export interface POST_DATA extends REQUEST, ID {
+    thumbnail?: THUMBNAIL_SIZES;
+};
 export interface POST_DELETE extends REQUEST, ID {
     post_password?: string;
 };
@@ -149,13 +175,13 @@ export interface POST extends POST_DATA_RESPONSE { };
 export type POSTS = Array<POST>;
 
 
+type THUMBNAIL_SIZES = '32x32' | '64x64' | '100x100' | '200x200' | '400x400' | '800x320' | '800x800';
 
 export interface POST_LIST extends REQUEST {
     category_name: string; // category name
     posts_per_page?: number; // no of posts in a page.
     paged?: number; // what page.
-    thumbnail?: string; // default thumbnail size.
-    thumbnail_less_than?: string; // thumbnail size if the no of files are less than (n).
+    thumbnail?: THUMBNAIL_SIZES; // default thumbnail size.
 };
 
 export interface POST_LIST_RESPONSE {
@@ -206,28 +232,13 @@ export type COMMENT_UPDATE_RESPONSE = number;
 
 export interface COMMENT_DATA extends REQUEST {
     comment_ID: number;
+    thumbnail?: THUMBNAIL_SIZES; // default thumbnail size.
 }
-
-/**
- * This is being used by forum.commentData()
- * COMMENT_DATA_RESPONSE is different from COMMENT.
- */
-export interface COMMENT_DATA_RESPONSE {
-        comment_ID: number;
-        comment_post_ID: number;
-        comment_author: string;
-        comment_author_email: string;
-        comment_author_url: string;
-        comment_date: string;
-        comment_content: string;
-        comment_parent: number;
-        user_id: number;
-};
 
 
 export interface CATEGORY_ENTITY {
     term_id: number;
-    name:string;
+    name: string;
     slug: string;
     term_group: number;
     term_taxonomy_id: number;
@@ -237,7 +248,7 @@ export interface CATEGORY_ENTITY {
     count: number;
     filter: string;
     cat_ID: number;
-    category_count:number;
+    category_count: number;
     category_description: string;
     cat_name: string;
     category_nicename: string;

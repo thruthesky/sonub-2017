@@ -27,7 +27,7 @@
     <comment-create-component *ngIf="showReply"
     [post]="post"
     [comment]="comment"
-    (create)=" onCreate() "
+    (create)=" onCreate( $event ) "
     ></comment-create-component>
 
 

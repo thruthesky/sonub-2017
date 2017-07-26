@@ -35,7 +35,7 @@ export class CommentCreateComponent implements OnInit, AfterViewInit {
     }
 
     // checkCommentComment() {
-        
+
     // }
 
     onSubmit() {
@@ -48,16 +48,35 @@ export class CommentCreateComponent implements OnInit, AfterViewInit {
             comment_content: this.comment_content
         };
 
-        req.fid = this.files.reduce( (_, file) => { _.push(file.id) ; return _; }, [] );
+        req.fid = this.files.reduce((_, file) => { _.push(file.id); return _; }, []);
 
-        if ( this.comment && this.comment.comment_ID ) req.comment_parent = this.comment.comment_ID;
-        this.app.forum.commentCreate( req ).subscribe( (id: COMMENT_CREATE_RESPONSE) => {
+        if (this.comment && this.comment.comment_ID) req.comment_parent = this.comment.comment_ID;
+        this.app.forum.commentCreate(req).subscribe((id: COMMENT_CREATE_RESPONSE) => {
             console.log("comment created", id);
-            this.create.emit( id );
-        }, err => this.app.warning(err) );
-
+            this.files = [];
+            this.comment_content = '';
+            this.insertComment( id );
+            this.create.emit(id);
+        }, err => this.app.warning(err));
 
     }
 
-    
+    insertComment(comment_ID) {
+        this.app.forum.commentData(comment_ID).subscribe((comment: COMMENT) => {
+            console.log(comment);
+            if (comment.comment_parent == 0) this.post.comments.unshift(comment);
+            else {
+                let index = this.post.comments.findIndex(c => c.comment_ID == comment.comment_parent);
+                if (index == -1) {
+                    // error. Maybe parent comment has been completely deleted by admin while a reply of that comment.
+                    this.post.comments.unshift(comment);
+                }
+                else {
+                    comment['depth'] = this.post.comments[index].depth + 1;
+                    this.post.comments.splice(index + 1, 0, comment);
+                }
+            }
+        }, e => this.app.warning(e));
+    }
+
 }

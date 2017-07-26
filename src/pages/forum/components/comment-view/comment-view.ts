@@ -36,7 +36,7 @@ export class CommentViewComponent implements OnInit, AfterViewInit {
     }
 
 
-    onCreate() {
+    onCreate( comment_ID ) {
         this.showReply = false;
     }
 

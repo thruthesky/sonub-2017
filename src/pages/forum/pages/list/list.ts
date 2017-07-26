@@ -2,7 +2,9 @@ import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { AppService } from './../../../../providers/app.service';
-import { POST_LIST, POST_LIST_RESPONSE, POST, PAGE } from './../../../../providers/wordpress-api/interface';
+import { POST_LIST, POST_LIST_RESPONSE, POST, PAGE,
+    COMMENT
+} from './../../../../providers/wordpress-api/interface';
 
 
 import { PageScroll } from './../../../../providers/page-scroll';
@@ -69,7 +71,7 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
         let req: POST_LIST = {
             category_name: this.slug,
             paged: this.pageNo,
-            posts_per_page: 1,
+            posts_per_page: 20,
             thumbnail: '200x200'
         };
         this.app.forum.postList(req).subscribe(page => {
@@ -85,8 +87,9 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
 
     onClickPostCreate() {
 
-        this.postCreateEditModal.open({ category: this.slug }).then(res => {
-            console.log(res);
+        this.postCreateEditModal.open({ category: this.slug }).then(id => {
+            // console.log(id);
+            this.insertPost( id );
         }, err => console.error(err));
 
     }
@@ -123,5 +126,15 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
             page.posts.splice(index, 1);
 
         }, err => this.app.warning(err));
+    }
+
+    onCommentCreate( comment_ID, post: POST ) {
+        console.log(`ForumListPage::onCommentCreate()  : ${comment_ID}`);
+    }
+
+    insertPost( post_ID ) {
+        this.app.forum.postData( post_ID ).subscribe( post => {
+            this.pages[0].posts.unshift( post );
+        }, e => this.app.warning(e));
     }
 }
