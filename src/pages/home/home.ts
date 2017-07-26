@@ -3,6 +3,7 @@ import { AppService } from './../../providers/app.service';
 import { TestService } from './../../providers/test.service';
 
 
+declare let device;
 
 
 @Component({
@@ -11,14 +12,23 @@ import { TestService } from './../../providers/test.service';
 })
 
 export class HomePage implements OnInit {
+    device = {};
     constructor(
         public app: AppService,
         // private test: TestService
     ) {
+        document.addEventListener('deviceready', () => this.onDeviceReady(), false);
     }
 
     ngOnInit() { }
 
+    onDeviceReady() {
+        this.device = device;
+        console.log("Cordova is ready.");
+        console.log(device.cordova);
+        console.log(device.version);
+        console.log(device.model);
+    }
 
 
 

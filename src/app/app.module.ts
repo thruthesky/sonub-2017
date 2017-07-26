@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { RouterModule, Routes, Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -19,6 +19,7 @@ firebase.initializeApp(environment.firebase);
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
+import { CustomErrorHandler } from './app.error-handler';
 
 import { AppComponent } from './app.component';
 import { HomeModule, HomePage } from './../pages/home/home.module';
@@ -60,7 +61,8 @@ const appRoutes: Routes = [
     FileService,
     WordpressApiService,
     TestService,
-    PageScroll
+    PageScroll,
+     { provide: ErrorHandler, useClass: CustomErrorHandler }
   ],
   bootstrap: [AppComponent]
 })

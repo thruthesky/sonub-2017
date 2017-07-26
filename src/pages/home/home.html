@@ -1,4 +1,5 @@
 <h1>HomePage</h1>
+live reload.<br>
 <button type="button" routerLink="/user">User page</button>
 <button type="button" routerLink="/user/login">Login Page</button>
 <button type="button" routerLink="/user/register">Register Page</button>
@@ -9,5 +10,8 @@
 <div *ngIf="app.user.isLogin">
     {{ app.user.profile | json }}
 
-<button type="button" (click)="app.user.logout()">Logout</button>
+    <button type="button" (click)="app.user.logout()">Logout</button>
 </div>
+
+
+<hr> Cordova version: {{ device.version }}
