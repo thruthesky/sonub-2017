@@ -1,0 +1,36 @@
+@mixin list-style-none() {
+    // for ul, ol
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+@mixin list-float-left() {
+    li {
+        float: left;
+    }
+}
+
+@mixin clearfix() {
+    &:after {
+        display: block;
+        content: '';
+        clear: both;
+    }
+}
+
+@mixin list-line() {
+    @include list-style-none();
+    @include list-float-left();
+    @include clearfix();
+}
+
+@mixin list-dots() {
+        li:before {
+            margin: 0 6px;
+            content: '·';
+        }
+        li:first-child:before {
+            content: '';
+        }
+}

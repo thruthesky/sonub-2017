@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { AppService } from './../../../providers/app.service';
+import { AppService } from './../../../../providers/app.service';
 import {
     POST, POST_CREATE, POST_CREATE_RESPONSE, POST_UPDATE, POST_UPDATE_RESPONSE,
     FILES, FILE
-} from './../../../providers/wordpress-api/interface';
+} from './../../../../providers/wordpress-api/interface';
 
 
 
@@ -57,7 +57,7 @@ export class PostCreateEditContent implements OnInit {
             this.post_author_name = options.post.meta.post_author_name;
             this.post_author_email = options.post.meta.post_author_email;
             this.post_author_phone_number = options.post.meta.post_author_phone_number;
-            this.files = options.post.files;
+            this.files = Array.from(options.post.files);
         }
     }
 
@@ -83,7 +83,7 @@ export class PostCreateEditContent implements OnInit {
             console.log(ID);
             this.activeModal.close(ID);
         }, err => {
-            this.app.displayError(this.app.getErrorString(err));
+            this.app.displayError(err);
         });
 
 
@@ -105,6 +105,7 @@ export class PostCreateEditContent implements OnInit {
 
         this.app.forum.postUpdate(data).subscribe(ID => {
             console.log("update: ", ID);
+            this.activeModal.close(ID);
         }, err => this.app.displayError(err));
     }
 

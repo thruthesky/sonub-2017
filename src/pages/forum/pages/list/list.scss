@@ -1,0 +1,23 @@
+
+.page-no {
+    margin: 1em 0;
+    padding: 1em;
+    background-color: #eee;
+}
+
+
+.page .post {
+    padding: 1em;
+    border-bottom: 1px solid grey;
+}
+
+
+
+.display-files {
+    width: 100%;
+    .file {
+        img {
+            max-width: 100%;
+        }
+    }
+}

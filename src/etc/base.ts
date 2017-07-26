@@ -36,10 +36,12 @@ export class Base extends Library {
      */
     getError(e): ERROR_INFO {
         if (!e) return { code: 'error-object-is-empty-in-getError' };
-        if ( e.error !== void 0 ) e = e.error;  /// Wordpress Error Object returned from Wordpress api.
+        if ( e.error !== void 0 ) e = e.error;  /// Wordpress Error Object returned from Wordpress api. If the response of Wordpress is an error, it will have 'erorr' property on the object. see xapi_error()
         if (e.code === void 0 && e.message === void 0) return { code: 'error-object-has-no-code-and-message-in-getErrror' };
+        
         e.code = e.code || e.message;
         e.message = e.message || e.code;
+
         return {
             code: e.code,
             message: e.message

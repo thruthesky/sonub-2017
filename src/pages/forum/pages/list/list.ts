@@ -7,7 +7,7 @@ import { POST_LIST, POST_LIST_RESPONSE, POST, PAGE } from './../../../../provide
 
 import { PageScroll } from './../../../../providers/page-scroll';
 
-import { PostCreateEditModalService } from './../../modals/post-create-edit.modal';
+import { PostCreateEditModalService } from './../../modals/post-create-edit/post-create-edit.modal';
 
 import { ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
@@ -66,7 +66,13 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
         else this.inLoading = true;
         this.pageNo++;
 
-        this.app.forum.postList({ category_name: this.slug, paged: this.pageNo }).subscribe(page => {
+        let req: POST_LIST = {
+            category_name: this.slug,
+            paged: this.pageNo,
+            posts_per_page: 1,
+            thumbnail: '200x200'
+        };
+        this.app.forum.postList(req).subscribe(page => {
             console.log(page);
             this.inLoading = false;
             if (page.paged == page.max_num_pages) {

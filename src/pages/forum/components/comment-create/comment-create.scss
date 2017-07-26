@@ -1,0 +1,90 @@
+$comment-form-grid-margin: 0 0 .4em 0;
+$comment-form-grid-height: 36px;
+$comment-form-grid-background-color: #fff;
+$comment-form-grid-a-width: 50px;
+$comment-form-grid-c-width: 60px;
+$comment-form-grid-b-c-border-color: #ddd;
+
+
+.comment-form-grid {
+    position: relative;
+    margin: $comment-form-grid-margin;
+    width: 100%;
+    height: $comment-form-grid-height;
+    background-color: $comment-form-grid-background-color;
+    & > div {
+        // border: 1px solid grey;
+        height: $comment-form-grid-height;
+        overflow: hidden;
+    }
+    
+    .a { width: $comment-form-grid-a-width; }
+    .b {
+        position: absolute;
+        top: 0;
+        left: $comment-form-grid-a-width;
+        right: $comment-form-grid-c-width;
+        input {
+            padding: 0 4px;
+            width: 100%;
+            height: $comment-form-grid-height;
+            box-sizing: border-box;
+            border: 0;
+        }
+        border: 1px solid $comment-form-grid-b-c-border-color;
+        // border-bottom: 1px solid $comment-form-grid-b-c-border-color;
+        // border-left: 1px solid $comment-form-grid-b-c-border-color;
+    
+    }
+    .c {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: $comment-form-grid-c-width;
+
+        // border-top: 1px solid $comment-form-grid-b-c-border-color;
+        // border-bottom: 1px solid $comment-form-grid-b-c-border-color;
+        // border-right: 1px solid $comment-form-grid-b-c-border-color;
+        
+    }
+}
+
+.comment-create .camera {
+    position: relative;
+    display: inline-block;
+    margin-left: 4px;
+    padding: 5px 10px;
+    height: $comment-form-grid-height;
+    border: 1px solid #eee;
+    overflow: hidden;
+    input {
+        position: absolute;
+        z-index: 100;
+        top: 0;
+        right: 0;
+        // background-color: blue;
+        opacity: 1;
+        font-size: 10em;
+    }
+}
+
+
+
+.comment-create {
+
+    
+    
+
+    // input {
+    //     display: block;
+    //     width: 100%;
+    //     border: 1px solid blue;
+    // }
+    // .buttons {
+    //      width: 60px;
+    // }
+
+    // .input-buttons {
+    //     border: 1px solid #ddd;
+    // }
+}

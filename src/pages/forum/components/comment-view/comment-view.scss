@@ -1,0 +1,22 @@
+.comment-view {
+    margin-top: 1em;
+    border: 1px solid grey;
+    padding: 1em;
+
+ul {
+    @include list-line();
+    @include list-dots();
+}
+}
+
+
+[depth="0"] { margin-left: 0; }
+[depth="1"] { margin-left: 1em; }
+[depth="2"] { margin-left: 2em; }
+[depth="3"] { margin-left: 3em; }
+[depth="4"] { margin-left: 4em; }
+[depth="5"] { margin-left: 5em; }
+[depth="6"] { margin-left: 6em; }
+
+
+

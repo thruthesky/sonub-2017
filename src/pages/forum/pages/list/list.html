@@ -1,45 +1,52 @@
 <h1>Forum list page.</h1>
-
+Welcome, {{ app.user.name }}.
 <a routerLink="/forum">Forum Index</a>
 
 <button type="button" id="post-list-create-button" (click)="onClickPostCreate()">POST</button>
 
 
+<div class="pages" *ngIf="pages">
+    <div class="page" *ngFor="let page of pages">
+        <h3 class="page-no">Page No. {{ page.paged }}</h3>
+        <div class="posts">
+            <div class="post" *ngFor="let post of page.posts " [attr.post-id]="post.ID">
+                <div class="post-display">
+                    <!-- display author info. Anonymous have his info on meta -->
+                    Author : {{ post.author_name }}. No.: {{ post.ID }}
+                    <h2 class="post-title">{{ post.post_title }}</h2>
+                    <div class="post-content">
+                        {{ post.post_content }}
+                    </div>
+
+                    <div class="display-files display-post-files" *ngIf=" post.files.length ">
+                        <div class="file" *ngFor=" let file of post.files " [attr.type]="app.file.getFileType(file)">
+                            <div [class]="app.file.getFileType(file)">
+                                <img src="{{ file.url }}" *ngIf="app.file.getFileType(file) == 'image'">
+                                <a href="{{ file.url }}" target="_blank" *ngIf="app.file.getFileType(file) == 'attachment'">{{ file.name }}</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <comment-create-component [post]="post"></comment-create-component>
+                    <div class="buttons">
+                        <button class="btn btn-secondary btn-sm" (click)="onClickPostEdit( post )">Edit</button>
+                        <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post, page )">Delete</button>
+                        <!-- <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">Reply</button> -->
+                        <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">Like</button>
+                        <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">More</button> dislike,
+                        report, favorate, share
+                    </div>
 
 
-<div *ngIf="pages">
-    <div *ngFor="let page of pages">
-        <h2>Page No. {{ page.paged }}</h2>
-        <div *ngFor="let post of page.posts ">
-
-
-            <!-- display author info. Anonymous have his info on meta -->
-            Author : {{ post.author_name }}
-            <h2>{{ post.post_title }}</h2>
-            {{ post.post_content }}
-
-            <div class="display-files" *ngIf=" post.files.length ">
-
-                <div class="file" *ngFor=" let file of post.files " [attr.type]="app.file.getFileType(file)">
-
-                    <div [class]="app.file.getFileType(file)">
-                        <img src="{{ file.url }}" *ngIf="app.file.getFileType(file) == 'image'">
-                        <a href="{{ file.url }}" target="_blank" *ngIf="app.file.getFileType(file) == 'attachment'">{{ file.name }}</a>
+                    <div class="comments" *ngIf="post.comments.length">
+                        <ng-container *ngFor="let comment of post.comments">
+                            <comment-view-component [post]="post" [comment]="comment"></comment-view-component>
+                        </ng-container>
                     </div>
                 </div>
-            </div>
-            <div class="buttons">
-                <button class="btn btn-secondary btn-sm" (click)="onClickPostEdit( post )">Edit</button>
-                <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post, page )">Delete</button>
-                <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">Reply</button>
-                <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">Like</button>
-                <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">More</button>
-                dislike, report, favorate, share
+                <!--/post-display-->
             </div>
         </div>
-
-
-
     </div>
 </div>
 

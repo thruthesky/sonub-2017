@@ -1,14 +1,12 @@
 <section class="file-upload">
-    <h2 class="title">File upload</h2>
 
-
-    <label class="file-upload-button custom-file">
+    <h2 *ngIf="title" class="title">File upload</h2>
+    <label *ngIf="fileSelectionButton" class="file-upload-button custom-file">
         <input type="file" id="file" class="custom-file-input" (change)="onChangeFile($event)">
         <span class="custom-file-control"></span>
     </label>
 
-
-
+    
     <div class="files uploaded-files" *ngIf=" files.length ">
         <div class="file" *ngFor=" let file of files " [attr.type]="app.file.getFileType(file)">
             <div class='content' (click)="onClickDeleteButton(file)">

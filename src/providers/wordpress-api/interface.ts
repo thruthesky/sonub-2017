@@ -93,6 +93,7 @@ export interface COMMENT {
     comment_type: string;
     depth: number;
     user_id: number;
+    files: FILES;
 };
 
 
@@ -122,7 +123,7 @@ export interface POST_READ_COMMON extends ID, POST_CREATE_COMMON {
     comments: COMMENTS;
     guid: string;
     meta: POST_META;
-    files: UPLOADED_FILES;
+    files: FILES;
     post_author: number;
     post_date: string;
     post_parent: number;
@@ -153,6 +154,8 @@ export interface POST_LIST extends REQUEST {
     category_name: string; // category name
     posts_per_page?: number; // no of posts in a page.
     paged?: number; // what page.
+    thumbnail?: string; // default thumbnail size.
+    thumbnail_less_than?: string; // thumbnail size if the no of files are less than (n).
 };
 
 export interface POST_LIST_RESPONSE {
@@ -187,13 +190,14 @@ export interface COMMENT_CREATE extends REQUEST {
     comment_author_email?: string;  // fixed value - can be dynamic 
     comment_author_url?: string; // URL of the author or content or any url. fixed value - can be dynamic 
     comment_content?: string; // Comment messsage... //fixed value - can be dynamic 
-    comment_parent?: string; // parent comment to reply under that comment. 0 if it's not a reply to another comment; if it's a reply, mention the parent comment ID here
-    // user_id?: number; // $current_user->ID, //passing current user ID or any predefined as per the demand
+    comment_parent?: number; // parent comment to reply under that comment. 0 if it's not a reply to another comment; if it's a reply, mention the parent comment ID here
+    fid?: Array<number>;
 };
 
 export interface COMMENT_UPDATE extends REQUEST {
     comment_ID: number;
-    comment_content: string;
+    comment_content?: string;
+    fid?: Array<number>;
 };
 
 export type COMMENT_CREATE_RESPONSE = number;

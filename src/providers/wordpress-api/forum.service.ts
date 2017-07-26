@@ -4,6 +4,8 @@ import { ERROR } from '../../etc/define';
 import { WordpressApiService } from './wordpress-api.service';
 import { UserService } from './user.service';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/throw';
+
 
 
 import {
@@ -81,12 +83,13 @@ export class ForumService extends Base {
      * @param req Comment create data
      */
     commentCreate(req: COMMENT_CREATE): Observable<COMMENT_CREATE_RESPONSE> {
+        if ( ! this.user.isLogin ) return Observable.throw( new Error('login-before-comment') );
         req.route = 'wordpress.wp_new_comment';
         req.session_id = this.user.sessionId;
         return this.wp.post(req);
     }
 
-    commentUpdate(req: COMMENT_UPDATE): Observable<COMMENT_UPDATE_RESPONSE> {
+    commentUpdate(req: COMMENT_UPDATE): Observable<number> {
         req.route = 'wordpress.wp_update_comment';
         req.session_id = this.user.sessionId;
         return this.wp.post(req);

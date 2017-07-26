@@ -12,19 +12,24 @@ import { FILES, FILE } from './../../providers/wordpress-api/interface';
 
 export class FileUploadComponent implements OnInit {
     url: string = '';
-    @Input() files: FILES = [];
+    @Input() files: FILES;
     @Input() post_password;
+    @Input() title: boolean = true;
+    @Input() fileSelectionButton: boolean = true;
     constructor(
         public app: AppService
     ) {
 
     }
 
-    ngOnInit() { }
+
+
+    ngOnInit() {
+        /// 
+        if ( ! this.files ) this.app.warning("ERROR: files property is not initialized.");
+    }
 
     onChangeFile( event ) {
-
-        
         this.app.file.uploadForm(event).subscribe(event => {
             if ( typeof event === 'number') {
                 console.log(`File is ${event}% uploaded.`);
@@ -48,7 +53,6 @@ export class FileUploadComponent implements OnInit {
                 else this.app.displayError( 'File upload filed. Filesize is too large? ' + err.message );
             }
         } );
-
     }
     
 

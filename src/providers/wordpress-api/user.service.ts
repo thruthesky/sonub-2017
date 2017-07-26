@@ -136,4 +136,9 @@ export class UserService extends Base {
         if (this.profile && this.profile.session_id) return this.profile.session_id;
         else return '';
     }
+
+    get name(): string {
+        if (this.profile && this.profile.user_nicename) return this.profile.user_nicename;
+        else return '';
+    }
 }

@@ -9,11 +9,18 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ForumIndexPage } from './pages/index/index';
 import { ForumListPage } from './pages/list/list';
-import { PostCreateEditModalService } from './modals/post-create-edit.modal';
-import { PostCreateEditContent } from './modals/post-create-edit.content'
+import { PostCreateEditModalService } from './modals/post-create-edit/post-create-edit.modal';
+import { PostCreateEditContent } from './modals/post-create-edit/post-create-edit.content';
+import { CommentCreateComponent } from './components/comment-create/comment-create';
 
 
 import { FileUploadComponent } from './../../components/file-upload/file-upload'
+
+import { CommentViewComponent } from './components/comment-view/comment-view';
+
+import { CommentEditModalService } from './modals/comment-edit/comment-edit.modal';
+import { CommentEditContent } from './modals/comment-edit/comment-edit.content';
+
 
 
 const appRoutes: Routes = [
@@ -27,10 +34,14 @@ const appRoutes: Routes = [
         ForumIndexPage,
         ForumListPage,
         PostCreateEditContent,
-        FileUploadComponent
+        FileUploadComponent,
+        CommentCreateComponent,
+        CommentViewComponent,
+        CommentEditContent
     ],
     entryComponents: [
-        PostCreateEditContent
+        PostCreateEditContent,
+        CommentEditContent
     ],
     imports: [
         CommonModule,
@@ -39,7 +50,8 @@ const appRoutes: Routes = [
         NgbModule
     ],
     providers: [
-        PostCreateEditModalService
+        PostCreateEditModalService,
+        CommentEditModalService
     ]
 })
 export class ForumModule { }

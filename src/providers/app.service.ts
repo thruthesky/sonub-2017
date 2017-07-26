@@ -50,9 +50,10 @@ export class AppService extends Base {
         let msg;
         if (typeof e === 'string') msg = e;
         else {
-            let code = e['code'] || '';
-            let message = e['message'] || '';
-            msg = `${code}: ${message}`;
+            // if ( e.code === void 0 && e.message !== void 0 ) e.code = e.message;
+            // msg = `${e.code}: ${message}`;
+
+            msg = this.getErrorString( e );
         }
         alert(msg);
     }
