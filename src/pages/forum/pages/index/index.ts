@@ -21,21 +21,23 @@ export class ForumIndexPage implements OnInit {
     }
 
     ngOnInit() {
-        this.app.forum.getCategories().subscribe( categories => this.categories = categories );
+        this.app.forum.getCategories().subscribe(categories => {
+            this.categories = categories;
+        }, e => this.app.warning(e));
     }
 
 
     onChangeFile(event) {
 
         this.app.file.uploadForm(event).subscribe(event => {
-            if ( typeof event === 'number') {
+            if (typeof event === 'number') {
                 console.log(`File is ${event}% uploaded.`);
             }
-            else if ( event.id !== void 0 ) {
+            else if (event.id !== void 0) {
                 console.log('File is completely uploaded!');
                 console.log(event);
             }
-            else if ( event === null ) {
+            else if (event === null) {
                 console.log("what is it?");
             }
         }, (err: HttpErrorResponse) => {
@@ -43,12 +45,12 @@ export class ForumIndexPage implements OnInit {
                 console.log("Client-side error occured.");
             } else {
                 // console.log(err);
-                if ( err.message == 'file_is_not_selected' || err.message == 'file_is_not_selected_or_file_does_not_exist' ) {
+                if (err.message == 'file_is_not_selected' || err.message == 'file_is_not_selected_or_file_does_not_exist') {
                     this.app.displayError('File uploaded cancelled. No file was selected.');
                 }
-                else this.app.displayError( 'File upload filed. Filesize is too large? ' + err.message );
+                else this.app.displayError('File upload filed. Filesize is too large? ' + err.message);
             }
-        } );
+        });
 
     }
 }
