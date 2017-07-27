@@ -16,10 +16,16 @@ firebase.initializeApp(environment.firebase);
 
 
 /// Ng Bootstrap
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 import { CustomErrorHandler } from './app.error-handler';
+
+
+import { UserModule } from '../pages/user/user.module';
+import { ForumModule } from '../pages/forum/forum.module';
+
+
 
 import { AppComponent } from './app.component';
 import { HomeModule, HomePage } from './../pages/home/home.module';
@@ -36,8 +42,8 @@ import { PageScroll } from './../providers/page-scroll';
 
 
 const appRoutes: Routes = [
-  { path: 'user', loadChildren: '../pages/user/user.module#UserModule' },
-  { path: 'forum', loadChildren: '../pages/forum/forum.module#ForumModule' },
+  // { path: 'user', loadChildren: '../pages/user/user.module#UserModule' },
+  // { path: 'forum', loadChildren: '../pages/forum/forum.module#ForumModule' },
   { path: '', component: HomePage, pathMatch: 'full' },
   { path: '**', component: HomePage }
 ];
@@ -51,8 +57,10 @@ const appRoutes: Routes = [
     BrowserModule,
     HttpClientModule,
     HomeModule,
-    RouterModule.forRoot(appRoutes),
     NgbModule.forRoot(),
+    UserModule,
+    ForumModule,
+    RouterModule.forRoot(appRoutes),
   ],
   providers: [
     AppService,
@@ -62,7 +70,7 @@ const appRoutes: Routes = [
     WordpressApiService,
     TestService,
     PageScroll,
-     { provide: ErrorHandler, useClass: CustomErrorHandler }
+    { provide: ErrorHandler, useClass: CustomErrorHandler }
   ],
   bootstrap: [AppComponent]
 })

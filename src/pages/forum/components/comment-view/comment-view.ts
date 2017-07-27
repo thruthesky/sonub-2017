@@ -41,11 +41,9 @@ export class CommentViewComponent implements OnInit, AfterViewInit {
     }
 
     onClickEdit() {
-
         this.commentEditModal.open(this.post, this.comment).then(res => {
             console.log('comment edit success:', res);
         }, err => this.app.warning(err));
-
     }
 
     onClickDelete() {

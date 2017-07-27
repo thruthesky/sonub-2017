@@ -2,7 +2,8 @@ import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { AppService } from './../../../../providers/app.service';
-import { POST_LIST, POST_LIST_RESPONSE, POST, PAGE,
+import {
+    POST_LIST, POST_LIST_RESPONSE, POST, PAGE,
     COMMENT
 } from './../../../../providers/wordpress-api/interface';
 
@@ -89,15 +90,16 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
 
         this.postCreateEditModal.open({ category: this.slug }).then(id => {
             // console.log(id);
-            this.insertPost( id );
+            this.insertPost(id);
         }, err => console.error(err));
 
     }
 
     onClickPostEdit(post) {
 
-        this.postCreateEditModal.open({ post: post }).then(res => {
-            console.log(res);
+        this.postCreateEditModal.open({ post: post }).then(id => {
+            console.log(id);
+            this.updatePost(id, post);
         }, err => console.error(err));
 
     }
@@ -128,13 +130,19 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
         }, err => this.app.warning(err));
     }
 
-    onCommentCreate( comment_ID, post: POST ) {
+    onCommentCreate(comment_ID, post: POST) {
         console.log(`ForumListPage::onCommentCreate()  : ${comment_ID}`);
     }
 
-    insertPost( post_ID ) {
-        this.app.forum.postData( post_ID ).subscribe( post => {
-            this.pages[0].posts.unshift( post );
+    insertPost(post_ID) {
+        this.app.forum.postData(post_ID).subscribe(post => {
+            this.pages[0].posts.unshift(post);
+        }, e => this.app.warning(e));
+    }
+    updatePost(post_ID, post: POST) {
+        this.app.forum.postData(post_ID).subscribe(postData => {
+            console.log("post updated: ", postData);
+            Object.assign(post, postData);
         }, e => this.app.warning(e));
     }
 }

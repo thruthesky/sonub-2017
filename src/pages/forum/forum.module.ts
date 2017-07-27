@@ -24,9 +24,8 @@ import { CommentEditContent } from './modals/comment-edit/comment-edit.content';
 
 
 const appRoutes: Routes = [
-    { path: ':slug', component: ForumListPage },
-    { path: '', pathMatch: 'full', component: ForumIndexPage },
-    { path: '**', component: ForumIndexPage }
+    { path: 'forum/:slug', component: ForumListPage },
+    { path: 'forum', component: ForumIndexPage }
 ];
 
 @NgModule({
