@@ -67,4 +67,17 @@ export class AppService extends Base {
     input( title ) {
         return prompt(title);
     }
+
+
+
+    /**
+     * Returns true if the app is running on Mobile as Cordova mobile app.
+     */
+    get isCordova(): boolean {
+        if (window['cordova']) return true;
+        if (document.URL.indexOf('http://') === -1
+            && document.URL.indexOf('https://') === -1) return true;
+        return false;
+    }
+
 }

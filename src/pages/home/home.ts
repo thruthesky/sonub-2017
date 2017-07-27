@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { AppService } from './../../providers/app.service';
 import { TestService } from './../../providers/test.service';
+import { Router } from '@angular/router';
+
 
 
 declare let device;
@@ -11,9 +13,10 @@ declare let device;
     templateUrl: 'home.html'
 })
 
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, AfterViewInit {
     device = {};
     constructor(
+        private router: Router,
         public app: AppService,
         // private test: TestService
     ) {
@@ -21,6 +24,18 @@ export class HomePage implements OnInit {
     }
 
     ngOnInit() { }
+
+    ngAfterViewInit() {
+
+        this.app.confirm({
+            title: 'Confirm',
+            content: 'You can choose A',
+            buttons: [
+                { class: 'class-a', code: 'code-a', text: 'text-A' }
+            ]
+        });
+        // this.router.navigateByUrl('/forum/abc');
+    }
 
     onDeviceReady() {
         this.device = device;

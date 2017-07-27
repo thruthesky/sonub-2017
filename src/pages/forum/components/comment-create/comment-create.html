@@ -9,9 +9,9 @@
             </div>
             <div class="c buttons">
 
-                <span class="camera">
+                <span class="camera" (click)="fileUploadComponent.onClickCamera()">
                     <i class="fa fa-camera" aria-hidden="true"></i>
-                    <input type="file" (change)="fileUploadComponent.onChangeFile($event)">
+                    <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadComponent.onChangeFile($event)">
                 </span>
 
             </div>
