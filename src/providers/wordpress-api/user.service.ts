@@ -8,8 +8,9 @@ import { WordpressApiService } from './wordpress-api.service';
 import { Observable } from 'rxjs/Observable';
 
 import {
-    SOCIAL_PROFILE, USER_REGISTER, USER_REGISTER_RESPONSE, USER_LOGIN, USER_LOGIN_RESPONSE,
-    USER_UPDATE, USER_UPDATE_RESPONSE, USER_DATA_RESPONSE, USER_DATA
+    USER_REGISTER, USER_REGISTER_RESPONSE, USER_LOGIN, USER_LOGIN_RESPONSE,
+    USER_UPDATE, USER_UPDATE_RESPONSE, USER_DATA_RESPONSE, USER_DATA,
+    SOCIAL_REGISTER, SOCIAL_UPDATE
 } from './interface';
 
 @Injectable()
@@ -25,41 +26,10 @@ export class UserService extends Base {
     }
 
 
-    /**
-     * @note flowchart
-     *      - All social login must check if their accounts are already created.
-     *          -- If so, just login.
-     *          -- If no, create one ( with secret key )
-     * 
-     * @param profile User profile coming from the social login.
-     */
-    socialLoginSuccess(profile: SOCIAL_PROFILE, callback) {
-
-        let uid = `${profile.uid}@${profile.providerId}`;
-        let password = `${profile.uid}--@~'!--`;
-
-        /// @todo improve login security.
-        this.login(uid, password).subscribe(res => {
-
-        }, error => {
-            if (!profile.email) profile.email = uid + '.com'; // if email is not given.
-            let data: USER_REGISTER = {
-                user_login: uid,
-                user_pass: password,
-                user_email: profile.email,
-                name: profile.name || ''
-            };
-            this.register(data).subscribe(res => {
-                console.log("socialLoginSuccess: ", res);
-            }, error => {
-            });
-        });
-    }
-
     get isLogin(): boolean {
         /// one time data load from localStorage
         if (this.profile === null) this.loadProfile();
-        if (this.profile.user_login) return true;
+        if (this.profile.session_id) return true;
         return false;
 
     }
@@ -100,6 +70,32 @@ export class UserService extends Base {
             .map(res => this.setUserProfile(res));
     }
 
+
+    loginSocial( uid ): Observable<USER_REGISTER_RESPONSE> {
+        let data = {
+            route: 'user.loginSocial',
+            uid: uid
+        };
+        return this.wp.post( data )
+            .map(res => this.setUserProfile( res ) );
+    }
+    
+    registerSocial(data: SOCIAL_REGISTER): Observable<USER_REGISTER_RESPONSE> {
+        data.route = 'user.registerSocial';
+        return this.wp.post(data)
+            .map(res => this.setUserProfile(res));
+    }
+
+    
+    updateSocial(data: SOCIAL_UPDATE): Observable<USER_REGISTER_RESPONSE> {
+        data.route = 'user.updateSocial';
+        return this.wp.post(data)
+            .map(res => this.setUserProfile(res));
+    }
+
+    
+        
+
     update(data: USER_UPDATE): Observable<USER_UPDATE_RESPONSE> {
         data.session_id = this.profile.session_id;
         data.route = 'user.profile';
@@ -121,15 +117,6 @@ export class UserService extends Base {
         return res;
     }
 
-    /**
-     * User login sucessfully.
-     * @note this includes all kinds of social login and wordpress api login.
-     * @note This method is being invoked for alll kinds of login.
-     */
-    loginSuccess(successCallback, errorCallback) {
-
-        successCallback();
-    }
 
 
     get sessionId(): string {
@@ -138,7 +125,7 @@ export class UserService extends Base {
     }
 
     get name(): string {
-        if (this.profile && this.profile.user_nicename) return this.profile.user_nicename;
+        if (this.profile && this.profile.display_name) return this.profile.display_name;
         else return '';
     }
 }

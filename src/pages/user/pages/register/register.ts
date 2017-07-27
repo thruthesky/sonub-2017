@@ -49,7 +49,7 @@ export class RegisterPage implements OnInit {
             }
         }, error => {
             console.log('app.user.register::error', error);
-            alert( error.code );
+            this.app.warning( error );
             this.errorMessage = error.code
         });
 

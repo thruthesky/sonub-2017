@@ -38,12 +38,12 @@ post(data): Observable<any> {
 
 
     checkResult(res) {
-        console.log("checkResult: ", res);
+        // console.log("checkResult: ", res);
         if (!res) {
-            throw new Error( 'response-from-server-is-empty' );
+            throw 'response-from-server-is-empty';
         }
         // if ( res.code === void 0 ) throw this.error('code-does-not-exist-in-response');
-        if (res['code'] !== void 0) throw new Error(this.getErrorString(res)); // this.error(res['code'], res['message']);
+        if (res['code'] !== void 0) throw res; //new Error(this.getErrorString(res)); // this.error(res['code'], res['message']);
         return res;
     }
 

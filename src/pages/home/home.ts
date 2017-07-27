@@ -28,7 +28,7 @@ export class HomePage implements OnInit, AfterViewInit {
     ngAfterViewInit() {
 
 
-        this.router.navigateByUrl('/forum/abc');
+        // this.router.navigateByUrl('/forum/abc');
     }
 
     onDeviceReady() {

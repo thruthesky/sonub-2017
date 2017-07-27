@@ -37,15 +37,12 @@ export class LoginPage implements OnInit {
             photoURL: user.photoURL
         };
 
-        this.app.user.socialLoginSuccess(user, () => {
+        // console.log('firebaseSocial: ', profile);
+        this.app.socialLoginSuccess(profile, () => {
             console.log("firebase social login success");
+            this.app.loginSuccess();
         });
 
-
-        // this.app.socialLoggedIn(profile, () => {
-        //   console.log('onClickLoginWithGoogle() finished.');
-        //   this.loggedIn();
-        // });
     }
 
     firebaseSocialLogniError(e) {
@@ -66,6 +63,7 @@ export class LoginPage implements OnInit {
 
         this.app.user.login( this.user_login, this.user_pass).subscribe( profile => {
             console.log( profile );
+            this.app.loginSuccess();
         }, err => this.app.displayError( err ) );
 
     }
