@@ -9,23 +9,31 @@
 
 <div id="naver_id_login"></div>
 
-  <button id="google_login" (click)="onClickLoginWithGoogle()">Google Login</button>
+<button id="google_login" (click)="onClickLoginWithGoogle()">Google Login</button>
+<button id="facebook_login" (click)="onClickLoginWithFacebook()">Facebook Login</button>
+
+<hr>
 <!--
   <button (click)="onClickLoginWithCordovaGoogle()">Cordova Google Login</button>
   <button (click)="onClickLoginWithFacebook()">Facebook Login</button>
   <button (click)="onClickLoginWithCordovaFacebook()">Cordova Facebook Login</button>
   <button (click)="onClickLoginWithKakao()">Kakao Login</button>
   <button (click)="onClickLoginWithNaver()">Naver Login</button> -->
-  <div>
+<div>
 
     <form *ngIf="! app.user.isLogin " (ngSubmit)="onSubmitLogin()">
-      <input type="text" id="register_user_login" name="user_login" [(ngModel)]="user_login">
-      <input type="password" id="register_user_pass" name="user_pass" [(ngModel)]="user_pass">
-      <button type="submit">Login</button>
+        <div>
+            <label for="register_user_login">Username</label>
+            <input type="text" id="register_user_login" name="user_login" [(ngModel)]="user_login">
+        </div>
+        <div>
+            <label for="register_user_pass">Password</label>
+            <input type="password" id="register_user_pass" name="user_pass" [(ngModel)]="user_pass">
+        </div>
+        <button type="submit">Login</button>
     </form>
 
-  </div>
+</div>
 
 
-
-  {{ app.user.profile | json }}
+{{ app.user.profile | json }}

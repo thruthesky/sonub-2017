@@ -58,6 +58,12 @@ export class LoginPage implements OnInit {
             .catch(e => this.firebaseSocialLogniError(e));
     }
 
+    onClickLoginWithFacebook() {
+        this.app.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
+            .then((res) => this.firebaseSocialLoginSuccess(res.user))
+            .catch(e => this.firebaseSocialLogniError(e));
+    }
+
 
     onSubmitLogin() {
 
