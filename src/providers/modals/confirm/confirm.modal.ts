@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmContent } from './confirm.content'
+import { ConfirmContent, CONFIRM_OPTIONS } from './confirm.content'
+export { CONFIRM_OPTIONS } from './confirm.content';
 
 
 @Injectable()

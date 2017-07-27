@@ -39,6 +39,8 @@ import { AppService } from './../providers/app.service';
 import { TestService } from './../providers/test.service';
 import { PageScroll } from './../providers/page-scroll';
 
+import { TextService } from './../providers/text.service';
+
 
 import { ModalServiceModule } from '../providers/modals/modal.service.module';
 
@@ -75,6 +77,7 @@ const appRoutes: Routes = [
     WordpressApiService,
     TestService,
     PageScroll,
+    TextService,
     { provide: ErrorHandler, useClass: CustomErrorHandler }
   ],
   bootstrap: [AppComponent]

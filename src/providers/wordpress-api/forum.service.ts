@@ -13,7 +13,9 @@ import {
     POST_SEARCH, POST_SEARCH_RESPONSE,
     COMMENT, COMMENT_CREATE, COMMENT_CREATE_RESPONSE, POST_CREATE_RESPONSE,
     COMMENT_UPDATE, COMMENT_UPDATE_RESPONSE, COMMENT_DATA, COMMENT_DATA_RESPONSE,
-    CATEGORIES
+    CATEGORIES,
+    POST_DELETE_RESPONSE,
+    COMMENT_DELETE, COMMENT_DELETE_RESPONSE
 } from './interface';
 
 
@@ -53,7 +55,7 @@ export class ForumService extends Base {
     }
 
 
-    postDelete(req: POST_DELETE): Observable<number> {
+    postDelete(req: POST_DELETE): Observable<POST_DELETE_RESPONSE> {
         req.session_id = this.user.sessionId;
         req.route = 'wordpress.delete_post';
         // debugger;
@@ -107,8 +109,8 @@ export class ForumService extends Base {
     }
 
 
-    commentDelete(comment_ID: number): Observable<number> {
-        let req: COMMENT_DATA = {
+    commentDelete(comment_ID: number): Observable<COMMENT_DELETE_RESPONSE> {
+        let req: COMMENT_DELETE = {
             route: 'wordpress.wp_delete_comment',
             session_id: this.user.sessionId,
             comment_ID: comment_ID

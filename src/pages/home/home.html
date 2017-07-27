@@ -9,6 +9,7 @@
 <div *ngIf="app.user.isLogin">
     {{ app.user.profile | json }}
 
+    <img src="{{ app.user.profile.photoURL }}">
     <button type="button" (click)="app.user.logout()">Logout</button>
 </div>
 

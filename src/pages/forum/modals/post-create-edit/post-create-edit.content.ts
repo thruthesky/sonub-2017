@@ -106,7 +106,7 @@ export class PostCreateEditContent implements OnInit {
         this.app.forum.postUpdate(data).subscribe(ID => {
             console.log("update: ", ID);
             this.activeModal.close(ID);
-        }, err => this.app.displayError(err));
+        }, err => this.app.warning(err));
     }
 
 

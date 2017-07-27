@@ -22,6 +22,7 @@ declare var FileTransfer;
 
 export class FileUploadComponent implements OnInit {
     url: string = environment.xapiUrl;
+    progressPercentage = 0;
     @Input() files: FILES;
     @Input() post_password;
     @Input() title: boolean = true;
@@ -48,17 +49,17 @@ export class FileUploadComponent implements OnInit {
     onClickCamera() {
         if (!this.app.isCordova) return;
 
-        this.confirmCameraAction().then( code => this.takePhoto( code ));
-        
+        this.confirmCameraAction().then(code => this.takePhoto(code));
+
     }
-    takePhoto( code ) {
+    takePhoto(code) {
         let type = null;
-        
-        if ( code == 'camera') {
+
+        if (code == 'camera') {
             // get the picture from camera.
             type = Camera.PictureSourceType.CAMERA;
         }
-        else if ( code == 'gallery' ) {
+        else if (code == 'gallery') {
             // get the picture from library.
             type = Camera.PictureSourceType.PHOTOLIBRARY
         }
@@ -74,7 +75,7 @@ export class FileUploadComponent implements OnInit {
             console.log('photo: ', path);
             // alert(path);
             // transfer the photo to the server.
-             this.uploadFile( path );
+            this.uploadFile(path);
         }, e => {
             console.error('camera error: ', e);
             alert("camera error");
@@ -101,12 +102,12 @@ export class FileUploadComponent implements OnInit {
 
 
 
-    uploadFile( filePath: string ) {
+    uploadFile(filePath: string) {
         var options = new FileUploadOptions();
-        options.fileKey="userfile";
-        options.fileName=filePath.substr(filePath.lastIndexOf('/')+1);
-        options.mimeType="image/jpeg";
-        var params = { route: 'file.upload', session_id: this.app.user.sessionId};
+        options.fileKey = "userfile";
+        options.fileName = filePath.substr(filePath.lastIndexOf('/') + 1) + '.jpg';
+        options.mimeType = "image/jpeg";
+        var params = { route: 'file.upload', session_id: this.app.user.sessionId };
         options.params = params;
 
 
@@ -117,42 +118,46 @@ export class FileUploadComponent implements OnInit {
             // @todo This is not working....
             if (progressEvent.lengthComputable) {
                 try {
-                    percentage = Math.round( progressEvent.loaded / progressEvent.total );
+                    percentage = Math.round(progressEvent.loaded / progressEvent.total);
                 }
-                catch ( e ) {
-                    console.error( 'percentage computation error' );
+                catch (e) {
+                    // console.error( 'percentage computation error' );
                     percentage = 10;
                 }
             }
             else percentage = 10; // progressive does not work. it is not computable.
-            console.log('percentage: ', percentage);
+            // console.log('percentage: ', percentage);
+            this.onProgress(percentage);
         };
 
-        let uri = encodeURI( this.url );
-        
+        let uri = encodeURI(this.url);
+
         console.log(filePath);
         console.log(uri);
         console.log(options);
-        
+
         ft.upload(filePath, uri, r => {
             console.log("Code = " + r.responseCode);
             console.log("Response = " + r.response);
             console.log("Sent = " + r.bytesSent);
             let re;
             try {
-                re = JSON.parse( r.response );
+                re = JSON.parse(r.response);
             }
-            catch ( e ) {
-                this.app.warning( "JSON parse error on server response while file transfer..." );
+            catch (e) {
+                this.app.warning("JSON parse error on server response while file transfer...");
                 return;
             }
-            
-            this.files.push( re );
+
+            this.insertFile(re);
+            // this.files.push( re );
+            // this.app.rerenderPage();
 
         }, e => {
             console.log("upload error source " + e.source);
             console.log("upload error target " + e.target);
-            this.app.warning( e.code );
+            this.app.warning(e.code);
+            this.onUploadFailure();
         }, options);
     }
 
@@ -162,12 +167,13 @@ export class FileUploadComponent implements OnInit {
         if (this.app.isCordova) return;
         this.app.file.uploadForm(event).subscribe(event => {
             if (typeof event === 'number') {
-                console.log(`File is ${event}% uploaded.`);
+                // console.log(`File is ${event}% uploaded.`);
+                this.onProgress(event);
             }
             else if (event.id !== void 0) {
-                console.log('File is completely uploaded!');
-                console.log(event);
-                this.files.push(event);
+                // console.log('File is completely uploaded!');
+                // console.log(event);
+                this.insertFile(event);
             }
             else if (event === null) {
                 console.log("what is it?");
@@ -182,6 +188,7 @@ export class FileUploadComponent implements OnInit {
                 }
                 else this.app.warning('File upload filed. Filesize is too large? ' + err.message);
             }
+            this.onUploadFailure();
         });
     }
 
@@ -195,5 +202,22 @@ export class FileUploadComponent implements OnInit {
             console.log(this.files);
 
         }, err => this.app.displayError(err));
+    }
+
+    onProgress(p: number) {
+        this.progressPercentage = p;
+        this.app.rerenderPage();
+    }
+
+
+    insertFile(file) {
+
+        this.files.push(file);
+        this.progressPercentage = 0;
+        this.app.rerenderPage();
+
+    }
+    onUploadFailure() {
+        this.progressPercentage = 0;
     }
 }

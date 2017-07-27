@@ -14,6 +14,8 @@ import { PostCreateEditModalService } from './../../modals/post-create-edit/post
 
 import { ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
+import { ForumCodeShareService } from './../../forum-code-share.service';
+
 
 @Component({
     selector: 'list-page',
@@ -37,7 +39,8 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
         public app: AppService,
         private active: ActivatedRoute,
         private pageScroll: PageScroll,
-        private postCreateEditModal: PostCreateEditModalService
+        private postCreateEditModal: PostCreateEditModalService,
+        private forumShare: ForumCodeShareService
     ) {
 
         active.params.subscribe(params => {
@@ -99,7 +102,7 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
 
         this.postCreateEditModal.open({ post: post }).then(id => {
             console.log(id);
-            this.updatePost(id, post);
+            this.forumShare.updatePost( post );
         }, err => console.error(err));
 
     }
@@ -108,10 +111,9 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
     onClickPostDelete(post: POST, page: PAGE) {
 
         if (post.post_author) {
-            let re = this.app.confirm('Do you want to delete?');
-            if (re) {
-                this.postDelete(page, post.ID);
-            }
+            this.app.confirm(this.app.text.deleteConfirm).then(code => {
+                if (code == 'yes') this.postDelete(page, post.ID);
+            });
         }
         else {
             let password = this.app.input('Input password');
@@ -121,11 +123,15 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
 
     postDelete(page, ID, password?) {
         // debugger;
-        this.app.forum.postDelete({ ID: ID, post_password: password }).subscribe(id => {
-            console.log("file deleted: ", id);
+        this.app.forum.postDelete({ ID: ID, post_password: password }).subscribe(res => {
+            console.log("file deleted: ", res);
 
-            let index = page.posts.findIndex(post => post.ID == id);
-            page.posts.splice(index, 1);
+            let index = page.posts.findIndex(post => post.ID == res.ID);
+            if (res.mode == 'delete') {
+                page.posts.splice(index, 1);
+            }
+            else this.forumShare.updatePost( page.posts[index] );
+
 
         }, err => this.app.warning(err));
     }
@@ -137,12 +143,6 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
     insertPost(post_ID) {
         this.app.forum.postData(post_ID).subscribe(post => {
             this.pages[0].posts.unshift(post);
-        }, e => this.app.warning(e));
-    }
-    updatePost(post_ID, post: POST) {
-        this.app.forum.postData(post_ID).subscribe(postData => {
-            console.log("post updated: ", postData);
-            Object.assign(post, postData);
         }, e => this.app.warning(e));
     }
 }

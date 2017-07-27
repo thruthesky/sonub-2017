@@ -1,5 +1,37 @@
-<textarea [(ngModel)]="comment_content"></textarea>
+
+<div class="modal-header">
+    <h4 class="modal-title">Comment Edit</h4>
+    <button type="button" class="close" aria-label="Close" (click)="onClickCancel()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+</div>
+<div class="modal-body">
+
+    <textarea [(ngModel)]="comment_content"></textarea>
+
+</div>
+<div class="modal-footer justify-content-between">
+
+    <div>
+        <span class="stacked-camera-icon-with-file-box fa-stack fa-lg" (click)="fileUploadComponent.onClickCamera()">
+                <i class="fa fa-circle fa-stack-2x" aria-hidden="true"></i>
+                <i class="fa fa-camera fa-stack-1x fa-inverse" aria-hidden="true"></i>
+                <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadComponent.onChangeFile($event)">
+            </span>
+    </div>
+    <div>
+
 <button type="button" (click)="onClickSubmit()">Submit</button>
 <button type="button" (click)="onClickCancel()">Cancel</button>
-<file-upload-component [files]="files"></file-upload-component>
+
+
+
+    </div>
+
+</div>
+
+
+<hr>
+
+<file-upload-component #fileUploadComponent [title]="false" [fileSelectionButton]="false" [files]="files"></file-upload-component>
 

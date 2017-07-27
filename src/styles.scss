@@ -4,19 +4,11 @@
 @import './styles/mixins';
 @import './styles/base';
 @import './styles/layout';
+@import './styles/component';
 @import './components/file-upload/file-upload';
 @import './pages/forum/pages/index/index';
 @import './pages/forum/pages/list/list';
 @import './pages/forum/components/comment-create/comment-create';
 @import './pages/forum/components/comment-view/comment-view';
 
-
-
-
-button {
-    padding: 1em;
-    border: 0;
-    background-color: #eee;
-    font-weight: bold;
-}
 

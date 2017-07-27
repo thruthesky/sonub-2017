@@ -18,6 +18,9 @@ interface CATEGORY_O {
 };
 
 
+interface comment_ID {
+    comment_ID: number;
+}
 
 export interface SOCIAL_PROFILE {
     uid: string;                // User ID of the social.
@@ -27,6 +30,8 @@ export interface SOCIAL_PROFILE {
     photoURL?: string;
 };
 
+export interface SOCIAL_REGISTER extends REQUEST, SOCIAL_PROFILE {};
+export interface SOCIAL_UPDATE extends REQUEST, SOCIAL_PROFILE {};
 
 export interface USER_LOGIN {
     route?: string;
@@ -47,9 +52,9 @@ export interface USER_REGISTER extends USER_LOGIN, USER_COMMON { };
 
 
 export interface USER_REGISTER_RESPONSE {
-    user_login: string;
+    // user_login: string;
     user_email: string;
-    user_nicename: string;
+    display_name: string;
     session_id: string;
 };
 export interface USER_LOGIN_RESPONSE extends USER_REGISTER_RESPONSE { };
@@ -168,6 +173,14 @@ export interface POST_DELETE extends REQUEST, ID {
     post_password?: string;
 };
 
+export interface POST_DELETE_RESPONSE {
+    ID: string;
+    mode: 'delete' | 'mark';
+}
+export interface COMMENT_DELETE_RESPONSE extends comment_ID {
+    mode: 'delete' | 'mark';
+}
+
 export interface POST_DATA_RESPONSE extends ID, POST_READ_COMMON { };
 
 
@@ -220,8 +233,7 @@ export interface COMMENT_CREATE extends REQUEST {
     fid?: Array<number>;
 };
 
-export interface COMMENT_UPDATE extends REQUEST {
-    comment_ID: number;
+export interface COMMENT_UPDATE extends REQUEST, comment_ID {
     comment_content?: string;
     fid?: Array<number>;
 };
@@ -230,11 +242,11 @@ export type COMMENT_CREATE_RESPONSE = number;
 export type COMMENT_UPDATE_RESPONSE = number;
 
 
-export interface COMMENT_DATA extends REQUEST {
-    comment_ID: number;
+export interface COMMENT_DATA extends REQUEST, comment_ID {
     thumbnail?: THUMBNAIL_SIZES; // default thumbnail size.
-}
+};
 
+export interface COMMENT_DELETE extends REQUEST, comment_ID {};
 
 export interface CATEGORY_ENTITY {
     term_id: number;

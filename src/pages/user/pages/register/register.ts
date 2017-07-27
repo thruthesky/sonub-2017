@@ -62,9 +62,9 @@ export class RegisterPage implements OnInit {
             this.loading = false;
         }, error => {
             console.log('app.user.register::error', error);
-            alert(error.code);
-            this.errorMessage = error.code;
             this.loading = false;
+            this.app.warning( error );
+            this.errorMessage = error.code
         });
 
 

@@ -8,6 +8,9 @@ import {
 } from './../../../../providers/wordpress-api/interface';
 
 
+import { ForumCodeShareService } from './../../forum-code-share.service';
+
+
 @Component({
     selector: 'comment-edit-content',
     templateUrl: 'comment-edit.content.html'
@@ -30,7 +33,8 @@ export class CommentEditContent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        public app: AppService
+        public app: AppService,
+        private forumShare: ForumCodeShareService
     ) { }
 
     ngOnInit() { }
@@ -57,18 +61,18 @@ export class CommentEditContent implements OnInit {
         req.fid = this.files.reduce((_, file) => { _.push(file.id); return _; }, []);
         console.log(req);
         this.app.forum.commentUpdate(req).subscribe(id => {
-            this.updateComment( id );
+            this.forumShare.updateComment( this.comment );
             this.activeModal.close(id);
         }, err => this.app.warning(err));
     }
 
-    updateComment(comment_ID) {
-        this.app.forum.commentData(comment_ID).subscribe((comment: COMMENT) => {
-            let depth = this.comment.depth;
-            Object.assign( this.comment, comment );
-            this.comment.depth = depth;
-        }, e => this.app.warning(e));
-    }
+    // updateComment(comment_ID) {
+    //     this.app.forum.commentData(comment_ID).subscribe((comment: COMMENT) => {
+    //         let depth = this.comment.depth;
+    //         Object.assign( this.comment, comment );
+    //         this.comment.depth = depth;
+    //     }, e => this.app.warning(e));
+    // }
 
 
 

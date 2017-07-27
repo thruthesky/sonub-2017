@@ -21,6 +21,8 @@ import { CommentViewComponent } from './components/comment-view/comment-view';
 import { CommentEditModalService } from './modals/comment-edit/comment-edit.modal';
 import { CommentEditContent } from './modals/comment-edit/comment-edit.content';
 
+import { ForumCodeShareService } from './forum-code-share.service';
+
 
 
 const appRoutes: Routes = [
@@ -50,7 +52,8 @@ const appRoutes: Routes = [
     ],
     providers: [
         PostCreateEditModalService,
-        CommentEditModalService
+        CommentEditModalService,
+        ForumCodeShareService
     ]
 })
 export class ForumModule { }

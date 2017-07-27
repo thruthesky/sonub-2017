@@ -8,19 +8,36 @@
 
     <div *ngIf=" ! app.user.isLogin " class="anonymouse-form">
         Author Name: <input type="text" name="post_author_name" [(ngModel)]="post_author_name"><br> Author Email:
-        <input
-            type="email" name="post_author_email" [(ngModel)]="post_author_email"><br> Author Mobile No.: <input type="text" name="post_author_phone_number" [(ngModel)]="post_author_phone_number"><br>            Password: <input type="password" name="post_password" [(ngModel)]="post_password"><br>
+        <input type="email" name="post_author_email" [(ngModel)]="post_author_email"><br> Author Mobile No.: <input type="text"
+            name="post_author_phone_number" [(ngModel)]="post_author_phone_number"><br> Password: <input type="password" name="post_password"
+            [(ngModel)]="post_password"><br>
     </div>
 
-    <file-upload-component [files]="files" [post_password]="post_password"></file-upload-component>
+
 
     Title: <input type="text" name="post_title" [(ngModel)]="post_title"><br>
     <textarea name="post_content" [(ngModel)]="post_content"></textarea>
 
 
 </div>
-<div class="modal-footer">
-    <button *ngIf="options.category" type="submit" class="btn btn-secondary" (click)="onClickSubmit()">Submit Post</button>
-    <button *ngIf="options.post" type="submit" class="btn btn-secondary" (click)="onClickEdit()">Edit Post</button>
-    <button type="button" class="btn btn-secondary" (click)="onClickCancel()">Cancel</button>
+<div class="modal-footer justify-content-between">
+
+    <div>
+        <span class="stacked-camera-icon-with-file-box fa-stack fa-lg" (click)="fileUploadComponent.onClickCamera()">
+                <i class="fa fa-circle fa-stack-2x" aria-hidden="true"></i>
+                <i class="fa fa-camera fa-stack-1x fa-inverse" aria-hidden="true"></i>
+                <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadComponent.onChangeFile($event)">
+            </span>
+    </div>
+    <div>
+        <button *ngIf="options.category" type="submit" class="btn btn-secondary" (click)="onClickSubmit()">Submit Post</button>
+        <button *ngIf="options.post" type="submit" class="btn btn-secondary" (click)="onClickEdit()">Edit Post</button>
+        <button type="button" class="btn btn-secondary" (click)="onClickCancel()">Cancel</button>
+    </div>
+
 </div>
+
+
+<hr>
+
+<file-upload-component #fileUploadComponent [title]="false" [fileSelectionButton]="false" [files]="files" [post_password]="post_password"></file-upload-component>

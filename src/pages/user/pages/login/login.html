@@ -17,10 +17,15 @@
   <button (click)="onClickLoginWithKakao()">Kakao Login</button>
   <button (click)="onClickLoginWithNaver()">Naver Login</button> -->
   <div>
-    <form (ngSubmit)="onSubmitLogin()">
+
+    <form *ngIf="! app.user.isLogin " (ngSubmit)="onSubmitLogin()">
       <input type="text" id="register_user_login" name="user_login" [(ngModel)]="user_login">
       <input type="password" id="register_user_pass" name="user_pass" [(ngModel)]="user_pass">
       <button type="submit">Login</button>
     </form>
+
   </div>
 
+
+
+  {{ app.user.profile | json }}
