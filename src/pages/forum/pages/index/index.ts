@@ -21,7 +21,10 @@ export class ForumIndexPage implements OnInit {
     }
 
     ngOnInit() {
-        this.app.forum.getCategories().subscribe( categories => this.categories = categories );
+        this.app.forum.getCategories().subscribe( categories => {
+            // debugger
+            this.categories = categories
+        } );
     }
 
 
