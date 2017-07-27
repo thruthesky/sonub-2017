@@ -31,26 +31,28 @@ export class WordpressApiService extends Base {
     //     // return this.http.get('http://sonub.com/wp-json/wp/v2/posts');
     // }
 
-    post(data): Observable<any> {
-        // console.log("Url: ", this.url , JSON.stringify( data ) );
-        return this.http.post(this.url, data)
-            .map(e => this.checkResult(e));
-    }
+post(data): Observable<any> {
+    return this.http.post(this.url, data)
+        .map(e => this.checkResult(e));
+}
 
 
     checkResult(res) {
-        if (!res) throw this.error('response-is-empty');
+        console.log("checkResult: ", res);
+        if (!res) {
+            throw new Error( 'response-from-server-is-empty' );
+        }
         // if ( res.code === void 0 ) throw this.error('code-does-not-exist-in-response');
-        if (res['code'] !== void 0) throw this.error(res['code'], res['message']);
+        if (res['code'] !== void 0) throw new Error(this.getErrorString(res)); // this.error(res['code'], res['message']);
         return res;
     }
 
 
-    query( req ): Observable<any> {
+    query(req): Observable<any> {
         req['route'] = 'wordpress.wp_query';
         req['paged'] = req['paged'] ? req['paged'] : 1;
-        return this.post( req );
+        return this.post(req);
     }
 
-    
+
 }

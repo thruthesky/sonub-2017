@@ -21,10 +21,10 @@ export class CommentEditModalService {
 
     }
 
-    open( post: POST, comment:COMMENT ): Promise<any> {
+    open(post: POST, comment: COMMENT): Promise<any> {
         if (this.modalRef) this.modalRef.close();
         this.modalRef = this.modalService.open(CommentEditContent, { windowClass: 'comment-edit-modal', backdrop: 'static' });
-        this.modalRef.componentInstance.setOptions( post, comment );
+        this.modalRef.componentInstance.setOptions(post, comment);
         return this.modalRef.result;
     }
 

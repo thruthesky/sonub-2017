@@ -13,6 +13,7 @@ import { ForumService } from './wordpress-api/forum.service';
 import { FileService } from './wordpress-api/file.service';
 
 
+import { ConfirmModalService } from './modals/confirm/confirm.modal';
 
 
 
@@ -27,6 +28,7 @@ export class AppService extends Base {
         public forum: ForumService,
         public wp: WordpressApiService,
         public file: FileService,
+        private confirmModalService: ConfirmModalService,
         private ngZone: NgZone,
         private router: Router
     ) {
@@ -61,10 +63,26 @@ export class AppService extends Base {
     warning(e) {
         return this.displayError(e);
     }
-    confirm( title ) {
-        return confirm(title);
+
+
+    confirm( options ): Promise<any> {
+        return this.confirmModalService.open( options );
     }
+
     input( title ) {
         return prompt(title);
     }
+
+
+
+    /**
+     * Returns true if the app is running on Mobile as Cordova mobile app.
+     */
+    get isCordova(): boolean {
+        if (window['cordova']) return true;
+        if (document.URL.indexOf('http://') === -1
+            && document.URL.indexOf('https://') === -1) return true;
+        return false;
+    }
+
 }

@@ -14,10 +14,10 @@ import { LoginPage } from './pages/login/login';
 const appRoutes: Routes = [
     // { path: 'register', component: RegisterPage },
     // { path: 'profile', component: ProfilePage },
-    { path: 'login', component: LoginPage },
-    { path: 'register', component: RegisterPage },
-    { path: '', pathMatch: 'full', component: LoginPage },
-    { path: '**', component: LoginPage }
+    { path: 'user/login', component: LoginPage },
+    { path: 'user/register', component: RegisterPage },
+    // { path: '', pathMatch: 'full', component: LoginPage },
+    // { path: '**', component: LoginPage }
 ];
 
 @NgModule({

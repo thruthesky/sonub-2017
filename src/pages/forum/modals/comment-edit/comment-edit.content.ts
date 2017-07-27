@@ -15,7 +15,7 @@ import {
 
 export class CommentEditContent implements OnInit {
 
-    
+
     //
     comment_content;
 
@@ -23,7 +23,7 @@ export class CommentEditContent implements OnInit {
     // origial post, comment
     post: POST;
     comment: COMMENT;
-    
+
 
     // files ( not referenced. )
     files: FILES = [];
@@ -35,7 +35,7 @@ export class CommentEditContent implements OnInit {
 
     ngOnInit() { }
 
-    setOptions( post, comment: COMMENT ) {
+    setOptions(post, comment: COMMENT) {
         this.post = post;
         this.comment = comment;
         this.comment_content = comment.comment_content;
@@ -45,7 +45,7 @@ export class CommentEditContent implements OnInit {
 
 
     onClickCancel() {
-        this.activeModal.close( this.comment.comment_ID );
+        this.activeModal.close(this.comment.comment_ID);
     }
 
 
@@ -54,11 +54,20 @@ export class CommentEditContent implements OnInit {
             comment_ID: this.comment.comment_ID,
             comment_content: this.comment_content
         };
-        req.fid = this.files.reduce( (_, file) => { _.push(file.id) ; return _; }, [] );
+        req.fid = this.files.reduce((_, file) => { _.push(file.id); return _; }, []);
         console.log(req);
-        this.app.forum.commentUpdate( req ).subscribe( id => {
-            this.activeModal.close( id );
-        }, err => this.app.warning(err) );
+        this.app.forum.commentUpdate(req).subscribe(id => {
+            this.updateComment( id );
+            this.activeModal.close(id);
+        }, err => this.app.warning(err));
+    }
+
+    updateComment(comment_ID) {
+        this.app.forum.commentData(comment_ID).subscribe((comment: COMMENT) => {
+            let depth = this.comment.depth;
+            Object.assign( this.comment, comment );
+            this.comment.depth = depth;
+        }, e => this.app.warning(e));
     }
 
 

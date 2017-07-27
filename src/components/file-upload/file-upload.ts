@@ -5,13 +5,23 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { AppService } from './../../providers/app.service';
 import { FILES, FILE } from './../../providers/wordpress-api/interface';
 
+import { environment } from './../../environments/environment';
+
+declare var Camera;
+declare var navigator;
+declare var FileUploadOptions;
+declare var FileTransfer;
+
+
+
+
 @Component({
     selector: 'file-upload-component',
     templateUrl: 'file-upload.html'
 })
 
 export class FileUploadComponent implements OnInit {
-    url: string = '';
+    url: string = environment.xapiUrl;
     @Input() files: FILES;
     @Input() post_password;
     @Input() title: boolean = true;
@@ -20,26 +30,146 @@ export class FileUploadComponent implements OnInit {
         public app: AppService
     ) {
 
+        document.addEventListener('deviceready', () => this.onDeviceReady(), false);
+
     }
 
+
+    onDeviceReady() {
+        console.log("Cordova is ready.");
+    }
 
 
     ngOnInit() {
         /// 
-        if ( ! this.files ) this.app.warning("ERROR: files property is not initialized.");
+        if (!this.files) this.app.warning("ERROR: files property is not initialized.");
     }
 
-    onChangeFile( event ) {
+    onClickCamera() {
+        if (!this.app.isCordova) return;
+
+        this.confirmCameraAction().then( code => this.takePhoto( code ));
+        
+    }
+    takePhoto( code ) {
+        let type = null;
+        
+        if ( code == 'camera') {
+            // get the picture from camera.
+            type = Camera.PictureSourceType.CAMERA;
+        }
+        else if ( code == 'gallery' ) {
+            // get the picture from library.
+            type = Camera.PictureSourceType.PHOTOLIBRARY
+        }
+        else return;
+
+        console.log("in cordova, type: ", type);
+
+        let options = {
+            quality: 90,
+            sourceType: type
+        };
+        navigator.camera.getPicture(path => {
+            console.log('photo: ', path);
+            // alert(path);
+            // transfer the photo to the server.
+             this.uploadFile( path );
+        }, e => {
+            console.error('camera error: ', e);
+            alert("camera error");
+        }, options);
+    }
+
+
+
+    confirmCameraAction() {
+
+        return this.app.confirm({
+            title: 'Photo Upload',
+            content: 'Where do you want to get photo from?',
+            buttons: [
+                { class: 'a', code: 'camera', text: 'Camera' },
+                { class: 'b', code: 'gallery', text: 'Gallery' },
+                { class: 'c', code: 'cancel', text: 'Cancel' }
+            ]
+        })
+            .catch(res => console.log('dismissed'));
+
+
+    }
+
+
+
+    uploadFile( filePath: string ) {
+        var options = new FileUploadOptions();
+        options.fileKey="userfile";
+        options.fileName=filePath.substr(filePath.lastIndexOf('/')+1);
+        options.mimeType="image/jpeg";
+        var params = { route: 'file.upload', session_id: this.app.user.sessionId};
+        options.params = params;
+
+
+        var ft = new FileTransfer();
+
+        let percentage = 0;
+        ft.onprogress = progressEvent => {
+            // @todo This is not working....
+            if (progressEvent.lengthComputable) {
+                try {
+                    percentage = Math.round( progressEvent.loaded / progressEvent.total );
+                }
+                catch ( e ) {
+                    console.error( 'percentage computation error' );
+                    percentage = 10;
+                }
+            }
+            else percentage = 10; // progressive does not work. it is not computable.
+            console.log('percentage: ', percentage);
+        };
+
+        let uri = encodeURI( this.url );
+        
+        console.log(filePath);
+        console.log(uri);
+        console.log(options);
+        
+        ft.upload(filePath, uri, r => {
+            console.log("Code = " + r.responseCode);
+            console.log("Response = " + r.response);
+            console.log("Sent = " + r.bytesSent);
+            let re;
+            try {
+                re = JSON.parse( r.response );
+            }
+            catch ( e ) {
+                this.app.warning( "JSON parse error on server response while file transfer..." );
+                return;
+            }
+            
+            this.files.push( re );
+
+        }, e => {
+            console.log("upload error source " + e.source);
+            console.log("upload error target " + e.target);
+            this.app.warning( e.code );
+        }, options);
+    }
+
+
+
+    onChangeFile(event) {
+        if (this.app.isCordova) return;
         this.app.file.uploadForm(event).subscribe(event => {
-            if ( typeof event === 'number') {
+            if (typeof event === 'number') {
                 console.log(`File is ${event}% uploaded.`);
             }
-            else if ( event.id !== void 0 ) {
+            else if (event.id !== void 0) {
                 console.log('File is completely uploaded!');
                 console.log(event);
-                this.files.push( event );
+                this.files.push(event);
             }
-            else if ( event === null ) {
+            else if (event === null) {
                 console.log("what is it?");
             }
         }, (err: HttpErrorResponse) => {
@@ -47,23 +177,23 @@ export class FileUploadComponent implements OnInit {
                 console.log("Client-side error occured.");
             } else {
                 // console.log(err);
-                if ( err.message == 'file_is_not_selected' || err.message == 'file_is_not_selected_or_file_does_not_exist' ) {
-                    this.app.displayError('File uploaded cancelled. No file was selected.');
+                if (err.message == 'file_is_not_selected' || err.message == 'file_is_not_selected_or_file_does_not_exist') {
+                    this.app.warning('File uploaded cancelled. No file was selected.');
                 }
-                else this.app.displayError( 'File upload filed. Filesize is too large? ' + err.message );
+                else this.app.warning('File upload filed. Filesize is too large? ' + err.message);
             }
-        } );
+        });
     }
-    
+
 
     onClickDeleteButton(file) {
-        this.app.file.delete( { id: file.id, post_password: this.post_password } ).subscribe( id => {
+        this.app.file.delete({ id: file.id, post_password: this.post_password }).subscribe(id => {
             console.log("file deleted: ", id);
             // this.files = this.files.filter( file => file.id != id ); //
-            let index = this.files.findIndex( file => file.id == id );
-            this.files.splice( index, 1 );
+            let index = this.files.findIndex(file => file.id == id);
+            this.files.splice(index, 1);
             console.log(this.files);
 
-        }, err => this.app.displayError(err) );
+        }, err => this.app.displayError(err));
     }
 }
