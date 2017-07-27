@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { NgbModal, NgbModalRef, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmContent } from './confirm.content'
 
 
 @Injectable()
-export class PostCreateEditModalService {
+export class ConfirmModalService {
 
-
-    modalRef = null;
+    modalRef: NgbModalRef = null;
     constructor(
         private modalService: NgbModal
     ) {

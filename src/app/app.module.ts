@@ -40,6 +40,10 @@ import { TestService } from './../providers/test.service';
 import { PageScroll } from './../providers/page-scroll';
 
 
+import { ModalServiceModule } from '../providers/modals/modal.service.module';
+
+
+
 
 const appRoutes: Routes = [
   // { path: 'user', loadChildren: '../pages/user/user.module#UserModule' },
@@ -58,6 +62,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     HomeModule,
     NgbModule.forRoot(),
+    ModalServiceModule,
     UserModule,
     ForumModule,
     RouterModule.forRoot(appRoutes),

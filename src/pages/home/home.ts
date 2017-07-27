@@ -27,14 +27,8 @@ export class HomePage implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
 
-        this.app.confirm({
-            title: 'Confirm',
-            content: 'You can choose A',
-            buttons: [
-                { class: 'class-a', code: 'code-a', text: 'text-A' }
-            ]
-        });
-        // this.router.navigateByUrl('/forum/abc');
+
+        this.router.navigateByUrl('/forum/abc');
     }
 
     onDeviceReady() {
