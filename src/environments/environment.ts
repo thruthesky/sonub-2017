@@ -6,7 +6,7 @@
 export const environment = {
   production: false,
   hmr: false,
-  xapiUrl: 'http://sonub.com/wp-json/xapi/v2/do',
+  xapiUrl: 'https://sonub.com:8443/wp-json/xapi/v2/do',
   firebase: {
     apiKey: "AIzaSyBef-7XTu-LqgV-3KGYgx8T1lxuZ7TYgZk",
     authDomain: "sonub-e2b13.firebaseapp.com",

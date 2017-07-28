@@ -24,8 +24,6 @@
         "./third-party/css/bootstrap-alpha-6/bootstrap.min.css"
       ],
       "scripts": [
-        "./third-party/js/naverLogin_implicit-1.0.3.js",
-        "./third-party/js/jquery-3.2.1.min.js",
         "./third-party/js/kakao.min.js"
       ],
       "environmentSource": "environments/environment.ts",

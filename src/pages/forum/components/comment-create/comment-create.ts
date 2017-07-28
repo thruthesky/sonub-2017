@@ -23,7 +23,7 @@ export class CommentCreateComponent implements OnInit, AfterViewInit {
     comment_content: string;
     @Output() create = new EventEmitter<number>();
     constructor(
-        private app: AppService
+        public app: AppService
     ) {
 
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 
 import * as firebase from 'firebase/app';
 
@@ -12,12 +12,12 @@ import { SOCIAL_PROFILE } from './../../../../providers/wordpress-api/interface'
     templateUrl: 'login.html'
 })
 
-export class LoginPage implements OnInit {
+export class LoginPage implements OnInit, AfterViewInit {
 
     user_login;
     user_pass;
     constructor(
-        private app: AppService
+        public app: AppService
     ) {
 
     }
@@ -25,6 +25,11 @@ export class LoginPage implements OnInit {
     ngOnInit() {
         console.log("LoginPage::ngOnInit() ...");
     }
+
+    ngAfterViewInit() {
+        
+    }
+
 
 
 
@@ -42,7 +47,6 @@ export class LoginPage implements OnInit {
             console.log("firebase social login success");
             this.app.loginSuccess();
         });
-
     }
 
     firebaseSocialLogniError(e) {
@@ -61,12 +65,74 @@ export class LoginPage implements OnInit {
 
     onSubmitLogin() {
 
-        this.app.user.login( this.user_login, this.user_pass).subscribe( profile => {
-            console.log( profile );
+        this.app.user.login(this.user_login, this.user_pass).subscribe(profile => {
+            console.log(profile);
             this.app.loginSuccess();
-        }, err => this.app.displayError( err ) );
+        }, err => this.app.displayError(err));
 
     }
+
+
+
+    onClickLoginWithKakao() {
+        // open login popup
+        this.app.kakao.Auth.login({
+            success: (authObj) => {
+                // Get user information
+                this.app.kakao.API.request({
+                    url: '/v1/user/me',
+                    success: (res) => {
+
+                        console.log('Kakoa login success: ', res);
+
+                        let nickname = '';
+                        let photoURL = '';
+                        let id = '';
+                        let email = '';
+
+                        try {
+                            id = res.id;
+                            email = res['kaccount_email'] ? res['kaccount_email'] : '';
+                            if (res['properties'] && res['properties']['nickname']) nickname = res['properties']['nickname'];
+                            photoURL = res.properties.profile_image;
+                        }
+                        catch (e) { }
+
+
+                        let profile: SOCIAL_PROFILE = {
+                            providerId: 'kakao',
+                            name: nickname,
+                            uid: id + '@kakao',
+                            email: email,
+                            photoURL: photoURL
+                        };
+
+                        // console.log('Kakoa profile: ', profile);
+                        this.app.socialLoginSuccess(profile, () => {
+                            console.log("Kakao social login success");
+                            this.app.loginSuccess();
+                        });
+
+                    },
+                    fail: function (error) {
+                        // this is error.
+                        // alert(JSON.stringify(error));
+                    }
+                });
+
+            },
+            fail: function (err) {
+                // this is error.
+                // alert(JSON.stringify(err));
+            }
+        });
+    }
+
+
+    onClickLoginWithNaver() {
+        this.app.loginWithNaver();
+    }
+
 
 
 }

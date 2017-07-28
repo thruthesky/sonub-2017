@@ -7,15 +7,24 @@
 <hr>
 
 
-<div id="naver_id_login"></div>
+
 
   <button id="google_login" (click)="onClickLoginWithGoogle()">Google Login</button>
+  <button (click)="onClickLoginWithKakao()">Kakao Login</button>
+
+  
+
+  <button (click)="onClickLoginWithNaver()">Naver Login</button>
+
+
+
 <!--
   <button (click)="onClickLoginWithCordovaGoogle()">Cordova Google Login</button>
   <button (click)="onClickLoginWithFacebook()">Facebook Login</button>
+
   <button (click)="onClickLoginWithCordovaFacebook()">Cordova Facebook Login</button>
-  <button (click)="onClickLoginWithKakao()">Kakao Login</button>
-  <button (click)="onClickLoginWithNaver()">Naver Login</button> -->
+  
+ -->
   <div>
 
     <form *ngIf="! app.user.isLogin " (ngSubmit)="onSubmitLogin()">
@@ -28,4 +37,9 @@
 
 
 
-  {{ app.user.profile | json }}
+  <div *ngIf="app.user.isLogin">
+    {{ app.user.profile | json }}
+
+    <img src="{{ app.user.profile.photoURL }}" style="max-width: 100%;">
+    <button type="button" (click)="app.user.logout()">Logout</button>
+</div>

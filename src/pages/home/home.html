@@ -6,6 +6,10 @@
 <button type="button" routerLink="/forum">Forum page</button>
 
 
+
+
+
+
 <div *ngIf="app.user.isLogin">
     {{ app.user.profile | json }}
 
@@ -15,6 +19,6 @@
 
 
 <hr>
-Cordova version: {{ device.version }}
+<!-- Cordova version: {{ device.version }} -->
 <hr>
 Live reload ... 5

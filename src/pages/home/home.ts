@@ -28,16 +28,26 @@ export class HomePage implements OnInit, AfterViewInit {
     ngAfterViewInit() {
 
 
+        
+
         // this.router.navigateByUrl('/forum/abc');
     }
 
     onDeviceReady() {
         this.device = device;
-        console.log("Cordova is ready.");
-        console.log(device.cordova);
-        console.log(device.version);
-        console.log(device.model);
+        // console.log("Cordova is ready.");
+        // console.log(device.cordova);
+        // console.log(device.version);
+        // console.log(device.model);
     }
+
+
+    onClickLoginWithNaver() {
+        let a = document.querySelector('#naver_id_login a');
+        a['click']();
+    }
+
+
 
 
 

@@ -115,5 +115,27 @@ export class Library {
     // }
 
 
+    queryString(a?) {
+        if (!a) {
+            if (!window.location.search) return {};
+            if (window.location.search.length == 0) return {};
+            a = window.location.search.substr(1).split('&');
+        }
+
+        var b = {};
+        for (var i = 0; i < a.length; ++i) {
+
+            try {
+                var p = a[i].split('=', 2);
+                if (p.length == 1)
+                    b[p[0]] = "";
+                else
+                    b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+            }
+            catch (e) { }
+        }
+        return b;
+    }
+
 
 }

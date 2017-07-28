@@ -23,11 +23,13 @@ import { SOCIAL_PROFILE, USER_REGISTER } from './wordpress-api/interface';
 
 
 
+
 @Injectable()
 export class AppService extends Base {
     config = config;
     auth: firebase.auth.Auth;
     db: firebase.database.Reference;
+    kakao;
     constructor(
         public user: UserService,
         public forum: ForumService,
@@ -40,8 +42,77 @@ export class AppService extends Base {
     ) {
         super();
         console.log("AppService::constructor()");
+
+        this.initKakao();
+        this.checkLoginWithNaver();
+
         this.auth = firebase.auth();
         this.db = firebase.database().ref('/');
+    }
+
+
+
+    initKakao() {
+        this.kakao = window['Kakao'];
+        this.kakao.init('937af10cf8688bd9a7554cf088b2ac3e');
+    }
+
+
+
+    loginWithNaver() {
+        location.href = "https://www.sonub.com/wp-content/plugins/xapi-2/naver-login.php?return_url=https://sonub.com";
+    }
+
+    /**
+     * 
+     * @note Since the login of naver login different, it is not in 'login.ts'
+     *  
+     * @note This will be called only one time after naver login.
+     */
+    checkLoginWithNaver() {
+        let params = this.queryString();
+
+        console.log('qs:', params);
+
+        if ( params['naver_login_response'] === void 0 ) return;
+
+        let res = {};
+        try {
+            let dec = decodeURIComponent(params['naver_login_response']);
+            res = JSON.parse(dec);
+        }
+        catch (e) {
+            this.warning('failed-to-parse-naver-login-response');
+        }
+
+        if (res['code']) return this.warning(res['message']);
+
+
+
+
+        // User has just logged in with naver id. ( 방금 로그인 )
+        if (res['data']) {
+            console.log("User just logged in with Naver!");
+            history.pushState('', document.title, window.location.pathname);
+
+            let naver = res['data']['response'];
+            if (!naver || naver.id === void 0) return this.warning('failed-to-get-naver-id');
+
+            let profile: SOCIAL_PROFILE = {
+                providerId: 'naver',
+                name: naver['nickname'],
+                uid: naver['id'] + '@naver',
+                email: naver['email'],
+                photoURL: naver['profile_image']
+            };
+
+
+            this.socialLoginSuccess(profile, () => {
+                console.log("naver social login success");
+                this.loginSuccess();
+            });
+
+        }
     }
 
 
@@ -61,37 +132,37 @@ export class AppService extends Base {
             // if ( e.code === void 0 && e.message !== void 0 ) e.code = e.message;
             // msg = `${e.code}: ${message}`;
 
-            msg = this.getErrorString( e );
+            msg = this.getErrorString(e);
         }
         alert(msg);
     }
 
     warning(e) {
-        
-        let msg = '';
-        if ( typeof e === 'string' ) msg = this.text.translate( e );
-        else if ( e.code ) msg = this.text.translate( e.code );
-        else if ( e.message ) msg = this.text.translate( e.message );
 
-        alert( msg );
+        let msg = '';
+        if (typeof e === 'string') msg = this.text.translate(e);
+        else if (e.code) msg = this.text.translate(e.code);
+        else if (e.message) msg = this.text.translate(e.message);
+
+        alert(msg);
 
         // return this.displayError(e);
 
     }
 
 
-    confirm( options: CONFIRM_OPTIONS ): Promise<any> {
-        if ( options['buttons'] === void 0 ) alert("No buttons on confirm!");
-        else return this.confirmModalService.open( options );
+    confirm(options: CONFIRM_OPTIONS): Promise<any> {
+        if (options['buttons'] === void 0) alert("No buttons on confirm!");
+        else return this.confirmModalService.open(options);
     }
 
-    input( title ) {
+    input(title) {
         return prompt(title);
     }
 
 
     rerenderPage() {
-        this.ngZone.run( () => {} );
+        this.ngZone.run(() => { });
     }
 
 
@@ -122,16 +193,17 @@ export class AppService extends Base {
 
 
         console.log('Going to socialLgoin: ', profile);
-        this.user.loginSocial( profile.uid ).subscribe( res => {
+        this.user.loginSocial(profile.uid).subscribe(res => {
+            console.log("Social login success");
             callback();
             profile['session_id'] = res.session_id;
-            this.user.updateSocial( profile ).subscribe( res => {
-                console.log( 'updateSocial: ', res );
+            this.user.updateSocial(profile).subscribe(res => {
+                console.log('updateSocial: ', res);
             }, e => this.warning(e));
         }, e => {
-            // console.log("social login error: ", e);
-            // console.log('going to register soical: ', profile);
-            this.user.registerSocial( profile ).subscribe( res => {
+            console.log("social login failed: ", e);
+            console.log('going to register soical: ', profile);
+            this.user.registerSocial(profile).subscribe(res => {
                 callback();
             }, e => this.warning(e));
         });
@@ -144,7 +216,7 @@ export class AppService extends Base {
 
 
 
-        
+
         // console.log("going to login with: ", uid, password);
         // this.user.login(uid, password).subscribe(res => {
         //     callback();
@@ -176,8 +248,8 @@ export class AppService extends Base {
      * @note this includes all kinds of social login and wordpress api login.
      * @note This method is being invoked for alll kinds of login.
      */
-    loginSuccess( callback? ) {
-        if ( callback ) callback();
+    loginSuccess(callback?) {
+        if (callback) callback();
     }
 
 }
