@@ -50,8 +50,9 @@ export class LoginPage implements OnInit, AfterViewInit {
     }
 
     firebaseSocialLogniError(e) {
+        console.log(e);
         // Handle Errors here.
-        this.app.displayError(e);
+        this.app.warning(e);
     }
 
 
