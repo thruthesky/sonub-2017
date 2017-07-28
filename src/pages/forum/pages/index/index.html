@@ -3,7 +3,6 @@
 <button type="button" routerLink="/">Home..</button>
 
 
-
 <div *ngIf="categories">
     <div *ngFor="let category of categories">
         <a routerLink="/forum/{{category.slug}}">{{ category.name }} : {{ category.description }}</a>
