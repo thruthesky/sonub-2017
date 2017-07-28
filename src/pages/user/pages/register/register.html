@@ -35,14 +35,14 @@
         <input type="text" class="form-control" id="birthday" placeholder="Birthday" [(ngModel)]="birthday">
     </div>
 
-    <!--<div class="input-group">-->
-        <!--<span class="input-group-addon input-group-addon-primary" id="date_begin">Date Begin</span>-->
-        <!--<input class="form-control" placeholder="yyyy-mm-dd"-->
-               <!--name="dp" [(ngModel)]="date_begin" ngbDatepicker #b="ngbDatepicker" (ngModelChange)="onChangeSearch()">-->
-        <!--<div class="input-group-addon" (click)="b.toggle()" >-->
-            <!--<i class="fa fa-calendar" style="cursor: pointer;"></i>-->
-        <!--</div>-->
-    <!--</div>-->
+    <div class="input-group">
+        <span class="input-group-addon input-group-addon-primary" id="date_begin">Date Begin</span>
+        <input class="form-control" placeholder="yyyy-mm-dd"
+               name="dp" [(ngModel)]="birthday" ngbDatepicker #b="ngbDatepicker" (ngModelChange)="onChangeBirthday()">
+        <div class="input-group-addon" (click)="b.toggle()" >
+            <i class="fa fa-calendar" style="cursor: pointer;"></i>
+        </div>
+    </div>
 
     <div class="input-group">
         <label for="mobile" class="input-group-addon">Mobile</label>
