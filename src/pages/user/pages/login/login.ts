@@ -27,7 +27,7 @@ export class LoginPage implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        
+
     }
 
 
@@ -140,6 +140,28 @@ export class LoginPage implements OnInit, AfterViewInit {
         this.app.loginWithNaver();
     }
 
+
+    cordovaFirebaseAuthLogin(provider) {
+        firebase.auth().signInWithRedirect(provider).then(() => {
+            firebase.auth().getRedirectResult().then(result => {
+                // var token = result.credential.accessToken;
+                let user = result.user;
+                console.log("cordova: social login success. ", user);
+                this.firebaseSocialLoginSuccess(user);
+            })
+                .catch(e => this.firebaseSocialLogniError(e));
+        });
+    }
+
+    onClickLoginWithCordovaGoogle() {
+        let provider = new firebase.auth.GoogleAuthProvider();
+        this.cordovaFirebaseAuthLogin( provider );
+    }
+
+    onClickLoginWithCordovaFacebook() {
+        let provider = new firebase.auth.FacebookAuthProvider();
+        this.cordovaFirebaseAuthLogin( provider );
+    }
 
 
 }

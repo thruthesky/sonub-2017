@@ -14,15 +14,12 @@
   <button (click)="onClickLoginWithKakao()">Kakao Login</button>
   <button (click)="onClickLoginWithNaver()">Naver Login</button>
 
-
+  <hr>
   
-<!--
   <button (click)="onClickLoginWithCordovaGoogle()">Cordova Google Login</button>
-  <button (click)="onClickLoginWithFacebook()">Facebook Login</button>
-
   <button (click)="onClickLoginWithCordovaFacebook()">Cordova Facebook Login</button>
   
- -->
+  
   <div>
 
     <form *ngIf="! app.user.isLogin " (ngSubmit)="onSubmitLogin()">

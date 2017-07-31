@@ -45,8 +45,6 @@ import { TextService } from './../providers/text.service';
 import { ModalServiceModule } from '../providers/modals/modal.service.module';
 
 
-
-
 const appRoutes: Routes = [
   // { path: 'user', loadChildren: '../pages/user/user.module#UserModule' },
   // { path: 'forum', loadChildren: '../pages/forum/forum.module#ForumModule' },

@@ -249,6 +249,7 @@ export class AppService extends Base {
      * @note This method is being invoked for alll kinds of login.
      */
     loginSuccess(callback?) {
+        setTimeout(() => this.rerenderPage(), 100);
         if (callback) callback();
     }
 

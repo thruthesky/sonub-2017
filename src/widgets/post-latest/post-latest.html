@@ -1,0 +1,9 @@
+post latest.
+<div *ngIf="posts">
+
+    <div *ngFor="let post of posts">
+        <a routerLink="/view/{{ post.ID }}/{{ post.post_title }}">{{ post.post_title }}</a>
+    </div>
+
+
+</div>
