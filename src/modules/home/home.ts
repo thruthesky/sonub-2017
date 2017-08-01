@@ -21,10 +21,14 @@ export class HomePage implements OnInit, AfterViewInit {
         public app: AppService,
         // private test: TestService
     ) {
+        
         this.post = window['forum_post'];
         document.addEventListener('deviceready', () => this.onDeviceReady(), false);
     }
 
+    // onSubmit() {
+    //     this.app.warning({code: -1, message: 'hello'});
+    // }
     ngOnInit() { }
 
     ngAfterViewInit() {

@@ -6,6 +6,9 @@ import { Observable } from 'rxjs/Observable';
 
 import { Base } from '../../etc/base';
 
+import { error, ERROR } from './../../etc/error';
+
+
 
 
 import {
@@ -31,22 +34,19 @@ export class WordpressApiService extends Base {
     //     // return this.http.get('http://sonub.com/wp-json/wp/v2/posts');
     // }
 
-post(data): Observable<any> {
-    return this.http.post(this.url, data)
-        .map(e => this.checkResult(e));
-}
+    post(data): Observable<any> {
+        return this.http.post(this.url, data)
+            .map(e => this.checkResult(e));
+    }
 
 
     checkResult(res) {
-        // console.log("checkResult: ", res);
-        if (!res) {
-            throw 'response-from-server-is-empty';
-        }
-        // if ( res.code === void 0 ) throw this.error('code-does-not-exist-in-response');
-        if (res['code'] !== void 0) throw res; //new Error(this.getErrorString(res)); // this.error(res['code'], res['message']);
-        return res;
+        console.log("res: ", res);
+        if (!res) throw error(ERROR.RESPONSE_EMPTY);
+        else if (res['code'] === void 0) throw error(ERROR.RESPONSE_NO_CODE);
+        else if ( res['code'] !== 0 ) throw error( res['code'], res['message'] );
+        else return res['data'];
     }
-
 
     query(req): Observable<any> {
         req['route'] = 'wordpress.wp_query';

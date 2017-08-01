@@ -111,6 +111,17 @@ export class UserService extends Base {
         return this.wp.post(data);
     }
 
+
+    update_user_meta(key, value): Observable<string> {
+        let data = {
+            route: 'wordpress.update_user_meta',
+            session_id: this.profile.session_id,
+            key: key,
+            value: value
+        };
+        return this.wp.post(data);
+    }
+
     setUserProfile(res) {
         this.profile = res;
         this.storage.set(KEY_LOGIN, res);

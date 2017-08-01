@@ -1,0 +1,35 @@
+<section class="page">
+    <header-widget></header-widget>
+    <section class="content">
+
+        <a class="btn btn-secondary" routerLink="/user">User page</a>
+        <button type="button" routerLink="/user/login">Login Page</button>
+        <button type="button" routerLink="/user/register">Register Page</button>
+
+        <button type="button" routerLink="/forum">Forum page</button>
+
+
+
+        <!-- <form (ngSubmit)="onSubmit()">
+            <input>
+        </form> -->
+
+
+
+
+        <div *ngIf="app.user.isLogin">
+            {{ app.user.profile | json }}
+            <img src="{{ app.user.profile.photoURL }}">
+            <button type="button" (click)="app.user.logout()">Logout</button>
+        </div>
+
+
+        <hr>
+        <post-latest-widget></post-latest-widget>
+        <hr>
+
+        <post-view-widget [post]="post"></post-view-widget>
+
+        <hr> Live reload ... 5
+    </section>
+</section>

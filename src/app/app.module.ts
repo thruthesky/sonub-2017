@@ -22,13 +22,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CustomErrorHandler } from './app.error-handler';
 
 
-import { UserModule } from '../pages/user/user.module';
-import { ForumModule } from '../pages/forum/forum.module';
+import { UserModule } from '../modules/user/user.module';
+import { ForumModule } from '../modules/forum/forum.module';
 
 
 
 import { AppComponent } from './app.component';
-import { HomeModule, HomePage } from './../pages/home/home.module';
+import { HomeModule, HomePage } from './../modules/home/home.module';
 
 
 import { WordpressApiService } from './../providers/wordpress-api/wordpress-api.service';
@@ -38,6 +38,8 @@ import { FileService } from './../providers/wordpress-api/file.service';
 import { AppService } from './../providers/app.service';
 import { TestService } from './../providers/test.service';
 import { PageScroll } from './../providers/page-scroll';
+import { PushMessageService } from './../providers/push-message';
+
 
 import { TextService } from './../providers/text.service';
 
@@ -76,6 +78,7 @@ const appRoutes: Routes = [
     TestService,
     PageScroll,
     TextService,
+    PushMessageService,
     { provide: ErrorHandler, useClass: CustomErrorHandler }
   ],
   bootstrap: [AppComponent]

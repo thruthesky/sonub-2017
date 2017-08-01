@@ -1,0 +1,70 @@
+<section class="page">
+    <header-widget></header-widget>
+    <section class="content">
+        <h1>Register Page</h1>
+
+        <button type="button" routerLink="/">Go to home</button>
+
+        <hr>
+        <div id="registerForm1">
+
+
+            <div class="input-group">
+                <label for="user_login" class="input-group-addon">Username</label>
+                <input type="text" class="form-control" id="user_login" placeholder="Username" [(ngModel)]="user_login">
+            </div>
+            <div class="input-group">
+                <label for="user_pass" class="input-group-addon">Password</label>
+                <input type="password" class="form-control" id="user_pass" placeholder="Password" [(ngModel)]="user_pass">
+            </div>
+            <div class="input-group">
+                <label for="user_email" class="input-group-addon">Email Address</label>
+                <input type="text" class="form-control" id="user_email" placeholder="Email Address" [(ngModel)]="user_email">
+            </div>
+            <div class="input-group">
+                <label for="name" class="input-group-addon">Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Name" [(ngModel)]="name">
+            </div>
+            <div class="input-group">
+                <label for="gender" class="input-group-addon">Gender</label>
+                <input type="text" class="form-control" id="gender" placeholder="Gender" [(ngModel)]="gender">
+            </div>
+            <div class="input-group">
+                <label for="address" class="input-group-addon">Address</label>
+                <input type="text" class="form-control" id="address" placeholder="Address" [(ngModel)]="address">
+            </div>
+            <div class="input-group">
+                <label for="birthday" class="input-group-addon">Birthday</label>
+                <input type="text" class="form-control" id="birthday" placeholder="Birthday" [(ngModel)]="birthday">
+            </div>
+
+            <div class="input-group">
+                <span class="input-group-addon input-group-addon-primary" id="date_begin">Date Begin</span>
+                <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="birthday" ngbDatepicker #b="ngbDatepicker" (ngModelChange)="onChangeBirthday()">
+                <div class="input-group-addon" (click)="b.toggle()">
+                    <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="mobile" class="input-group-addon">Mobile</label>
+                <input type="text" class="form-control" id="mobile" placeholder="Mobile" [(ngModel)]="mobile">
+            </div>
+            <div class="input-group">
+                <label for="landline" class="input-group-addon">Landline</label>
+                <input type="text" class="form-control" id="landline" placeholder="Landline" [(ngModel)]="landline">
+            </div>
+            <div *ngIf="errorMessage">
+                <div id="error_message">{{this.errorMessage}}</div>
+            </div>
+
+            <div *ngIf="loading">
+                <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                <span>Loading...</span>
+            </div>
+            <button type="button" id="registerButton" (click)="onClickUserRegister()">Register</button>
+
+
+        </div>
+    </section>
+</section>

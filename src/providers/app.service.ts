@@ -6,7 +6,6 @@ import { Base } from './../etc/base';
 import { config } from './../app/config';
 
 
-
 import { WordpressApiService } from './wordpress-api/wordpress-api.service';
 import { UserService } from './wordpress-api/user.service';
 import { ForumService } from './wordpress-api/forum.service';
@@ -16,12 +15,12 @@ import { FileService } from './wordpress-api/file.service';
 import { ConfirmModalService, CONFIRM_OPTIONS } from './modals/confirm/confirm.modal';
 export { CONFIRM_OPTIONS } from './modals/confirm/confirm.modal';
 
-
 import { TextService } from './text.service';
 
 import { SOCIAL_PROFILE, USER_REGISTER } from './wordpress-api/interface';
 
-
+import { AlertModalService } from './modals/alert/alert.modal';
+import { PushMessageService } from './push-message';
 
 
 @Injectable()
@@ -38,7 +37,9 @@ export class AppService extends Base {
         public text: TextService,
         private confirmModalService: ConfirmModalService,
         private ngZone: NgZone,
-        private router: Router
+        private router: Router,
+        public alert: AlertModalService,
+        public push: PushMessageService
     ) {
         super();
         console.log("AppService::constructor()");
@@ -57,8 +58,6 @@ export class AppService extends Base {
         this.kakao.init('937af10cf8688bd9a7554cf088b2ac3e');
     }
 
-
-
     loginWithNaver() {
         location.href = "https://www.sonub.com/wp-content/plugins/xapi-2/naver-login.php?return_url=https://sonub.com";
     }
@@ -74,7 +73,7 @@ export class AppService extends Base {
 
         console.log('qs:', params);
 
-        if ( params['naver_login_response'] === void 0 ) return;
+        if (params['naver_login_response'] === void 0) return;
 
         let res = {};
         try {
@@ -138,16 +137,12 @@ export class AppService extends Base {
     }
 
     warning(e) {
-
-        let msg = '';
-        if (typeof e === 'string') msg = this.text.translate(e);
-        else if (e.code) msg = this.text.translate(e.code);
-        else if (e.message) msg = this.text.translate(e.message);
-
-        alert(msg);
-
-        // return this.displayError(e);
-
+        // let o = this.getTranslatedErrorString(e);
+        // console.log('warning: ', o);
+        this.alert.error(e);
+        // setTimeout(() => {
+        // }, 1000);
+        // alert( o );
     }
 
 
@@ -166,17 +161,6 @@ export class AppService extends Base {
     }
 
 
-    /**
-     * Returns true if the app is running on Mobile as Cordova mobile app.
-     */
-    get isCordova(): boolean {
-        if (window['cordova']) return true;
-        if (document.URL.indexOf('http://') === -1
-            && document.URL.indexOf('https://') === -1) return true;
-        return false;
-    }
-
-
 
 
     /**
@@ -190,7 +174,6 @@ export class AppService extends Base {
      * @param profile User profile coming from the social login.
      */
     socialLoginSuccess(profile: SOCIAL_PROFILE, callback) {
-
 
         console.log('Going to socialLgoin: ', profile);
         this.user.loginSocial(profile.uid).subscribe(res => {
@@ -207,9 +190,6 @@ export class AppService extends Base {
                 callback();
             }, e => this.warning(e));
         });
-
-
-
 
 
         // let password = `${profile.uid}--@~'!--`; /// <<<=== Week password. uid is used as user_login. You must not show uid to user or any browser.
@@ -249,7 +229,8 @@ export class AppService extends Base {
      * @note This method is being invoked for alll kinds of login.
      */
     loginSuccess(callback?) {
-        setTimeout(() => this.rerenderPage(), 100);
+        setTimeout(() => this.rerenderPage(), 10);
+        this.push.initWeb();
         if (callback) callback();
     }
 

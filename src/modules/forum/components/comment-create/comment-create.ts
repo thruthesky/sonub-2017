@@ -8,6 +8,8 @@ import {
 
 import { FileUploadComponent } from './../../../../components/file-upload/file-upload';
 
+import { AlertModalService } from './../../../../providers/modals/alert/alert.modal';
+
 
 @Component({
     selector: 'comment-create-component',
@@ -23,7 +25,8 @@ export class CommentCreateComponent implements OnInit, AfterViewInit {
     comment_content: string;
     @Output() create = new EventEmitter<number>();
     constructor(
-        public app: AppService
+        public app: AppService,
+        private alert: AlertModalService
     ) {
 
     }
@@ -39,10 +42,11 @@ export class CommentCreateComponent implements OnInit, AfterViewInit {
     // }
 
     onSubmit() {
+        
+        this.app.rerenderPage();
+        this.app.warning('hi');
 
         console.log(this.comment_content);
-
-
         let req: COMMENT_CREATE = {
             comment_post_ID: this.post.ID,
             comment_content: this.comment_content
@@ -57,7 +61,12 @@ export class CommentCreateComponent implements OnInit, AfterViewInit {
             this.comment_content = '';
             this.insertComment( id );
             this.create.emit(id);
-        }, err => this.app.warning(err));
+        }, err => {
+            this.app.warning(err);
+            // this.alert.open("error !!");
+        });
+
+
 
     }
 

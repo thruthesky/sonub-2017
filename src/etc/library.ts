@@ -1,3 +1,5 @@
+import { ERROR } from './error';
+
 export class Library {
 
     randomString() {
@@ -34,6 +36,20 @@ export class Library {
             }
         }
     }
+
+
+
+    /**
+     * Returns true if the app is running on Mobile as Cordova mobile app.
+     */
+    get isCordova(): boolean {
+        if (window['cordova']) return true;
+        if (document.URL.indexOf('http://') === -1
+            && document.URL.indexOf('https://') === -1) return true;
+        return false;
+    }
+
+    
 
 
 

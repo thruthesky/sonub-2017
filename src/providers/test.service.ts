@@ -30,7 +30,7 @@ export class TestService extends Base {
             this.testCommentCRUD();
         })));
 
-        
+
 
         this.testQuery();
     }
@@ -44,11 +44,16 @@ export class TestService extends Base {
     good(msg) {
         console.log(`GOOD: ${msg}`);
     }
+
     bad(msg) {
         console.log(`BAD: ${msg}`);
     }
 
     testApi() {
+
+        this.app.wp.post({ route: 'wordpress.error' }).subscribe(res => {
+            console.log('res', res);
+        }, err => this.test( err.code == -40000, 'error'));
         this.app.wp.post({}).subscribe(
             res => this.bad("Api call with missing-route must befailed"),
             err => {
@@ -230,21 +235,22 @@ export class TestService extends Base {
 
     testCommentCRUD() {
         this.postCreate(ID => {
-            this.commentCreate( ID, 0, comment_ID => {
+            this.commentCreate(ID, 0, comment_ID => {
                 // this.commentCreate( ID, comment_ID, comment_comment_ID => {
                 //     this.postData( ID, post => {
-                        // console.log(post);
-                    // });
+                // console.log(post);
+                // });
                 // } )
 
-                this.commentUpdate( comment_ID, 'This is updated content.', comment_ID => {
-                    this.good("comment updated: " + comment_ID );
-                    this.commentData( comment_ID, comment => {
-                        console.log(comment);
-                        this.commentDelete( comment_ID, deleted_ID => {
-                            this.test( comment_ID == deleted_ID, "comment deleted.");
-                            this.commentData( deleted_ID, deleted_comment => {
-                                console.log("deleted coment:", deleted_comment);
+                this.commentUpdate(comment_ID, 'This is updated content.', comment_ID => {
+                    this.good("comment updated: " + comment_ID);
+                    this.commentData(comment_ID, comment => {
+                        // console.log(comment);
+                        this.commentDelete(comment_ID, res => {
+                            let deleted_ID = res.comment_ID;
+                            this.test(comment_ID == deleted_ID, "comment deleted.");
+                            this.commentData(deleted_ID, deleted_comment => {
+                                // console.log("deleted coment:", deleted_comment);
                             });
                         });
                     });
@@ -267,7 +273,7 @@ export class TestService extends Base {
         });
     }
 
-    postData(no, callback: (post: POST) => void ) {
+    postData(no, callback: (post: POST) => void) {
         this.app.forum.postData(no).subscribe(post => {
             callback(post);
         }, err => {
@@ -275,8 +281,8 @@ export class TestService extends Base {
         });
     }
     postDelete(no, callback) {
-        this.app.forum.postDelete(no).subscribe(ID => {
-            callback(ID);
+        this.app.forum.postDelete({ ID: no }).subscribe(res => {
+            callback(res.ID);
         }, err => {
             console.log(err);
         });
@@ -290,26 +296,26 @@ export class TestService extends Base {
             comment_content: 'comment' + this.randomString()
         };
 
-        this.app.forum.commentCreate( req ).subscribe( id => {
+        this.app.forum.commentCreate(req).subscribe(id => {
             // console.log("comment created", id);
-            callback( id );
-        }, err => this.bad( this.getErrorString(err) ) );
+            callback(id);
+        }, err => this.bad(this.getErrorString(err)));
     }
 
-    commentUpdate( comment_ID, content, callback ) {
+    commentUpdate(comment_ID, content, callback) {
         let req: COMMENT_UPDATE = {
             comment_ID: comment_ID,
             comment_content: content
         };
-        this.app.forum.commentUpdate(req).subscribe( id => callback(id), err => this.bad( this.getErrorString(err) ) );
+        this.app.forum.commentUpdate(req).subscribe(id => callback(id), err => this.bad(this.getErrorString(err)));
     }
 
-    commentData( comment_ID, callback ) {
-        this.app.forum.commentData(comment_ID).subscribe( comment => callback(comment), err => this.bad( this.getErrorString(err) ) );
+    commentData(comment_ID, callback) {
+        this.app.forum.commentData(comment_ID).subscribe(comment => callback(comment), err => this.bad(this.getErrorString(err)));
     }
 
-    commentDelete( comment_ID, callback ) {
-        this.app.forum.commentDelete(comment_ID).subscribe( comment => callback(comment), err => this.bad( this.getErrorString(err) ) );
+    commentDelete(comment_ID, callback) {
+        this.app.forum.commentDelete(comment_ID).subscribe(comment => callback(comment), err => this.bad(this.getErrorString(err)));
     }
 
 
