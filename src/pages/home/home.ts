@@ -15,11 +15,13 @@ declare let device;
 
 export class HomePage implements OnInit, AfterViewInit {
     device = {};
+    post;
     constructor(
         private router: Router,
         public app: AppService,
         // private test: TestService
     ) {
+        this.post = window['forum_post'];
         document.addEventListener('deviceready', () => this.onDeviceReady(), false);
     }
 

@@ -7,6 +7,9 @@ import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
+import { WidgetsModule } from './../../widgets/widgets.module';
+
+
 import { ForumIndexPage } from './pages/index/index';
 import { ForumListPage } from './pages/list/list';
 import { PostCreateEditModalService } from './modals/post-create-edit/post-create-edit.modal';
@@ -23,9 +26,15 @@ import { CommentEditContent } from './modals/comment-edit/comment-edit.content';
 
 import { ForumCodeShareService } from './forum-code-share.service';
 
+import { FileDisplayWidget } from './../../widgets/file-display/file-display';
+import { PostViewWidget } from './../../widgets/post-view/post-view';
+
+
+import { ForumViewPage } from './pages/view/view';
 
 
 const appRoutes: Routes = [
+    { path: 'view/:id/:title', component: ForumViewPage },
     { path: 'forum/:slug', component: ForumListPage },
     { path: 'forum', component: ForumIndexPage }
 ];
@@ -38,7 +47,8 @@ const appRoutes: Routes = [
         FileUploadComponent,
         CommentCreateComponent,
         CommentViewComponent,
-        CommentEditContent
+        CommentEditContent,
+        ForumViewPage
     ],
     entryComponents: [
         PostCreateEditContent,
@@ -48,7 +58,8 @@ const appRoutes: Routes = [
         CommonModule,
         FormsModule,
         RouterModule.forChild(appRoutes),
-        NgbModule
+        NgbModule,
+        WidgetsModule
     ],
     providers: [
         PostCreateEditModalService,

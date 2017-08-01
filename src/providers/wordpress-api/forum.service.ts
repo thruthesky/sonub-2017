@@ -9,13 +9,15 @@ import 'rxjs/add/observable/throw';
 
 
 import {
-    POST_CREATE, POST_UPDATE, POST_DATA, POST, POST_DELETE, POST_LIST, POST_LIST_RESPONSE,
+    POST_CREATE, POST_UPDATE, POST_DATA, POST, POSTS,
+    POST_DELETE, POST_LIST, POST_LIST_RESPONSE, PAGE,
     POST_SEARCH, POST_SEARCH_RESPONSE,
     COMMENT, COMMENT_CREATE, COMMENT_CREATE_RESPONSE, POST_CREATE_RESPONSE,
     COMMENT_UPDATE, COMMENT_UPDATE_RESPONSE, COMMENT_DATA, COMMENT_DATA_RESPONSE,
     CATEGORIES,
     POST_DELETE_RESPONSE,
     COMMENT_DELETE, COMMENT_DELETE_RESPONSE
+    
 } from './interface';
 
 
@@ -72,8 +74,9 @@ export class ForumService extends Base {
     }
 
 
-    postLatest(category_name, no_of_posts) {
-        return this.postList({ category_name: category_name, paged: 1, posts_per_page: no_of_posts });
+    postLatest(category_name, no_of_posts = 10): Observable<POSTS> {
+        return this.postList({ category_name: category_name, paged: 1, posts_per_page: no_of_posts })
+            .map( (p: PAGE) => p.posts );
     }
     postPopular() {
 
