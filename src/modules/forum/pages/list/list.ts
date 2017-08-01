@@ -43,6 +43,7 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
         private forumShare: ForumCodeShareService
     ) {
 
+
         active.params.subscribe(params => {
             this.slug = params['slug'];
             this.loadPage();
@@ -50,6 +51,7 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnInit() {
+
     }
 
 
@@ -57,6 +59,7 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
         this.watch = this.pageScroll.watch('body', 350).subscribe(e => this.loadPage());
 
         // setTimeout( () => this.onClickPostCreate(), 0);
+
 
     }
 

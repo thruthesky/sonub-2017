@@ -14,6 +14,7 @@ export class AlertModalService extends Base {
     super();
   }
 
+
   open(a): Promise<any> {
     let options = {};
     if (typeof a === 'string') {
@@ -21,11 +22,13 @@ export class AlertModalService extends Base {
       options['button'] = 'Close';
     }
     else options = a;
+
     if (this.modalRef) this.modalRef.close();
     // return null;
 
     this.modalRef = this.modalService.open(AlertContent, { windowClass: 'alert-modal', backdrop: 'static' });
     this.modalRef.componentInstance.setOptions(options);
+    
     return this.modalRef.result;
   }
 

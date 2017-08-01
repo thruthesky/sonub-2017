@@ -1,4 +1,6 @@
-import { Component, OnInit, Input, Output, AfterViewInit, ViewChild, EventEmitter } from '@angular/core';
+import {
+    Component, OnInit, Input, Output, AfterViewInit, ViewChild, EventEmitter
+ } from '@angular/core';
 import { AppService } from './../../../../providers/app.service';
 
 import {
@@ -31,10 +33,15 @@ export class CommentCreateComponent implements OnInit, AfterViewInit {
 
     }
 
-    ngOnInit() { }
+    ngOnInit() {
+
+    }
 
     ngAfterViewInit() {
         // setTimeout( () => this.checkCommentComment(), 10 );
+
+
+        
     }
 
     // checkCommentComment() {
@@ -42,9 +49,8 @@ export class CommentCreateComponent implements OnInit, AfterViewInit {
     // }
 
     onSubmit() {
-        
-        this.app.rerenderPage();
-        this.app.warning('hi');
+
+
 
         console.log(this.comment_content);
         let req: COMMENT_CREATE = {
@@ -63,6 +69,8 @@ export class CommentCreateComponent implements OnInit, AfterViewInit {
             this.create.emit(id);
         }, err => {
             this.app.warning(err);
+
+        
             // this.alert.open("error !!");
         });
 

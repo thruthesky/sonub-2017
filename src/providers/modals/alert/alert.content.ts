@@ -11,11 +11,16 @@ export class AlertContent implements OnInit {
     options = {};
     constructor(
         public activeModal: NgbActiveModal
-    ) { }
+    ) {
 
-    ngOnInit() { }
+    }
 
-    setOptions( options ) {
+    ngOnInit() {
+    }
+
+
+
+    setOptions(options) {
         this.options = options;
     }
 }

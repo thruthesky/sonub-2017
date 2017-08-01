@@ -22,19 +22,29 @@ export class HomePage implements OnInit, AfterViewInit {
         // private test: TestService
     ) {
         
+
+
         this.post = window['forum_post'];
         document.addEventListener('deviceready', () => this.onDeviceReady(), false);
     }
 
     // onSubmit() {
-    //     this.app.warning({code: -1, message: 'hello'});
+    //     // this.app.warning({code: -1, message: 'hello'});
+
+    //     this.app.wp.post({route:'wordpress.error'}).subscribe( res => {
+    //         console.log(res);
+    //     }, e => {
+    //         this.app.warning(e);
+    //     });
+
     // }
-    ngOnInit() { }
+    ngOnInit() {
+
+
+     }
 
     ngAfterViewInit() {
 
-
-        
 
         // this.router.navigateByUrl('/forum/abc');
     }

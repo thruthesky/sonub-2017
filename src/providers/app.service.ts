@@ -137,12 +137,8 @@ export class AppService extends Base {
     }
 
     warning(e) {
-        // let o = this.getTranslatedErrorString(e);
-        // console.log('warning: ', o);
-        this.alert.error(e);
-        // setTimeout(() => {
-        // }, 1000);
-        // alert( o );
+        // this.alert.error(e);
+        alert( this.getTranslatedErrorString( e ) );
     }
 
 
