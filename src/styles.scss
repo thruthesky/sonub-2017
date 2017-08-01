@@ -6,13 +6,14 @@
 @import './styles/layout';
 @import './styles/component';
 @import './components/file-upload/file-upload';
-@import './pages/forum/pages/index/index';
-@import './pages/forum/pages/list/list';
-@import './pages/forum/components/comment-create/comment-create';
-@import './pages/forum/components/comment-view/comment-view';
+@import './modules/forum/pages/index/index';
+@import './modules/forum/pages/list/list';
+@import './modules/forum/components/comment-create/comment-create';
+@import './modules/forum/components/comment-view/comment-view';
 
 
 /// widges
+@import './widgets/header/header';
 @import './widgets/file-display/file-display';
 
 

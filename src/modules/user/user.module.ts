@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 
+import { WidgetsModule } from './../../widgets/widgets.module';
+
 
 
 import { RegisterPage } from './pages/register/register';
@@ -30,7 +32,8 @@ const appRoutes: Routes = [
         CommonModule,
         FormsModule,
         NgbModule,
-        RouterModule.forChild(appRoutes)
+        RouterModule.forChild(appRoutes),
+        WidgetsModule
     ]
 })
 export class UserModule { }

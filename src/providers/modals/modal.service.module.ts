@@ -6,6 +6,10 @@ import { ConfirmContent } from './confirm/confirm.content';
 /// Ng Bootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { AlertModalService } from './alert/alert.modal';
+import { AlertContent } from './alert/alert.content';
+
+
 
 @NgModule({
     imports: [
@@ -14,13 +18,16 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ],
     exports: [],
     declarations: [
-        ConfirmContent
+        ConfirmContent,
+        AlertContent
     ],
     entryComponents: [
-        ConfirmContent
+        ConfirmContent,
+        AlertContent
     ],
     providers: [
-        ConfirmModalService
+        ConfirmModalService,
+        AlertModalService
     ],
 })
 export class ModalServiceModule { }

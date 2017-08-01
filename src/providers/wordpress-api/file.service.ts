@@ -58,7 +58,9 @@ export class FileService extends Base {
             .map(e => {
                 if (e instanceof HttpResponse) { // success event.
                     if ( e.status == 200 ) {
-                        if ( e.body ) return e.body;
+                        if ( e.body && e.body['code'] == 0) {
+                            return e.body['data'];
+                        }
                         else return {};
                     }
                 }

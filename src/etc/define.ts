@@ -1,7 +1,8 @@
 
 export const ERROR = {
-    login_failed: 'login failed'
+    login_failed: -50001
 };
+
 
 
 export const KEY_LOGIN = 'user-login';

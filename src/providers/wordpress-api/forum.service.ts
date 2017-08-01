@@ -90,9 +90,11 @@ export class ForumService extends Base {
      */
     commentCreate(req: COMMENT_CREATE): Observable<COMMENT_CREATE_RESPONSE> {
         if ( ! this.user.isLogin ) return Observable.throw( new Error('login-before-comment') );
-        req.route = 'wordpress.wp_new_comment';
-        req.session_id = this.user.sessionId;
-        return this.wp.post(req);
+
+        let data = Object.assign({}, req);
+        data.route = 'wordpress.wp_new_comment';
+        data.session_id = this.user.sessionId;
+        return this.wp.post(data);
     }
 
     commentUpdate(req: COMMENT_UPDATE): Observable<number> {
