@@ -25,12 +25,6 @@
     <engine name="browser" spec="^4.1.0" />
     <plugin name="cordova-plugin-device" spec="^1.1.6" />
     <plugin name="cordova-plugin-whitelist" spec="^1.3.2" />
-    <plugin name="cordova-plugin-buildinfo" spec="~1.1.0" />
-    <plugin name="cordova-plugin-camera" spec="~2.4.1" />
-    <plugin name="cordova-universal-links-plugin" spec="~1.2.1" />
-    <plugin name="cordova-plugin-browsertab" spec="~0.2.0" />
-    <plugin name="cordova-plugin-file-transfer" spec="~1.6.3" />
-    <plugin name="cordova-plugin-inappbrowser" spec="~1.7.1" />
     <universal-links>
         <host name="q3b2w.app.goo.gl" scheme="https" />
         <host name="sonub-e2b13.firebaseapp.com" scheme="https">
@@ -43,4 +37,10 @@
         <variable name="ANDROID_HOST" value=" " />
         <variable name="ANDROID_PATHPREFIX" value="/" />
     </plugin>
+    <plugin name="cordova-plugin-camera" spec="~2.4.1" />
+    <plugin name="cordova-plugin-file-transfer" spec="~1.6.3" />
+    <plugin name="cordova-plugin-buildinfo" spec="~1.1.0" />
+    <plugin name="cordova-universal-links-plugin" spec="~1.2.1" />
+    <plugin name="cordova-plugin-browsertab" spec="~0.2.0" />
+    <plugin name="cordova-plugin-inappbrowser" spec="~1.7.1" />
 </widget>

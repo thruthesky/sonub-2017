@@ -142,6 +142,7 @@ export class LoginPage implements OnInit, AfterViewInit {
 
 
     cordovaFirebaseAuthLogin(provider) {
+        // alert('signInWithRedirect');
         firebase.auth().signInWithRedirect(provider).then(() => {
             firebase.auth().getRedirectResult().then(result => {
                 // var token = result.credential.accessToken;
