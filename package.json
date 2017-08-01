@@ -17,6 +17,7 @@
     "scp-update-patch": "cd www && scp index.html *.css *.js sonub@www.sonub.com:./www",
     "seo": "ng build --watch --output-path=/Users/thruthesky/www/wordpress --delete-output-path=false",
     "ssl": "ng serve --ssl true --ssl-key './tmp/ssl/privkey.pem' --ssl-cert './tmp/ssl/fullchain.pem' --host sonub.com --port 443",
+    "sssl": "ng serve --ssl true --ssl-key ./tmp/ssl/privkey.pem --ssl-cert ./tmp/ssl/fullchain.pem --host sonub.com --port 443",
     "setup": "npm run build-ie-polyfills",
     "build-ie-polyfills": "node node_modules/webpack/bin/webpack.js -p src/ie-polyfills.js src/assets/js/ie-polyfills.min.js",
     "build:www": "ng build --output-path=www",

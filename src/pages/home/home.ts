@@ -30,13 +30,14 @@ export class HomePage implements OnInit, AfterViewInit {
     ngAfterViewInit() {
 
 
-        
+
 
         // this.router.navigateByUrl('/forum/abc');
     }
 
     onDeviceReady() {
         this.device = device;
+        // alert('cordova version: ' + device.cordova);
         // console.log("Cordova is ready.");
         // console.log(device.cordova);
         // console.log(device.version);
