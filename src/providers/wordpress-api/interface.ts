@@ -238,7 +238,10 @@ export interface COMMENT_UPDATE extends REQUEST, comment_ID {
     fid?: Array<number>;
 };
 
-export type COMMENT_CREATE_RESPONSE = number;
+export interface COMMENT_CREATE_RESPONSE {
+    comment_ID: number;
+    tokens: Array<string>;
+};
 export type COMMENT_UPDATE_RESPONSE = number;
 
 

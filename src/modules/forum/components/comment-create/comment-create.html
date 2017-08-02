@@ -1,11 +1,11 @@
 <div class="comment-create">
 
-    <form (ngSubmit)="onSubmit()" >
+    <form (ngSubmit)="contentBox.blur(); onSubmit()" >
 
         <div class="comment-form-grid">
             <div class="a user-phogo">Photo</div>
             <div class="b input-box">
-                <input class="comment-content" name="comment_content" [(ngModel)]="comment_content">
+                <input #contentBox class="comment-content" name="comment_content" [(ngModel)]="comment_content">
             </div>
             <div class="c buttons">
 

@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { RouterModule, Routes, Router } from '@angular/router';
+import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -41,7 +42,7 @@ import { PageScroll } from './../providers/page-scroll';
 import { PushMessageService } from './../providers/push-message';
 
 
-import { TextService } from './../providers/text.service';
+// import { TextService } from './../providers/text.service';
 
 
 import { ModalServiceModule } from '../providers/modals/modal.service.module';
@@ -68,6 +69,7 @@ const appRoutes: Routes = [
     UserModule,
     ForumModule,
     RouterModule.forRoot(appRoutes),
+    HttpModule
   ],
   providers: [
     AppService,
@@ -77,7 +79,7 @@ const appRoutes: Routes = [
     WordpressApiService,
     TestService,
     PageScroll,
-    TextService,
+    // TextService,
     PushMessageService,
     { provide: ErrorHandler, useClass: CustomErrorHandler }
   ],

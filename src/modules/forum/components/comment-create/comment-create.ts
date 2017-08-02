@@ -1,6 +1,6 @@
 import {
     Component, OnInit, Input, Output, AfterViewInit, ViewChild, EventEmitter
- } from '@angular/core';
+} from '@angular/core';
 import { AppService } from './../../../../providers/app.service';
 
 import {
@@ -41,7 +41,7 @@ export class CommentCreateComponent implements OnInit, AfterViewInit {
         // setTimeout( () => this.checkCommentComment(), 10 );
 
 
-        
+
     }
 
     // checkCommentComment() {
@@ -50,7 +50,8 @@ export class CommentCreateComponent implements OnInit, AfterViewInit {
 
     onSubmit() {
 
-
+        // let box = document.getElementById('comment-create-content-box');
+        // box.blur();
 
         console.log(this.comment_content);
         let req: COMMENT_CREATE = {
@@ -61,16 +62,26 @@ export class CommentCreateComponent implements OnInit, AfterViewInit {
         req.fid = this.files.reduce((_, file) => { _.push(file.id); return _; }, []);
 
         if (this.comment && this.comment.comment_ID) req.comment_parent = this.comment.comment_ID;
-        this.app.forum.commentCreate(req).subscribe((id: COMMENT_CREATE_RESPONSE) => {
-            console.log("comment created", id);
+        this.app.forum.commentCreate(req).subscribe((re: COMMENT_CREATE_RESPONSE) => {
+            let id = re.comment_ID;
+            console.log("comment created", re);
             this.files = [];
             this.comment_content = '';
-            this.insertComment( id );
+            this.insertComment(id);
+            // this.app.wp.post({route: 'wordpress.comment_push_message', comment_ID: id}).subscribe( res => {
+            //     console.log('push', res);
+            // }, err => this.app.warning(err) );
             this.create.emit(id);
+
+            if ( re.tokens.length ) {
+                for( let token of re.tokens ) {
+                    this.app.push.send( token, 'Token Test Title', 'Body' )
+                        .subscribe( res => console.log(res), err => console.log(err) );
+
+                }
+            }
         }, err => {
             this.app.warning(err);
-
-        
             // this.alert.open("error !!");
         });
 

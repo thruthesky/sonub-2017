@@ -21,7 +21,8 @@ export class HomePage implements OnInit, AfterViewInit {
         public app: AppService,
         // private test: TestService
     ) {
-        
+
+
 
 
         this.post = window['forum_post'];
@@ -41,11 +42,11 @@ export class HomePage implements OnInit, AfterViewInit {
     ngOnInit() {
 
 
-     }
+    }
 
     ngAfterViewInit() {
 
-        
+
         // this.router.navigateByUrl('/forum/abc');
     }
 

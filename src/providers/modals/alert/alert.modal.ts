@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AlertContent } from './alert.content'
 import { Base } from './../../../etc/base';
+import { ERROR_RESPONSE } from './../../../etc/error';
+import { text } from './../../../etc/text';
+
 
 
 @Injectable()
@@ -32,9 +35,13 @@ export class AlertModalService extends Base {
     return this.modalRef.result;
   }
 
-  error(e): Promise<any> {
-    let content = this.getTranslatedErrorString(e);
-    return this.open({ title: 'ERROR', content: content, button: 'Close' });
+  /**
+   * 
+   * @param e 
+   */
+  error(e: ERROR_RESPONSE): Promise<any> {
+    let content = this.getErrorString(e);
+    return this.open({ title: text('error'), content: content, button: text('close') });
   }
 
 }

@@ -4,7 +4,7 @@ import { ForumCodeShareService } from './../../forum-code-share.service';
 
 import {
     POST, FILES,
-    COMMENT, COMMENT_CREATE, COMMENT_CREATE_RESPONSE
+    COMMENT, COMMENT_CREATE
 } from './../../../../providers/wordpress-api/interface';
 
 import { CommentEditModalService } from './../../modals/comment-edit/comment-edit.modal';
@@ -52,7 +52,7 @@ export class CommentViewComponent implements OnInit, AfterViewInit {
     onClickDelete() {
 
         if (this.app.user.isLogin) {
-            this.app.confirm(this.app.text.deleteConfirm).then(code => {
+            this.app.confirm(this.app.text('deleteConfirm')).then(code => {
                 if (code == 'yes') {
                     this.app.forum.commentDelete(this.comment.comment_ID).subscribe(res => {
                         console.log('success delete: ', res);

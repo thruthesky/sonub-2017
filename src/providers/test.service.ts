@@ -235,7 +235,8 @@ export class TestService extends Base {
 
     testCommentCRUD() {
         this.postCreate(ID => {
-            this.commentCreate(ID, 0, comment_ID => {
+            this.commentCreate(ID, 0, re => {
+                let comment_ID = re.comment_ID;
                 // this.commentCreate( ID, comment_ID, comment_comment_ID => {
                 //     this.postData( ID, post => {
                 // console.log(post);
@@ -296,9 +297,9 @@ export class TestService extends Base {
             comment_content: 'comment' + this.randomString()
         };
 
-        this.app.forum.commentCreate(req).subscribe(id => {
+        this.app.forum.commentCreate(req).subscribe(re => {
             // console.log("comment created", id);
-            callback(id);
+            callback(re.comment_ID);
         }, err => this.bad(this.getErrorString(err)));
     }
 

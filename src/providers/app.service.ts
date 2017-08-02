@@ -2,6 +2,9 @@ import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 import { Base } from './../etc/base';
+import { text } from './../etc/text';
+
+
 
 import { config } from './../app/config';
 
@@ -15,7 +18,7 @@ import { FileService } from './wordpress-api/file.service';
 import { ConfirmModalService, CONFIRM_OPTIONS } from './modals/confirm/confirm.modal';
 export { CONFIRM_OPTIONS } from './modals/confirm/confirm.modal';
 
-import { TextService } from './text.service';
+// import { TextService } from './text.service';
 
 import { SOCIAL_PROFILE, USER_REGISTER } from './wordpress-api/interface';
 
@@ -26,6 +29,10 @@ import { PushMessageService } from './push-message';
 @Injectable()
 export class AppService extends Base {
     config = config;
+
+    text = text;
+
+    //
     auth: firebase.auth.Auth;
     db: firebase.database.Reference;
     kakao;
@@ -34,7 +41,7 @@ export class AppService extends Base {
         public forum: ForumService,
         public wp: WordpressApiService,
         public file: FileService,
-        public text: TextService,
+        // public text: TextService,
         private confirmModalService: ConfirmModalService,
         private ngZone: NgZone,
         private router: Router,
@@ -137,8 +144,7 @@ export class AppService extends Base {
     }
 
     warning(e) {
-        // this.alert.error(e);
-        alert( this.getTranslatedErrorString( e ) );
+        this.alert.error(e);
     }
 
 
@@ -225,8 +231,10 @@ export class AppService extends Base {
      * @note This method is being invoked for alll kinds of login.
      */
     loginSuccess(callback?) {
+        console.log("AppService::loginSuccess()");
         setTimeout(() => this.rerenderPage(), 10);
-        this.push.initWeb();
+        this.push.updateWebToken();
+        this.push.updateCordovaToken();
         if (callback) callback();
     }
 

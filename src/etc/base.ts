@@ -10,14 +10,11 @@
  */
 import { Library } from './library';
 
-import { error, ERROR } from './error';
+import { error, ERROR, ERROR_RESPONSE } from './error';
+
+import { text } from './text';
 
 
-
-export interface ERROR_INFO {
-    code: string;
-    message?: string;
-}
 
 
 
@@ -37,7 +34,7 @@ export class Base extends Library {
      * 
      * @param str 
      */
-    getError(e): ERROR_INFO {
+    getError(e): ERROR_RESPONSE {
         console.log('getError:', e);
         if (!e) return error(ERROR.EMPTY); // e is falsy.
         else if (e.code === void 0) return error(ERROR.NO_CODE);
@@ -45,15 +42,15 @@ export class Base extends Library {
     }
 
     getErrorString(e): string {
-        return this.getError(e).code + ': ' + this.getError(e).message;
+        let code = this.getError(e).code;
+        let str = text( code );
+        return str;
+        // return this.getError(e).code + ': ' + this.getError(e).message;
     }
 
 
 
-    getTranslatedErrorString(e): string {
-        return this.getErrorString(e);
-    }
 
-    
+
 
 }

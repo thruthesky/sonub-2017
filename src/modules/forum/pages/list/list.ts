@@ -114,7 +114,7 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
     onClickPostDelete(post: POST, page: PAGE) {
 
         if (post.post_author) {
-            this.app.confirm(this.app.text.deleteConfirm).then(code => {
+            this.app.confirm(this.app.text('deleteConfirm')).then(code => {
                 if (code == 'yes') this.postDelete(page, post.ID);
             });
         }
