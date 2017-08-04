@@ -17,8 +17,6 @@ import { PostCreateEditContent } from './modals/post-create-edit/post-create-edi
 import { CommentCreateComponent } from './components/comment-create/comment-create';
 
 
-import { FileUploadComponent } from './../../components/file-upload/file-upload'
-
 import { CommentViewComponent } from './components/comment-view/comment-view';
 
 import { CommentEditModalService } from './modals/comment-edit/comment-edit.modal';
@@ -44,7 +42,6 @@ const appRoutes: Routes = [
         ForumIndexPage,
         ForumListPage,
         PostCreateEditContent,
-        FileUploadComponent,
         CommentCreateComponent,
         CommentViewComponent,
         CommentEditContent,

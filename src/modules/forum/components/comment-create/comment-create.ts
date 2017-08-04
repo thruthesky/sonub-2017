@@ -8,7 +8,7 @@ import {
     COMMENT, COMMENT_CREATE, COMMENT_CREATE_RESPONSE
 } from './../../../../providers/wordpress-api/interface';
 
-import { FileUploadComponent } from './../../../../components/file-upload/file-upload';
+import { FileUploadWidget } from './../../../../widgets/file-upload/file-upload';
 
 import { AlertModalService } from './../../../../providers/modals/alert/alert.modal';
 
@@ -22,7 +22,7 @@ export class CommentCreateComponent implements OnInit, AfterViewInit {
 
     @Input() post: POST;
     @Input() comment: COMMENT;
-    @ViewChild('fileUploadComponent') fileUploadComponent: FileUploadComponent;
+    @ViewChild('fileUploadWidget') fileUploadComponent: FileUploadWidget;
     files: FILES = [];
     comment_content: string;
     @Output() create = new EventEmitter<number>();

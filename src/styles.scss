@@ -5,7 +5,6 @@
 @import './styles/base';
 @import './styles/layout';
 @import './styles/component';
-@import './components/file-upload/file-upload';
 @import './modules/forum/pages/index/index';
 @import './modules/forum/pages/list/list';
 @import './modules/forum/components/comment-create/comment-create';
@@ -15,6 +14,7 @@
 /// widges
 @import './widgets/header/header';
 @import './widgets/file-display/file-display';
+@import './widgets/file-upload/file-upload';
 
 
 

@@ -79,7 +79,7 @@ export class FileUploadWidget extends Base implements OnInit {
             console.log('photo: ', path);
             // alert(path);
             // transfer the photo to the server.
-            this.uploadFile(path);
+            this.cordovaTransferFile(path);
         }, e => {
             console.error('camera error: ', e);
             alert("camera error");
@@ -106,7 +106,7 @@ export class FileUploadWidget extends Base implements OnInit {
 
 
 
-    uploadFile(filePath: string) {
+    cordovaTransferFile(filePath: string) {
         var options = new FileUploadOptions();
         options.fileKey = "userfile";
         options.fileName = filePath.substr(filePath.lastIndexOf('/') + 1) + '.jpg';
@@ -153,9 +153,11 @@ export class FileUploadWidget extends Base implements OnInit {
                 return;
             }
 
-            this.insertFile(re);
-            // this.files.push( re );
-            // this.app.rerenderPage();
+            if ( re['code'] == 0 ) {
+                this.insertFile(re['data']);
+            }
+            else this.app.warning( re );
+            
 
         }, e => {
             console.log("upload error source " + e.source);
@@ -216,11 +218,10 @@ export class FileUploadWidget extends Base implements OnInit {
 
 
     insertFile(file) {
-
         this.files.push(file);
+        console.log("this.files: ", this.files);
         this.progressPercentage = 0;
         this.app.rerenderPage();
-
     }
     onUploadFailure() {
         this.progressPercentage = 0;
