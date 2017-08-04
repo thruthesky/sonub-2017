@@ -124,6 +124,15 @@ export class ForumService extends Base {
         return this.wp.post(req);
     }
 
+    commentSendPushMessages( comment_ID: number ): Observable<number> {
+        let req = {
+            route: 'wordpress.comment_send_push_messages',
+            session_id: this.user.sessionId,
+            comment_ID: comment_ID
+        };
+        return this.wp.post(req);
+    }
+
 
     getCategories(): Observable<CATEGORIES> {
         return this.wp.post({ route: 'wordpress.get_categories' });
@@ -133,5 +142,8 @@ export class ForumService extends Base {
     postUrl( id: number ): string {
         return super.postUrl( id );
     }
+
+
+
 
 }

@@ -34,7 +34,7 @@ export class PushMessageService extends Base {
 
         this.updateWebToken();
         this.messaging.onMessage((payload) => {
-            alert(payload['notification']['title'] + "\n" + payload['notification']['body']);
+            // alert(payload['notification']['title'] + "\n" + payload['notification']['body']);
             // location.href = payload['notification']['click_action'];
         });
 
@@ -65,12 +65,12 @@ export class PushMessageService extends Base {
             console.log("...Notification: ", data);
             if (data.wasTapped) {
                 // Notification was received on device tray and tapped by the user.
-                alert(JSON.stringify(data));
+                // alert(JSON.stringify(data));
             } else {
                 // Notification was received in foreground. Maybe the user needs to be notified.
                 // alert(JSON.stringify(data));
 
-                alert("Message arrived on foreground: " + JSON.stringify(data));
+                // alert("Message arrived on foreground: " + JSON.stringify(data));
 
             }
         }, s => {
@@ -169,7 +169,7 @@ export class PushMessageService extends Base {
         }, err => this.alert.error(err));
     }
 
-
+    
 
     // send(tokenTo, title, body, url?): Observable<any> {
 

@@ -66,14 +66,18 @@ export class CommentCreateComponent implements OnInit, AfterViewInit {
             let id = re.comment_ID;
             console.log("comment created", re);
             this.insertComment(id);
-            // this.app.wp.post({route: 'wordpress.comment_push_message', comment_ID: id}).subscribe( res => {
-            //     console.log('push', res);
-            // }, err => this.app.warning(err) );
-            this.create.emit(id);
 
-
-            // this.sendMessage(re);
+            
             this.resetForm();
+
+
+            this.app.forum.commentSendPushMessages( id )
+                .subscribe( id => id, e => e ); // don't do for the result.
+                
+
+
+            this.create.emit(id);
+            
         }, err => {
             this.app.warning(err);
             // this.alert.open("error !!");
