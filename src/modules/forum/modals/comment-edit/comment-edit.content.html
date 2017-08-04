@@ -13,10 +13,10 @@
 <div class="modal-footer justify-content-between">
 
     <div>
-        <span class="stacked-camera-icon-with-file-box fa-stack fa-lg" (click)="fileUploadComponent.onClickCamera()">
+        <span class="stacked-camera-icon-with-file-box fa-stack fa-lg" (click)="fileUploadWidget.onClickCamera()">
                 <i class="fa fa-circle fa-stack-2x" aria-hidden="true"></i>
                 <i class="fa fa-camera fa-stack-1x fa-inverse" aria-hidden="true"></i>
-                <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadComponent.onChangeFile($event)">
+                <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadWidget.onChangeFile($event)">
             </span>
     </div>
     <div>
@@ -33,5 +33,5 @@
 
 <hr>
 
-<file-upload-component #fileUploadComponent [title]="false" [fileSelectionButton]="false" [files]="files"></file-upload-component>
+<file-upload-widget #fileUploadWidget [title]="false" [fileSelectionButton]="false" [files]="files"></file-upload-widget>
 

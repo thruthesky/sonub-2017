@@ -7,6 +7,8 @@ import { FileDisplayWidget } from './file-display/file-display';
 import { PostLatestWidget } from './post-latest/post-latest';
 import { PostViewWidget } from './post-view/post-view';
 import { HeaderWidget } from './header/header';
+import { FileUploadWidget } from './file-upload/file-upload';
+
 
 
 @NgModule({
@@ -18,13 +20,15 @@ import { HeaderWidget } from './header/header';
         FileDisplayWidget,
         PostLatestWidget,
         PostViewWidget,
-        HeaderWidget
+        HeaderWidget,
+        FileUploadWidget
     ],
     declarations: [
         FileDisplayWidget,
         PostLatestWidget,
         PostViewWidget,
-        HeaderWidget
+        HeaderWidget,
+        FileUploadWidget
     ],
     providers: [],
 })

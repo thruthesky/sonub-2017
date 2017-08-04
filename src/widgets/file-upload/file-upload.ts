@@ -18,11 +18,11 @@ declare var FileTransfer;
 
 
 @Component({
-    selector: 'file-upload-component',
+    selector: 'file-upload-widget',
     templateUrl: 'file-upload.html'
 })
 
-export class FileUploadComponent extends Base implements OnInit {
+export class FileUploadWidget extends Base implements OnInit {
     url: string;// = environment.xapiUrl;
     progressPercentage = 0;
     @Input() files: FILES;
