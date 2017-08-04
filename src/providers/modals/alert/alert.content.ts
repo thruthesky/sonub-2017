@@ -8,7 +8,11 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 
 export class AlertContent implements OnInit {
-    options = {};
+    options = {
+        title: '',
+        content: '',
+        button: ''
+    };
     constructor(
         public activeModal: NgbActiveModal
     ) {

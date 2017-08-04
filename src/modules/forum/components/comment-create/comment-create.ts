@@ -65,29 +65,44 @@ export class CommentCreateComponent implements OnInit, AfterViewInit {
         this.app.forum.commentCreate(req).subscribe((re: COMMENT_CREATE_RESPONSE) => {
             let id = re.comment_ID;
             console.log("comment created", re);
-            this.files = [];
-            this.comment_content = '';
             this.insertComment(id);
             // this.app.wp.post({route: 'wordpress.comment_push_message', comment_ID: id}).subscribe( res => {
             //     console.log('push', res);
             // }, err => this.app.warning(err) );
             this.create.emit(id);
 
-            if ( re.tokens.length ) {
-                for( let token of re.tokens ) {
-                    this.app.push.send( token, 'Token Test Title', 'Body' )
-                        .subscribe( res => console.log(res), err => console.log(err) );
 
-                }
-            }
+            // this.sendMessage(re);
+            this.resetForm();
         }, err => {
             this.app.warning(err);
             // this.alert.open("error !!");
         });
 
 
-
     }
+
+    resetForm() {
+        this.files = [];
+        this.comment_content = '';
+    }
+
+    // sendMessage(re: COMMENT_CREATE_RESPONSE) {
+
+    //     if (re.tokens.length) {
+    //         let name = this.app.user.nameOrAnonymous.replace(/\s+/g, ' ').trim();
+    //         name = this.app.text( 'replied', { name: name } );
+    //         let body = this.comment_content.replace(/\s+/g, ' ').trim();
+    //         let url = this.app.forum.postUrl( re.post_ID );
+            
+    //         for (let token of re.tokens) {
+    //             this.app.push.send(token, name, body, url)
+    //                 .subscribe(
+    //                     res => console.log(res),
+    //                     err => console.log(err));
+    //         }
+    //     }
+    // }
 
     insertComment(comment_ID) {
         this.app.forum.commentData(comment_ID).subscribe((comment: COMMENT) => {

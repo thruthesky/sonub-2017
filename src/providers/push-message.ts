@@ -13,6 +13,7 @@ const USER_TOKEN_KEY = 'user-token';
 import { Observable } from 'rxjs/Observable';
 
 declare let FCMPlugin;
+declare let device;
 
 @Injectable()
 export class PushMessageService extends Base {
@@ -67,9 +68,17 @@ export class PushMessageService extends Base {
                 alert(JSON.stringify(data));
             } else {
                 // Notification was received in foreground. Maybe the user needs to be notified.
-                alert(JSON.stringify(data));
+                // alert(JSON.stringify(data));
+
+                alert("Message arrived on foreground: " + JSON.stringify(data));
+
             }
-        }, e => console.error(e));
+        }, s => {
+            console.log("FCMPlugin.onNotifications() susccess callback msg: ", s);
+        }, e => {
+            console.error(e);
+        });
+        
     }
 
 
@@ -93,12 +102,9 @@ export class PushMessageService extends Base {
         // Keep in mind the function will return null if the token has not been established yet.
         FCMPlugin.getToken((token) => {
             console.log("FCM Token:", token);
-            this.updateMyToken(token);
-            // this.user.auth.onAuthStateChanged(user => {
-            //     let uid = user ? user.uid : null;
-            //     console.log("cordovaInit() => getToken() => onAuthStateChanged: ", uid);
-            //     this.updateToken(uid, token).then(() => this.tokenUpdated(token))
-            // });
+            let platform = 'cordova';
+            if ( device ) platform = device.platform;
+            this.updateMyToken(token, platform);
         });
 
     }
@@ -116,7 +122,7 @@ export class PushMessageService extends Base {
                         //     return;
                         // }
                         console.log("User token has chagned. so, going to update.");
-                        this.updateMyToken(currentToken);
+                        this.updateMyToken(currentToken, 'browser');
                         // this.updateToken(uid, currentToken).then(() => this.tokenUpdated(currentToken))
 
                     } else {
@@ -152,32 +158,40 @@ export class PushMessageService extends Base {
         return this.storage.get(key);
     }
 
-    updateMyToken(token) {
-        return this.user.update_user_meta('pushToken', token).subscribe(key => {
+    updateMyToken(token, platform) {
+        let keys_values = {
+            pushToken: token,
+            pushPlatform: platform
+        };
+        return this.user.update_user_metas(keys_values).subscribe(key => {
             console.log("token Update success: user_meta_update: key: ", key);
             this.storage.set(USER_TOKEN_KEY, token);
-        }, err => this.alert.error(err))
+        }, err => this.alert.error(err));
     }
 
 
 
-    send(tokenTo, title, body, url?): Observable<any> {
+    // send(tokenTo, title, body, url?): Observable<any> {
 
-        if (tokenTo == this.getMyToken()) return Observable.throw(new Error('my-token'));
+    //     if (tokenTo == this.getMyToken()) return Observable.throw(new Error('my-token'));
 
-        if (!url) url = "https://www.sonub.com";
-        let data =
-            {
-                "notification": {
-                    "title": title,
-                    "body": body,
-                    "icon": "https://www.iamtalkative.com/assets/images/logo/logo-icon.png",
-                    "click_action": url
-                },
-                "to": tokenTo
-            };
-        return this.http.post("https://fcm.googleapis.com/fcm/send", data, this.requestOptions);
-    }
+    //     if (!url) url = "https://www.sonub.com";
+    //     let data =
+    //         {
+    //             "notification": {
+    //                 "title": title,
+    //                 "body": body,
+    //                 "icon": "https://www.sonub.com/assets/img/web-push-notification-icon.png",
+    //                 "click_action": url
+    //             },
+    //             data: {
+    //                 url: url
+    //             },
+    //             "to": tokenTo
+    //         };
+    //     console.log( 'send data: ', data );
+    //     return this.http.post("https://fcm.googleapis.com/fcm/send", data, this.requestOptions);
+    // }
 
     get requestOptions(): RequestOptions {
         let headers = new Headers({

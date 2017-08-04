@@ -20,13 +20,7 @@ export class PostViewWidget implements OnInit {
     constructor(
         public app: AppService
     ) {
-        // if ( window['forum_view_post_id'] && window['forum_view_post_id'] > 0 ) {
-        //     this.post = window['forum_post'];
-        // }
-        // else {
-        //     app.forum.postData( 1 )
-        //         .subscribe( post => this.post, e => app.warning(e));
-        // }
+        
     }
 
     ngOnInit() { }

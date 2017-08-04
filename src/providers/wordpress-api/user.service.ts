@@ -3,7 +3,7 @@
  */
 import { Injectable } from '@angular/core';
 import { Base } from '../../etc/base';
-import { ERROR, KEY_LOGIN } from '../../etc/define';
+import { KEY_LOGIN } from '../../etc/define';
 import { WordpressApiService } from './wordpress-api.service';
 import { Observable } from 'rxjs/Observable';
 
@@ -31,9 +31,7 @@ export class UserService extends Base {
         if (this.profile === null) this.loadProfile();
         if (this.profile.session_id) return true;
         return false;
-
     }
-
 
     /**
      * 
@@ -122,6 +120,15 @@ export class UserService extends Base {
         return this.wp.post(data);
     }
 
+    update_user_metas( keys_values ): Observable<any> {
+        let data = {
+            route: 'wordpress.update_user_metas',
+            session_id: this.profile.session_id,
+            keys_values: keys_values
+        };
+        return this.wp.post( data );
+    }
+
     setUserProfile(res) {
         this.profile = res;
         this.storage.set(KEY_LOGIN, res);
@@ -138,5 +145,9 @@ export class UserService extends Base {
     get name(): string {
         if (this.profile && this.profile.display_name) return this.profile.display_name;
         else return '';
+    }
+
+    get nameOrAnonymous() {
+        return this.name || 'Anonymous';
     }
 }

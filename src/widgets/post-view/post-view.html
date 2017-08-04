@@ -1,3 +1,4 @@
+post view:
 <section *ngIf="post" class="forum-view">
 
     <h1 class="title">{{ post.post_title }}</h1>
@@ -8,4 +9,6 @@
     <hr>
     <file-display-widget [files]="post.files"></file-display-widget>
 
+
+    {{ post | json }}
 </section>

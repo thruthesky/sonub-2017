@@ -239,6 +239,7 @@ export interface COMMENT_UPDATE extends REQUEST, comment_ID {
 };
 
 export interface COMMENT_CREATE_RESPONSE {
+    post_ID: number;
     comment_ID: number;
     tokens: Array<string>;
 };

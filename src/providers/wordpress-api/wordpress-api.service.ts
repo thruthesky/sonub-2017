@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from './../../environments/environment';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -23,11 +22,12 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class WordpressApiService extends Base {
 
-    private url: string = environment.xapiUrl;
+    private url: string;// =  environment.xapiUrl;
     constructor(
         private http: HttpClient
     ) {
         super();
+        this.url = this.xapiUrl();
     }
 
     // getPosts() {
@@ -41,7 +41,7 @@ export class WordpressApiService extends Base {
 
 
     checkResult(res) {
-        console.log("res: ", res);
+        // console.log("res: ", res);
         if (!res) throw error(ERROR.RESPONSE_EMPTY);
         else if (res['code'] === void 0) throw error(ERROR.RESPONSE_NO_CODE);
         else if ( res['code'] !== 0 ) throw error( res['code'], res['message'] );

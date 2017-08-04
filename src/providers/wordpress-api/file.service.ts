@@ -7,7 +7,7 @@ import 'rxjs/add/operator/catch';
 
 
 
-import { environment } from './../../environments/environment';
+// import { environment } from './../../environments/environment';
 
 
 
@@ -24,13 +24,14 @@ import { FILE, FILE_DELETE } from './interface';
 export class FileService extends Base {
 
 
-    private url: string = environment.xapiUrl;
+    private url: string; // = environment.xapiUrl;
     constructor(
         private http: HttpClient,
         private wp: WordpressApiService,
         private user: UserService
     ) {
         super();
+        this.url = this.xapiUrl();
     }
 
 

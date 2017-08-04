@@ -26,9 +26,15 @@ export class TestService extends Base {
 
         this.testApi();
         this.testRegister();
-        this.testLogin(() => this.testPostCreateUpdateGet(() => this.testPostDelete(a => {
-            this.testCommentCRUD();
-        })));
+        this.testLogin(() => {
+
+            this.app.user.update_user_metas({sound: 'whaouwhoaou', position: 'back closing'})
+                .subscribe( res => this.good('user.update_user_metas'), e => this.bad('failed to update user metas: ' + this.getErrorString(e)));
+
+            this.testPostCreateUpdateGet(() => this.testPostDelete(a => {
+                this.testCommentCRUD();
+            }))
+        });
 
 
 
@@ -53,7 +59,7 @@ export class TestService extends Base {
 
         this.app.wp.post({ route: 'wordpress.error' }).subscribe(res => {
             console.log('res', res);
-        }, err => this.test( err.code == -40000, 'error'));
+        }, err => this.test(err.code == -40000, 'error'));
         this.app.wp.post({}).subscribe(
             res => this.bad("Api call with missing-route must befailed"),
             err => {
@@ -236,6 +242,7 @@ export class TestService extends Base {
     testCommentCRUD() {
         this.postCreate(ID => {
             this.commentCreate(ID, 0, re => {
+                console.log("commentCreate: ", re);
                 let comment_ID = re.comment_ID;
                 // this.commentCreate( ID, comment_ID, comment_comment_ID => {
                 //     this.postData( ID, post => {
@@ -299,7 +306,7 @@ export class TestService extends Base {
 
         this.app.forum.commentCreate(req).subscribe(re => {
             // console.log("comment created", id);
-            callback(re.comment_ID);
+            callback(re);
         }, err => this.bad(this.getErrorString(err)));
     }
 

@@ -27,6 +27,10 @@ export let TEXT = {
         en: 'You are trying to login with social service but the email of that social service has already registered. This means you have to use the other social login service that you used to login before.',
         ko: '앗! 소셜 로그인을 하시려는데, 그 소셜 서비스 계정의 메일 주소가 이미 가입되어져 있습니다. 이전에 로그인을 할 때 사용한 소셜 서비스로 로그인을 해 주십시오.'
     },
+    replied: {
+        en: '#name commented: ',
+        ko: '#name님의 코멘트: '
+    },
     confirmDelete: {
         en: {
             content: 'Do you want to delete #no?',
@@ -63,6 +67,7 @@ TEXT[ERROR.RESPONSE_EMPTY] = { en: 'Response from backend is empty. This may be 
 TEXT[ERROR.RESPONSE_NO_CODE] = { en: 'Response from backend has no code', ko: '서버로 부터 응답 중에 코드 값이 없습니다.' };
 TEXT[ERROR.CODE_KEY_IS_EMPTY] = { en: 'Key is empty', ko: '키 값이 존재하지 않습니다.' };
 TEXT[ERROR.CODE_COMMENT_DUPLICATE] = { en: 'Please do not comment with same text.', ko: '비슷한 내용의 덧글을 반복적으로 작성 할 수 없습니다.' };
+TEXT[ERROR.LOGIN_FIRST] = { en: 'Please login first', ko: '로그인을 먼저하십시오.'};
 
 
 /**

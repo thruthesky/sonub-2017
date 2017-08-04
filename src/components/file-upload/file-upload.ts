@@ -5,7 +5,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { AppService } from './../../providers/app.service';
 import { FILES, FILE } from './../../providers/wordpress-api/interface';
 
-import { environment } from './../../environments/environment';
+import { Base } from './../../etc/base';
+
+// import { environment } from './../../environments/environment';
 
 declare var Camera;
 declare var navigator;
@@ -20,8 +22,8 @@ declare var FileTransfer;
     templateUrl: 'file-upload.html'
 })
 
-export class FileUploadComponent implements OnInit {
-    url: string = environment.xapiUrl;
+export class FileUploadComponent extends Base implements OnInit {
+    url: string;// = environment.xapiUrl;
     progressPercentage = 0;
     @Input() files: FILES;
     @Input() post_password;
@@ -31,6 +33,8 @@ export class FileUploadComponent implements OnInit {
         public app: AppService
     ) {
 
+        super();
+        this.url = this.xapiUrl();
         document.addEventListener('deviceready', () => this.onDeviceReady(), false);
 
     }

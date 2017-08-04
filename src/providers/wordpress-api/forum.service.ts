@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Base } from '../../etc/base';
-import { ERROR } from '../../etc/define';
+import { ERROR, error } from './../../etc/error';
 import { WordpressApiService } from './wordpress-api.service';
 import { UserService } from './user.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
+
 
 
 
@@ -89,7 +90,7 @@ export class ForumService extends Base {
      * @param req Comment create data
      */
     commentCreate(req: COMMENT_CREATE): Observable<COMMENT_CREATE_RESPONSE> {
-        if ( ! this.user.isLogin ) return Observable.throw( new Error('login-before-comment') );
+        if ( ! this.user.isLogin ) return Observable.throw( error( ERROR.LOGIN_FIRST ));
 
         let data = Object.assign({}, req);
         data.route = 'wordpress.wp_new_comment';
@@ -129,6 +130,8 @@ export class ForumService extends Base {
     }
 
 
-
+    postUrl( id: number ): string {
+        return super.postUrl( id );
+    }
 
 }

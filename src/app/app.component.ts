@@ -16,10 +16,7 @@ export class AppComponent {
 
     document.addEventListener('deviceready', () => this.onDeviceReady(), false);
 
-    // let postID = window['forum_view_post_id'];
-    // if ( postID && postID > 0 ) {
-    //   router.navigateByUrl('/post/' + postID);
-    // }
+    
   }
 
   onDeviceReady() {

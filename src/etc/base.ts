@@ -15,12 +15,22 @@ import { error, ERROR, ERROR_RESPONSE } from './error';
 import { text } from './text';
 
 
+import { environment } from './../environments/environment';
 
 
 
 export class Base extends Library {
     constructor() {
         super();
+    }
+
+
+    xapiUrl() {
+        return environment.homeUrl + '/wp-json/xapi/v2/do';
+    }
+
+    postUrl(id: number): string {
+        return environment.homeUrl + '/view/' + id;
     }
 
     // error(code, message?) {
@@ -43,7 +53,7 @@ export class Base extends Library {
 
     getErrorString(e): string {
         let code = this.getError(e).code;
-        let str = text( code );
+        let str = text(code);
         return str;
         // return this.getError(e).code + ': ' + this.getError(e).message;
     }

@@ -1,5 +1,8 @@
 <div class="comment-view" [attr.comment-id]="comment.comment_ID" [attr.depth]="comment.depth">
     No. {{ comment.comment_ID }}
+    Author: {{ comment.comment_author }}
+    date: {{ comment.comment_date }}
+
     <div class="comment-content">
         {{ comment.comment_content }}
 

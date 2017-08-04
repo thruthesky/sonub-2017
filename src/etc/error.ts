@@ -4,6 +4,8 @@ export interface ERROR_RESPONSE {
 };
 
 export const ERROR = {
+
+    LOGIN_FIRST: -80005,
     EMPTY: -80010,
     NO_CODE: -80011,
     RESPONSE_EMPTY: -80021,

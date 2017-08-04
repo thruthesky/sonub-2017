@@ -21,11 +21,10 @@ export class HomePage implements OnInit, AfterViewInit {
         public app: AppService,
         // private test: TestService
     ) {
-
-
-
-
-        this.post = window['forum_post'];
+        if ( window['forum_post'] ) {
+            this.post = Object.assign({}, window['forum_post']);
+            window['forum_post'] = null;
+        }
         document.addEventListener('deviceready', () => this.onDeviceReady(), false);
     }
 
