@@ -92,7 +92,11 @@ export class CommentCreateComponent implements OnInit, AfterViewInit {
     insertComment(comment_ID) {
         this.app.forum.commentData(comment_ID).subscribe((comment: COMMENT) => {
             console.log(comment);
-            if (comment.comment_parent == 0) this.post.comments.unshift(comment);
+            if( ! this.post.comments ) this.post['comments'] = [];
+
+            if (comment.comment_parent == 0) {
+                this.post.comments.unshift(comment);
+            }
             else {
                 let index = this.post.comments.findIndex(c => c.comment_ID == comment.comment_parent);
                 if (index == -1) {

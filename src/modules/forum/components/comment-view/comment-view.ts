@@ -11,7 +11,7 @@ import { CommentEditModalService } from './../../modals/comment-edit/comment-edi
 
 
 
-@Component({
+@   Component({
     selector: 'comment-view-component',
     templateUrl: 'comment-view.html'
 })
