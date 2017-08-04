@@ -52,7 +52,7 @@ export class CommentViewComponent implements OnInit, AfterViewInit {
     onClickDelete() {
 
         if (this.app.user.isLogin) {
-            this.app.confirm(this.app.text('deleteConfirm')).then(code => {
+            this.app.confirm(this.app.text('confirmDelete')).then(code => {
                 if (code == 'yes') {
                     this.app.forum.commentDelete(this.comment.comment_ID).subscribe(res => {
                         console.log('success delete: ', res);
@@ -63,7 +63,7 @@ export class CommentViewComponent implements OnInit, AfterViewInit {
                             let index = this.post.comments.findIndex( comment => comment.comment_ID == res.comment_ID );
                             this.post.comments.splice( index, 1 );
                         }
-                        
+
                     }, e => this.app.warning(e));
                 }
             })
@@ -75,6 +75,6 @@ export class CommentViewComponent implements OnInit, AfterViewInit {
     }
 
 
-    
+
 }
 

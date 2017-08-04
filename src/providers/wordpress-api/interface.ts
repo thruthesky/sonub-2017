@@ -86,7 +86,7 @@ export interface FILE_DELETE extends REQUEST {
 
 /**
  * Used by forum.postList(), forum.postSearch()
- * 
+ *
  * COMMENT differs from COMMENT_DATA_RESPONSE which does not have 'depth' property.
  * 'depth' property comes with the whole list of comments of a post.
  * When you get a comment alone, you cannot have 'depth'.
@@ -197,6 +197,7 @@ export interface POST_LIST extends REQUEST {
     thumbnail?: THUMBNAIL_SIZES; // default thumbnail size.
 };
 
+
 export interface POST_LIST_RESPONSE {
     posts: POSTS;
     post_count: number; // no of posts retrived from database. if it is less than POST_LIST.posts_per_page, this may be the last page.
@@ -214,6 +215,7 @@ export interface POST_LIST_RESPONSE {
 };
 
 export type PAGE = POST_LIST_RESPONSE;
+export type PAGES = PAGE[];
 
 
 export interface POST_SEARCH extends POST_LIST {
@@ -225,10 +227,10 @@ export interface POST_SEARCH_RESPONSE extends POST_LIST_RESPONSE { };
 // https://codex.wordpress.org/Function_Reference/wp_new_comment
 export interface COMMENT_CREATE extends REQUEST {
     comment_post_ID: number; // root post ID. to which post the comment will show up.
-    comment_author?: string; // fixed value - can be dynamic 
-    comment_author_email?: string;  // fixed value - can be dynamic 
-    comment_author_url?: string; // URL of the author or content or any url. fixed value - can be dynamic 
-    comment_content?: string; // Comment messsage... //fixed value - can be dynamic 
+    comment_author?: string; // fixed value - can be dynamic
+    comment_author_email?: string;  // fixed value - can be dynamic
+    comment_author_url?: string; // URL of the author or content or any url. fixed value - can be dynamic
+    comment_content?: string; // Comment messsage... //fixed value - can be dynamic
     comment_parent?: number; // parent comment to reply under that comment. 0 if it's not a reply to another comment; if it's a reply, mention the parent comment ID here
     fid?: Array<number>;
 };

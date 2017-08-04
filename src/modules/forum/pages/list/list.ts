@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AppService } from './../../../../providers/app.service';
 import {
     POST_LIST, POST_LIST_RESPONSE, POST, PAGE,
-    COMMENT
+    COMMENT, PAGES
 } from './../../../../providers/wordpress-api/interface';
 
 
@@ -24,7 +24,8 @@ import { ForumCodeShareService } from './../../forum-code-share.service';
 
 export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
     slug: string = null;
-    pages: Array<POST_LIST_RESPONSE> = [];
+    pages: PAGES = [];
+
 
     // for page scroll
     watch = null;
@@ -82,7 +83,7 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
             thumbnail: '200x200'
         };
         this.app.forum.postList(req).subscribe(page => {
-            console.log(page);
+            console.log('Page::', page);
             this.inLoading = false;
             if (page.paged == page.max_num_pages) {
                 this.noMorePosts = true;
@@ -114,7 +115,7 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
     onClickPostDelete(post: POST, page: PAGE) {
 
         if (post.post_author) {
-            this.app.confirm(this.app.text('deleteConfirm')).then(code => {
+            this.app.confirm(this.app.text('confirmDelete')).then(code => {
                 if (code == 'yes') this.postDelete(page, post.ID);
             });
         }
@@ -145,7 +146,15 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
 
     insertPost(post_ID) {
         this.app.forum.postData(post_ID).subscribe(post => {
+            console.log('this.posts:: ', this.pages);
+
+            if( ! this.pages[0].posts ) {
+                this.pages[0]['posts'] = [];
+            }
             this.pages[0].posts.unshift(post);
+
         }, e => this.app.warning(e));
     }
+
+
 }
