@@ -30,7 +30,7 @@ export class FileUploadWidget extends Base implements OnInit {
     @Input() title: boolean = true;
     @Input() fileSelectionButton: boolean = true;
     @Input() showUploadedFiles: boolean = true;
-    @Output() onSuccess = new EventEmitter<any>();
+    @Output() success = new EventEmitter<any>();
     constructor(
         public app: AppService
     ) {
@@ -195,6 +195,10 @@ export class FileUploadWidget extends Base implements OnInit {
     }
 
     onClickDeleteButton(file) {
+        this.deleteFile(file);
+    }
+
+    deleteFile(file) {
         this.app.file.delete({ id: file.id, post_password: this.post_password }).subscribe(id => {
             console.log("file deleted: ", id);
             // this.files = this.files.filter( file => file.id != id ); //
@@ -214,7 +218,7 @@ export class FileUploadWidget extends Base implements OnInit {
         this.files.push(file);
         console.log("this.files: ", this.files);
         this.progressPercentage = 0;
-        this.onSuccess.emit();
+        this.success.emit();
         this.app.rerenderPage();
     }
 

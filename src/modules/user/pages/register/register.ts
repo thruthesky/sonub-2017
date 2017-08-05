@@ -89,7 +89,7 @@ export class RegisterPage implements OnInit {
         if( this.files.length > 1 ) {
             data['photoID']= this.files[1].id;
             data['photoURL']= this.files[1].url;
-            setTimeout( () => this.fileUploadComponent.onClickDeleteButton( this.files[0]) );
+            setTimeout( () => this.fileUploadComponent.deleteFile( this.files[0]) );
         }
         this.app.user.update(data).subscribe( (res:USER_UPDATE_RESPONSE) => {
             console.log('updateProfilePicture:', res);

@@ -81,7 +81,8 @@ export type FILE = UPLOADED_FILE;
 export type FILES = UPLOADED_FILES;
 
 export interface FILE_DELETE extends REQUEST {
-    id: number;
+    id?: number;
+    guid?: string;
     post_password?: string;
 };
 

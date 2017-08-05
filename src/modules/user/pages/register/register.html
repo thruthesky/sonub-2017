@@ -52,7 +52,7 @@
                     [fileSelectionButton]="false"
                     [files]="files"
                     [showUploadedFiles]="false"
-                    (onSuccess)="onSuccessUpdateProfile()"
+                    (success)="onSuccessUpdateProfile()"
                 ></file-upload-widget>
                 <button type="button" id="skipProfilePicture" (click)="activeForm = 'form3'">{{ files.length ? 'Next' : 'Skip'}}</button>
             </div>
