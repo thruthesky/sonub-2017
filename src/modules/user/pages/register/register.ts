@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ViewChild, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {USER_REGISTER} from "../../../../providers/wordpress-api/interface";
+import {FILES, USER_REGISTER, USER_UPDATE, USER_UPDATE_RESPONSE} from "../../../../providers/wordpress-api/interface";
 import {AppService} from "../../../../providers/app.service";
+import {FileUploadWidget} from "../../../../widgets/file-upload/file-upload";
 
 export interface _DATE {
     year: number;
@@ -16,15 +17,20 @@ export interface _DATE {
 
 export class RegisterPage implements OnInit {
 
+    @ViewChild('fileUploadWidget') public fileUploadComponent: FileUploadWidget;
+    activeForm = 'form1';
+
     user_login: string = '';
     user_pass: string = '';
     user_email: string = '';
     name: string = '';
     mobile: string = '';
-    gender: string = '';
+    gender: string = 'm';
     address: string = '';
     birthday: _DATE;
     landline: string = '';
+
+    files: FILES = [];
 
 
     errorMessage: string = null;
@@ -38,7 +44,6 @@ export class RegisterPage implements OnInit {
     }
 
     ngOnInit() {
-
         this.birthday = {
             year: this.now.getFullYear(),
             month: this.now.getMonth()+1,
@@ -47,31 +52,23 @@ export class RegisterPage implements OnInit {
     }
 
 
-    onClickUserRegister() {
+    onSubmitRegister() {
         console.log('onClickUserRegister::');
         this.errorMessage = null;
-
-        if (!this.user_login && this.user_login.length == 0) return this.errorMessage = '*Username is required';
-        if (!this.user_pass && this.user_pass.length == 0) return this.errorMessage = '*Password is required';
         if (!this.user_email && this.user_email.length == 0) return this.errorMessage = '*Email is required';
-        this.loading = true;
+        if (!this.user_pass && this.user_pass.length == 0) return this.errorMessage = '*Password is required';
 
+        this.loading = true;
         let data: USER_REGISTER = {
-            user_login: this.user_login,
+            user_login: this.user_email,
             user_pass: this.user_pass,
-            user_email: this.user_email,
-            name: this.name,
-            mobile: this.mobile,
-            gender: this.gender,
-            address: this.address,
-            birthday: this.birthday.year + this.add0(this.birthday.month) + this.add0(this.birthday.day),
-            landline: this.landline
+            user_email: this.user_email
         };
         this.app.user.register(data).subscribe(res => {
             console.log('app.user.register::res', res);
             if (res.session_id) {
-                alert('Registration Success');
-                this.router.navigateByUrl("/");
+                console.log('Registration Success::Proceed to Profile Photo');
+                this.activeForm = 'form2';
             }
             this.loading = false;
         }, error => {
@@ -82,11 +79,53 @@ export class RegisterPage implements OnInit {
         });
     }
 
+    onSuccessUpdateProfile(){
+        console.log("onSuccessUpdateProfile::", this.files);
+        let data: USER_UPDATE = {
+            user_email: this.user_email,
+            photoID: this.files[0].id,
+            photoURL: this.files[0].url
+        };
+        if( this.files.length > 1 ) {
+            data['photoID']= this.files[1].id;
+            data['photoURL']= this.files[1].url;
+            setTimeout( () => this.fileUploadComponent.onClickDeleteButton( this.files[0]) );
+        }
+        this.app.user.update(data).subscribe( (res:USER_UPDATE_RESPONSE) => {
+            console.log('updateProfilePicture:', res);
+        }, err => {
+            console.log('error while updating user profile picture', err);
+        });
+    }
+
+    onSubmitUpdateUserInfo() {
+        this.errorMessage = null;
+        this.loading = true;
+        let data: USER_UPDATE = {
+            user_email: this.user_email,
+            name: this.name,
+            mobile: this.mobile,
+            gender: this.gender,
+            address: this.address,
+            birthday: this.birthday.year + this.add0(this.birthday.month) + this.add0(this.birthday.day),
+            landline: this.landline
+        };
+        this.app.user.update(data).subscribe( (res:USER_UPDATE_RESPONSE) => {
+            console.log('updateUserInfo:', res);
+            this.loading = false;
+            this.router.navigateByUrl('/');
+        }, err => {
+            this.loading = false;
+            console.log('error while updating user profile picture', err);
+            this.errorMessage = err.code;
+        });
+    }
+
     add0(n:number): string {
         return n < 10 ? '0' + n : n.toString();
     }
 
-    onChangeBirthday(){
+    onChangeBirthday() {
         console.log(this.birthday);
     }
 }

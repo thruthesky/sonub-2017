@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 
 
@@ -29,6 +29,8 @@ export class FileUploadWidget extends Base implements OnInit {
     @Input() post_password;
     @Input() title: boolean = true;
     @Input() fileSelectionButton: boolean = true;
+    @Input() showUploadedFiles: boolean = true;
+    @Output() onSuccess = new EventEmitter<any>();
     constructor(
         public app: AppService
     ) {
@@ -39,14 +41,12 @@ export class FileUploadWidget extends Base implements OnInit {
 
     }
 
-
     onDeviceReady() {
         console.log("Cordova is ready.");
     }
 
-
     ngOnInit() {
-        /// 
+        ///
         if (!this.files) this.app.warning("ERROR: files property is not initialized.");
     }
 
@@ -56,6 +56,7 @@ export class FileUploadWidget extends Base implements OnInit {
         this.confirmCameraAction().then(code => this.takePhoto(code));
 
     }
+
     takePhoto(code) {
         let type = null;
 
@@ -86,8 +87,6 @@ export class FileUploadWidget extends Base implements OnInit {
         }, options);
     }
 
-
-
     confirmCameraAction() {
 
         return this.app.confirm({
@@ -103,8 +102,6 @@ export class FileUploadWidget extends Base implements OnInit {
 
 
     }
-
-
 
     cordovaTransferFile(filePath: string) {
         var options = new FileUploadOptions();
@@ -157,7 +154,7 @@ export class FileUploadWidget extends Base implements OnInit {
                 this.insertFile(re['data']);
             }
             else this.app.warning( re );
-            
+
 
         }, e => {
             console.log("upload error source " + e.source);
@@ -166,8 +163,6 @@ export class FileUploadWidget extends Base implements OnInit {
             this.onUploadFailure();
         }, options);
     }
-
-
 
     onChangeFile(event) {
         if (this.app.isCordova) return;
@@ -199,16 +194,15 @@ export class FileUploadWidget extends Base implements OnInit {
         });
     }
 
-
     onClickDeleteButton(file) {
         this.app.file.delete({ id: file.id, post_password: this.post_password }).subscribe(id => {
             console.log("file deleted: ", id);
             // this.files = this.files.filter( file => file.id != id ); //
             let index = this.files.findIndex(file => file.id == id);
             this.files.splice(index, 1);
-            console.log(this.files);
-
-        }, err => this.app.displayError(err));
+            console.log('onClickDeleteButton::',this.files);
+            this.app.rerenderPage();
+        }, err => this.app.warning(err));
     }
 
     onProgress(p: number) {
@@ -216,13 +210,14 @@ export class FileUploadWidget extends Base implements OnInit {
         this.app.rerenderPage();
     }
 
-
     insertFile(file) {
         this.files.push(file);
         console.log("this.files: ", this.files);
         this.progressPercentage = 0;
+        this.onSuccess.emit();
         this.app.rerenderPage();
     }
+
     onUploadFailure() {
         this.progressPercentage = 0;
     }

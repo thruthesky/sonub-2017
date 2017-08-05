@@ -8,52 +8,111 @@
         <hr>
         <div id="registerForm1">
 
+            <div id="form1" *ngIf="activeForm == 'form1'">
 
-            <div class="input-group">
-                <label for="user_login" class="input-group-addon">Username</label>
-                <input type="text" class="form-control" id="user_login" placeholder="Username" [(ngModel)]="user_login">
-            </div>
-            <div class="input-group">
-                <label for="user_pass" class="input-group-addon">Password</label>
-                <input type="password" class="form-control" id="user_pass" placeholder="Password" [(ngModel)]="user_pass">
-            </div>
-            <div class="input-group">
-                <label for="user_email" class="input-group-addon">Email Address</label>
-                <input type="text" class="form-control" id="user_email" placeholder="Email Address" [(ngModel)]="user_email">
-            </div>
-            <div class="input-group">
-                <label for="name" class="input-group-addon">Name</label>
-                <input type="text" class="form-control" id="name" placeholder="Name" [(ngModel)]="name">
-            </div>
-            <div class="input-group">
-                <label for="gender" class="input-group-addon">Gender</label>
-                <input type="text" class="form-control" id="gender" placeholder="Gender" [(ngModel)]="gender">
-            </div>
-            <div class="input-group">
-                <label for="address" class="input-group-addon">Address</label>
-                <input type="text" class="form-control" id="address" placeholder="Address" [(ngModel)]="address">
-            </div>
-            <div class="input-group">
-                <label for="birthday" class="input-group-addon">Birthday</label>
-                <input type="text" class="form-control" id="birthday" placeholder="Birthday" [(ngModel)]="birthday">
-            </div>
-
-            <div class="input-group">
-                <span class="input-group-addon input-group-addon-primary" id="date_begin">Date Begin</span>
-                <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="birthday" ngbDatepicker #b="ngbDatepicker" (ngModelChange)="onChangeBirthday()">
-                <div class="input-group-addon" (click)="b.toggle()">
-                    <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                <div class="input-group">
+                    <label for="user1" class="input-group-addon">Email Address</label>
+                    <input type="text" class="form-control" id="user1" name="user_email" placeholder="Email Address"
+                           [(ngModel)]="user_email">
                 </div>
+                <div class="input-group">
+                    <label for="user_pass" class="input-group-addon">Password</label>
+                    <input type="password" class="form-control" id="user_pass" name="user_pass" placeholder="Password"
+                           [(ngModel)]="user_pass">
+                </div>
+                <button type="button" id="registerButton" (click)="onSubmitRegister()">Register</button>
+
             </div>
 
-            <div class="input-group">
-                <label for="mobile" class="input-group-addon">Mobile</label>
-                <input type="text" class="form-control" id="mobile" placeholder="Mobile" [(ngModel)]="mobile">
+            <div id="form2" *ngIf="activeForm == 'form2'">
+                <h5>Upload Profile Picture</h5>
+                <div class="input-group">
+                    <label for="email2" class="input-group-addon">Email</label>
+                    <span type="text" class="form-control" id="email2">{{user_email}}</span>
+                </div>
+
+                <img *ngIf="files.length"
+                     src="{{files[0].url}}"
+                     (click)="fileUploadWidget.onClickCamera()"
+                     style="max-width: 100%;"
+                >
+                <span *ngIf="!files.length" class="camera" (click)="fileUploadWidget.onClickCamera()">
+                    <i class="fa fa-user-circle-o  fa-5x" aria-hidden="true"></i>
+                    <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadComponent.onChangeFile($event)">
+                </span>
+
+                <div *ngIf=" fileUploadWidget.progressPercentage > 0 " class="progress">
+                    <div class="progress-bar" role="progressbar" [style.width]=" fileUploadWidget.progressPercentage + '%' " aria-valuenow="25"
+                         aria-valuemin="0" aria-valuemax="100">{{ fileUploadWidget.progressPercentage }} %
+                    </div>
+                </div>
+                <file-upload-widget
+                    #fileUploadWidget
+                    [title]="false"
+                    [fileSelectionButton]="false"
+                    [files]="files"
+                    [showUploadedFiles]="false"
+                    (onSuccess)="onSuccessUpdateProfile()"
+                ></file-upload-widget>
+                <button type="button" id="skipProfilePicture" (click)="activeForm = 'form3'">{{ files.length ? 'Next' : 'Skip'}}</button>
             </div>
-            <div class="input-group">
-                <label for="landline" class="input-group-addon">Landline</label>
-                <input type="text" class="form-control" id="landline" placeholder="Landline" [(ngModel)]="landline">
+
+            <div id="form3" *ngIf="activeForm == 'form3'">
+                <img *ngIf="files.length"
+                     src="{{files[0].url}}"
+                     style="max-width: 100%;"
+                >
+                <div class="input-group">
+                    <label for="email3" class="input-group-addon">Email</label>
+                    <span type="text" class="form-control" id="email3">{{user_email}}</span>
+                </div>
+                <div class="input-group">
+                    <label for="name" class="input-group-addon">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" [(ngModel)]="name">
+                </div>
+
+
+                <label for="email3" class="input-group-addon">Gender</label>
+                <div class="form-control">
+                    <div class="col-sm-6">
+                        <label for="male" class="radio-inline nowrap">
+                            <input type="radio" name="gender" id="male" [(ngModel)]="gender" value="m">
+                            <span>Male</span>
+                        </label>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="female" class="radio-inline nowrap">
+                            <input type="radio" name="gender" id="female" [(ngModel)]="gender" value="f">
+                            <span>Female</span>
+                        </label>
+                    </div>
+                </div>
+
+
+                <div class="input-group">
+                    <label for="address" class="input-group-addon">Address</label>
+                    <input type="text" class="form-control" id="address" name="address" placeholder="Address" [(ngModel)]="address">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon input-group-addon-primary" id="date_begin">Birthday</span>
+                    <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="birthday" ngbDatepicker
+                           #b="ngbDatepicker" (ngModelChange)="onChangeBirthday()">
+                    <div class="input-group-addon" (click)="b.toggle()">
+                        <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="mobile" class="input-group-addon">Mobile</label>
+                    <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobile" [(ngModel)]="mobile">
+                </div>
+                <div class="input-group">
+                    <label for="landline" class="input-group-addon">Landline</label>
+                    <input type="text" class="form-control" id="landline" name="landline" placeholder="Landline" [(ngModel)]="landline">
+                </div>
+                <button type="button" id="UpdateButton" (click)="onSubmitUpdateUserInfo()">Save</button>
             </div>
+
             <div *ngIf="errorMessage">
                 <div id="error_message">{{this.errorMessage}}</div>
             </div>
@@ -62,8 +121,6 @@
                 <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
                 <span>Loading...</span>
             </div>
-            <button type="button" id="registerButton" (click)="onClickUserRegister()">Register</button>
-
 
         </div>
     </section>

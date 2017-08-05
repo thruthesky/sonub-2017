@@ -47,6 +47,8 @@ export interface USER_COMMON {
     address?: string;
     birthday?: string;
     landline?: string;
+    photoID?: number;
+    photoURL?: string;
 }
 export interface USER_REGISTER extends USER_LOGIN, USER_COMMON { };
 

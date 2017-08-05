@@ -1,4 +1,5 @@
 <section class="page">
+
     <header-widget [title]=" app.text('profile') "></header-widget>
     <section class="content">
         <h1>Login html</h1>
@@ -15,5 +16,6 @@
             <img src="{{ app.user.profile.photoURL }}" style="max-width: 100%;">
             <button type="button" (click)="app.user.logout()">Logout</button>
         </div>
+
     </section>
 </section>
