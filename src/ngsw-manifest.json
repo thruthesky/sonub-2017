@@ -1,0 +1,5 @@
+{
+  "static.ignore": [
+    "DS_Store$"
+  ]
+}

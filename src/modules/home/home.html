@@ -1,38 +1,57 @@
 <section class="page">
-    <header-widget></header-widget>
+    <header-widget [title]=" app.text('sonub') "></header-widget>
     <section class="content">
 
-        <a class="btn btn-secondary" routerLink="/user">User page</a>
-        <button type="button" routerLink="/user/login">Login Page</button>
-        <button type="button" routerLink="/user/register">Register Page</button>
+<div class="flex-grid">
+    <div class="a">AAAA<br>aaaa</div>
+    <div class="b">BBBB<br>bbbb</div>
+    <div class="c">CCCC<br>cccc</div>
+    <div class="d">DDDD<br>dddd</div>
+</div>
 
-        <button type="button" routerLink="/forum">Forum page</button>
+<hr>
 
-
-        <hr> {{ app.text('welcome') }}
-        <hr>
-
-
-        <!-- <form (ngSubmit)="onSubmit()">
-            <input>
-        </form> -->
-
-
-
+<ul class="flex-grid">
+    <li class="a">AAAA<br>aaaa</li>
+    <li class="b">BBBB<br>bbbb</li>
+    <li class="c">CCCC<br>cccc</li>
+    <li class="d">DDDD<br>dddd</li>
+</ul>
 
 
-        <div *ngIf="app.user.isLogin">
-            {{ app.user.profile | json }}
-            <img src="{{ app.user.profile.photoURL }}">
-            <button type="button" (click)="app.user.logout()">Logout</button>
+<p>&nbsp;</p>
+        <div id="layout-grid">
+            <div class="grid-row">
+                <div class="a">
+                    My Groups<br> My contacts<br> My contacts<br> My contacts<br> My contacts<br> My contacts<br> My Groups<br>                    My contacts<br> My contacts<br> My contacts<br> My contacts<br> My contacts<br> My Groups<br> My contacts<br>                    My contacts<br> My contacts<br> My contacts<br> My contacts<br>
+                </div>
+                <div class="b">
+                    <post-view-widget [post]="post"></post-view-widget>
+                    <!-- <post-create-fake-widget></post-create-fake-widget> -->
+                    <textarea style="width:100%;" placeholder="What are you thinking right now?"></textarea>
+                    <div class="d-flex justify-content-between">
+                        <div class="">Upload Photos</div>
+                        <button type="text">POST</button>
+                    </div>
+                    <hr>
+                    <post-latest-widget></post-latest-widget>
+                </div>
+                <div class="c">
+                    Sponsers ...<br> Sponsers ...<br> Sponsers ...<br> Sponsers ...<br> Sponsers ...<br> Sponsers ...<br>                    Sponsers ...
+                    <br> Sponsers ...<br>
+                </div>
+            </div>
+            <div class="d">
+                Friend History ...<br> Friend History ...<br> Friend History ...<br> Friend History ...<br> Friend History
+                ...
+                <br> Friend History ...<br> Friend History ...<br> Friend History ...<br> Friend History ...<br> Friend History
+                ...<br> Friend History ...<br> Friend History ...<br> Friend History ...<br> Friend History ...<br> Friend
+                History ...<br> Chats ...<br> Chats ...<br> Chats ...<br> Chats ...<br> Chats ...<br> Chats ...<br>
+            </div>
         </div>
 
-
-
-        <post-view-widget [post]="post"></post-view-widget>
-        
-        <hr>
-        <post-latest-widget></post-latest-widget>
-        
+        this is bottom.
     </section>
+
+
 </section>

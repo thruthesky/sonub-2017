@@ -1,3 +1,25 @@
 {
-  "gcm_sender_id": "103953800507"
+  "gcm_sender_id": "103953800507",
+  "short_name": "Sonub",
+  "name": "Sonub",
+  "icons": [
+    {
+      "src": "assets/img/pwa-48x48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "assets/img/pwa-96x96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "assets/img/pwa-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "index.php?launcher=true",
+  "display": "standalone",
+  "background_color": "#FFFFFF"
 }

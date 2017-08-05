@@ -40,15 +40,6 @@ export class PushMessageService extends Base {
 
     }
 
-    updateWebToken() {
-
-        if (this.isCordova) return;
-        if (!this.user.isLogin) return;
-        this.request();
-
-    }
-
-
 
     /**
      * This is needed to be run only one time after device ready.
@@ -78,8 +69,18 @@ export class PushMessageService extends Base {
         }, e => {
             console.error(e);
         });
-        
+
     }
+
+
+    updateWebToken() {
+        if (this.isCordova) return;
+        if (!this.user.isLogin) return;
+        console.log("PushMessage:updateWebToken()", this.user.profile);
+        this.requestWebToken();
+    }
+
+
 
 
 
@@ -103,13 +104,13 @@ export class PushMessageService extends Base {
         FCMPlugin.getToken((token) => {
             console.log("FCM Token:", token);
             let platform = 'cordova';
-            if ( device ) platform = device.platform;
+            if (device) platform = device.platform;
             this.updateMyToken(token, platform);
         });
 
     }
 
-    request() {
+    requestWebToken() {
         // console.log('PushMessageService::request()');
         this.messaging.requestPermission().then(() => {
             this.messaging.getToken()
@@ -169,7 +170,7 @@ export class PushMessageService extends Base {
         }, err => this.alert.error(err));
     }
 
-    
+
 
     // send(tokenTo, title, body, url?): Observable<any> {
 

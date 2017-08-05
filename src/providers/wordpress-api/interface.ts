@@ -56,6 +56,7 @@ export interface USER_REGISTER_RESPONSE {
     user_email: string;
     display_name: string;
     session_id: string;
+    photoURL: string;
 };
 export interface USER_LOGIN_RESPONSE extends USER_REGISTER_RESPONSE { };
 export interface USER_UPDATE_RESPONSE extends USER_REGISTER_RESPONSE { };

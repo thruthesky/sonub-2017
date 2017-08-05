@@ -29,8 +29,8 @@ export class UserService extends Base {
     get isLogin(): boolean {
         /// one time data load from localStorage
         if (this.profile === null) this.loadProfile();
-        if (this.profile.session_id) return true;
-        return false;
+        if ( this.profile.session_id !== void 0 && this.profile.session_id != '' ) return true;
+        else return false;
     }
 
     /**
@@ -126,6 +126,7 @@ export class UserService extends Base {
             session_id: this.profile.session_id,
             keys_values: keys_values
         };
+        console.log('data', data);
         return this.wp.post( data );
     }
 

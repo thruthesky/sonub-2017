@@ -59,10 +59,10 @@ export class HomePage implements OnInit, AfterViewInit {
     }
 
 
-    onClickLoginWithNaver() {
-        let a = document.querySelector('#naver_id_login a');
-        a['click']();
-    }
+    // onClickLoginWithNaver() {
+    //     let a = document.querySelector('#naver_id_login a');
+    //     a['click']();
+    // }
 
 
 

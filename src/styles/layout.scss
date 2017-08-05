@@ -1,14 +1,78 @@
 body {
-    margin-top: 84px!important;
+    margin: 0;
+    padding: 0;
 }
+
+$break-a: 500px;
+$break-c: 600px;
+$break-d: 800px;
+$header-height: 64px;
+$header-border-bottom-height: 8px;
 section.page {
-    
     section.header {
-        
+        position: fixed;
+        z-index: 999;
+        top: 0;
+        width: 100%;
+        height: $header-height;
+        border-bottom: $header-border-bottom-height solid white;
+        overflow: hidden;
     }
-
+    section.header-panel-menu {
+        position: fixed;
+        z-index: 888;
+        top: $header-height;
+        left: 0;
+        right: 0;
+        background-color: rgba(13, 128, 191, 0.93);
+    }
     section.content {
-        padding: .6em;
-    }    
+        margin-top: $header-height - $header-border-bottom-height;
+        padding: 8px;
+        width: 100%;
+        overflow: hidden;
+    }
 }
 
+.flex-grid {
+    display: flex;
+    list-style: none;
+    margin:0;
+    padding: 0;
+    div, li {
+        margin: 4px;
+        padding: 8px;
+        background-color: blue;
+        color: white;
+    }
+}
+
+
+#layout-grid {
+    .grid-row > div {
+        float: left;
+    }
+    &:after {
+        display: block;
+        content: '';
+        clear: both;
+    }
+    .a {
+        display: none;
+        @media (min-width: $break-a) {
+            display: block;
+        }
+    }
+    .c {
+        display: none;
+        @media (min-width: $break-c) {
+            display: block;
+        }
+    }
+    .d {
+        display: none;
+        // @media (min-width: $break-d) {
+        //     display: block;
+        // }
+    }
+}

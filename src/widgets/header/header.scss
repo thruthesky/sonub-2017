@@ -1,3 +1,34 @@
 // .header.navbar {
 //     height: 80px;
 // }
+section.header {
+    padding-top: 8px;
+    background-color: #aaa;
+}
+
+#header-logo-text {
+    a {
+        display: block;
+        margin-left: 8px;
+        padding: 8px 16px;
+        font-weight: bold;
+        color: white;
+        background-color: #0072e7;
+    }
+}
+
+$header-user-photo-size: 39px;
+#header-user-photo {
+    display: inline-block;
+    width: $header-user-photo-size;
+    height: $header-user-photo-size;
+    line-height: $header-user-photo-size;
+    vertical-align: middle;
+    overflow: hidden;
+    img {
+        display: block;
+        width: $header-user-photo-size - 2px;
+        height: $header-user-photo-size - 2px;
+        border-radius: 50%;
+    }
+}

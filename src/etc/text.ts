@@ -7,6 +7,26 @@ export let TEXT = {
         en: 'Welcome, #name.',
         ko: '어서오십시오, #name님'
     },
+    login: {
+        en: 'Login',
+        ko: '로그인'
+    },
+    home: {
+        en: 'Home',
+        ko: '홈'
+    },
+    sonub: {
+        en: 'Sonub',
+        ko: '소셜허브'
+    },
+    forum: {
+        en: 'Forum',
+        ko: '게시판'
+    },
+    profile: {
+        en: 'User Profile',
+        ko: '회원 정보'
+    },
     error: {
         en: 'Error',
         ko: '에러'
@@ -24,8 +44,8 @@ export let TEXT = {
         ko: '이미 가입된 이메일입니다. 해당 메일로 로그인을 하시면 됩니다. 또는 새 비밀번호를 요청하십시오.'
     },
     social_register_email_exist: {
-        en: 'You are trying to login with social service but the email of that social service has already registered. This means you have to use the other social login service that you used to login before.',
-        ko: '앗! 소셜 로그인을 하시려는데, 그 소셜 서비스 계정의 메일 주소가 이미 가입되어져 있습니다. 이전에 로그인을 할 때 사용한 소셜 서비스로 로그인을 해 주십시오.'
+        en: 'Oh! You have logged in with your social service but failed login to the site. This means you have logged in already with different social login or registered to the site. Please use other social or site login.',
+        ko: '앗! 소셜 로그인은 성공했는데, 홈페이지 로그인에 실패했습니다. 방금 사용한 소셜 서비스 계정의 메일 주소가 이미 가입되어져 있는 것으로, 이전에 다른 소셜 서비스로 로그인을 했거나 홈페이지에 회원 가입을 하였습니다. 다른 소셜 또는 아이디로 로그인을 해 주세요.'
     },
     replied: {
         en: '#name commented: ',
@@ -67,7 +87,7 @@ TEXT[ERROR.RESPONSE_EMPTY] = { en: 'Response from backend is empty. This may be 
 TEXT[ERROR.RESPONSE_NO_CODE] = { en: 'Response from backend has no code', ko: '서버로 부터 응답 중에 코드 값이 없습니다.' };
 TEXT[ERROR.CODE_KEY_IS_EMPTY] = { en: 'Key is empty', ko: '키 값이 존재하지 않습니다.' };
 TEXT[ERROR.CODE_COMMENT_DUPLICATE] = { en: 'Please do not comment with same text.', ko: '비슷한 내용의 덧글을 반복적으로 작성 할 수 없습니다.' };
-TEXT[ERROR.LOGIN_FIRST] = { en: 'Please login first', ko: '로그인을 먼저하십시오.'};
+TEXT[ERROR.LOGIN_FIRST] = { en: 'Please login first', ko: '로그인을 먼저하십시오.' };
 
 
 /**
@@ -84,7 +104,7 @@ export function text(code, args?) {
     if (TEXT[code] === void 0) return code; // no code?
     if (TEXT[code][ln] === void 0) { // no code for that language ?
         // try 'en' for default language.
-        if ( TEXT['code']['en'] === void 0 ) return code;
+        if (TEXT['code']['en'] === void 0) return code;
         else ln = 'en';
     }
 
@@ -99,5 +119,25 @@ export function text(code, args?) {
         if (json) str = JSON.parse(str);
     }
     return str;
+}
+
+
+export function textUpper(code, args?) {
+    let re = text(code, args);
+    if (typeof re === 'string') return re.toUpperCase();
+    else return re;
+}
+export function textLower(code, args?) {
+    let re = text(code, args);
+    if (typeof re === 'string') return re.toLowerCase();
+    else return re;
+}
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+export function textFc(code, args?) {
+    let re = text(code, args);
+    if (typeof re === 'string') return capitalizeFirstLetter( re );
+    else return re;
 }
 

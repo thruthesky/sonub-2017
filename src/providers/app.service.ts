@@ -25,6 +25,8 @@ import { SOCIAL_PROFILE, USER_REGISTER } from './wordpress-api/interface';
 import { AlertModalService } from './modals/alert/alert.modal';
 import { PushMessageService } from './push-message';
 
+import { environment } from './../environments/environment';
+
 
 @Injectable()
 export class AppService extends Base {
@@ -66,7 +68,7 @@ export class AppService extends Base {
     }
 
     loginWithNaver() {
-        location.href = "https://www.sonub.com/wp-content/plugins/xapi-2/naver-login.php?return_url=https://sonub.com";
+        location.href = "https://www.sonub.com/wp-content/plugins/xapi-2/naver-login.php?return_url=" + environment.naverLoginReturnUrl
     }
 
     /**
@@ -145,6 +147,7 @@ export class AppService extends Base {
 
     warning(e) {
         this.alert.error(e);
+        setTimeout(() => this.rerenderPage(), 500);
     }
 
 
