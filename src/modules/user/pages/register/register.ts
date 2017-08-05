@@ -26,9 +26,7 @@ export class RegisterPage implements OnInit {
     name: string = '';
     mobile: string = '';
     gender: string = 'm';
-    address: string = '';
     birthday: _DATE;
-    landline: string = '';
 
     files: FILES = [];
 
@@ -83,11 +81,9 @@ export class RegisterPage implements OnInit {
         console.log("onSuccessUpdateProfile::", this.files);
         let data: USER_UPDATE = {
             user_email: this.user_email,
-            photoID: this.files[0].id,
             photoURL: this.files[0].url
         };
         if( this.files.length > 1 ) {
-            data['photoID']= this.files[1].id;
             data['photoURL']= this.files[1].url;
             setTimeout( () => this.fileUploadComponent.deleteFile( this.files[0]) );
         }
@@ -106,9 +102,7 @@ export class RegisterPage implements OnInit {
             name: this.name,
             mobile: this.mobile,
             gender: this.gender,
-            address: this.address,
-            birthday: this.birthday.year + this.add0(this.birthday.month) + this.add0(this.birthday.day),
-            landline: this.landline
+            birthday: this.birthday.year + this.add0(this.birthday.month) + this.add0(this.birthday.day)
         };
         this.app.user.update(data).subscribe( (res:USER_UPDATE_RESPONSE) => {
             console.log('updateUserInfo:', res);

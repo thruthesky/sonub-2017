@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 
 import { AppService } from './../../providers/app.service';
-import { FILES, FILE } from './../../providers/wordpress-api/interface';
+import {FILES, FILE, FILE_DELETE} from './../../providers/wordpress-api/interface';
 
 import { Base } from './../../etc/base';
 
@@ -199,7 +199,13 @@ export class FileUploadWidget extends Base implements OnInit {
     }
 
     deleteFile(file) {
-        this.app.file.delete({ id: file.id, post_password: this.post_password }).subscribe(id => {
+        let data: FILE_DELETE = {};
+
+        if( file.id ) data['id'] = file.id;
+        if( file.guid ) data['guid'] = file.guid;
+        if( file.post_password ) data['post_password'] = file.post_password;
+
+        this.app.file.delete(data).subscribe(id => {
             console.log("file deleted: ", id);
             // this.files = this.files.filter( file => file.id != id ); //
             let index = this.files.findIndex(file => file.id == id);
