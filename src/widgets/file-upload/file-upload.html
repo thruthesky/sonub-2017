@@ -6,16 +6,15 @@
         <span class="custom-file-control"></span>
     </label>
 
-    
-
-
 
     <div *ngIf=" progressPercentage > 0 " class="progress">
-  <div class="progress-bar" role="progressbar" [style.width]=" progressPercentage + '%' " aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ progressPercentage }} %</div>
-</div>
+        <div class="progress-bar" role="progressbar" [style.width]=" progressPercentage + '%' " aria-valuenow="25"
+             aria-valuemin="0" aria-valuemax="100">{{ progressPercentage }} %
+        </div>
+    </div>
 
 
-    <div class="files uploaded-files" *ngIf=" files.length ">
+    <div *ngIf="showUploadedFiles && files.length " class="files uploaded-files">
         <div class="file" *ngFor=" let file of files " [attr.type]="app.file.getFileType(file)">
             <div class='content' (click)="onClickDeleteButton(file)">
                 <span class="trash-button fa-stack fa-lg">
@@ -24,7 +23,11 @@
             </span>
                 <div [class]="app.file.getFileType(file)">
                     <img src="{{ file.url }}" *ngIf="app.file.getFileType(file) == 'image'">
-                    <a href="{{ file.url }}" target="_blank" *ngIf="app.file.getFileType(file) == 'attachment'">{{ file.name }}</a>
+                    <a href="{{ file.url }}"
+                       target="_blank"
+                       *ngIf="app.file.getFileType(file) == 'attachment'">
+                        {{file.name }}
+                    </a>
                 </div>
             </div>
         </div>
