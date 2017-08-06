@@ -39,11 +39,6 @@
                     <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadComponent.onChangeFile($event)">
                 </span>
 
-                <div *ngIf=" fileUploadWidget.progressPercentage > 0 " class="progress">
-                    <div class="progress-bar" role="progressbar" [style.width]=" fileUploadWidget.progressPercentage + '%' " aria-valuenow="25"
-                         aria-valuemin="0" aria-valuemax="100">{{ fileUploadWidget.progressPercentage }} %
-                    </div>
-                </div>
                 <file-upload-widget
                     #fileUploadWidget
                     [title]="false"
@@ -52,6 +47,7 @@
                     [showUploadedFiles]="false"
                     (success)="onSuccessUpdateProfile()"
                 ></file-upload-widget>
+                <button (click)="fileUploadWidget.onClickCamera()">Change Profile Picture</button>
                 <button type="button" id="skipProfilePicture" (click)="activeForm = 'form3'">{{ files.length ? 'Next' : 'Skip'}}</button>
             </div>
 
@@ -85,12 +81,6 @@
                         </label>
                     </div>
                 </div>
-
-
-                <div class="input-group">
-                    <label for="address" class="input-group-addon">Address</label>
-                    <input type="text" class="form-control" id="address" name="address" placeholder="Address" [(ngModel)]="address">
-                </div>
                 <div class="input-group">
                     <span class="input-group-addon input-group-addon-primary" id="date_begin">Birthday</span>
                     <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="birthday" ngbDatepicker
@@ -99,15 +89,11 @@
                         <i class="fa fa-calendar" style="cursor: pointer;"></i>
                     </div>
                 </div>
-
                 <div class="input-group">
                     <label for="mobile" class="input-group-addon">Mobile</label>
                     <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobile" [(ngModel)]="mobile">
                 </div>
-                <div class="input-group">
-                    <label for="landline" class="input-group-addon">Landline</label>
-                    <input type="text" class="form-control" id="landline" name="landline" placeholder="Landline" [(ngModel)]="landline">
-                </div>
+
                 <button type="button" id="UpdateButton" (click)="onSubmitUpdateUserInfo()">Save</button>
             </div>
 
