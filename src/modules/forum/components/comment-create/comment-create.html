@@ -3,7 +3,9 @@
     <form (ngSubmit)="contentBox.blur(); onSubmit()" >
 
         <div class="comment-form-grid">
-            <div class="a user-phogo">Photo</div>
+            <div class="a comment-create-user-photo">
+                    <img *ngIf="userPhotoURL" src="{{ userPhotoURL }}">
+            </div>
             <div class="b input-box">
                 <input #contentBox class="comment-content" name="comment_content" [(ngModel)]="comment_content">
             </div>
