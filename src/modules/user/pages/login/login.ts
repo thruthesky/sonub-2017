@@ -20,6 +20,8 @@ export class LoginPage implements OnInit, AfterViewInit {
         public app: AppService
     ) {
 
+        app.title('login');
+            
     }
 
     ngOnInit() {
@@ -27,7 +29,8 @@ export class LoginPage implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-
+        
+        
     }
 
 

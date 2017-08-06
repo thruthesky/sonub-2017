@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppService } from './../providers/app.service';
+import { HeaderWidget } from './../widgets/header/header';
+
 
 
 @Component({
@@ -8,16 +10,24 @@ import { AppService } from './../providers/app.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
+  @ViewChild('headerWidget') headerWidget: HeaderWidget;
   constructor(
     router: Router,
-    private app: AppService
+    public app: AppService
   ) {
 
     document.addEventListener('deviceready', () => this.onDeviceReady(), false);
 
     
   }
+
+  ngAfterViewInit() {
+
+    this.app.headerWidget = this.headerWidget;
+  }
+
+  
 
   onDeviceReady() {
     this.app.push.initCordova();

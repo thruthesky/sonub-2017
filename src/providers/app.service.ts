@@ -28,6 +28,8 @@ import { PushMessageService } from './push-message';
 import { environment } from './../environments/environment';
 
 
+import { HeaderWidget } from './../widgets/header/header';
+
 @Injectable()
 export class AppService extends Base {
     config = config;
@@ -38,6 +40,8 @@ export class AppService extends Base {
     auth: firebase.auth.Auth;
     db: firebase.database.Reference;
     kakao;
+
+    headerWidget: HeaderWidget;
     constructor(
         public user: UserService,
         public forum: ForumService,
@@ -197,33 +201,6 @@ export class AppService extends Base {
         });
 
 
-        // let password = `${profile.uid}--@~'!--`; /// <<<=== Week password. uid is used as user_login. You must not show uid to user or any browser.
-
-
-
-
-        // console.log("going to login with: ", uid, password);
-        // this.user.login(uid, password).subscribe(res => {
-        //     callback();
-        // }, error => {
-        //     console.log("social Login Failed. going to register");
-        //     if (!profile.email) profile.email = uid + '.com'; // if email is not given, make one.
-        //     let data: USER_REGISTER = {
-        //         user_login: uid,
-        //         user_pass: password,
-        //         user_email: profile.email,
-        //         name: profile.name
-        //     };
-        //     console.log('data:');
-        //     console.log(data);
-        //     this.user.register(data).subscribe(res => {
-        //         console.log("socialLoginSuccess: ", res);
-        //         callback();
-        //     }, e => {
-        //         if ( e.code == 'email_exist' ) e.code = 'social_register_email_exist';
-        //         this.warning( e );
-        //     });
-        // });
     }
 
 
@@ -241,4 +218,12 @@ export class AppService extends Base {
         if (callback) callback();
     }
 
+
+    /**
+     * Set's header title.
+     * @param str 
+     */
+    title(str) {
+        this.headerWidget.title = this.text(str);
+    }
 }

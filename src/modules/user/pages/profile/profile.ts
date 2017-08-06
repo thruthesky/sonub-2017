@@ -15,6 +15,7 @@ export class ProfilePage implements OnInit {
     constructor(
         public app: AppService
     ) {
+        app.title('profile');
         this.initProfile();
     }
 

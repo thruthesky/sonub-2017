@@ -16,6 +16,7 @@ import { ProfilePage } from './pages/profile/profile';
 
 const appRoutes: Routes = [
     { path: 'user', component: ProfilePage },
+    { path: 'user/profile', component: ProfilePage },
     { path: 'user/login', component: LoginPage },
     { path: 'user/register', component: RegisterPage },
     // { path: '', pathMatch: 'full', component: LoginPage },

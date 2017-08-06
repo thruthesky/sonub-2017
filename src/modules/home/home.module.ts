@@ -10,8 +10,8 @@ import { HomePage } from './home';
 export { HomePage } from './home';
 
 
-import { PostViewWidget } from './../../widgets/post-view/post-view';
-import { PostLatestWidget } from './../../widgets/post-latest/post-latest';
+// import { PostViewWidget } from './../../widgets/post-view/post-view';
+// import { PostLatestWidget } from './../../widgets/post-latest/post-latest';
 
 
 

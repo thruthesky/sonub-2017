@@ -1,8 +1,8 @@
-import {Component, ViewChild, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {FILES, USER_REGISTER, USER_UPDATE, USER_UPDATE_RESPONSE} from "../../../../providers/wordpress-api/interface";
-import {AppService} from "../../../../providers/app.service";
-import {FileUploadWidget} from "../../../../widgets/file-upload/file-upload";
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
+import { FILES, USER_REGISTER, USER_UPDATE, USER_UPDATE_RESPONSE } from "../../../../providers/wordpress-api/interface";
+import { AppService } from "../../../../providers/app.service";
+import { FileUploadWidget } from "../../../../widgets/file-upload/file-upload";
 
 export interface _DATE {
     year: number;
@@ -36,17 +36,20 @@ export class RegisterPage implements OnInit {
     errorMessage: string = null;
     loading: boolean = false;
 
-    days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     now = (new Date());
 
-    constructor(private app: AppService,
-                private router: Router) {
+    constructor(
+        public app: AppService,
+        private router: Router
+    ) {
+        app.title('register');
     }
 
     ngOnInit() {
         this.birthday = {
             year: this.now.getFullYear(),
-            month: this.now.getMonth()+1,
+            month: this.now.getMonth() + 1,
             day: this.now.getDate()
         };
     }
@@ -74,24 +77,24 @@ export class RegisterPage implements OnInit {
         }, error => {
             console.log('app.user.register::error', error);
             this.loading = false;
-            this.app.warning( error );
+            this.app.warning(error);
             this.errorMessage = error.code
         });
     }
 
-    onSuccessUpdateProfile(){
+    onSuccessUpdateProfile() {
         console.log("onSuccessUpdateProfile::", this.files);
         let data: USER_UPDATE = {
             user_email: this.user_email,
             photoID: this.files[0].id,
             photoURL: this.files[0].url
         };
-        if( this.files.length > 1 ) {
-            data['photoID']= this.files[1].id;
-            data['photoURL']= this.files[1].url;
-            setTimeout( () => this.fileUploadComponent.deleteFile( this.files[0]) );
+        if (this.files.length > 1) {
+            data['photoID'] = this.files[1].id;
+            data['photoURL'] = this.files[1].url;
+            setTimeout(() => this.fileUploadComponent.deleteFile(this.files[0]));
         }
-        this.app.user.update(data).subscribe( (res:USER_UPDATE_RESPONSE) => {
+        this.app.user.update(data).subscribe((res: USER_UPDATE_RESPONSE) => {
             console.log('updateProfilePicture:', res);
         }, err => {
             console.log('error while updating user profile picture', err);
@@ -110,7 +113,7 @@ export class RegisterPage implements OnInit {
             birthday: this.birthday.year + this.add0(this.birthday.month) + this.add0(this.birthday.day),
             landline: this.landline
         };
-        this.app.user.update(data).subscribe( (res:USER_UPDATE_RESPONSE) => {
+        this.app.user.update(data).subscribe((res: USER_UPDATE_RESPONSE) => {
             console.log('updateUserInfo:', res);
             this.loading = false;
             this.router.navigateByUrl('/');
@@ -121,7 +124,7 @@ export class RegisterPage implements OnInit {
         });
     }
 
-    add0(n:number): string {
+    add0(n: number): string {
         return n < 10 ? '0' + n : n.toString();
     }
 

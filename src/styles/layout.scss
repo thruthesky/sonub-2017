@@ -3,13 +3,10 @@ body {
     padding: 0;
 }
 
-$break-a: 500px;
-$break-c: 600px;
-$break-d: 800px;
 $header-height: 64px;
 $header-border-bottom-height: 8px;
 section.page {
-    section.header {
+    section.page-header {
         position: fixed;
         z-index: 999;
         top: 0;
@@ -26,7 +23,7 @@ section.page {
         right: 0;
         background-color: rgba(13, 128, 191, 0.93);
     }
-    section.content {
+    section.page-body {
         margin-top: $header-height - $header-border-bottom-height;
         padding: 8px;
         width: 100%;
@@ -34,45 +31,75 @@ section.page {
     }
 }
 
-.flex-grid {
-    display: flex;
-    list-style: none;
-    margin:0;
-    padding: 0;
-    div, li {
-        margin: 4px;
-        padding: 8px;
-        background-color: blue;
-        color: white;
-    }
-}
-
-
-#layout-grid {
-    .grid-row > div {
-        float: left;
-    }
-    &:after {
-        display: block;
-        content: '';
-        clear: both;
+$break-a: 600px;
+$break-c: 840px;
+$break-d: 1100px;
+$layout-max-width: 1240px;
+$a-width: 160px;
+$c-width: 260px;
+$d-width: 160px;
+.layout-grid {
+    position: relative;
+    .grid-wrapper {
+        position: relative;
+        max-width: $layout-max-width;
+        margin: 0 auto;
+        &:after {
+            display: block;
+            content: "";
+            clear: both;
+        }
     }
     .a {
         display: none;
-        @media (min-width: $break-a) {
-            display: block;
-        }
     }
+    .b {}
     .c {
         display: none;
-        @media (min-width: $break-c) {
-            display: block;
-        }
     }
     .d {
         display: none;
-        // @media (min-width: $break-d) {
-        //     display: block;
-        // }
+    }
+    @media (min-width: $break-a) {
+        .a {
+            display: block;
+            float: left;
+            width: $a-width;
+            overflow: hidden;
+            background-color: #ba9;
+        }
+        .b {
+            margin-left: $a-width;
+            overflow: hidden;
+        }
+    }
+    @media (min-width: $break-c) {
+        .b {
+            margin-right: $c-width;
+        }
+        .c {
+            position: absolute;
+            display: block;
+            top: 0;
+            right: 0;
+            width: $c-width;
+            background-color: #abb;
+        }
+    }
+    @media (min-width: $break-d) {
+        .b {
+            margin-right: $c-width + $d-width;
+        }
+        .c {
+            right: $d-width;
+        }
+        .d {
+            position: absolute;
+            display: block;
+            top: 0;
+            right: 0;
+            width: $d-width;
+            background-color: #aca;
+        }
     }
 }

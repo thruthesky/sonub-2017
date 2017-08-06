@@ -46,6 +46,7 @@ import { PushMessageService } from './../providers/push-message';
 
 
 import { ModalServiceModule } from '../providers/modals/modal.service.module';
+import { WidgetsModule } from './../widgets/widgets.module';
 
 
 const appRoutes: Routes = [
@@ -69,7 +70,8 @@ const appRoutes: Routes = [
     UserModule,
     ForumModule,
     RouterModule.forRoot(appRoutes),
-    HttpModule
+    HttpModule,
+    WidgetsModule
   ],
   providers: [
     AppService,

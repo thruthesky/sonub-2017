@@ -53,6 +53,7 @@ export class Base extends Library {
 
     getErrorString(e): string {
         let code = this.getError(e).code;
+        console.log("error code: ", code);
         let str = text(code);
         return str;
         // return this.getError(e).code + ': ' + this.getError(e).message;

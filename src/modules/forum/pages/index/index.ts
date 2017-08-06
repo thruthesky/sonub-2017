@@ -13,8 +13,9 @@ export class ForumIndexPage implements OnInit {
     categories: CATEGORIES = null;
     constructor(
         private http: HttpClient,
-        private app: AppService
+        public app: AppService
     ) {
+        app.title('forum');
         // this.app.file.uploadForm( {} ).subscribe( e => {
         //     console.log(e);
         // }, err => console.log( this.app.file.getErrorString(err) ) );

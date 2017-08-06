@@ -44,6 +44,7 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
         private forumShare: ForumCodeShareService
     ) {
 
+        app.title('forum');
 
         active.params.subscribe(params => {
             this.slug = params['slug'];
@@ -79,11 +80,12 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
         let req: POST_LIST = {
             category_name: this.slug,
             paged: this.pageNo,
-            posts_per_page: 20,
+            posts_per_page: 5,
             thumbnail: '200x200'
         };
-        this.app.forum.postList(req).subscribe(page => {
+        this.app.forum.postList(req).subscribe((page:POST_LIST_RESPONSE) => {
             console.log('Page::', page);
+            this.app.title( page.category_name );
             this.inLoading = false;
             if (page.paged == page.max_num_pages) {
                 this.noMorePosts = true;
