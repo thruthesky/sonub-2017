@@ -30,10 +30,22 @@ import { PostViewWidget } from './../../widgets/post-view/post-view';
 
 import { ForumViewPage } from './pages/view/view';
 
+import { AdvertisementHowtoPage } from './pages/advertisement-howto/advertisement-howto';
+import { AdvertisementCreateEditPage } from './pages/advertisement-create-edit/advertisement-create-edit';
+
 
 const appRoutes: Routes = [
+
+
+    /// advertisement
+    { path: 'adv/howto', component: AdvertisementHowtoPage },
+    { path: 'adv/create', component: AdvertisementCreateEditPage },
+    { path: 'adv/edit/:id', component: AdvertisementCreateEditPage },
+
     { path: 'view/:id/:title', component: ForumViewPage }, /** /view/:id/-with-title */
     { path: 'view/:id', component: ForumViewPage },
+
+    ///
     { path: 'forum/:slug', component: ForumListPage },
     { path: 'forum', component: ForumIndexPage }
 ];
@@ -46,7 +58,9 @@ const appRoutes: Routes = [
         CommentCreateComponent,
         CommentViewComponent,
         CommentEditContent,
-        ForumViewPage
+        ForumViewPage,
+        AdvertisementHowtoPage,
+        AdvertisementCreateEditPage
     ],
     entryComponents: [
         PostCreateEditContent,

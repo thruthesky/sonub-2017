@@ -5,10 +5,9 @@ $file-box-height: 88px;
 /** for file upload template */
 .file-upload {
     overflow: auto;
-    background-color: #e7e7e7;
     .title {
         margin: $file-content-space;
-        font-size: 1.2em;
+        font-size: 1em;
     }
     .file-upload-button  {
         margin: $file-content-space;

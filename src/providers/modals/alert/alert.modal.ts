@@ -44,4 +44,14 @@ export class AlertModalService extends Base {
     return this.open({ title: text('error'), content: content, button: text('close') });
   }
 
+
+  /**
+   * 
+   * @param title 
+   * @param content 
+   */
+  notice( title, content ) {
+    return this.open({ title: text(title), content: text(content), button: text('close') });
+  }
+
 }
