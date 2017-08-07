@@ -5,7 +5,6 @@
 }
 
 .box-menu {
-    margin-right: $box-padding-y;
     margin-bottom: $box-padding-y;
     font-size: $font-size-small;
     ul {
@@ -13,3 +12,16 @@
     }
 }
 
+
+.login-or-register {
+    ul {
+        @include list-line();
+        @include list-dots();
+    }
+}
+
+
+.advertisement-menu {
+    display: flex;
+    justify-content: space-between;
+}

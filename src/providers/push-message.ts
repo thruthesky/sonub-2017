@@ -117,12 +117,12 @@ export class PushMessageService extends Base {
                 .then((currentToken) => {
                     if (currentToken) {
                         //
-                        console.log("Got push token: ", currentToken);
+                        // console.log("Got push token: ", currentToken);
                         // if (currentToken == this.getMyToken()) {
                         //     console.log("User token has not changed. so, not going to update");
                         //     return;
                         // }
-                        console.log("User token has chagned. so, going to update.");
+                        // console.log("User token has chagned. so, going to update.");
                         this.updateMyToken(currentToken, 'browser');
                         // this.updateToken(uid, currentToken).then(() => this.tokenUpdated(currentToken))
 

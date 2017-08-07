@@ -16,6 +16,13 @@ export class Library {
 
 
 
+    /**
+     * .set() automatically JSON.stringify()
+     * .get() automatically JSON.parse()
+     * 
+     * @return .get() returns null if there is error or the value is falsy.
+     * 
+     */
     get storage() {
         return {
             get: (key) => {
@@ -28,7 +35,7 @@ export class Library {
                         return null;
                     }
                 }
-                else return value;
+                return null;
             },
             set: (key, data) => {
                 // console.log("storage::set()", data);

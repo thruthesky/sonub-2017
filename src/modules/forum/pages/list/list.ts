@@ -77,7 +77,7 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
         this.noMorePosts = false;
         this.pageNo = 0;
         this.pages = [];
-        
+
     }
     loadPage() {
         console.log(`::loadPage(). noMorePosts: ${this.noMorePosts}, inLoading: ${this.inLoading}`);
@@ -92,15 +92,39 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
             posts_per_page: 5,
             thumbnail: '200x200'
         };
-        this.app.forum.postList(req).subscribe((page:POST_LIST_RESPONSE) => {
+        this.loadCache(req);
+        this.app.forum.postList(req).subscribe((page: POST_LIST_RESPONSE) => {
             console.log('Page::', page);
-            this.app.title( page.category_name );
+            this.app.title(page.category_name);
             this.inLoading = false;
             if (page.paged == page.max_num_pages) {
                 this.noMorePosts = true;
             }
-            this.pages.push(page);
+            this.addOrReplacePage(req, page);
         }, err => this.app.displayError(this.app.getErrorString(err)));
+    }
+
+    loadCache(req: POST_LIST) {
+        let p = this.app.cacheGetPage(req);
+        if (p) {
+            console.log("cached for ", this.app.cacheKeyPage(req));
+            this.pages.push(p);
+        }
+    }
+    /**
+     * 
+     * @param req 
+     * @param page 
+     */
+    addOrReplacePage(req: POST_LIST, page: POST_LIST_RESPONSE) {
+        let i = page.paged - 1;
+        if ( i < this.pages.length ) {
+            console.log("replace cached page for: ", this.app.cacheKeyPage(req));
+            this.pages[i] = page;
+        }
+        else this.pages.push(page);
+        this.app.cacheSetPage(req, page);
+
     }
 
 
@@ -117,7 +141,7 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
 
         this.postCreateEditModal.open({ post: post }).then(id => {
             console.log(id);
-            this.forumShare.updatePost( post );
+            this.forumShare.updatePost(post);
         }, err => console.error(err));
 
     }
@@ -145,7 +169,7 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
             if (res.mode == 'delete') {
                 page.posts.splice(index, 1);
             }
-            else this.forumShare.updatePost( page.posts[index] );
+            else this.forumShare.updatePost(page.posts[index]);
 
 
         }, err => this.app.warning(err));
@@ -159,7 +183,7 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
         this.app.forum.postData(post_ID).subscribe(post => {
             console.log('this.posts:: ', this.pages);
 
-            if( ! this.pages[0].posts ) {
+            if (!this.pages[0].posts) {
                 this.pages[0]['posts'] = [];
             }
             this.pages[0].posts.unshift(post);

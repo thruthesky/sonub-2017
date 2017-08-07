@@ -68,13 +68,13 @@ $d-width: 160px;
             overflow: hidden;
         }
         .b {
-            margin-left: $a-width;
+            margin-left: $a-width + $box-padding-x;
             overflow: hidden;
         }
     }
     @media (min-width: $break-c) {
         .b {
-            margin-right: $c-width;
+            margin-right: $c-width + $box-padding-x;
         }
         .c {
             position: absolute;
@@ -87,7 +87,7 @@ $d-width: 160px;
     }
     @media (min-width: $break-d) {
         .b {
-            margin-right: $c-width + $d-width;
+            margin-right: $c-width + $d-width + $box-padding-x;
         }
         .c {
             right: $d-width;

@@ -30,6 +30,11 @@ import { environment } from './../environments/environment';
 
 import { HeaderWidget } from './../widgets/header/header';
 
+import {
+    POST_LIST, PAGE
+} from './wordpress-api/interface';
+
+
 @Injectable()
 export class AppService extends Base {
     config = config;
@@ -84,7 +89,7 @@ export class AppService extends Base {
     checkLoginWithNaver() {
         let params = this.queryString();
 
-        console.log('qs:', params);
+        // console.log('qs:', params);
 
         if (params['naver_login_response'] === void 0) return;
 
@@ -225,5 +230,35 @@ export class AppService extends Base {
      */
     title(str) {
         this.headerWidget.title = this.text(str);
+    }
+
+
+    /**
+     * 
+     * @param key 
+     * @param value 
+     */
+    cacheSet(key, value) {
+        this.storage.set(key, value);
+    }
+    cacheGet(key) {
+        return this.storage.get(key);
+    }
+
+    cacheKeyPage(req: POST_LIST) {
+        return req.category_name + '-' + req.paged;
+    }
+    /**
+     * Gets a page of post list and set it in cache.
+     * @note it caches upto 3 pages only.
+     * @note it can be used for latest posts of a forum.
+     * @param req Request of post list.
+     * @param page 
+     */
+    cacheSetPage(req: POST_LIST, page: PAGE) {
+        if (req.paged <= 3) this.cacheSet(this.cacheKeyPage(req), page);
+    }
+    cacheGetPage(req: POST_LIST) {
+        return this.cacheGet(this.cacheKeyPage(req));
     }
 }

@@ -196,7 +196,7 @@ export type POSTS = Array<POST>;
 type THUMBNAIL_SIZES = '32x32' | '64x64' | '100x100' | '200x200' | '400x400' | '800x320' | '800x800';
 
 export interface POST_LIST extends REQUEST {
-    category_name: string; // category name
+    category_name: string; // slug. This is not category name. This is how wordpress does. it uses category_name insteadm of 'slug' to search slug.
     posts_per_page?: number; // no of posts in a page.
     paged?: number; // what page.
     thumbnail?: THUMBNAIL_SIZES; // default thumbnail size.

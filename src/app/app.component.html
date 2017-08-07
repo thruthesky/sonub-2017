@@ -6,10 +6,14 @@
             <div class="grid-wrapper">
                 <div class="a">
 
-                    <div *ngIf="!app.user.isLogin">
-                        <a class="btn btn-secondary" routerLink="/user/login">Login</a>
-                        <button type="button" routerLink="/user/register">Register Page</button><br>
+                    <div class="box box-menu login-or-register" *ngIf="!app.user.isLogin">
+                        <ul>
+                            <li><a href="/user/login" routerLink="/user/login">Login</a></li>
+                            <li><a href="/user/register" routerLink="/user/register">Register</a></li>
+                        </ul>
+
                     </div>
+
                     <div class="box box-menu my-menu" *ngIf="app.user.isLogin">
                         <ul>
                             <li><a href="/user/profile" routerLink="/user/profile">User Profile</a></li>
@@ -36,7 +40,24 @@
                     <router-outlet></router-outlet>
                 </div>
                 <div class="c">
-                    Sponsers ...
+                    <div class="box box-menu birthdays">
+                        <i class="fa fa-birthday-cake" aria-hidden="true"></i>
+                        Birthday: Jaeho and 2 other
+                    </div>
+
+                    <div class="box box-menu advertisement">
+                        <ul class="advertisement-menu">
+                            <li>Sponsered</li>
+                            <li>Create Ad</li>
+                        </ul>
+                        <div class="advertisement-side-bar">
+                            Advertisement Title<br>
+                            Domain<br>
+                            Advertisement Content less than 128 characters.
+                        </div>
+                    </div>
+
+
                     <br>&nbsp;<br> Sponsers ...
                     <br>&nbsp;<br> Sponsers ...
                     <br>&nbsp;<br> Sponsers ...

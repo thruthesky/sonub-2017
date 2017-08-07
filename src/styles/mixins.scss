@@ -32,5 +32,6 @@
         }
         li:first-child:before {
             content: '';
+            margin: 0;
         }
 }
