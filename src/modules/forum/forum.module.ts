@@ -32,7 +32,8 @@ import { ForumViewPage } from './pages/view/view';
 
 
 const appRoutes: Routes = [
-    { path: 'view/:id/:title', component: ForumViewPage },
+    { path: 'view/:id/:title', component: ForumViewPage }, /** /view/:id/-with-title */
+    { path: 'view/:id', component: ForumViewPage },
     { path: 'forum/:slug', component: ForumListPage },
     { path: 'forum', component: ForumIndexPage }
 ];

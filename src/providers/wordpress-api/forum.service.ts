@@ -17,8 +17,9 @@ import {
     COMMENT_UPDATE, COMMENT_UPDATE_RESPONSE, COMMENT_DATA, COMMENT_DATA_RESPONSE,
     CATEGORIES,
     POST_DELETE_RESPONSE,
-    COMMENT_DELETE, COMMENT_DELETE_RESPONSE
-    
+    COMMENT_DELETE, COMMENT_DELETE_RESPONSE,
+    FILE
+
 } from './interface';
 
 
@@ -77,7 +78,7 @@ export class ForumService extends Base {
 
     postLatest(category_name, no_of_posts = 10): Observable<POSTS> {
         return this.postList({ category_name: category_name, paged: 1, posts_per_page: no_of_posts })
-            .map( (p: PAGE) => p.posts );
+            .map((p: PAGE) => p.posts);
     }
     postPopular() {
 
@@ -90,7 +91,7 @@ export class ForumService extends Base {
      * @param req Comment create data
      */
     commentCreate(req: COMMENT_CREATE): Observable<COMMENT_CREATE_RESPONSE> {
-        if ( ! this.user.isLogin ) return Observable.throw( error( ERROR.LOGIN_FIRST ));
+        if (!this.user.isLogin) return Observable.throw(error(ERROR.LOGIN_FIRST));
 
         let data = Object.assign({}, req);
         data.route = 'wordpress.wp_new_comment';
@@ -124,7 +125,7 @@ export class ForumService extends Base {
         return this.wp.post(req);
     }
 
-    commentSendPushMessages( comment_ID: number ): Observable<number> {
+    commentSendPushMessages(comment_ID: number): Observable<number> {
         let req = {
             route: 'wordpress.comment_send_push_messages',
             session_id: this.user.sessionId,
@@ -139,11 +140,31 @@ export class ForumService extends Base {
     }
 
 
-    postUrl( id: number ): string {
-        return super.postUrl( id );
+    postUrl(id: number): string {
+        return super.postUrl(id);
     }
 
 
+    getFirstImage(post: POST): FILE {
+        if (post.files && post.files.length) {
+            for (let file of post.files) {
+                if (file.type.indexOf('image') == -1) continue;
+                else return file;
+            }
+        }
+        return null;
+    }
 
+    getFirstImageUrl(post: POST) {
+        let file = this.getFirstImage(post);
+        if (file) return file.url;
+        else return null;
+    }
+
+    getFirstImageThumbnailUrl(post: POST) {
+        let file = this.getFirstImage(post);
+        if (file) return file.url_thumbnail;
+        else return null;
+    }
 
 }

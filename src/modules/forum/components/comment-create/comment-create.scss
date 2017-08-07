@@ -87,11 +87,4 @@ $comment-form-grid-c-width: $comment-button-width * 2+1 -5; // +1 is for border.
         width: $comment-form-grid-a-width;
         height: $comment-form-grid-height;
     }
-    .anonymous {
-        height: $comment-form-grid-height;
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: center;
-        align-items: center;
-    }
 }

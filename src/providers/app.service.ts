@@ -60,7 +60,7 @@ export class AppService extends Base {
         public push: PushMessageService
     ) {
         super();
-        console.log("AppService::constructor()");
+        // console.log("AppService::constructor()");
 
         this.initKakao();
         this.checkLoginWithNaver();
@@ -77,7 +77,7 @@ export class AppService extends Base {
     }
 
     loginWithNaver() {
-        location.href = "https://www.sonub.com/wp-content/plugins/xapi-2/naver-login.php?return_url=" + environment.naverLoginReturnUrl
+        location.href = "https://www.sonub.com/wp-content/plugins/xapi-2/naver-login.php?return_url=" + environment.clientUrl
     }
 
     /**
@@ -241,6 +241,11 @@ export class AppService extends Base {
     cacheSet(key, value) {
         this.storage.set(key, value);
     }
+    /**
+     * 
+     * @param key Key
+     * @return null if there is no data.
+     */
     cacheGet(key) {
         return this.storage.get(key);
     }
@@ -261,4 +266,11 @@ export class AppService extends Base {
     cacheGetPage(req: POST_LIST) {
         return this.cacheGet(this.cacheKeyPage(req));
     }
+
+
+    get userProfilePhotoUrl() {
+        if (this.user.isLogin && this.user.profile.photoURL) return this.user.profile.photoURL;
+        else return '/assets/img/anonymous.png';
+    }
+
 }

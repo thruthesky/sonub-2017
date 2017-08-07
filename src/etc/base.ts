@@ -26,11 +26,11 @@ export class Base extends Library {
 
 
     xapiUrl() {
-        return environment.homeUrl + '/wp-json/xapi/v2/do';
+        return environment.serverUrl + '/wp-json/xapi/v2/do';
     }
 
     postUrl(id: number): string {
-        return environment.homeUrl + '/view/' + id;
+        return '/view/' + id;
     }
 
     // error(code, message?) {

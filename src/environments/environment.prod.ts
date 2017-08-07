@@ -1,8 +1,8 @@
 export const environment = {
   production: true,
   hmr: false,
-  homeUrl: 'https://www.sonub.com',
-  naverLoginReturnUrl: 'https://www.sonub.com',
+  clientUrl: 'https://www.sonub.com',
+  serverUrl: 'https://www.sonub.com',
   firebase: {
     apiKey: "AIzaSyBef-7XTu-LqgV-3KGYgx8T1lxuZ7TYgZk",
     authDomain: "sonub-e2b13.firebaseapp.com",

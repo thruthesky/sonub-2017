@@ -6,7 +6,7 @@
 
 .box-menu {
     margin-bottom: $box-padding-y;
-    font-size: $font-size-small;
+    font-size: $font-size-sm;
     ul {
         @include list-style-none();
     }
@@ -24,4 +24,9 @@
 .advertisement-menu {
     display: flex;
     justify-content: space-between;
+}
+
+
+.link-secondary {
+    color: #777;
 }

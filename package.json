@@ -10,6 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "hmr": "ng serve --hmr -e=hmr",
+    "hmr:ssl": "ng serve --hmr -e=hmr --ssl true --ssl-key './tmp/ssl/privkey.pem' --ssl-cert './tmp/ssl/fullchain.pem' --host sonub.com --port 443",
     "hmr:ssl:dev": "ng serve --hmr -e=dev --ssl true --ssl-key './tmp/ssl/privkey.pem' --ssl-cert './tmp/ssl/fullchain.pem' --host sonub.com --port 443",
     "hmr:ssl:prod": "ng serve --hmr -e=prod --ssl true --ssl-key './tmp/ssl/privkey.pem' --ssl-cert './tmp/ssl/fullchain.pem' --host sonub.com --port 443",
     "s": "sudo npm run ssl",

@@ -16,7 +16,12 @@
 
                     <div class="box box-menu my-menu" *ngIf="app.user.isLogin">
                         <ul>
-                            <li><a href="/user/profile" routerLink="/user/profile">User Profile</a></li>
+                            <li class="profile">
+                                <a href="/user/profile" routerLink="/user/profile">
+                                    <img src="{{ app.userProfilePhotoUrl }}">
+                                User Profile
+                            </a>
+                        </li>
                             <li><a href="" routerLink="/user/profile">Message</a></li>
                             <li><a href="" routerLink="/user/profile">Friends</a></li>
                             <li><a href="" routerLink="/user/profile">Groups</a></li>
@@ -45,10 +50,31 @@
                         Birthday: Jaeho and 2 other
                     </div>
 
+
+                    <div class="box box-menu news">
+                        <ul class="news-menu">
+                            <li><a class="link-secondary" href="/forum/news" routerLink="/forum/news">Headline News</a></li>
+                            <li class="link-primary" (click)="onClickCreateNews()">Create News</li>
+                        </ul>
+                        <div *ngIf="news" class="news-list">
+                            <ul>
+                                <li *ngFor="let post of news.posts">
+                                    <a href="{{ app.forum.postUrl( post.ID )}}" routerLink="{{ app.forum.postUrl( post.ID )}}">
+                                        <img src="{{ app.forum.getFirstImageThumbnailUrl(post) }}">
+                                        <div class="post-title">{{ post.post_title }}</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+
+
                     <div class="box box-menu advertisement">
                         <ul class="advertisement-menu">
-                            <li>Sponsered</li>
-                            <li>Create Ad</li>
+                            <li><a class="link-secondary" href="/forum/news" routerLink="/forum/news">Sponsered</a></li>
+                            <li class="link-primary" (click)="onClickCreateNews()">Create Ad</li>
                         </ul>
                         <div class="advertisement-side-bar">
                             Advertisement Title<br>

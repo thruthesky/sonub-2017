@@ -36,7 +36,7 @@ $break-c: 840px;
 $break-d: 1100px;
 $layout-max-width: 1240px;
 $a-width: 160px;
-$c-width: 260px;
+$c-width: 280px;
 $d-width: 160px;
 .layout-grid {
     position: relative;
@@ -82,7 +82,6 @@ $d-width: 160px;
             top: 0;
             right: 0;
             width: $c-width;
-            background-color: #abb;
         }
     }
     @media (min-width: $break-d) {

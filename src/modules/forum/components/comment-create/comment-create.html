@@ -4,10 +4,7 @@
 
         <div class="comment-form-grid">
             <div class="aa comment-create-user-photo">
-                <img *ngIf=" userPhotoURL " src="{{ userPhotoURL }}">
-                <div *ngIf=" ! userPhotoURL " class="anonymous" (click)="true">
-                    <i class="fa fa-user-o" aria-hidden="true"></i>
-                </div>
+                <img src="{{ app.userProfilePhotoUrl }}">
             </div>
             <div class="bb input-box">
                 <input #contentBox class="comment-content" name="comment_content" [(ngModel)]="comment_content">
