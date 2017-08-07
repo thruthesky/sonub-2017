@@ -10,7 +10,7 @@ import { USER_DATA_RESPONSE } from './../../../../providers/wordpress-api/interf
 })
 export class ProfilePage implements OnInit {
 
-    userData: USER_DATA_RESPONSE;
+    userData: USER_DATA_RESPONSE = <USER_DATA_RESPONSE>{};
 
     constructor(
         public app: AppService

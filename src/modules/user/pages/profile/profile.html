@@ -8,6 +8,17 @@
 
 
         <div *ngIf="app.user.isLogin">
+
+            <div class="input-group">
+                <label for="user_email" class="input-group-addon">Email</label>
+                <span type="text" class="form-control" id="user_email">{{userData.user_email}}</span>
+            </div>
+            <div class="input-group">
+                <label for="display_name" class="input-group-addon">Email</label>
+                <span type="text" class="form-control" id="display_name">{{userData}}</span>
+            </div>
+
+
             {{ app.user.profile | json }}
 
             <img src="{{ app.user.profile.photoURL }}" style="max-width: 100%;">

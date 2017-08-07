@@ -42,6 +42,7 @@ export interface USER_LOGIN {
 export interface USER_COMMON {
     user_email: string;
     name?: string;
+    display_name?: string;
     mobile?: string;
     gender?: string;
     address?: string;

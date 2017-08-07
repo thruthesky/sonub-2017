@@ -103,6 +103,7 @@ export class RegisterPage implements OnInit {
         let data: USER_UPDATE = {
             user_email: this.user_email,
             name: this.name,
+            display_name: this.name,
             mobile: this.mobile,
             gender: this.gender,
             birthday: this.birthday.year + this.add0(this.birthday.month) + this.add0(this.birthday.day)
