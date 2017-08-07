@@ -203,11 +203,6 @@ export class FileUploadWidget extends Base implements OnInit {
     deleteFile(file: FILE) {
         let data: FILE_DELETE = {};
 
-        // if( file.id ) data['id'] = file.id;
-        // if( file['guid'] ) data['guid'] = file['guid'];
-        // if( file['post_password'] ) data['post_password'] = file['post_password'];
-
-
         data.id = file.id;
         data.post_password = this.post_password;
 
