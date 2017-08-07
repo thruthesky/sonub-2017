@@ -59,6 +59,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       thumbnail: '32x32'
     };
     this.news = this.app.cacheGetPage(req);
+    // console.log("cached: ", this.news);
     this.app.forum.postList(req).subscribe((page: PAGE) => {
       console.log('Page::', page);
       this.app.cacheSetPage(req, page);
