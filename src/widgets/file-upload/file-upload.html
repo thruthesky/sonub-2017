@@ -13,7 +13,6 @@
         </div>
     </div>
 
-
     <div *ngIf="showUploadedFiles && files.length " class="files uploaded-files">
         <div class="file" *ngFor=" let file of files " [attr.type]="app.file.getFileType(file)">
             <div class='content' (click)="onClickDeleteButton(file)">
@@ -22,7 +21,7 @@
                 <i class="fa fa-trash fa-stack-1x fa-inverse" aria-hidden="true"></i>
             </span>
                 <div [class]="app.file.getFileType(file)">
-                    <img src="{{ file.url }}" *ngIf="app.file.getFileType(file) == 'image'">
+                    <img src="{{ file.url_thumbnail ? file.url_thumbnail : file.url }}" *ngIf="app.file.getFileType(file) == 'image'">
                     <a href="{{ file.url }}"
                        target="_blank"
                        *ngIf="app.file.getFileType(file) == 'attachment'">

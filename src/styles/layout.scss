@@ -6,13 +6,14 @@ body {
 $header-height: 64px;
 $header-border-bottom-height: 8px;
 section.page {
+    background-color: $background-color;
     section.page-header {
         position: fixed;
         z-index: 999;
         top: 0;
         width: 100%;
         height: $header-height;
-        border-bottom: $header-border-bottom-height solid white;
+        border-bottom: $header-border-bottom-height solid $background-color;
         overflow: hidden;
     }
     section.header-panel-menu {
@@ -27,7 +28,6 @@ section.page {
         margin-top: $header-height - $header-border-bottom-height;
         padding: 8px;
         width: 100%;
-        overflow: hidden;
     }
 }
 
@@ -66,7 +66,6 @@ $d-width: 160px;
             float: left;
             width: $a-width;
             overflow: hidden;
-            background-color: #ba9;
         }
         .b {
             margin-left: $a-width;

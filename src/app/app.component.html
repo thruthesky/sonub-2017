@@ -5,37 +5,32 @@
         <div class="layout-grid">
             <div class="grid-wrapper">
                 <div class="a">
-                    <b>Quick Menu</b>
 
-                    <a class="btn btn-secondary" routerLink="/user/login">Login</a>
-                    <button type="button" routerLink="/user/register">Register Page</button><br>
+                    <div *ngIf="!app.user.isLogin">
+                        <a class="btn btn-secondary" routerLink="/user/login">Login</a>
+                        <button type="button" routerLink="/user/register">Register Page</button><br>
+                    </div>
+                    <div class="box box-menu my-menu" *ngIf="app.user.isLogin">
+                        <ul>
+                            <li><a href="/user/profile" routerLink="/user/profile">User Profile</a></li>
+                            <li><a href="" routerLink="/user/profile">Message</a></li>
+                            <li><a href="" routerLink="/user/profile">Friends</a></li>
+                            <li><a href="" routerLink="/user/profile">Groups</a></li>
+                            <li><a href="" routerLink="">Customize</a></li>
+                        </ul>
+                    </div>
 
-                    <a href="/user" routerLink="/user/profile">User Profile</a><br>
+                    <div class="box box-menu my-forum">
+                        <ul>
+                            <li><a href="/forum" routerLink="/forum">Forum Page</a></li>
+                            <li><a href="/forum/qna" routerLink="/forum/qna">QnA Forum</a></li>
+                            <li><a href="/forum/discussion" routerLink="/forum/discussion">Discussion Forum</a></li>
+                            <li><a href="/forum/news" routerLink="/forum/news">News Forum</a></li>
+                        </ul>
+                    </div>
 
-                    <button type="button" (click)="app.user.logout()">Logout</button><br>
-                    <a href="/forum" routerLink="/forum">Forum Page</a><br>
-                    <a href="/forum/abc" routerLink="/forum/abc">ABC Forum</a><br>
-                    <a href="/forum/def" routerLink="/forum/def">DEF Forum</a><br>
+                    <div>My Activity</div>
 
-                    <br> My Groups
-                    <br>&nbsp;<br> My contacts
-                    <br>&nbsp;<br> My contacts
-                    <br>&nbsp;<br> My contacts
-                    <br>&nbsp;<br> My contacts
-                    <br>&nbsp;<br> My contacts
-                    <br>&nbsp;<br> My Groups
-                    <br>&nbsp;<br> My contacts
-                    <br>&nbsp;<br> My contacts
-                    <br>&nbsp;<br> My contacts
-                    <br>&nbsp;<br> My contacts
-                    <br>&nbsp;<br> My contacts
-                    <br>&nbsp;<br> My Groups
-                    <br>&nbsp;<br> My contacts
-                    <br>&nbsp;<br> My contacts
-                    <br>&nbsp;<br> My contacts
-                    <br>&nbsp;<br> My contacts
-                    <br>&nbsp;<br> My contacts
-                    <br>&nbsp;<br>
                 </div>
                 <div class="b">
                     <router-outlet></router-outlet>
@@ -49,15 +44,29 @@
                     <br>&nbsp;<br> Sponsers ...
                     <br>&nbsp;<br> Sponsers ...
                     <br>&nbsp;<br> Sponsers ...
+                    <br>&nbsp;<br> Sponsers ...
+                    <br>&nbsp;<br> Sponsers ...
+                    <br>&nbsp;<br> Sponsers ...
+                    <br>&nbsp;<br> Sponsers ...
+                    <br>&nbsp;<br> Sponsers ...
+                    <br>&nbsp;<br> Sponsers ...
+                    <br>&nbsp;<br> Sponsers ...
+                    <br>&nbsp;<br> Sponsers ...
+                    <br>&nbsp;<br> Sponsers ...
+                    <br>&nbsp;<br> Sponsers ...
+                    <br>&nbsp;<br> Sponsers ...
+                    <br>&nbsp;<br> Sponsers ...
+                    <br>&nbsp;<br> Sponsers ...
+                    <br>&nbsp;<br> Sponsers ...
                     <br>&nbsp;<br>
                 </div>
-            </div><!--/grid-wrapper-->
+            </div>
+            <!--/grid-wrapper-->
             <div class="d">
-                A<br>
-                B<br>
-                C<br>
-                D<br>
-                Friend History ...
+                A<br> B
+                <br> C
+                <br> D
+                <br> Friend History ...
                 <br>&nbsp;<br> Friend History ...
                 <br>&nbsp;<br> Friend History ...
                 <br>&nbsp;<br> Friend History ...
@@ -106,10 +115,12 @@
         <!--/layout-grid-->
 
         this is bottom.
-    </section><!--/page-body-->
+    </section>
+    <!--/page-body-->
 
 
-</section><!--/page-->
+</section>
+<!--/page-->
 
 
 

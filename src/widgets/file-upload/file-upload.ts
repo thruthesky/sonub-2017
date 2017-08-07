@@ -198,12 +198,14 @@ export class FileUploadWidget extends Base implements OnInit {
         this.deleteFile(file);
     }
 
-    deleteFile(file) {
+    deleteFile(file: FILE) {
         let data: FILE_DELETE = {};
 
-        if( file.id ) data['id'] = file.id;
-        if( file.guid ) data['guid'] = file.guid;
-        if( file.post_password ) data['post_password'] = file.post_password;
+        // if( file.id ) data['id'] = file.id;
+        // if( file['guid'] ) data['guid'] = file['guid'];
+        // if( file['post_password'] ) data['post_password'] = file['post_password'];
+        data.guid = file.url;
+        data.post_password = this.post_password;
 
         this.app.file.delete(data).subscribe(id => {
             console.log("file deleted: ", id);

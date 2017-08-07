@@ -1,0 +1,15 @@
+.box {
+    padding: $box-padding-y $box-padding-x;
+    box-sizing: border-box;
+    background-color: $box-background-color;
+}
+
+.box-menu {
+    margin-right: $box-padding-y;
+    margin-bottom: $box-padding-y;
+    font-size: $font-size-small;
+    ul {
+        @include list-style-none();
+    }
+}
+

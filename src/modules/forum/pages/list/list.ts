@@ -48,6 +48,7 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
 
         active.params.subscribe(params => {
             this.slug = params['slug'];
+            this.resetLoading();
             this.loadPage();
         });
     }
@@ -71,7 +72,15 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
     }
 
 
+    resetLoading() {
+        this.inLoading = false;
+        this.noMorePosts = false;
+        this.pageNo = 0;
+        this.pages = [];
+        
+    }
     loadPage() {
+        console.log(`::loadPage(). noMorePosts: ${this.noMorePosts}, inLoading: ${this.inLoading}`);
         if (this.noMorePosts) return;
         if (this.inLoading) return;
         else this.inLoading = true;

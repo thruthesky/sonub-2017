@@ -1,34 +1,36 @@
 <div class="comment-create">
 
-    <form (ngSubmit)="contentBox.blur(); onSubmit()" >
+    <form (ngSubmit)="contentBox.blur(); onSubmit()">
 
         <div class="comment-form-grid">
-            <div class="a comment-create-user-photo">
-                    <img *ngIf="userPhotoURL" src="{{ userPhotoURL }}">
+            <div class="aa comment-create-user-photo">
+                <img *ngIf=" userPhotoURL " src="{{ userPhotoURL }}">
+                <div *ngIf=" ! userPhotoURL " class="anonymous" (click)="true">
+                    <i class="fa fa-user-o" aria-hidden="true"></i>
+                </div>
             </div>
-            <div class="b input-box">
+            <div class="bb input-box">
                 <input #contentBox class="comment-content" name="comment_content" [(ngModel)]="comment_content">
             </div>
-            <div class="c buttons">
+            <div class="cc buttons">
 
-            <span class="camera" (click)="fileUploadWidget.onClickCamera()">
-                <i class="fa fa-camera" aria-hidden="true"></i>
-                <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadComponent.onChangeFile($event)">
-            </span>
+                <span class="icon camera" (click)="fileUploadWidget.onClickCamera()">
+                    <i class="fa fa-icon-text fa-camera" aria-hidden="true"></i>
+                    <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadComponent.onChangeFile($event)">
+                </span>
+
+                <span class="icon smile" (click)="true">
+                    <i class="fa fa-icon-text fa-smile-o" aria-hidden="true"></i>
+                </span>
 
             </div>
         </div>
 
-         <!-- <button type="submit">Submit</button>  -->
+        <!-- <button type="submit">Submit</button>  -->
 
     </form>
 
 
-<file-upload-widget
-    #fileUploadWidget
-    [title]="false"
-    [fileSelectionButton]="false"
-    [files]="files"
-></file-upload-widget>
+    <file-upload-widget #fileUploadWidget [title]="false" [fileSelectionButton]="false" [files]="files"></file-upload-widget>
 
 </div>

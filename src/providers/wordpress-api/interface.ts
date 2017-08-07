@@ -74,6 +74,7 @@ export interface UPLOADED_FILE {
     id: number;
     type: any;          // can be 'false' if file type is not recognized.
     url: string;
+    url_thumbnail?: string;
     name: string;
 }
 export type UPLOADED_FILES = Array<UPLOADED_FILE>;

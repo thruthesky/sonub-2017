@@ -51,10 +51,23 @@ export class Base extends Library {
         return e;
     }
 
+    /**
+     * 
+     * If the code of `Error response` exists in `text.ts`, then it returns the message of `text.ts`
+     * Or it will return the error code and message from error response.
+     * 
+     * @param e Error response from backend.
+     */
     getErrorString(e): string {
         let code = this.getError(e).code;
         console.log("error code: ", code);
+
+        // get error message from the code
         let str = text(code);
+
+        if ( str == code ) {        /// no error message by that code?
+            str = code + ': ' + this.getError(e).message;
+        }
         return str;
         // return this.getError(e).code + ': ' + this.getError(e).message;
     }

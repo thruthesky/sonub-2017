@@ -28,15 +28,19 @@ export class CommentCreateComponent implements OnInit, AfterViewInit {
     @Output() create = new EventEmitter<number>();
 
 
-    userPhotoURL:string = null;
     constructor(
         public app: AppService,
         private alert: AlertModalService
     ) {
 
-        if ( app.user.isLogin && app.user.profile.photoURL ) {
-            this.userPhotoURL = app.user.profile.photoURL;
+    }
+
+    get userPhotoURL() {
+
+        if ( this.app.user.isLogin && this.app.user.profile.photoURL ) {
+            return this.app.user.profile.photoURL;
         }
+        else return null;
     }
 
     ngOnInit() {

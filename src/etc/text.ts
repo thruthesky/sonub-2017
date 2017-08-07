@@ -88,7 +88,8 @@ TEXT[ERROR.RESPONSE_NO_CODE] = { en: 'Response from backend has no code', ko: '�
 TEXT[ERROR.CODE_KEY_IS_EMPTY] = { en: 'Key is empty', ko: '키 값이 존재하지 않습니다.' };
 TEXT[ERROR.CODE_COMMENT_DUPLICATE] = { en: 'Please do not comment with same text.', ko: '비슷한 내용의 덧글을 반복적으로 작성 할 수 없습니다.' };
 TEXT[ERROR.LOGIN_FIRST] = { en: 'Please login first', ko: '로그인을 먼저하십시오.' };
-TEXT[ERROR.CODE_WRONG_SESSION_ID] = { en: 'Wrong session id. Please login again.', ko: '세션 오류. 로그인을 다시 해 주세요.' };
+TEXT[ERROR.CODE_WRONG_SESSION_ID] = { en: 'Wrong login information. Wrong session. Please login again.', ko: '로그인 오류. 로그인 정보가 올바르지 않습니다. 로그인을 다시 해 주세요.' };
+TEXT[ERROR.CODE_NO_USER_BY_THAT_SESSION_ID] = { en: 'Wrong loing information. No user. Please login again.', ko: '로그인 오류. 로그인 정보를 찾을 수 없습니다. 다시 로그인을 해 주세요.' };
 
 
 /**
