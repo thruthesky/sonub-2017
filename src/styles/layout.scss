@@ -38,9 +38,9 @@ $layout-max-width: 1240px;
 $a-width: 160px;
 $c-width: 280px;
 $d-width: 160px;
-.layout-grid {
+.page-body-content {
     position: relative;
-    .grid-wrapper {
+    .page-body-content-layout {
         position: relative;
         max-width: $layout-max-width;
         margin: 0 auto;
@@ -99,5 +99,14 @@ $d-width: 160px;
             width: $d-width;
             background-color: #aca;
         }
+    }
+}
+
+
+.page-body-content-wide {
+    .b {
+        margin: 0;
+        padding: 0;
+        width: 100%;
     }
 }

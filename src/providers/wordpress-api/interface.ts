@@ -48,8 +48,8 @@ export interface USER_COMMON {
     address?: string;
     birthday?: string;
     landline?: string;
-    photoID?: number;
     photoURL?: string;
+    photo?: FILE;
 }
 export interface USER_REGISTER extends USER_LOGIN, USER_COMMON { };
 
@@ -151,6 +151,17 @@ export interface POST_CREATE_COMMON {
     post_author_email?: string;                 /// Anonymous email
     post_author_phone_number?: string;          /// Anonymous phone number.
     fid?: Array<number>;
+    int_1?: number;
+    int_2?: number;
+    int_3?: number;
+    char_1?: string;
+    char_2?: string;
+    char_3?: string;
+    varchar_1?: string;
+    varchar_2?: string;
+    varchar_3?: string;
+    varchar_4?: string;
+    varchar_5?: string;
 };
 export interface POST_READ_COMMON extends ID, POST_CREATE_COMMON {
     author_name: string;

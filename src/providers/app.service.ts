@@ -47,6 +47,9 @@ export class AppService extends Base {
     kakao;
 
     headerWidget: HeaderWidget;
+
+    pageLayout: 'wide' | 'column' = 'column';
+
     constructor(
         public user: UserService,
         public forum: ForumService,
@@ -67,6 +70,7 @@ export class AppService extends Base {
 
         this.auth = firebase.auth();
         this.db = firebase.database().ref('/');
+
     }
 
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { AppService } from './../../providers/app.service';
 import { TestService } from './../../providers/test.service';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 
 
 
@@ -21,6 +21,7 @@ export class HomePage implements OnInit, AfterViewInit {
         public app: AppService,
         // private test: TestService
     ) {
+
         if ( window['forum_post'] ) {
             this.post = Object.assign({}, window['forum_post']);
             window['forum_post'] = null;

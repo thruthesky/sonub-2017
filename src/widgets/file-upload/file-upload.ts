@@ -31,6 +31,8 @@ export class FileUploadWidget extends Base implements OnInit {
     @Input() fileSelectionButton: boolean = true;
     @Input() showUploadedFiles: boolean = true;
     @Output() success = new EventEmitter<any>();
+
+    @Input() titleText = 'File Upload';
     constructor(
         public app: AppService
     ) {
@@ -47,7 +49,7 @@ export class FileUploadWidget extends Base implements OnInit {
 
     ngOnInit() {
         ///
-        if (!this.files) this.app.warning("ERROR: files property is not initialized.");
+        if (!this.files) alert(`[files] property for binding is not initialized on template.`);
     }
 
     onClickCamera() {
@@ -167,14 +169,14 @@ export class FileUploadWidget extends Base implements OnInit {
     onChangeFile(event) {
         if (this.app.isCordova) return;
         this.app.file.uploadForm(event).subscribe(event => {
-            console.log(event);
+            // console.log(event);
             if (typeof event === 'number') {
-                console.log(`File is ${event}% uploaded.`);
+                // console.log(`File is ${event}% uploaded.`);
                 this.onProgress(event);
             }
             else if (event.id !== void 0) {
-                console.log('File is completely uploaded!');
-                console.log(event);
+                // console.log('File is completely uploaded!');
+                // console.log(event);
                 this.insertFile(event);
             }
             else if (event === null) {
@@ -201,10 +203,7 @@ export class FileUploadWidget extends Base implements OnInit {
     deleteFile(file: FILE) {
         let data: FILE_DELETE = {};
 
-        // if( file.id ) data['id'] = file.id;
-        // if( file['guid'] ) data['guid'] = file['guid'];
-        // if( file['post_password'] ) data['post_password'] = file['post_password'];
-        data.guid = file.url;
+        data.id = file.id;
         data.post_password = this.post_password;
 
         this.app.file.delete(data).subscribe(id => {
@@ -226,7 +225,7 @@ export class FileUploadWidget extends Base implements OnInit {
         this.files.push(file);
         console.log("this.files: ", this.files);
         this.progressPercentage = 0;
-        this.success.emit();
+        this.success.emit(file);
         this.app.rerenderPage();
     }
 

@@ -51,6 +51,18 @@ export let TEXT = {
         en: '#name commented: ',
         ko: '#name님의 코멘트: '
     },
+    login_first: {
+        en: 'Please login first',
+        ko: '로그인을 먼저 하세요.'
+    },
+    select_image: {
+        en: 'Select a image.',
+        ko: '이미지를 선택해 주세요.'
+    },
+    select_advertisement_image: {
+        en: 'Select an advertisement image.',
+        ko: '광고 이미지를 선택해 주세요.'
+    },
     confirmDelete: {
         en: {
             content: 'Do you want to delete #no?',

@@ -1,7 +1,9 @@
 <section class="file-upload">
 
-    <h2 *ngIf="title" class="title">File upload</h2>
+   
+    <div *ngIf="title" class="title">{{ titleText }}</div>
     <label *ngIf="fileSelectionButton" class="file-upload-button custom-file">
+        
         <input type="file" id="file" class="custom-file-input" (change)="onChangeFile($event)">
         <span class="custom-file-control"></span>
     </label>
@@ -13,7 +15,7 @@
         </div>
     </div>
 
-    <div *ngIf="showUploadedFiles && files.length " class="files uploaded-files">
+    <div *ngIf="showUploadedFiles && files && files.length " class="files uploaded-files">
         <div class="file" *ngFor=" let file of files " [attr.type]="app.file.getFileType(file)">
             <div class='content' (click)="onClickDeleteButton(file)">
                 <span class="trash-button fa-stack fa-lg">
