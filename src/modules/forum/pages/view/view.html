@@ -1,2 +1,9 @@
 <post-view-widget [post]="post">
 </post-view-widget>
+<post-list-widget
+    *ngIf=" post "
+    [slug]="post.category"
+    [titleLength]="128"
+    [thumbnail]="true"
+>
+</post-list-widget>

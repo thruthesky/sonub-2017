@@ -10,6 +10,7 @@ import { HeaderWidget } from './header/header';
 import { FileUploadWidget } from './file-upload/file-upload';
 import { AdvertisementSidebarWdiget } from './advertisement-sidebar/advertisement-sidebar';
 
+import { PostListThumbnailTextWidget } from './post-list-thumbnail-text/post-list-thumbnail-text';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { AdvertisementSidebarWdiget } from './advertisement-sidebar/advertisemen
         PostViewWidget,
         HeaderWidget,
         FileUploadWidget,
-        AdvertisementSidebarWdiget
+        AdvertisementSidebarWdiget,
+        PostListThumbnailTextWidget
     ],
     declarations: [
         FileDisplayWidget,
@@ -31,7 +33,8 @@ import { AdvertisementSidebarWdiget } from './advertisement-sidebar/advertisemen
         PostViewWidget,
         HeaderWidget,
         FileUploadWidget,
-        AdvertisementSidebarWdiget
+        AdvertisementSidebarWdiget,
+        PostListThumbnailTextWidget
     ],
     providers: [],
 })

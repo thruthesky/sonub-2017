@@ -21,11 +21,9 @@ import { ForumCodeShareService } from './../../forum-code-share.service';
     selector: 'list-page',
     templateUrl: 'list.html'
 })
-
 export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
     slug: string = null;
     pages: PAGES = [];
-
 
     // for page scroll
     watch = null;
@@ -35,7 +33,6 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
     //
 
     // closeResult: string;
-
     constructor(
         public app: AppService,
         private active: ActivatedRoute,
@@ -43,9 +40,7 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
         private postCreateEditModal: PostCreateEditModalService,
         private forumShare: ForumCodeShareService
     ) {
-
         app.title('forum');
-
         active.params.subscribe(params => {
             this.slug = params['slug'];
             this.resetLoading();
