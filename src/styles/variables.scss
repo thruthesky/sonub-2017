@@ -1,4 +1,6 @@
+
 $background-color: #e9ebee;
+
 
 $font-size-xs: 9pt;
 $font-size-sm: 10pt;
@@ -8,7 +10,7 @@ $font-size-xl: 13pt;
 
 
 
-/// badding
+/// padding
 $global-padding: 8px;
 /// box
 $box-padding-x: 9px;
@@ -16,4 +18,24 @@ $box-padding-y: $global-padding;
 $box-background-color: #fff;
 
 
+/// breaks
+$break-a: 600px;
+$break-c: 840px;
+$break-d: 1100px;
+$layout-max-width: 1240px;
+$a-width: 160px;
+$c-width: 280px;
+$d-width: 160px;
 
+/// units
+
+$sm: 544px;
+$md: 768px;
+$lg: 992px;
+$xl: 1200px;
+
+
+/// header
+$header-height: 52px;
+$header-border-bottom-height: 8px;
+$header-inner-height: $header-height - $header-border-bottom-height;
