@@ -83,6 +83,21 @@ export let TEXT = {
         en: 'Ok',
         ko: '확인'
     },
+
+
+    /// page title
+    menu_page_title: {
+        en: 'Menus',
+        ko: '메뉴 페이지'
+    },
+
+    menu_page_description: {
+        en: 'You will see all the menus in this page.',
+        ko: '이 페이지에서 모든 메뉴를 볼 수 있습니다.'
+    },
+
+
+    ///
     confirmDelete: {
         en: {
             content: 'Do you want to delete #no?',

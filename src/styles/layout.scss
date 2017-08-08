@@ -3,8 +3,6 @@ body {
     padding: 0;
 }
 
-
-
 section.page {
     background-color: $background-color;
     section.page-header {
@@ -30,7 +28,6 @@ section.page {
         width: 100%;
     }
 }
-
 
 .page-body-content {
     position: relative;
@@ -104,5 +101,15 @@ section.page {
         margin: 0;
         padding: 0;
         width: 100%;
+    }
+}
+
+///
+/// page title, description
+
+.jumbotron {
+    background-color: white !important;
+    .lead {
+        font-size: $font-size-md;
     }
 }

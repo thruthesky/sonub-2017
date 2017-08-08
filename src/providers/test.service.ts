@@ -153,7 +153,7 @@ export class TestService extends Base {
         this.app.user.register(data).subscribe(res => {
             // console.log(res);
             // this.good('User register success: ' + res.session_id);
-            this.app.user.login(data.user_login, data.user_pass).subscribe(res => {
+            this.app.user.login(data.user_email, data.user_pass).subscribe(res => {
                 this.good("Login success");
                 let data: USER_UPDATE = {
                     user_email: this.randomString() + '@gmail.com',

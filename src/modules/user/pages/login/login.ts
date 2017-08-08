@@ -78,7 +78,7 @@ export class LoginPage implements OnInit, AfterViewInit {
         this.app.user.login(this.user_login, this.user_pass).subscribe(profile => {
             console.log("app.user.login: ", profile);
             this.app.loginSuccess();
-        }, err => this.app.displayError(err));
+        }, err => this.app.warning(err));
 
     }
 

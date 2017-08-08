@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppService } from './../../../../providers/app.service';
 
 @Component({
     selector: 'menu-page',
@@ -6,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class MenuPage implements OnInit {
-    constructor() { }
+    constructor(
+        public app: AppService
+    ) {
+        
+    }
 
     ngOnInit() { }
 }

@@ -48,9 +48,9 @@ export class UserService extends Base {
     }
 
 
-    login(user_login: string, user_pass: string): Observable<USER_REGISTER_RESPONSE> {
+    login(user_email: string, user_pass: string): Observable<USER_REGISTER_RESPONSE> {
         let data: USER_LOGIN = {
-            user_login: user_login,
+            user_email: user_email,
             user_pass: user_pass,
             route: 'user.login'
         };

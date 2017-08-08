@@ -35,11 +35,12 @@ export interface SOCIAL_UPDATE extends REQUEST, SOCIAL_PROFILE {};
 
 export interface USER_LOGIN {
     route?: string;
-    user_login: string;
+    user_email: string;
     user_pass: string;
 }
 
 export interface USER_COMMON {
+    user_login?: string;
     user_email: string;
     name?: string;
     mobile?: string;

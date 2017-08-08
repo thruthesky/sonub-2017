@@ -1,9 +1,20 @@
 $header-background-color: #0A5561;
-$icon-width: 32px;
+$icon-width: 30px;
 $icon-width-on-wide: 26px;
 $header-content-height: 24px;
 .page-header {
     color: white;
+    .page-header-container-center {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        margin: 0 0 0 8px;
+        @media ( min-width: $break-d) {
+            margin: 0 auto;
+            max-width: $layout-max-width;
+            padding-right: $d-width;
+        }
+    }
     .page-header-container {
         /// layout
         height: $header-inner-height;
@@ -15,14 +26,7 @@ $header-content-height: 24px;
             position: relative;
             height: $header-inner-height;
             line-height: $header-inner-height;
-            vertical-align: center;
         }
-    }
-    .page-header-container-center {
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: space-between;
-        margin: 0 $global-padding;
     }
     .center {
         a {
@@ -38,15 +42,15 @@ $header-content-height: 24px;
         padding: 10px 0;
         width: $icon-width;
         text-align: center;
-        cursor: pointer;
     }
     .fa-search {
         width: 14px;
     }
-    
     input {
+        position: relative;
+        top: -2px;
         padding-left: 4px;
-        width: 180px;
+        width: 160px;
         @media (min-width: $sm) {
             padding-left: 6px;
             width: 240px;
@@ -60,7 +64,7 @@ $header-content-height: 24px;
         display: block;
         margin: 0;
         padding: 0;
-        top: 3px;
+        top: 1px;
         right: 6px;
         width: 14px!important;
         font-size: 10pt;
@@ -70,17 +74,27 @@ $header-content-height: 24px;
         line-height: $header-inner-height;
     }
     .logo {
-        display: inline-block;
-        margin-left: 4px;
-        width: 18px;
-        font-size: $font-size-md;
-        color: white;
+        float: left;
+        width: 24px;
+        text-align: center;
+        a {
+            display: inline-block;
+            width: 22px;
+            height: 24px;
+            line-height: 24px;
+            background-color: white;
+            color: $header-background-color;
+        }
     }
-
-
     @media (min-width: $md) {
         .fa {
             width: $icon-width-on-wide;
         }
+    }
+    .logo,
+    a,
+    .fa {
+        /// cursor
+        cursor: pointer;
     }
 }
