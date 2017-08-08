@@ -119,6 +119,8 @@ export class RegisterPage implements OnInit {
         });
     }
 
+
+
     add0(n: number): string {
         return n < 10 ? '0' + n : n.toString();
     }

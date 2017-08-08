@@ -1,0 +1,88 @@
+<div class="modal-header">
+    <h4 class="modal-title">Profile Update</h4>
+    <button type="button" class="close" aria-label="Close" (click)="onClickCancel()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="text-center mb-3">
+        <span id="profile-user-photo">
+            <img *ngIf="files.length"
+                 src="{{files[0].url}}"
+                 (click)="fileUploadWidget.onClickCamera()"
+            >
+        </span>
+        <div>
+            <button (click)="fileUploadWidget.onClickCamera()">Change Profile</button>
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="user1" class="input-group-addon">Email Address</label>
+        <input type="text" class="form-control" id="user1" name="user_email" placeholder="Email Address"
+               [(ngModel)]="user_email">
+    </div>
+    <div class="input-group">
+        <label for="name" class="input-group-addon">Name</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Name" [(ngModel)]="name">
+    </div>
+
+
+    <label class="input-group-addon">Gender</label>
+    <div class="form-control">
+        <div class="col-sm-6">
+            <label for="male" class="radio-inline nowrap">
+                <input type="radio" name="gender" id="male" [(ngModel)]="gender" value="m">
+                <span>Male</span>
+            </label>
+        </div>
+        <div class="col-sm-6">
+            <label for="female" class="radio-inline nowrap">
+                <input type="radio" name="gender" id="female" [(ngModel)]="gender" value="f">
+                <span>Female</span>
+            </label>
+        </div>
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon input-group-addon-primary" id="date_begin">Birthday</span>
+        <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="birthday" ngbDatepicker
+               #b="ngbDatepicker" (ngModelChange)="onChangeBirthday()">
+        <div class="input-group-addon" (click)="b.toggle()">
+            <i class="fa fa-calendar" style="cursor: pointer;"></i>
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="mobile" class="input-group-addon">Mobile</label>
+        <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobile" [(ngModel)]="mobile">
+    </div>
+    <div *ngIf="errorMessage">
+        <div id="error_message">{{this.errorMessage}}</div>
+    </div>
+
+    <div *ngIf="loading">
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        <span>Loading...</span>
+    </div>
+
+</div>
+<div class="modal-footer justify-content-between">
+
+    <div>
+        Settings
+    </div>
+    <div>
+        <button type="button" (click)="onSubmitUpdateUserInfo()">Save</button>
+        <button type="button" (click)="onClickCancel()">Cancel</button>
+    </div>
+</div>
+
+
+<hr>
+<file-upload-widget
+    #fileUploadWidget
+    [title]="false"
+    [fileSelectionButton]="false"
+    [files]="files"
+    [showUploadedFiles]="false"
+    (success)="onSuccessUpdateProfile()"
+></file-upload-widget>
+

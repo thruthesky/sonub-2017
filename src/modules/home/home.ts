@@ -27,8 +27,6 @@ export class HomePage implements OnInit, AfterViewInit {
             window['forum_post'] = null;
         }
         document.addEventListener('deviceready', () => this.onDeviceReady(), false);
-
-        setTimeout( () => this.router.navigateByUrl('/user/profile'))
     }
 
     // onSubmit() {
