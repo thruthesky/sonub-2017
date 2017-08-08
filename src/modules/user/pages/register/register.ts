@@ -103,6 +103,7 @@ export class RegisterPage implements OnInit {
         let data: USER_UPDATE = {
             user_email: this.user_email,
             name: this.name,
+            display_name: this.name,
             mobile: this.mobile,
             gender: this.gender,
             birthday: this.birthday.year + this.add0(this.birthday.month) + this.add0(this.birthday.day)
@@ -117,6 +118,8 @@ export class RegisterPage implements OnInit {
             this.errorMessage = err.code;
         });
     }
+
+
 
     add0(n: number): string {
         return n < 10 ? '0' + n : n.toString();

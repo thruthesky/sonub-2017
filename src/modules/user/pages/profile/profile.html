@@ -1,15 +1,35 @@
+<h1>User Profile</h1>
+<div *ngIf="app.user.isLogin">
+    <button (click)="onClickEditProfile()">Update Profile</button>
+    <div class="text-center mb-3">
+        <span id="profile-user-photo" >
+            <img src="{{ userData?.photo?.url }}">
+        </span>
+    </div>
+    <div class="input-group mb-3">
+        <label for="user_email" class="input-group-addon">Email</label>
+        <span type="text" class="form-control" id="user_email">{{userData.user_email}}</span>
+    </div>
+    <div class="input-group mb-3">
+        <label for="display_name" class="input-group-addon">Name</label>
+        <span type="text" class="form-control" id="display_name">{{userData.display_name}}</span>
+    </div>
 
-        <h1>User Profile html</h1>
+    <div class="input-group mb-3">
+        <label for="mobile" class="input-group-addon">Mobile</label>
+        <span type="text" class="form-control" id="mobile">{{userData.mobile}}</span>
+    </div>
+
+    <div class="input-group mb-3">
+        <label for="gender" class="input-group-addon">Gender</label>
+        <span type="text" class="form-control" id="Gender">{{ userData.gender == 'm' ? 'Male' : 'Female' }}</span>
+    </div>
+
+    <div class="input-group mb-3">
+        <label for="birthday" class="input-group-addon">Birthday</label>
+        <span type="text" class="form-control" id="birthday">{{userData.birthday}}</span>
+    </div>
 
 
-        <button type="button" routerLink="/">Go to home</button>
-        <button type="button" routerLink="/user/register">Go to Register</button>
-
-
-
-        <div *ngIf="app.user.isLogin">
-            {{ app.user.profile | json }}
-
-            <img src="{{ app.user.profile.photoURL }}" style="max-width: 100%;">
-            <button type="button" (click)="app.user.logout()">Logout</button>
-        </div>
+    <button type="button" (click)="app.user.logout()">Logout</button>
+</div>

@@ -43,6 +43,7 @@ export interface USER_COMMON {
     user_login?: string;
     user_email: string;
     name?: string;
+    display_name?: string;
     mobile?: string;
     gender?: string;
     address?: string;

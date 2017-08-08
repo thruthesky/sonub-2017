@@ -12,6 +12,8 @@ import { WidgetsModule } from './../../widgets/widgets.module';
 import { RegisterPage } from './pages/register/register';
 import { LoginPage } from './pages/login/login';
 import { ProfilePage } from './pages/profile/profile';
+import {ProfileEditModalService} from "./pages/modals/profile-edit/profile-edit.modal";
+import {ProfileEditContent} from "./pages/modals/profile-edit/profile-edit.content";
 import { SettingsPage } from './pages/settings/settings';
 
 const appRoutes: Routes = [
@@ -29,6 +31,10 @@ const appRoutes: Routes = [
         RegisterPage,
         LoginPage,
         ProfilePage,
+        ProfileEditContent
+    ],
+    entryComponents: [
+        ProfileEditContent,
         SettingsPage
     ],
     imports: [
@@ -37,6 +43,9 @@ const appRoutes: Routes = [
         NgbModule,
         RouterModule.forChild(appRoutes),
         WidgetsModule
+    ],
+    providers: [
+        ProfileEditModalService
     ]
 })
 export class UserModule { }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from './../../../../providers/app.service';
 
 import { USER_DATA_RESPONSE } from './../../../../providers/wordpress-api/interface';
+import {ProfileEditModalService} from "../modals/profile-edit/profile-edit.modal";
 
 
 @Component({
@@ -10,10 +11,11 @@ import { USER_DATA_RESPONSE } from './../../../../providers/wordpress-api/interf
 })
 export class ProfilePage implements OnInit {
 
-    userData: USER_DATA_RESPONSE;
+    userData: USER_DATA_RESPONSE = <USER_DATA_RESPONSE>{};
 
     constructor(
-        public app: AppService
+        public app: AppService,
+        private profileEditModal: ProfileEditModalService
     ) {
         app.title('profile');
         this.initProfile();
@@ -29,5 +31,15 @@ export class ProfilePage implements OnInit {
             console.log('userData::', res);
             this.userData = res;
         }, error => this.app.warning(error));
+    }
+
+
+    onClickEditProfile() {
+        this.profileEditModal.open(this.userData).then(id => {
+            // console.log('comment edit success:', id);
+
+            this.initProfile();
+
+        }, err => this.app.warning(err));
     }
 }

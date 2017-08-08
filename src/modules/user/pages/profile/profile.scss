@@ -1,0 +1,15 @@
+$profile-user-photo-size: 100px;
+#profile-user-photo {
+    display: inline-block;
+    width: $profile-user-photo-size;
+    height: $profile-user-photo-size;
+    line-height: $profile-user-photo-size;
+    vertical-align: middle;
+    overflow: hidden;
+    img {
+        display: block;
+        width: $profile-user-photo-size - 2px;
+        height: $profile-user-photo-size - 2px;
+        border-radius: 50%;
+    }
+}
