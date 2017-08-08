@@ -1,0 +1,51 @@
+
+<button type="button" id="post-list-create-button" (click)="onClickPostCreate()">POST</button>
+
+
+<div class="pages" *ngIf="pages">
+    <div class="page" *ngFor="let page of pages">
+        <h3 class="page-no">Page No. {{ page.paged }}</h3>
+        <div class="posts">
+            <div class="post" *ngFor="let post of page.posts " [attr.post-id]="post.ID">
+                <div class="post-display">
+                    <!-- display author info. Anonymous have his info on meta -->
+                    Author : {{ post.author_name }}. No.: {{ post.ID }}
+                    <h2 class="post-title">{{ post.post_title }}</h2>
+                    <div class="post-content">
+                        {{ post.post_content }}
+                    </div>
+
+                    <file-display-widget [files]="post.files"></file-display-widget>
+
+                    <!-- post view comment create box -->
+                    <comment-create-widget [post]="post" (create)="onCommentCreate($event, post)"></comment-create-widget>
+                    <div class="buttons">
+                        <button class="btn btn-secondary btn-sm" (click)="onClickPostEdit( post )">Edit</button>
+                        <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post, page )">Delete</button>
+                        <!-- <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">Reply</button> -->
+                        <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">Like</button>
+                        <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">More</button> dislike,
+                        report, favorate, share
+                    </div>
+                    <div class="comments" *ngIf="post.comments.length">
+                        <ng-container *ngFor="let comment of post.comments">
+                            <comment-view-widget [post]="post" [comment]="comment"></comment-view-widget>
+                        </ng-container>
+                    </div>
+                </div>
+                <!--/post-display-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div *ngIf="inLoading" class="p-5">
+    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> loading...
+</div>
+
+<div *ngIf="noMorePosts">
+    <h3>No more posts ... !</h3>
+</div>

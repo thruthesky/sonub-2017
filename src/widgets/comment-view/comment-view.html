@@ -20,11 +20,11 @@
         <li>More</li>
     </ul>
 
-    <comment-create-component *ngIf="showReply"
+    <comment-create-widget *ngIf="showReply"
     [post]="post"
     [comment]="comment"
     (create)=" onCreate( $event ) "
-    ></comment-create-component>
+    ></comment-create-widget>
 
 
 </div>

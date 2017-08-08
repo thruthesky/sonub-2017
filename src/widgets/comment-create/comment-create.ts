@@ -1,24 +1,22 @@
 import {
     Component, OnInit, Input, Output, AfterViewInit, ViewChild, EventEmitter
 } from '@angular/core';
-import { AppService } from './../../../../providers/app.service';
+import { AppService } from './../../providers/app.service';
 
 import {
     POST, FILES,
     COMMENT, COMMENT_CREATE, COMMENT_CREATE_RESPONSE
-} from './../../../../providers/wordpress-api/interface';
+} from './../../providers/wordpress-api/interface';
 
-import { FileUploadWidget } from './../../../../widgets/file-upload/file-upload';
-
-import { AlertModalService } from './../../../../providers/modals/alert/alert.modal';
-
+import { FileUploadWidget } from '../file-upload/file-upload';
+import { AlertModalService } from './../../providers/modals/alert/alert.modal';
 
 @Component({
-    selector: 'comment-create-component',
+    selector: 'comment-create-widget',
     templateUrl: 'comment-create.html'
 })
 
-export class CommentCreateComponent implements OnInit, AfterViewInit {
+export class CommentCreateWidget implements OnInit, AfterViewInit {
 
     @Input() post: POST;
     @Input() comment: COMMENT;
