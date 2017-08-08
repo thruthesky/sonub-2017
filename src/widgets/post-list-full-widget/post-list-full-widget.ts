@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { AppService } from './../../providers/app.service';
@@ -22,6 +22,10 @@ import { ForumCodeShareService } from '../../modules/forum/forum-code-share.serv
     templateUrl: 'post-list-full-widget.html'
 })
 export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
+
+    @Input() category;
+
+    ///
     slug: string = null;
     pages: PAGES = [];
 
@@ -41,24 +45,32 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
         private forumShare: ForumCodeShareService
     ) {
         app.title('forum');
+
+        /// page navigated ( by clicking a menu )
         active.params.subscribe(params => {
-            this.slug = params['slug'];
-            this.resetLoading();
-            this.loadPage();
+
+            if (params['slug']) { /// if a post list page navigated.
+                this.slug = params['slug'];
+                this.resetLoading();
+                this.loadPage();
+            }
+
         });
     }
 
     ngOnInit() {
-
+        /// post view page navigated ( by viewing a post )
+        if ( this.category ) {
+            /// use the post's category to show to posts of the category.
+            this.slug = this.category;
+            this.loadPage();
+        }
     }
 
 
     ngAfterViewInit() {
+
         this.watch = this.pageScroll.watch('body', 350).subscribe(e => this.loadPage());
-
-        // setTimeout( () => this.onClickPostCreate(), 0);
-
-
     }
 
 
@@ -113,7 +125,7 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
      */
     addOrReplacePage(req: POST_LIST, page: POST_LIST_RESPONSE) {
         let i = page.paged - 1;
-        if ( i < this.pages.length ) {
+        if (i < this.pages.length) {
             console.log("replace cached page for: ", this.app.cacheKeyPage(req));
             this.pages[i] = page;
         }

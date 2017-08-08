@@ -29,12 +29,4 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
         
     }
 
-
-    
-    
-    
-    
-
-
-
 }
