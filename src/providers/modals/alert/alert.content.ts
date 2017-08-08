@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { text } from './../../../etc/text';
+
 
 
 @Component({
@@ -26,5 +28,8 @@ export class AlertContent implements OnInit {
 
     setOptions(options) {
         this.options = options;
+        if ( ! this.options.button ) {
+            this.options.button = text('ok');
+        }
     }
 }

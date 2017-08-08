@@ -35,6 +35,14 @@ export let TEXT = {
         en: 'Close',
         ko: '닫기'
     },
+    yes: {
+        en: 'Yes',
+        ko: '예'
+    },
+    no: {
+        en: 'No',
+        ko: '아니오'
+    },
     user_exist: {
         en: 'User login ID is already exist. Please choose another.',
         ko: '입력하신 아이디는 이미 존재합니다. 다른 아이디를 입력하세요.'
@@ -62,6 +70,18 @@ export let TEXT = {
     select_advertisement_image: {
         en: 'Select an advertisement image.',
         ko: '광고 이미지를 선택해 주세요.'
+    },
+    advertisement_delete: {
+        en: 'Do you want to delete this advertisement?',
+        ko: '광고를 삭제하시겠습니까?'
+    },
+    saved: {
+        en: 'Successfully saved.',
+        ko: '저장되었습니다.'
+    },
+    ok: {
+        en: 'Ok',
+        ko: '확인'
     },
     confirmDelete: {
         en: {

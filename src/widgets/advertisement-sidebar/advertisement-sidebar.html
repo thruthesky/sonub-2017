@@ -1,0 +1,18 @@
+<div *ngIf="post" class="advertisement-side-bar">
+    <a href="{{post.varchar_4}}" target="_blank">
+        <div *ngIf="post.files.length"><img src="{{ post.files[0].url }}"></div>
+        <div>{{ post.post_title }}</div>
+        <div>{{ post.varchar_2 }}</div>
+        <div>{{ post.post_content }}</div>
+    </a>
+    <div *ngIf="showMenu" class="my-advertisement-menu">
+        <div>Statistics</div>
+        <div>
+            <ul>
+                <li>Display: {{ post.char_1 == 'Y' ? 'Yes' : 'No, hold' }}</li>
+                <li routerLink="/adv/edit/{{ post.ID }}">Edit</li>
+                <li (click)="onClickDelete()">Delete</li>
+            </ul>
+        </div>
+    </div>
+</div>

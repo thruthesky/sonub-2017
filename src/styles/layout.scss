@@ -3,7 +3,7 @@ body {
     padding: 0;
 }
 
-$header-height: 64px;
+$header-height: 80px;
 $header-border-bottom-height: 8px;
 section.page {
     background-color: $background-color;
@@ -84,7 +84,10 @@ $d-width: 160px;
             width: $c-width;
         }
     }
-    @media (min-width: $break-d) {
+}
+
+@media (min-width: $break-d) {
+    [layout="column"] {
         .b {
             margin-right: $c-width + $d-width + $box-padding-x;
         }
@@ -101,7 +104,6 @@ $d-width: 160px;
         }
     }
 }
-
 
 .page-body-content-wide {
     .b {

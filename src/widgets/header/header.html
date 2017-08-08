@@ -2,17 +2,40 @@
     <nav>
         <div class="d-flex justify-content-between">
             <div class="left">
-                <div id="header-logo-text"><a href="/" routerLink="/">S</a></div>
+                <a class="header-icon logo" href="/" routerLink="/">
+                    <div class="logo-box">S</div>
+                    <div class="header-icon-text logo-text">Home</div>
+                </a>
+
+                                <div class="header-icon news">
+                    <div class="fa-stack fa-lg" (click)=" showPanelMenu = !showPanelMenu ">
+                        <i class="fa fa-circle fa-stack-2x" aria-hidden="true"></i>
+                        <i class="fa fa-gear fa-stack-1x fa-inverse" aria-hidden="true"></i>
+                    </div>
+                    <div class="header-icon-text">News</div>
+                </div>
+
             </div>
+
+
             <div class="center align-self-center">{{ title }}</div>
             <div class="right">
-                <span id="header-user-photo" *ngIf=" app.user.isLogin && app.user.profile.photoURL ">
-                    <img src="{{ app.user.profile.photoURL }}">
-                </span>
-                <span class="fa-stack fa-lg" (click)=" showPanelMenu = !showPanelMenu ">
-                    <i class="fa fa-circle fa-stack-2x" aria-hidden="true"></i>
-                    <i class="fa fa-bars fa-stack-1x fa-inverse" aria-hidden="true"></i>
-                </span>
+                <div class="header-icon user-photo header-icon-width" *ngIf=" app.user.isLogin && app.user.profile.photoURL ">
+                    <span class="fa-stack fa-lg">
+    <i class="fa fa-circle fa-stack-2x"></i>
+    <img class="fa fa-stack-1x" style="margin: 2px 0 0 2px; width: 38px; height: 37px; border-radius: 50%;" src="{{ app.user.profile.photoURL }}">
+</span>
+
+
+                    <div class="header-icon-text user-name">{{ app.user.name }}</div>
+                </div>
+                <div class="header-icon menu">
+                    <div class="fa-stack fa-lg" (click)=" showPanelMenu = !showPanelMenu ">
+                        <i class="fa fa-circle fa-stack-2x" aria-hidden="true"></i>
+                        <i class="fa fa-bars fa-stack-1x fa-inverse" aria-hidden="true"></i>
+                    </div>
+                    <div class="header-icon-text">Menu</div>
+                </div>
             </div>
         </div>
     </nav>

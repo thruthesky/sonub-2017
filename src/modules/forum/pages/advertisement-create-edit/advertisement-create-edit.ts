@@ -1,9 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AppService } from './../../../../providers/app.service';
-import {
-    POST_CREATE,
-    FILES, FILE
-} from './../../../../providers/wordpress-api/interface';
+import { ActivatedRoute } from '@angular/router';
+import { AppService, POST, FILES, FILE, POST_CREATE } from './../../../../providers/app.service';
+
 
 @Component({
     selector: 'advertisement-create-edit-page',
@@ -19,11 +17,36 @@ export class AdvertisementCreateEditPage implements OnInit, OnDestroy {
     position;
     files: FILES = [];
     file: FILE;
+    ID; // for update only.
+    // post: POST;
     constructor(
+        private activeRoute: ActivatedRoute,
         public app: AppService
     ) {
         app.pageLayout = 'wide';
         console.log("cons");
+
+        let params = activeRoute.snapshot.params;
+        if (params['id']) {
+
+            this.app.wp.post({ route: 'wordpress.get_advertisement_by_id', ID: params['id'] })
+                .subscribe((post: POST) => {
+                    console.log('adv: ', post);
+                    // this.post = post;
+
+                    this.ID = post.ID;
+                    this.title = post.post_title;
+                    this.summary = post.post_content;
+                    this.domain = post.varchar_2;
+                    this.url = post.varchar_4;
+                    this.display = post.char_1;
+                    this.position = post.varchar_1;
+                    if (post.files.length) {
+                        this.files[0] = post.files[0];
+                        this.file = post.files[0];
+                    }
+                }, e => this.app.warning(e));
+        }
     }
 
     ngOnInit() { }
@@ -46,9 +69,11 @@ export class AdvertisementCreateEditPage implements OnInit, OnDestroy {
             varchar_2: this.domain,
             varchar_4: this.url
         };
-        data.fid = this.files.reduce( (_, file) => { _.push(file.id) ; return _; }, [] );
+        data.fid = this.files.reduce((_, file) => { _.push(file.id); return _; }, []);
+        data['ID'] = this.ID;
         this.app.forum.postCreate(data).subscribe(res => {
             console.log("Post create: ", res);
+            this.app.alert.open({ content: this.app.text('saved') });
         }, e => this.app.warning(e));
 
     }

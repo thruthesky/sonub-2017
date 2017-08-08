@@ -32,7 +32,7 @@ import { ForumViewPage } from './pages/view/view';
 
 import { AdvertisementHowtoPage } from './pages/advertisement-howto/advertisement-howto';
 import { AdvertisementCreateEditPage } from './pages/advertisement-create-edit/advertisement-create-edit';
-
+import { AdvertisementListPage } from './pages/advertisement-list/advertisement-list';
 
 const appRoutes: Routes = [
 
@@ -41,6 +41,7 @@ const appRoutes: Routes = [
     { path: 'adv/howto', component: AdvertisementHowtoPage },
     { path: 'adv/create', component: AdvertisementCreateEditPage },
     { path: 'adv/edit/:id', component: AdvertisementCreateEditPage },
+    { path: 'adv/list', component: AdvertisementListPage },
 
     { path: 'view/:id/:title', component: ForumViewPage }, /** /view/:id/-with-title */
     { path: 'view/:id', component: ForumViewPage },
@@ -60,7 +61,8 @@ const appRoutes: Routes = [
         CommentEditContent,
         ForumViewPage,
         AdvertisementHowtoPage,
-        AdvertisementCreateEditPage
+        AdvertisementCreateEditPage,
+        AdvertisementListPage
     ],
     entryComponents: [
         PostCreateEditContent,

@@ -12,13 +12,14 @@ import { WidgetsModule } from './../../widgets/widgets.module';
 import { RegisterPage } from './pages/register/register';
 import { LoginPage } from './pages/login/login';
 import { ProfilePage } from './pages/profile/profile';
-
+import { SettingsPage } from './pages/settings/settings';
 
 const appRoutes: Routes = [
-    { path: 'user', component: ProfilePage },
     { path: 'user/profile', component: ProfilePage },
     { path: 'user/login', component: LoginPage },
     { path: 'user/register', component: RegisterPage },
+    { path: 'user/settings', component: SettingsPage },
+    { path: 'user', component: ProfilePage }
     // { path: '', pathMatch: 'full', component: LoginPage },
     // { path: '**', component: LoginPage }
 ];
@@ -27,7 +28,8 @@ const appRoutes: Routes = [
     declarations: [
         RegisterPage,
         LoginPage,
-        ProfilePage
+        ProfilePage,
+        SettingsPage
     ],
     imports: [
         CommonModule,

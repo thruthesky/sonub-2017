@@ -8,6 +8,7 @@ import { PostLatestWidget } from './post-latest/post-latest';
 import { PostViewWidget } from './post-view/post-view';
 import { HeaderWidget } from './header/header';
 import { FileUploadWidget } from './file-upload/file-upload';
+import { AdvertisementSidebarWdiget } from './advertisement-sidebar/advertisement-sidebar';
 
 
 
@@ -21,14 +22,16 @@ import { FileUploadWidget } from './file-upload/file-upload';
         PostLatestWidget,
         PostViewWidget,
         HeaderWidget,
-        FileUploadWidget
+        FileUploadWidget,
+        AdvertisementSidebarWdiget
     ],
     declarations: [
         FileDisplayWidget,
         PostLatestWidget,
         PostViewWidget,
         HeaderWidget,
-        FileUploadWidget
+        FileUploadWidget,
+        AdvertisementSidebarWdiget
     ],
     providers: [],
 })

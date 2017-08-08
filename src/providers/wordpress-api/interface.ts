@@ -190,7 +190,7 @@ export interface POST_DELETE extends REQUEST, ID {
 };
 
 export interface POST_DELETE_RESPONSE {
-    ID: string;
+    ID: number;
     mode: 'delete' | 'mark';
 }
 export interface COMMENT_DELETE_RESPONSE extends comment_ID {

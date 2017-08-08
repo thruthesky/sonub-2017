@@ -1,0 +1,11 @@
+.my-advertisement-menu {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+
+    font-size: $font-size-xs;
+    ul {
+        @include list-line();
+        @include list-dots();
+    }
+}

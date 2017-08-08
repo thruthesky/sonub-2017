@@ -8,9 +8,11 @@ $font-size-xl: 13pt;
 
 
 
+/// badding
+$global-padding: 8px;
 /// box
 $box-padding-x: 9px;
-$box-padding-y: 8px;
+$box-padding-y: $global-padding;
 $box-background-color: #fff;
 
 

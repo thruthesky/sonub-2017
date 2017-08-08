@@ -63,7 +63,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.news = this.app.cacheGetPage(req);
     // console.log("cached: ", this.news);
     this.app.forum.postList(req).subscribe((page: PAGE) => {
-      console.log('Page::', page);
+      // console.log('Page::', page);
       this.app.cacheSetPage(req, page);
       this.news = page;
     }, err => this.app.displayError(this.app.getErrorString(err)));
@@ -86,7 +86,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   loadAdvertisement() {
     this.app.wp.post({route: 'wordpress.get_advertisement', position: 'sidebar'} )
       .subscribe( (post: POST) => {
-        console.log('adv: ', post);
+        // console.log('adv: ', post);
         this.advSidebar = post;
       }, e => this.app.warning(e));
   }

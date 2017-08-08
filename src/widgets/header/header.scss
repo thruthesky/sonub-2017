@@ -1,34 +1,52 @@
-// .header.navbar {
-//     height: 80px;
-// }
+$header-icon-size-width: 38px;
+$header-icon-size-height: 37px;
+$header-icon-width: 44px;
+$font-awesome-margin-top: 1px;
 section.page-header {
     padding-top: 8px;
     background-color: #aaa;
-}
-
-#header-logo-text {
-    a {
-        display: block;
-        margin-left: 8px;
-        padding: 8px 16px;
-        font-weight: bold;
-        color: white;
-        background-color: #0072e7;
+    .left {
+        .logo {
+            margin-top: $font-awesome-margin-top +1px;
+            margin-left: $global-padding;
+        }
+        .logo-box {
+            width: $header-icon-size-width;
+            height: $header-icon-size-height;
+            line-height: $header-icon-size-height;
+            vertical-align: middle;
+            overflow: hidden;
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            background-color: #0072e7;
+        }
     }
-}
-
-$header-user-photo-size: 39px;
-#header-user-photo {
-    display: inline-block;
-    width: $header-user-photo-size;
-    height: $header-user-photo-size;
-    line-height: $header-user-photo-size;
-    vertical-align: middle;
-    overflow: hidden;
-    img {
+    .right {
+        .header-icon.menu {
+            margin-right: $global-padding;
+        }
+    }
+    
+    .header-icon {
         display: block;
-        width: $header-user-photo-size - 2px;
-        height: $header-user-photo-size - 2px;
-        border-radius: 50%;
+        float: left;
+    }
+    .header-icon-text {
+        text-align: center;
+        font-size: $font-size-xs;
+        height: $font-size-xs;
+        line-height: $font-size-xs;
+        overflow: hidden;
+    }
+    .header-icon-width {
+        width: $header-icon-width;
+        overflow: hidden;
+    }
+    .logo-text {
+        margin-top: $font-awesome-margin-top + 3px;
+    }
+    .user-name {
+        margin-top: $font-awesome-margin-top;
     }
 }
