@@ -7,7 +7,6 @@ import { AppService } from './../../providers/app.service';
 
 export class HeaderWidget implements OnInit {
     @Input() title;
-    showPanelMenu: boolean = false;
     constructor(
         public app: AppService
     ) { }

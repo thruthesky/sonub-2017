@@ -25,6 +25,7 @@ import { CustomErrorHandler } from './app.error-handler';
 
 import { UserModule } from '../modules/user/user.module';
 import { ForumModule } from '../modules/forum/forum.module';
+import { EtcModule } from '../modules/etc/etc.module';
 
 
 
@@ -43,6 +44,7 @@ import { PushMessageService } from './../providers/push-message';
 
 
 // import { TextService } from './../providers/text.service';
+
 
 
 import { ModalServiceModule } from '../providers/modals/modal.service.module';
@@ -69,6 +71,7 @@ const appRoutes: Routes = [
     ModalServiceModule,
     UserModule,
     ForumModule,
+    EtcModule,
     RouterModule.forRoot(appRoutes),
     HttpModule,
     WidgetsModule

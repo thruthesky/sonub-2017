@@ -1,31 +1,26 @@
 <section class="page-header">
-    <nav>
-        <div class="d-flex justify-content-between">
+    <div class="page-header-container">
+        <div class="page-header-container-center">
             <div class="left">
-                <div id="header-logo-text"><a href="/" routerLink="/">S</a></div>
+                <a class="logo hidden-xs-down" href="/" routerLink="/">S</a>
+                <input placeholder="What are you searching?">
+                <i class="fa fa-search fa-inverse" aria-hidden="true"></i>
             </div>
-            <div class="center align-self-center">{{ title }}</div>
+            <div class="center hidden-sm-down">
+                <a href="/forum/job" routerLink="/forum/job">Job</a>
+                <a href="/forum/qna" routerLink="/forum/qna">Q &amp; A</a>
+                <a href="/forum/buyandsell" routerLink="/forum/buyandsell">Buy &amp; Sell</a>
+                <a href="/forum/travel" routerLink="/forum/travel">Travel</a>
+                <a href="/forum/food" routerLink="/forum/food">Food</a>
+            </div>
             <div class="right">
-                <span id="header-user-photo" *ngIf=" app.user.isLogin && app.user.profile.photoURL ">
-                    <img src="{{ app.user.profile.photoURL }}">
-                </span>
-                <span class="fa-stack fa-lg" (click)=" showPanelMenu = !showPanelMenu ">
-                    <i class="fa fa-circle fa-stack-2x" aria-hidden="true"></i>
-                    <i class="fa fa-bars fa-stack-1x fa-inverse" aria-hidden="true"></i>
-                </span>
+                <i class="fa fa-comments-o fa-inverse" aria-hidden="true"></i>
+                <i class="fa fa-envelope fa-inverse" aria-hidden="true"></i>
+                <i class="fa fa-users fa-inverse" aria-hidden="true"></i>
+                <!-- <i class="fa fa-gear fa-inverse" aria-hidden="true"></i> -->
+                <i routerLink="/menu" class="fa fa-bars fa-inverse" aria-hidden="true"></i>
             </div>
         </div>
-    </nav>
-</section>
-<section *ngIf=" showPanelMenu " class="header-panel-menu">
-    <ul>
-        <li><a class="btn btn-secondary" routerLink="/user">User Profile</a></li>
-        <li><a class="btn btn-secondary" routerLink="/user/login">Login</a></li>
-        <li><button type="button" (click)="app.user.logout()">Logout</button></li>
-        <li><button type="button" routerLink="/user/register">Register Page</button></li>
-        <li>
-            <a class="btn btn-secondary" href="/forum" routerLink="/forum">Forum page</a>
-        </li>
-        <li><button type="button" (click)=" showPanelMenu = false ">{{ app.text('close') }}</button></li>
-    </ul>
+    </div>
+
 </section>

@@ -21,7 +21,7 @@ export interface CONFIRM_OPTIONS {
 
 export class ConfirmContent implements OnInit {
 
-    options;
+    options: CONFIRM_OPTIONS;
     constructor(
         public activeModal: NgbActiveModal
     ) { }

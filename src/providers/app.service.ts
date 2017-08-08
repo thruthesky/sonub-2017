@@ -21,6 +21,8 @@ export { CONFIRM_OPTIONS } from './modals/confirm/confirm.modal';
 // import { TextService } from './text.service';
 
 import { SOCIAL_PROFILE, USER_REGISTER } from './wordpress-api/interface';
+export { POST, POSTS, FILE, FILES, POST_CREATE, POST_DELETE, POST_DELETE_RESPONSE } from './wordpress-api/interface';
+
 
 import { AlertModalService } from './modals/alert/alert.modal';
 import { PushMessageService } from './push-message';
@@ -48,7 +50,7 @@ export class AppService extends Base {
 
     headerWidget: HeaderWidget;
 
-    pageLayout: 'wide' | 'column' = 'column';
+    pageLayout: 'wide' | 'column' | 'advertisement' = 'column';
 
     constructor(
         public user: UserService,

@@ -76,7 +76,7 @@ export class PushMessageService extends Base {
     updateWebToken() {
         if (this.isCordova) return;
         if (!this.user.isLogin) return;
-        console.log("PushMessage:updateWebToken()", this.user.profile);
+        // console.log("PushMessage:updateWebToken()", this.user.profile);
         this.requestWebToken();
     }
 

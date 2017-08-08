@@ -1,34 +1,86 @@
-// .header.navbar {
-//     height: 80px;
-// }
-section.page-header {
-    padding-top: 8px;
-    background-color: #aaa;
-}
-
-#header-logo-text {
-    a {
-        display: block;
-        margin-left: 8px;
-        padding: 8px 16px;
-        font-weight: bold;
-        color: white;
-        background-color: #0072e7;
+$header-background-color: #0A5561;
+$icon-width: 32px;
+$icon-width-on-wide: 26px;
+$header-content-height: 24px;
+.page-header {
+    color: white;
+    .page-header-container {
+        /// layout
+        height: $header-inner-height;
+        overflow: hidden;
+        background-color: $header-background-color;
+        .left,
+        .center,
+        .right {
+            position: relative;
+            height: $header-inner-height;
+            line-height: $header-inner-height;
+            vertical-align: center;
+        }
     }
-}
-
-$header-user-photo-size: 39px;
-#header-user-photo {
-    display: inline-block;
-    width: $header-user-photo-size;
-    height: $header-user-photo-size;
-    line-height: $header-user-photo-size;
-    vertical-align: middle;
-    overflow: hidden;
-    img {
+    .page-header-container-center {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        margin: 0 $global-padding;
+    }
+    .center {
+        a {
+            display: inline-block;
+            padding: 0 .4em;
+            color: white;
+            font-weight: 300;
+            font-size: $font-size-sm;
+        }
+    }
+    .fa {
+        display: inline-block;
+        padding: 10px 0;
+        width: $icon-width;
+        text-align: center;
+        cursor: pointer;
+    }
+    .fa-search {
+        width: 14px;
+    }
+    
+    input {
+        padding-left: 4px;
+        width: 180px;
+        @media (min-width: $sm) {
+            padding-left: 6px;
+            width: 240px;
+        }
+        height: $header-content-height;
+        border: 0;
+        font-size: $font-size-xs;
+    }
+    .fa-search {
+        position: absolute;
         display: block;
-        width: $header-user-photo-size - 2px;
-        height: $header-user-photo-size - 2px;
-        border-radius: 50%;
+        margin: 0;
+        padding: 0;
+        top: 3px;
+        right: 6px;
+        width: 14px!important;
+        font-size: 10pt;
+        z-index: 999;
+        color: #888;
+        height: $header-inner-height;
+        line-height: $header-inner-height;
+    }
+    .logo {
+        display: inline-block;
+        margin-left: 4px;
+        width: 18px;
+        font-size: $font-size-md;
+        color: white;
+    }
+
+
+    @media (min-width: $md) {
+        .fa {
+            width: $icon-width-on-wide;
+        }
     }
 }

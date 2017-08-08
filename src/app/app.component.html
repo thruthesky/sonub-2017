@@ -1,11 +1,11 @@
-<section class="page">
+<section class="page" [attr.layout]="app.pageLayout">
     <header-widget #headerWidget [title]=" app.text('sonub') "></header-widget>
 
     <section class="page-body">
 
         <div class="page-body-content" [class.page-body-content-wide]=" app.pageLayout == 'wide' ">
             <div class="page-body-content-layout">
-                <ng-container *ngIf=" app.pageLayout == 'column' ">
+                <ng-container *ngIf=" app.pageLayout == 'column' || app.pageLayout == 'advertisement' ">
                     <div class="a">
                         <div class="box box-menu login-or-register" *ngIf="!app.user.isLogin">
                             <ul>
@@ -25,7 +25,9 @@
                                 <li><a href="" routerLink="/user/profile">Message</a></li>
                                 <li><a href="" routerLink="/user/profile">Friends</a></li>
                                 <li><a href="" routerLink="/user/profile">Groups</a></li>
-                                <li><a href="" routerLink="">Customize</a></li>
+                                <li><a href="/user/settings" routerLink="/user/settings">
+                                    <i class="fa fa-gear" aria-hidden="true"></i>
+                                    Settings</a></li>
                             </ul>
                         </div>
 
@@ -50,7 +52,6 @@
                         <div class="box box-menu birthdays">
                             <i class="fa fa-birthday-cake" aria-hidden="true"></i> Birthday: Jaeho and 2 other
                         </div>
-
 
                         <div class="box box-menu news">
                             <ul class="news-menu">
@@ -77,12 +78,8 @@
                                 <li><a class="link-secondary" href="/adv/howto" routerLink="/adv/howto">Sponsered</a></li>
                                 <li><a class="link-primary" href="/adv/create" routerLink="/adv/create">Create Ad</a></li>
                             </ul>
-                            <div *ngIf="advSidebar" class="advertisement-side-bar">
-                                <div><img src="{{ advSidebar.files[0].url }}"></div>
-                                <div>{{ advSidebar.post_title }}</div>
-                                <div>{{ advSidebar.varchar_2 }}</div>
-                                <div>{{ advSidebar.post_content }}</div>
-                            </div>
+
+                            <advertisement-sidebar-widget [post]="advSidebar"></advertisement-sidebar-widget>
                         </div>
 
 
@@ -108,6 +105,17 @@
                         <br>&nbsp;<br> Sponsers ...
                         <br>&nbsp;<br> Sponsers ...
                         <br>&nbsp;<br>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf=" app.pageLayout == 'advertisement' ">
+                    <div class="c">
+                        <h4>Advertisement Sidebar</h4>
+                        <h4>Advertisement Sidebar</h4>
+                        <h4>Advertisement Sidebar</h4>
+                        <h4>Advertisement Sidebar</h4>
+                        <h4>Advertisement Sidebar</h4>
+                        <h4>Advertisement Sidebar</h4>
                     </div>
                 </ng-container>
             </div>
