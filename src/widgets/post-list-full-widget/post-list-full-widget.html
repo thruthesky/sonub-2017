@@ -20,7 +20,7 @@
                 <div class="post" *ngFor="let post of page.posts " [attr.post-id]="post.ID">
                     <div class="post-display">
                         <!-- display author info. Anonymous have his info on meta -->
-                        Author : {{ post.author.name }}. No.: {{ post.ID }} {{ app.shortDate( post.meta.timestamp_create ) }}
+                        Author : {{ post?.author?.name }}. No.: {{ post.ID }} {{ app.shortDate( post.meta.timestamp_create ) }}
                         <h2 class="post-title">{{ post.post_title }}</h2>
                         <div class="post-content">
                             {{ post.post_content }}
