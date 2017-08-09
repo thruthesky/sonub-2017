@@ -4,6 +4,7 @@ import { FILES, USER_REGISTER, USER_UPDATE, USER_UPDATE_RESPONSE } from "../../.
 import { AppService } from "../../../../providers/app.service";
 import { FileUploadWidget } from "../../../../widgets/file-upload/file-upload";
 import { NgbDatepickerConfig } from "@ng-bootstrap/ng-bootstrap";
+import { Base } from './../../../../etc/base';
 
 export interface _DATE {
     year: number;
@@ -16,7 +17,7 @@ export interface _DATE {
     templateUrl: 'register.html'
 })
 
-export class RegisterPage implements OnInit {
+export class RegisterPage extends Base implements OnInit {
 
     @ViewChild('fileUploadWidget') public fileUploadComponent: FileUploadWidget;
     activeForm = 'form1';
@@ -43,6 +44,7 @@ export class RegisterPage implements OnInit {
         private router: Router,
         dateConfig: NgbDatepickerConfig
     ) {
+        super();
         app.title('register');
         dateConfig.minDate = {year: 1956, month: 1, day: 1};
         dateConfig.maxDate = {year: this.now.getFullYear(), month: 12, day: 31};
@@ -67,7 +69,8 @@ export class RegisterPage implements OnInit {
         let data: USER_REGISTER = {
             user_login: this.user_email,
             user_pass: this.user_pass,
-            user_email: this.user_email
+            user_email: this.user_email,
+            // timezone_offset: this.getTimezoneOffset()
         };
         this.app.user.register(data).subscribe(res => {
             console.log('app.user.register::res', res);

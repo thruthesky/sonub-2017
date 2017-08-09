@@ -84,6 +84,11 @@ export let TEXT = {
         ko: '확인'
     },
 
+    create_a_post: {
+        en: 'Create a Post',
+        ko: '글 등록하기'
+    },
+
 
     /// page title
     menu_page_title: {
@@ -96,6 +101,17 @@ export let TEXT = {
         ko: '이 페이지에서 모든 메뉴를 볼 수 있습니다.'
     },
 
+
+
+    /// forum create name
+    food: {
+        en: 'Food',
+        ko: '음식'
+    },
+    food_description: {
+        en: 'Share your thoughts about Food.',
+        ko: '음식과 관련된 정보를 공유하는 게시판입니다.'
+    },
 
     ///
     confirmDelete: {

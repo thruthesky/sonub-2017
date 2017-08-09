@@ -1,19 +1,13 @@
-
-.page-no {
-    margin: 1em 0;
-    padding: 1em;
-    background-color: #eee;
-}
-
-
-.page .post {
-    padding: 1em;
-    border-bottom: 1px solid grey;
-}
-
-.post-title {
-    word-break: break-all;
-}
-.post-content {
-    word-break: break-all;
+.post-list-full-widget {
+    .post-list-page-header {
+        .title {
+            font-weight: 300;
+            font-size: $font-size-title-md;
+            color: grey;
+        }
+    }
+    .page .post {
+        padding: 1em;
+        border-bottom: 1px solid grey;
+    }
 }

@@ -166,4 +166,32 @@ export class Library {
     }
 
 
+    shortDate(stamp) {
+
+        let d = new Date(stamp * 1000);
+        let today = new Date();
+
+        let dt = '';
+        if (d.getFullYear() == today.getFullYear() && d.getMonth() == today.getMonth() && d.getDate() == today.getDate()) {
+            dt = d.toLocaleString();
+            dt = dt.substring(dt.indexOf(',') + 2).toLowerCase();
+            dt = dt.replace(/\:\d\d /, ' ');
+        }
+        else {
+            dt = d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate();
+        }
+        return dt;
+    }
+
+    // getTimezoneOffset(): string {
+    //     let offset = '';
+    //     try {
+    //         var objdatetime = new Date();
+    //         var timezone = objdatetime.toTimeString();
+    //         var tzstr = timezone.split("(");
+    //         offset = tzstr[1].toString().replace(")", "");
+    //     }
+    //     catch (e) { };
+    //     return offset;
+    // }
 }

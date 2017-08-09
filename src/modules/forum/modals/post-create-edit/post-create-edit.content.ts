@@ -54,9 +54,9 @@ export class PostCreateEditContent implements OnInit {
         if (options.post) {
             this.post_title = options.post.post_title;
             this.post_content = options.post.post_content;
-            this.post_author_name = options.post.meta.post_author_name;
-            this.post_author_email = options.post.meta.post_author_email;
-            this.post_author_phone_number = options.post.meta.post_author_phone_number;
+            this.post_author_name = options.post.author.name;
+            this.post_author_email = options.post.author.email;
+            this.post_author_phone_number = options.post.author.phone_number;
             this.files = Array.from(options.post.files);
         }
     }
@@ -75,7 +75,7 @@ export class PostCreateEditContent implements OnInit {
         };
 
 
-        data.fid = this.files.reduce( (_, file) => { _.push(file.id) ; return _; }, [] );
+        data.fid = this.files.reduce((_, file) => { _.push(file.id); return _; }, []);
 
         console.log(data);
 
@@ -96,12 +96,15 @@ export class PostCreateEditContent implements OnInit {
             post_title: this.post_title,
             post_content: this.post_content
         };
-        data.fid = this.files.reduce( (_, file) => { _.push(file.id) ; return _; }, [] );
+        data.fid = this.files.reduce((_, file) => { _.push(file.id); return _; }, []);
 
-        if (this.post_password) data.post_password = this.post_password;
-        if (this.post_author_name) data.post_author_name = this.post_author_name;
-        if (this.post_author_email) data.post_author_email = this.post_author_email;
-        if (this.post_author_phone_number) data.post_author_phone_number = this.post_author_phone_number;
+        if (!this.app.user.isLogin) {
+            if (this.post_password) data.post_password = this.post_password;
+            if (this.post_author_name) data.post_author_name = this.post_author_name;
+            if (this.post_author_email) data.post_author_email = this.post_author_email;
+            if (this.post_author_phone_number) data.post_author_phone_number = this.post_author_phone_number;
+        }
+
 
         this.app.forum.postUpdate(data).subscribe(ID => {
             console.log("update: ", ID);

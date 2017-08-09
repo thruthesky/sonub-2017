@@ -1,44 +1,55 @@
+<section class="post-list-full-widget">
 
-<button type="button" id="post-list-create-button" (click)="onClickPostCreate()">POST</button>
+    <div class="pages" *ngIf="pages">
+        <div class="page" *ngFor="let page of pages">
 
 
-<div class="pages" *ngIf="pages">
-    <div class="page" *ngFor="let page of pages">
-        <h3 class="page-no">Page No. {{ page.paged }}</h3>
-        <div class="posts">
-            <div class="post" *ngFor="let post of page.posts " [attr.post-id]="post.ID">
-                <div class="post-display">
-                    <!-- display author info. Anonymous have his info on meta -->
-                    Author : {{ post.author_name }}. No.: {{ post.ID }}
-                    <h2 class="post-title">{{ post.post_title }}</h2>
-                    <div class="post-content">
-                        {{ post.post_content }}
-                    </div>
-
-                    <file-display-widget [files]="post.files"></file-display-widget>
-
-                    <!-- post view comment create box -->
-                    <comment-create-widget [post]="post" (create)="onCommentCreate($event, post)"></comment-create-widget>
-                    <div class="buttons">
-                        <button class="btn btn-secondary btn-sm" (click)="onClickPostEdit( post )">Edit</button>
-                        <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post, page )">Delete</button>
-                        <!-- <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">Reply</button> -->
-                        <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">Like</button>
-                        <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">More</button> dislike,
-                        report, favorate, share
-                    </div>
-                    <div class="comments" *ngIf="post.comments.length">
-                        <ng-container *ngFor="let comment of post.comments">
-                            <comment-view-widget [post]="post" [comment]="comment"></comment-view-widget>
-                        </ng-container>
+            <div class="post-list-page-header">
+                <div class="d-flex justify-content-between bg-white">
+                    <h3 class="title m-0 p-3">{{ app.text(this.slug) }}</h3>
+                    <div class="text-right fs-xs flex flex-column justify-content-between">
+                        <div class="p-2 blue" id="post-list-create-button" (click)="onClickPostCreate()">{{ app.text('create_a_post') }}</div>
+                        <div class="pr-2 pb-2 fs-sm">Page 1. 438 posts.</div>
                     </div>
                 </div>
-                <!--/post-display-->
+                <small>음식과 관련된 정보를 공유하는 게시판입니다.</small>
+            </div>
+
+
+            <div class="posts">
+                <div class="post" *ngFor="let post of page.posts " [attr.post-id]="post.ID">
+                    <div class="post-display">
+                        <!-- display author info. Anonymous have his info on meta -->
+                        Author : {{ post.author.name }}. No.: {{ post.ID }} {{ app.shortDate( post.meta.timestamp_create ) }}
+                        <h2 class="post-title">{{ post.post_title }}</h2>
+                        <div class="post-content">
+                            {{ post.post_content }}
+                        </div>
+
+                        <file-display-widget [files]="post.files"></file-display-widget>
+
+                        <!-- post view comment create box -->
+                        <comment-create-widget [post]="post" (create)="onCommentCreate($event, post)"></comment-create-widget>
+                        <div class="buttons">
+                            <button class="btn btn-secondary btn-sm" (click)="onClickPostEdit( post )">Edit</button>
+                            <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post, page )">Delete</button>
+                            <!-- <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">Reply</button> -->
+                            <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">Like</button>
+                            <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">More</button> dislike,
+                            report, favorate, share
+                        </div>
+                        <div class="comments" *ngIf="post.comments.length">
+                            <ng-container *ngFor="let comment of post.comments">
+                                <comment-view-widget [post]="post" [comment]="comment"></comment-view-widget>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <!--/post-display-->
+                </div>
             </div>
         </div>
     </div>
-</div>
-
+</section>
 
 
 

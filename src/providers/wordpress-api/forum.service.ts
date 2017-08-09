@@ -49,8 +49,14 @@ export class ForumService extends Base {
             ID: no,
             thumbnail: '200x200'
         };
-        return this.wp.post(data);
+        return this.wp.post(data)
+            // .map(v => this.parepareData(v));
     }
+
+    // parepareData(data) {
+    //     data['shortDate'] = this.shortDate(data.meta.timestamp_create);
+    //     return data;
+    // }
 
     postUpdate(data: POST_UPDATE): Observable<number> {
         data.session_id = this.user.sessionId;

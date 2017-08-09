@@ -52,7 +52,8 @@ export class UserService extends Base {
         let data: USER_LOGIN = {
             user_email: user_email,
             user_pass: user_pass,
-            route: 'user.login'
+            route: 'user.login',
+            // timezone_offset: this.getTimezoneOffset()
         };
         return this.wp.post(data)
             .map(res => this.setUserProfile(res));
@@ -72,7 +73,8 @@ export class UserService extends Base {
     loginSocial( uid ): Observable<USER_REGISTER_RESPONSE> {
         let data = {
             route: 'user.loginSocial',
-            uid: uid
+            uid: uid,
+            // timezone_offset: this.getTimezoneOffset()
         };
         return this.wp.post( data )
             .map(res => this.setUserProfile( res ) );
@@ -80,6 +82,7 @@ export class UserService extends Base {
     
     registerSocial(data: SOCIAL_REGISTER): Observable<USER_REGISTER_RESPONSE> {
         data.route = 'user.registerSocial';
+        // data['timezone_offset'] = this.getTimezoneOffset();
         return this.wp.post(data)
             .map(res => this.setUserProfile(res));
     }

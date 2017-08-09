@@ -216,8 +216,13 @@ export class AppService extends Base {
 
 
     /**
-     * All login comes here.
-     * User login sucessfully.
+     * 
+     * User logged in sucessfully.
+     * 
+     * @attention All login comes here.
+     * 
+     * 
+     * 
      * @note this includes all kinds of social login and wordpress api login.
      * @note This method is being invoked for alll kinds of login.
      */
@@ -227,7 +232,11 @@ export class AppService extends Base {
         this.push.updateWebToken();
         this.push.updateCordovaToken();
         if (callback) callback();
+
+        // this.updateUserLogin();
+
     }
+
 
 
     /**
