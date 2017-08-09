@@ -67,6 +67,7 @@ export interface USER_REGISTER extends USER_LOGIN, USER_COMMON { };
 
 export interface USER_REGISTER_RESPONSE {
     // user_login: string;
+    ID: number;
     user_email: string;
     display_name: string;
     session_id: string;
@@ -87,6 +88,7 @@ export interface UPLOADED_FILE {
     type: string;          // can be 'false' if file type is not recognized.
     url: string;
     url_thumbnail?: string;
+    url_thumbnail_wide?: string; // only available for the first image. @see google doc
     name: string;
 }
 export type UPLOADED_FILES = Array<UPLOADED_FILE>;
@@ -109,6 +111,7 @@ export interface FILE_DELETE extends REQUEST {
  * When you get a comment alone, you cannot have 'depth'.
  */
 export interface COMMENT {
+    author: AUTHOR;
     comment_ID: number;
     comment_approved: string;
     comment_author: string;

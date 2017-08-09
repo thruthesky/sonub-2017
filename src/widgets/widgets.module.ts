@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 import { FileDisplayWidget } from './file-display/file-display';
 import { PostLatestWidget } from './post-latest/post-latest';
@@ -17,11 +19,14 @@ import { PostListFullWidget } from './post-list-full-widget/post-list-full-widge
 import { CommentCreateWidget } from './comment-create/comment-create';
 import { CommentViewWidget } from './comment-view/comment-view';
 
+import { PostHeaderWidget } from './post-header/post-header';
+
 @NgModule({
     imports: [
         CommonModule,
         RouterModule,
-        FormsModule
+        FormsModule,
+        NgbDropdownModule
     ],
     exports: [
         FileDisplayWidget,
@@ -33,7 +38,8 @@ import { CommentViewWidget } from './comment-view/comment-view';
         PostListThumbnailTextWidget,
         PostListFullWidget,
         CommentCreateWidget,
-        CommentViewWidget
+        CommentViewWidget,
+        PostHeaderWidget
     ],
     declarations: [
         FileDisplayWidget,
@@ -45,7 +51,8 @@ import { CommentViewWidget } from './comment-view/comment-view';
         PostListThumbnailTextWidget,
         PostListFullWidget,
         CommentCreateWidget,
-        CommentViewWidget
+        CommentViewWidget,
+        PostHeaderWidget
     ],
     providers: [],
 })

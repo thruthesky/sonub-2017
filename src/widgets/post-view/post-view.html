@@ -1,18 +1,34 @@
+<section class="post-view-widget mb-2" *ngIf="post">
 
-<section *ngIf="post" class="post-view-widget">
 
-    <h1 class="title">{{ post.post_title }}</h1>
-    <hr>
-    <div class="meta">
-        <img class="photo-icon" src="{{ post.author.photoURL }}">
-        {{ post.author.name }}
-        {{ app.shortDate( post.meta.timestamp_create ) }}
+    <div class="post-area bg-white mb-2 p-2">
+        <post-header-widget [post]="post"></post-header-widget>
+        <h2 class="post-title fs-xl fw-100">{{ post.post_title }}</h2>
+        <div class="post-content mb-2 fs-sm">
+            {{ post.post_content }}
+        </div>
+        <file-display-widget [files]="post.files"></file-display-widget>
+        <hr>
+        <ul class="buttons list-line list-dots fs-xs">
+            <li *ngIf=" app.my( post ) || app.anonymous( post )" (click)="onClickPostEdit( post )">Edit</li>
+            <li *ngIf=" app.my( post ) || app.anonymous( post )" (click)="onClickPostDelete( post, page )">Delete</li>
+            <li (click)="onClickPostDelete( post )">Like</li>
+            <li (click)="onClickPostDelete( post )">more</li>
+            <li>dislike</li>
+            <li>report</li>
+            <li>favorite</li>
+            <li>share</li>
+        </ul>
+
+    <comment-create-widget [post]="post" (create)="onCommentCreate($event, post)"></comment-create-widget>
+
     </div>
-    <div class="content">
-        {{ post.post_content }}
+
+    <div class="comments" *ngIf="post.comments.length">
+        <ng-container *ngFor="let comment of post.comments">
+            <comment-view-widget [post]="post" [comment]="comment"></comment-view-widget>
+        </ng-container>
     </div>
-    <hr>
-    <file-display-widget [files]="post.files"></file-display-widget>
 
 
 </section>

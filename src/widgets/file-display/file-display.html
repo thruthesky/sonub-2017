@@ -1,9 +1,13 @@
-<div class="file-display" *ngIf=" files && files.length ">
-    <div class="file" *ngFor=" let file of files " [attr.type]="app.file.getFileType(file)">
-        <div [class]="app.file.getFileType(file)">
-            <img src="{{ file.url_thumbnail }}" *ngIf="app.file.getFileType(file) == 'image'">
-            <a href="{{ file.url }}" target="_blank" *ngIf="app.file.getFileType(file) == 'attachment'">{{ file.name }}</a>
+<ng-container *ngIf=" files && files.length ">
+    <div class="file-display-widget">
+        <div class="files" [attr.count]="files.length" [attr.items]="files.length == 1 ? 'single' : 'many'">
+            <div class="file" *ngFor=" let file of files " [attr.type]="app.file.getFileType(file)">
+                <div [class]="app.file.getFileType(file)">
+                    <img *ngIf="app.file.getFileType(file) == 'image'" src="{{ files.length == 1 ? file.url_thumbnail_wide : file.url_thumbnail }}">
+                    <a href="{{ file.url }}" target="_blank" *ngIf="app.file.getFileType(file) == 'attachment'">{{ file.name }}</a>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</ng-container>
 

@@ -1,31 +1,40 @@
-<div class="comment-view" [attr.comment-id]="comment.comment_ID" [attr.depth]="comment.depth">
-    No. {{ comment.comment_ID }}
-    Author: {{ comment.comment_author }}
-    {{ app.shortDate( comment.meta.timestamp_create ) }}
+<div class="comment-view mb-3" [attr.comment-id]="comment.comment_ID" [attr.depth]="comment.depth">
 
-    <div class="comment-content">
-        {{ comment.comment_content }}
+    <div class="comment-content-area fs-xs">
+        <table cellpadding="0" cellspacing="0">
+            <tr valign="top">
+                <td>
+                    <div class="mr-2">
+                        <i class="fa fa-mail-forward fa-flip-vertical grey" aria-hidden="true"></i>
+                    </div>
+                </td>
+                <td><img class="xy-36px" src="{{ app.postUserPhotoUrl( comment )}}"></td>
+                <td>
+                    <div class="ml-2">
+                        <div class="mb-2">
+                            {{ comment.author.name }} {{ app.shortDate( comment.meta.timestamp_create ) }} {{ comment.comment_content }}
+                        </div>
+                        <file-display-widget [files]="comment.files"></file-display-widget>
+
+
+                        <ul class="buttons mt-2">
+                            <li>Like</li>
+                            <li (click)="showReply=!showReply">Reply</li>
+                            <li (click)="onClickEdit()">Edit</li>
+                            <li (click)="onClickDelete()">Delete</li>
+                            <li>More</li>
+                        </ul>
+                    </div>
+
+                    <comment-create-widget *ngIf="showReply" [post]="post" [comment]="comment" (create)=" onCreate( $event ) "></comment-create-widget>
+
+                </td>
+            </tr>
+        </table>
+
+
 
     </div>
-    
-    <file-display-widget [files]="comment.files"></file-display-widget>
-
-    <hr>
-
-    <ul class="buttons">
-        <li>Like</li>
-        <li (click)="showReply=!showReply">Reply</li>
-        <li (click)="onClickEdit()">Edit</li>
-        <li (click)="onClickDelete()">Delete</li>
-        <li>More</li>
-    </ul>
-
-    <comment-create-widget *ngIf="showReply"
-    [post]="post"
-    [comment]="comment"
-    (create)=" onCreate( $event ) "
-    ></comment-create-widget>
 
 
 </div>
-

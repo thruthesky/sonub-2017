@@ -1,0 +1,19 @@
+<div *ngIf="post" class="post-data-header mb-3 flex justify-content-between">
+    <div class="flex">
+        <div><img class="photo-icon-2x" src="{{ app.postUserPhotoUrl(post) }}"></div>
+        <div class="ml-2 fs-sm">
+            <div>{{ app.postUserName(post) }}</div>
+            <div class="fs-sm">{{ app.shortDate( post.meta.timestamp_create ) }}</div>
+        </div>
+    </div>
+    <div class="pr-1 grey">
+        <div ngbDropdown class="d-inline-block">
+            <div class="px-2 pointer" ngbDropdownToggle></div>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownBasic1">
+                <button class="dropdown-item">Edit</button>
+                <button class="dropdown-item">Another Action</button>
+                <button class="dropdown-item">Something else is here</button>
+            </div>
+        </div>
+    </div>
+</div>

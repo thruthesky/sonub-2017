@@ -12,6 +12,7 @@
 }
 
 @mixin clearfix() {
+    overflow: auto;
     &:after {
         display: block;
         content: '';

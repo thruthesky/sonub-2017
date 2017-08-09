@@ -1,9 +1,19 @@
-
-.file-display{
-    width: 100%;
-    .file {
+.file-display-widget {
+    width: 100%; /// for 1 image only. side.
+    .files[items="single"] {
         img {
             max-width: 100%;
+        }
+    } /// for normal images. sqaure.
+    .files[items="many"] {
+        @include clearfix();
+        .image {
+            float: left;
+            width: 50%; @media (min-width: $break-c) { width: 33.33%; }
+            img {
+                width: 100%;
+                border: 1px solid white;
+            }
         }
     }
 }

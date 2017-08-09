@@ -84,7 +84,8 @@ $comment-form-grid-c-width: $comment-button-width * 2+1 -5; // +1 is for border.
 .comment-create-user-photo {
     img {
         display: block;
+        margin-top: 1px;
         width: $comment-form-grid-a-width;
-        height: $comment-form-grid-height;
+        height: $comment-form-grid-height - 2;
     }
 }

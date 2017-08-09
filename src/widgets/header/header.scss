@@ -8,8 +8,12 @@ $header-content-height: 24px;
         display: flex;
         flex-flow: row nowrap;
         justify-content: space-between;
-        margin: 0 0 0 8px;
+        margin: 0 2px 0 8px;
         @media ( min-width: $break-d) {
+            max-width: $layout-max-width;
+            padding-right: $d-width;
+        }
+        @media ( min-width: $layout-max-width) {
             margin: 0 auto;
             max-width: $layout-max-width;
             padding-right: $d-width;
