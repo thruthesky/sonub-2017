@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbActiveModal, NgbDatepickerConfig} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppService } from './../../../../../providers/app.service';
 import {
@@ -27,16 +27,23 @@ export class ProfileEditContent implements OnInit {
 
 
     user: USER_UPDATE = <USER_UPDATE>{};
-    files: FILES;
+    files: FILES = [];
 
 
     errorMessage: string = null;
     loading: boolean = false;
 
+    now = (new Date());
+
     constructor(
         public activeModal: NgbActiveModal,
         public app: AppService,
-    ) { }
+        dateConfig: NgbDatepickerConfig
+    ) {
+        app.title('register');
+        dateConfig.minDate = {year: 1956, month: 1, day: 1};
+        dateConfig.maxDate = {year: this.now.getFullYear(), month: 12, day: 31};
+    }
 
     ngOnInit() { }
 
@@ -55,7 +62,7 @@ export class ProfileEditContent implements OnInit {
         };
 
 
-        this.files = [userData.photo];
+        if( userData.photo ) this.files[0] = userData.photo;
         console.log('editUserOption::', this.birthday);
     }
 
@@ -90,7 +97,7 @@ export class ProfileEditContent implements OnInit {
             display_name: this.name,
             mobile: this.mobile,
             gender: this.gender,
-            birthday: this.birthday.year + this.add0(this.birthday.month) + this.add0(this.birthday.day)
+            birthday: this.birthday.year + this.app.add0(this.birthday.month) + this.app.add0(this.birthday.day)
         };
         this.app.user.update(data).subscribe((res: USER_UPDATE_RESPONSE) => {
             console.log('updateUserInfo:', res);
@@ -100,13 +107,11 @@ export class ProfileEditContent implements OnInit {
         }, err => {
             this.loading = false;
             console.log('error while updating user profile picture', err);
-            this.errorMessage = err.code;
+            this.errorMessage = err.code + ' , '+ err.message;
         });
     }
 
-    add0(n: number): string {
-        return n < 10 ? '0' + n : n.toString();
-    }
+
 
     onChangeBirthday() {
         console.log(this.birthday);

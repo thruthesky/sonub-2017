@@ -1,6 +1,5 @@
 <h1>User Profile</h1>
 <div *ngIf="app.user.isLogin">
-    <button (click)="onClickEditProfile()">Update Profile</button>
     <div class="text-center mb-3">
         <span id="profile-user-photo" >
             <img src="{{ userData?.photo?.url }}">
@@ -29,7 +28,9 @@
         <label for="birthday" class="input-group-addon">Birthday</label>
         <span type="text" class="form-control" id="birthday">{{userData.birthday}}</span>
     </div>
+    <div>
+        <button (click)="onClickEditProfile()">Update Profile</button>
+        <button type="button" (click)="app.user.logout()">Logout</button>
+    </div>
 
-
-    <button type="button" (click)="app.user.logout()">Logout</button>
 </div>

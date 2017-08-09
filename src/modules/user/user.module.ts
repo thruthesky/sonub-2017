@@ -31,11 +31,11 @@ const appRoutes: Routes = [
         RegisterPage,
         LoginPage,
         ProfilePage,
-        ProfileEditContent
-    ],
-    entryComponents: [
         ProfileEditContent,
         SettingsPage
+    ],
+    entryComponents: [
+        ProfileEditContent
     ],
     imports: [
         CommonModule,

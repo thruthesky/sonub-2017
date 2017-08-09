@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { FILES, USER_REGISTER, USER_UPDATE, USER_UPDATE_RESPONSE } from "../../../../providers/wordpress-api/interface";
 import { AppService } from "../../../../providers/app.service";
 import { FileUploadWidget } from "../../../../widgets/file-upload/file-upload";
+import { NgbDatepickerConfig } from "@ng-bootstrap/ng-bootstrap";
 
 export interface _DATE {
     year: number;
@@ -39,9 +40,12 @@ export class RegisterPage implements OnInit {
 
     constructor(
         public app: AppService,
-        private router: Router
+        private router: Router,
+        dateConfig: NgbDatepickerConfig
     ) {
         app.title('register');
+        dateConfig.minDate = {year: 1956, month: 1, day: 1};
+        dateConfig.maxDate = {year: this.now.getFullYear(), month: 12, day: 31};
     }
 
     ngOnInit() {
@@ -106,7 +110,7 @@ export class RegisterPage implements OnInit {
             display_name: this.name,
             mobile: this.mobile,
             gender: this.gender,
-            birthday: this.birthday.year + this.add0(this.birthday.month) + this.add0(this.birthday.day)
+            birthday: this.birthday.year + this.app.add0(this.birthday.month) + this.app.add0(this.birthday.day)
         };
         this.app.user.update(data).subscribe((res: USER_UPDATE_RESPONSE) => {
             console.log('updateUserInfo:', res);
@@ -117,12 +121,6 @@ export class RegisterPage implements OnInit {
             console.log('error while updating user profile picture', err);
             this.errorMessage = err.code;
         });
-    }
-
-
-
-    add0(n: number): string {
-        return n < 10 ? '0' + n : n.toString();
     }
 
     onChangeBirthday() {
