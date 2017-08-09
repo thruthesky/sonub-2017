@@ -23,5 +23,8 @@ export class PostViewWidget implements OnInit {
         
     }
 
-    ngOnInit() { }
+    ngOnInit() {
+        setTimeout( () => console.log('post view', this.post) , 1000);
+        
+    }
 }

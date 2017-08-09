@@ -1,0 +1,171 @@
+
+/*********************************
+ *
+ * BUTTON
+ *
+ *********************************/
+// remove attr
+.btn-remove-attr {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+    background-color: transparent;
+
+}
+
+/*********************************
+ *
+ * FONT
+ *
+ *********************************/
+
+ 
+$fs-xs: .8em;
+$fs-sm: .9em;
+$fs-md: 1em;
+$fs-lg: 1.2em;
+$fs-xl: 1.5em;
+
+
+
+/*********************************
+ *
+ * COLORS
+ *
+ *********************************/
+// red
+.red { color: red!important; }
+.bg-red { background-color: red!important; }
+.b-red { border: 1px solid red; }
+
+// dark red
+.darkred { color: darkred!important; }
+.bg-darkred { background-color: darkred!important; }
+.b-darkred { border: 1px solid darkred; }
+
+
+// black red
+.blackred { color: #b80000!important; }
+.bg-blackred { background-color: #b80000!important; }
+.b-blackred { border: 1px solid #b80000; }
+
+
+// orange
+.orange { color: orange!important; }
+.bg-orange { background-color: orange!important; }
+.b-orange { border: 1px solid orange; }
+
+
+// white
+.white { color: white!important; }
+.bg-white { background-color: white!important; }
+.b-white { border: 1px solid white; }
+
+
+// white
+.whitesmoke { color: whitesmoke!important; }
+.bg-whitesmoke { background-color: whitesmoke!important; }
+
+
+
+// white
+.snow { color: snow!important; }
+.bg-snow { background-color: snow!important; }
+
+
+// blue
+.blue { color: blue!important; }
+.bg-blue { background-color: blue!important; }
+.b-blue { border: 1px solid blue!important; }
+
+
+// lightblue
+.lightblue { color: lightblue!important; }
+.bg-lightblue { background-color: lightblue!important; }
+.b-lightblue { border: 1px solid lightblue; }
+
+
+// #3498db
+
+// skyblue
+.skyblue { color: #3498db!important; }
+.bg-skyblue { background-color: #3498db!important; }
+.b-skyblue { border: 1px solid #3498db; }
+
+
+
+// black
+.black { color: black!important; }
+.bg-black { background-color: black!important; }
+.b-black { border: 1px solid black; }
+
+// light black
+.lightblack { color: #444!important; }
+.bg-lightblack { background-color: #444!important; }
+.b-lightblack { border: 1px solid #444; }
+
+
+// grey
+.grey { color: grey!important; }
+.bg-grey { background-color: grey!important; }
+.b-grey { border: 1px solid grey; }
+
+// light grey
+.lightgrey { color: #eee!important; }
+.bg-lightgrey { background-color: #eee!important; }
+.b-lightgrey { border: 1px solid #eee; }
+
+
+// dim grey
+.dimgrey { color: dimgrey!important; }
+.bg-dimgrey { background-color: dimgrey!important; }
+.b-dimgrey { border: 1px solid dimgrey; }
+
+
+// slate grey
+.slategrey { color: slategrey!important; }
+.bg-slategrey { background-color: slategrey!important; }
+.b-slategrey { border: 1px solid slategrey; }
+
+// silver
+.silver { color: silver!important; }
+.bg-silver { background-color: silver!important; }
+
+
+
+// burlywood
+.burlywood { color: burlywood!important; }
+.bg-burlywood { background-color: burlywood!important; }
+
+// brown
+.brown { color: brown!important; }
+.bg-brown { background-color: brown!important; }
+
+// chocolate
+.chocolate { color: chocolate!important; }
+.bg-chocolate { background-color: chocolate!important; }
+
+// darkseagreen
+.darkseagreen { color: darkseagreen!important; }
+.bg-darkseagreen { background-color: darkseagreen!important; }
+
+
+
+// brown
+.pink { color: pink!important; }
+.bg-pink { background-color: pink!important; }
+
+
+// brown
+.purple { color: purple!important; }
+.bg-purple { background-color: purple!important; }
+
+
+// yellow
+.yellow { color: yellow!important; }
+.bg-yellow { background-color: yellow!important; }
+
+// brown
+.green { color: green!important; }
+.bg-green { background-color: green!important; }

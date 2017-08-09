@@ -156,7 +156,7 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
 
     onClickPostDelete(post: POST, page: PAGE) {
 
-        if (post.post_author) {
+        if (post.author.ID) {
             this.app.confirm(this.app.text('confirmDelete')).then(code => {
                 if (code == 'yes') this.postDelete(page, post.ID);
             });

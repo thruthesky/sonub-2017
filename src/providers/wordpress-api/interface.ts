@@ -22,6 +22,15 @@ interface comment_ID {
     comment_ID: number;
 }
 
+export interface AUTHOR {
+    ID?: number;
+    name?: string;
+    email?: string;
+    phone_number?: string;
+    photoURL?: string;
+};
+
+
 export interface SOCIAL_PROFILE {
     uid: string;                // User ID of the social.
     email?: string;
@@ -37,6 +46,7 @@ export interface USER_LOGIN {
     route?: string;
     user_email: string;
     user_pass: string;
+    // timezone_offset: string;
 }
 
 export interface USER_COMMON {
@@ -110,6 +120,7 @@ export interface COMMENT {
     depth: number;
     user_id: number;
     files: FILES;
+    meta: any;
 };
 
 /**
@@ -131,13 +142,6 @@ export type COMMENT_DATA_RESPONSE = COMMENT;
 // };
 
 
-
-
-interface POST_META {
-    post_author_name?: string;
-    post_author_email?: string;
-    post_author_phone_number?: string;
-}
 // interface IMAGE {
 //     [ID: number]: string;
 // };
@@ -148,9 +152,9 @@ export interface POST_CREATE_COMMON {
     post_title: string;
     post_content?: string;
     post_password?: string;
-    post_author_name?: string;                  /// This is anonymous user name when a anonymous post without login.
-    post_author_email?: string;                 /// Anonymous email
-    post_author_phone_number?: string;          /// Anonymous phone number.
+    post_author_name?: string;             /// This is anonymous user name when a anonymous post without login.
+    post_author_email?: string;            /// post_author_name, post_author_email, post_author_phone_number will only be available on create.
+    post_author_phone_number?: string;     /// 'author' field will be available for reading.
     fid?: Array<number>;
     int_1?: number;
     int_2?: number;
@@ -165,17 +169,17 @@ export interface POST_CREATE_COMMON {
     varchar_5?: string;
 };
 export interface POST_READ_COMMON extends ID, POST_CREATE_COMMON {
+    author: AUTHOR;
     category?: string; // category. only available on get_post()
-    author_name: string;
     comment_count: number;
     comments: COMMENTS;
     guid: string;
-    meta: POST_META;
     files: FILES;
-    post_author: number;
     post_date: string;
     post_parent: number;
     post_password?: string; // password does not come from server.
+    meta: any;
+    shortDate;
 };
 
 export interface POST_CREATE extends REQUEST, CATEGORY, POST_CREATE_COMMON { };

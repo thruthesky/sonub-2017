@@ -3,6 +3,11 @@
 
     <h1 class="title">{{ post.post_title }}</h1>
     <hr>
+    <div class="meta">
+        <img class="photo-icon" src="{{ post.author.photoURL }}">
+        {{ post.author.name }}
+        {{ app.shortDate( post.meta.timestamp_create ) }}
+    </div>
     <div class="content">
         {{ post.post_content }}
     </div>
@@ -10,5 +15,4 @@
     <file-display-widget [files]="post.files"></file-display-widget>
 
 
-    {{ post | json }}
 </section>

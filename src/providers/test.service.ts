@@ -148,7 +148,8 @@ export class TestService extends Base {
             user_email: this.randomString() + '@gmail.com',
             name: 'DisplayName',
             mobile: '09171231234',
-            gender: 'M'
+            gender: 'M',
+            // timezone_offset: this.getTimezoneOffset()
         };
         this.app.user.register(data).subscribe(res => {
             // console.log(res);

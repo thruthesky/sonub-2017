@@ -12,7 +12,6 @@
     }
 }
 
-
 .login-or-register {
     ul {
         @include list-line();
@@ -20,16 +19,101 @@
     }
 }
 
-
 .advertisement-menu {
     display: flex;
     justify-content: space-between;
 }
 
-
 .link-primary {
     color: #35F;
 }
+
 .link-secondary {
     color: #777;
+}
+
+.photo-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.post-title {
+    word-break: break-all;
+}
+
+.post-content {
+    word-break: break-all;
+}
+
+
+.fs-xs {
+    font-size: $fs-xs;
+}
+
+.fs-sm {
+    font-size: $fs-sm;
+}
+
+.fs-md {
+    font-size: $fs-md;
+}
+
+.fs-lg {
+    font-size: $fs-lg;
+}
+
+.fs-xl {
+    font-size: $fs-xl;
+}
+
+
+/**
+ *
+ * TEXT
+ * Use bootstrap text-xxxxx
+ *
+ *
+ */
+
+
+/**
+ *
+ * PADDING
+ * Use bootstrap p-1 m-1 px-1 py-1 etc...
+ */
+
+
+/**
+ *
+ * FLEX
+ *
+ */
+
+.flex {
+    display: flex;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+
+
+
+/**
+ *
+ * CURSOR
+ *
+ */
+.pointer {
+    cursor: pointer;
+}
+.pointers {
+    &>* {
+        cursor: pointer;
+    }
 }
