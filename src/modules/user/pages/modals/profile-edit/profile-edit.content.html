@@ -8,7 +8,7 @@
     <div class="text-center mb-3">
         <span id="profile-user-photo">
             <img *ngIf="files.length"
-                 src="{{files[0].url}}"
+                 src="{{files[0].url ? files[0].url : 'assets/img/anonymous.png'}}"
                  (click)="fileUploadWidget.onClickCamera()"
             >
         </span>
@@ -16,19 +16,19 @@
             <button (click)="fileUploadWidget.onClickCamera()">Change Profile</button>
         </div>
     </div>
-    <div class="input-group">
+    <div class="input-group mb-3">
         <label for="user1" class="input-group-addon">Email Address</label>
         <input type="text" class="form-control" id="user1" name="user_email" placeholder="Email Address"
                [(ngModel)]="user_email">
     </div>
-    <div class="input-group">
+    <div class="input-group mb-3">
         <label for="name" class="input-group-addon">Name</label>
         <input type="text" class="form-control" id="name" name="name" placeholder="Name" [(ngModel)]="name">
     </div>
 
 
     <label class="input-group-addon">Gender</label>
-    <div class="form-control">
+    <div class="form-control mb-3">
         <div class="col-sm-6">
             <label for="male" class="radio-inline nowrap">
                 <input type="radio" name="gender" id="male" [(ngModel)]="gender" value="m">
@@ -42,7 +42,7 @@
             </label>
         </div>
     </div>
-    <div class="input-group">
+    <div class="input-group mb-3">
         <span class="input-group-addon input-group-addon-primary" id="date_begin">Birthday</span>
         <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="birthday" ngbDatepicker
                #b="ngbDatepicker" (ngModelChange)="onChangeBirthday()">
@@ -50,7 +50,7 @@
             <i class="fa fa-calendar" style="cursor: pointer;"></i>
         </div>
     </div>
-    <div class="input-group">
+    <div class="input-group mb-3">
         <label for="mobile" class="input-group-addon">Mobile</label>
         <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobile" [(ngModel)]="mobile">
     </div>
