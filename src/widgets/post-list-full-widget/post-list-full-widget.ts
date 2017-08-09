@@ -144,39 +144,6 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
 
     }
 
-
-    onClickPostDelete(post: POST, page: PAGE) {
-
-        if (post.author.ID) {
-            this.app.confirm(this.app.text('confirmDelete')).then(code => {
-                if (code == 'yes') this.postDelete(page, post.ID);
-            });
-        }
-        else {
-            let password = this.app.input('Input password');
-            if (password) this.postDelete(page, post.ID, password);
-        }
-    }
-
-    postDelete(page, ID, password?) {
-        // debugger;
-        this.app.forum.postDelete({ ID: ID, post_password: password }).subscribe(res => {
-            console.log("file deleted: ", res);
-
-            let index = page.posts.findIndex(post => post.ID == res.ID);
-            if (res.mode == 'delete') {
-                page.posts.splice(index, 1);
-            }
-            else this.forumShare.updatePost(page.posts[index]);
-
-
-        }, err => this.app.warning(err));
-    }
-
-    onCommentCreate(comment_ID, post: POST) {
-        console.log(`ForumListPage::onCommentCreate()  : ${comment_ID}`);
-    }
-
     insertPost(post_ID) {
         this.app.forum.postData(post_ID).subscribe(post => {
             console.log('this.posts:: ', this.pages);

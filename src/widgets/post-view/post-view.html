@@ -18,9 +18,9 @@
             share
         </div>
 
-    </div>
-
     <comment-create-widget [post]="post" (create)="onCommentCreate($event, post)"></comment-create-widget>
+
+    </div>
 
     <div class="comments" *ngIf="post.comments.length">
         <ng-container *ngFor="let comment of post.comments">

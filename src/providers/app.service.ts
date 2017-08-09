@@ -294,8 +294,8 @@ export class AppService extends Base {
 
 
 
-    postUserUrl(post) {
-        return post.author.photoURL ? post.author.photoURL : this.anonymousPhotoURL;
+    postUserPhotoUrl(data) {
+        return data.author.photoURL ? data.author.photoURL : this.anonymousPhotoURL;
     }
 
 }

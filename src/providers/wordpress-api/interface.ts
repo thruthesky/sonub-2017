@@ -110,6 +110,7 @@ export interface FILE_DELETE extends REQUEST {
  * When you get a comment alone, you cannot have 'depth'.
  */
 export interface COMMENT {
+    author: AUTHOR;
     comment_ID: number;
     comment_approved: string;
     comment_author: string;
