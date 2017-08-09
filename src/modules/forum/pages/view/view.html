@@ -1,2 +1,7 @@
 <post-view-widget [post]="post">
 </post-view-widget>
+<post-list-full-widget
+    *ngIf=" post "
+    [category]="post.category"
+>
+</post-list-full-widget>

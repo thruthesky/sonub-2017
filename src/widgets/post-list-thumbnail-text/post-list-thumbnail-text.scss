@@ -1,0 +1,27 @@
+.post-list-widget {}
+
+.post-list-widget-post {
+    margin-top: 1em;
+    padding: 0;
+    height: 75px;
+    overflow: hidden;
+    &:after {
+        display: block;
+        content: '';
+        clear: both;
+    }
+    .thumbnail {
+        float: left;
+        width: 120px;
+        height: 75px;
+        overflow: hidden;
+        img {
+            width: 100%;
+        }
+    }
+    .title {
+        padding-left: $global-padding;
+        height: 75px;
+        overflow: hidden;
+    }
+}

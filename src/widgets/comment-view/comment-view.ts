@@ -1,22 +1,20 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
-import { AppService } from './../../../../providers/app.service';
-import { ForumCodeShareService } from './../../forum-code-share.service';
+import { AppService } from './../../providers/app.service';
+import { ForumCodeShareService } from './../../modules/forum/forum-code-share.service';
 
 import {
     POST, FILES,
     COMMENT, COMMENT_CREATE
-} from './../../../../providers/wordpress-api/interface';
+} from './../../providers/wordpress-api/interface';
 
-import { CommentEditModalService } from './../../modals/comment-edit/comment-edit.modal';
+import { CommentEditModalService } from './../../modules/forum/modals/comment-edit/comment-edit.modal';
 
-
-
-@   Component({
-    selector: 'comment-view-component',
+@Component({
+    selector: 'comment-view-widget',
     templateUrl: 'comment-view.html'
 })
 
-export class CommentViewComponent implements OnInit, AfterViewInit {
+export class CommentViewWidget implements OnInit, AfterViewInit {
 
     @Input() post: POST;
     @Input() comment: COMMENT;
