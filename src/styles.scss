@@ -18,8 +18,6 @@
 @import './app/app.component';
 @import './modules/forum/pages/index/index';
 @import './modules/forum/pages/list/list';
-@import './modules/forum/components/comment-create/comment-create';
-@import './modules/forum/components/comment-view/comment-view';
 @import './modules/user/pages/profile/profile';
 
 @import './modules/forum/pages/advertisement-list/advertisement-list';
@@ -38,3 +36,8 @@
 @import './widgets/advertisement-sidebar/advertisement-sidebar';
 @import './widgets/post-list-thumbnail-text/post-list-thumbnail-text';
 @import './widgets/post-list-full-widget/post-list-full-widget';
+
+/// wigets ==> post
+@import './widgets/comment-create/comment-create';
+@import './widgets/comment-view/comment-view';
+@import './widgets/post-view/post-view';
