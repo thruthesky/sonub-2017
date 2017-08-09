@@ -52,6 +52,9 @@ export class AppService extends Base {
 
     pageLayout: 'wide' | 'column' | 'advertisement' = 'column';
 
+    anonymousPhotoURL = '/assets/img/anonymous.png';
+
+
     constructor(
         public user: UserService,
         public forum: ForumService,
@@ -286,6 +289,13 @@ export class AppService extends Base {
     get userProfilePhotoUrl() {
         if (this.user.isLogin && this.user.profile.photoURL) return this.user.profile.photoURL;
         else return '/assets/img/anonymous.png';
+    }
+
+
+
+
+    postUserUrl(post) {
+        return post.author.photoURL ? post.author.photoURL : this.anonymousPhotoURL;
     }
 
 }

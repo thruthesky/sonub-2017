@@ -144,15 +144,6 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
 
     }
 
-    onClickPostEdit(post) {
-
-        this.postCreateEditModal.open({ post: post }).then(id => {
-            console.log(id);
-            this.forumShare.updatePost(post);
-        }, err => console.error(err));
-
-    }
-
 
     onClickPostDelete(post: POST, page: PAGE) {
 
@@ -197,8 +188,6 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
 
         }, e => this.app.warning(e));
     }
-
-
 
 
 }

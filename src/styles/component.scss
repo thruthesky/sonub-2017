@@ -36,6 +36,10 @@
     width: 32px;
     height: 32px;
 }
+.photo-icon-2x {
+    width: 40px;
+    height: 40px;
+}
 
 .post-title {
     word-break: break-all;
@@ -46,6 +50,11 @@
 }
 
 
+/**
+ *
+ * FONT
+ *
+ */
 .fs-xs {
     font-size: $fs-xs;
 }
@@ -117,3 +126,5 @@
         cursor: pointer;
     }
 }
+
+

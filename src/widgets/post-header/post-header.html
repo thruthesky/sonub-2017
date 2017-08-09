@@ -1,0 +1,13 @@
+<div *ngIf="post" class="post-data-header mb-3 flex justify-content-between">
+    <div class="flex">
+        <div><img class="photo-icon-2x" src="{{ app.postUserUrl(post) }}"></div>
+        <div class="ml-2 fs-sm">
+            <div>{{ post.author.name }}</div>
+            <div class="fs-sm">{{ app.shortDate( post.meta.timestamp_create ) }}</div>
+        </div>
+    </div>
+    <div class="pr-1 grey">
+        ▼
+    </div>
+</div>
+

@@ -17,6 +17,8 @@ import { PostListFullWidget } from './post-list-full-widget/post-list-full-widge
 import { CommentCreateWidget } from './comment-create/comment-create';
 import { CommentViewWidget } from './comment-view/comment-view';
 
+import { PostHeaderWidget } from './post-header/post-header';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -33,7 +35,8 @@ import { CommentViewWidget } from './comment-view/comment-view';
         PostListThumbnailTextWidget,
         PostListFullWidget,
         CommentCreateWidget,
-        CommentViewWidget
+        CommentViewWidget,
+        PostHeaderWidget
     ],
     declarations: [
         FileDisplayWidget,
@@ -45,7 +48,8 @@ import { CommentViewWidget } from './comment-view/comment-view';
         PostListThumbnailTextWidget,
         PostListFullWidget,
         CommentCreateWidget,
-        CommentViewWidget
+        CommentViewWidget,
+        PostHeaderWidget
     ],
     providers: [],
 })

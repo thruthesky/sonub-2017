@@ -87,6 +87,7 @@ export interface UPLOADED_FILE {
     type: string;          // can be 'false' if file type is not recognized.
     url: string;
     url_thumbnail?: string;
+    url_thumbnail_wide?: string; // only available for the first image. @see google doc
     name: string;
 }
 export type UPLOADED_FILES = Array<UPLOADED_FILE>;
