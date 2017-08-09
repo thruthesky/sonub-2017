@@ -19,9 +19,9 @@ export class Library {
     /**
      * .set() automatically JSON.stringify()
      * .get() automatically JSON.parse()
-     * 
+     *
      * @return .get() returns null if there is error or the value is falsy.
-     * 
+     *
      */
     get storage() {
         return {
@@ -160,6 +160,10 @@ export class Library {
         return b;
     }
 
+
+    add0(n: number): string {
+        return n < 10 ? '0' + n : n.toString();
+    }
 
 
 }
