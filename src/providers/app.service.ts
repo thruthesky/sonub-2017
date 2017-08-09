@@ -295,7 +295,35 @@ export class AppService extends Base {
 
 
     postUserPhotoUrl(data) {
-        return data.author.photoURL ? data.author.photoURL : this.anonymousPhotoURL;
+        if ( data && data.author && data.author.photoURL ) return data.author.photoURL;
+        else return this.anonymousPhotoURL;
+    }
+
+    postUserName( data ) {
+        if ( data && data.author && data.author.name ) return data.author.name;
+        else return 'Anonymous';
+    }
+
+
+    /**
+     * Returns true if 'data' is mine.
+     * @param data Post or Comment
+     */
+    my( data ) {
+        if ( ! this.user.id ) return false;
+        if ( data && data['ID'] && data['post_author'] == this.user.id ) return true;
+        if ( data && data['comment_ID'] && data['user_id'] == this.user.id ) return true;
+        return false;
+    }
+
+    /**
+     * Returns true if 'data' is written by anonymous.
+     * @param data Post of Comment
+     */
+    anonymous( data ) {
+        if ( (data && data['ID']) && (data['post_author'] == 0) ) return true;
+        if ( (data && data['comment_ID']) && (data['user_id'] == 0) ) return true;
+        return false;
     }
 
 }

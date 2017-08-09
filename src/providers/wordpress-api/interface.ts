@@ -67,6 +67,7 @@ export interface USER_REGISTER extends USER_LOGIN, USER_COMMON { };
 
 export interface USER_REGISTER_RESPONSE {
     // user_login: string;
+    ID: number;
     user_email: string;
     display_name: string;
     session_id: string;

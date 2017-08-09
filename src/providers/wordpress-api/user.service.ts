@@ -145,6 +145,10 @@ export class UserService extends Base {
         if (this.profile && this.profile.session_id) return this.profile.session_id;
         else return '';
     }
+    get id(): number {
+        if (this.profile && this.profile.ID) return this.profile.ID;
+        else return 0;
+    }
 
     get name(): string {
         if (this.profile && this.profile.display_name) return this.profile.display_name;

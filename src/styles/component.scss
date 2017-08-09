@@ -132,3 +132,18 @@
 }
 
 
+
+/**
+ *
+ * LIST
+ *
+ */
+.list-style-none {
+    @include list-style-none();
+}
+.list-line {
+    @include list-line();
+}
+.list-dots {
+    @include list-dots();
+}

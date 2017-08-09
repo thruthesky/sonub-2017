@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 import { FileDisplayWidget } from './file-display/file-display';
 import { PostLatestWidget } from './post-latest/post-latest';
@@ -23,7 +25,8 @@ import { PostHeaderWidget } from './post-header/post-header';
     imports: [
         CommonModule,
         RouterModule,
-        FormsModule
+        FormsModule,
+        NgbDropdownModule
     ],
     exports: [
         FileDisplayWidget,

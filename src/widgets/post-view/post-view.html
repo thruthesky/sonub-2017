@@ -9,14 +9,16 @@
         </div>
         <file-display-widget [files]="post.files"></file-display-widget>
         <hr>
-        <div class="buttons">
-            <button class="btn btn-secondary btn-sm" (click)="onClickPostEdit( post )">Edit</button>
-            <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post, page )">Delete</button>
-            <!-- <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">Reply</button> -->
-            <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">Like</button>
-            <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">More</button> dislike, report, favorate,
-            share
-        </div>
+        <ul class="buttons list-line list-dots fs-xs">
+            <li *ngIf=" app.my( post ) || app.anonymous( post )" (click)="onClickPostEdit( post )">Edit</li>
+            <li *ngIf=" app.my( post ) || app.anonymous( post )" (click)="onClickPostDelete( post, page )">Delete</li>
+            <li (click)="onClickPostDelete( post )">Like</li>
+            <li (click)="onClickPostDelete( post )">more</li>
+            <li>dislike</li>
+            <li>report</li>
+            <li>favorite</li>
+            <li>share</li>
+        </ul>
 
     <comment-create-widget [post]="post" (create)="onCommentCreate($event, post)"></comment-create-widget>
 
