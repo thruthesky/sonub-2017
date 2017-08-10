@@ -3,10 +3,7 @@ import { AppService } from './../../providers/app.service';
 import { TestService } from './../../providers/test.service';
 import { Router, NavigationStart } from '@angular/router';
 
-
-
 declare let device;
-
 
 @Component({
     selector: 'home-page',
