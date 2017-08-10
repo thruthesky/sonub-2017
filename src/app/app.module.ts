@@ -20,7 +20,9 @@ firebase.initializeApp(environment.firebase);
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
+/// Error Handler
 import { CustomErrorHandler } from './app.error-handler';
+
 
 
 import { UserModule } from '../modules/user/user.module';
