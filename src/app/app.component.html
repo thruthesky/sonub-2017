@@ -17,10 +17,10 @@
                         <div class="box box-menu my-menu" *ngIf="app.user.isLogin">
                             <ul>
                                 <li class="profile">
-                                    <a href="/user/profile" routerLink="/user/profile">
-                                    <img src="{{ app.userProfilePhotoUrl }}">
-                                User Profile
-                            </a>
+                                    <a class="flex" href="/user/profile" routerLink="/user/profile">
+                                        <img class="photo-icon" src="{{ app.userProfilePhotoUrl }}">
+                                        <div class="fs-sm">{{ app.user.name }}</div>
+                                    </a>
                                 </li>
                                 <li><a href="" routerLink="/user/profile">Message</a></li>
                                 <li><a href="/user/settings" routerLink="/user/settings">
@@ -173,7 +173,7 @@
         </div>
         <!--/page-body-content-->
 
-        
+
     </section>
     <!--/page-body-->
 
