@@ -1,8 +1,14 @@
-post latest.
-<div *ngIf="posts">
-
-    <div *ngFor="let post of posts">
-        <a routerLink="/view/{{ post.ID }}/{{ post.post_title }}">{{ post.post_title }}</a>
-    </div>
-
+<ul class="news-menu mb-2 flex justify-content-between fs-xs">
+    <li><a class="link-secondary" href="/forum/{{ category }}" routerLink="/forum/{{ category }}">{{ title }}</a></li>
+    <li class="link-primary" (click)="onClickCreate()">{{ titleCreate }}</li>
+</ul>
+<div *ngIf="page && page.posts" class="news-list">
+    <ul>
+        <li class="fs-sm mb-1" *ngFor="let post of page.posts">
+            <a class="flex" href="{{ app.forum.postUrl( post.ID )}}" routerLink="{{ app.forum.postUrl( post.ID )}}">
+                <img *ngIf="app.forum.getFirstImageThumbnailUrl(post)" class="size-32px" src="{{ app.forum.getFirstImageThumbnailUrl(post) }}">
+                <div class="post-title p-0 m-0 pl-2 overflow-hidden" style="height: 2.4em; line-height: 1.2em;">{{ post.post_title }}</div>
+            </a>
+        </li>
+    </ul>
 </div>

@@ -32,18 +32,7 @@
     color: #777;
 }
 
-.photo-icon {
-    width: 32px;
-    height: 32px;
-}
-.xy-36px {
-    width: 36px;
-    height: 36px;
-}
-.photo-icon-2x {
-    width: 40px;
-    height: 40px;
-}
+
 
 .post-title {
     word-break: break-all;
@@ -87,7 +76,18 @@
  *
  *
  */
+.word-break-all {
+    word-break: break-all;
+}
 
+.white-space-nowrap {
+    white-space: nowrap;
+}
+.ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 
 /**
  *
@@ -147,3 +147,66 @@
 .list-dots {
     @include list-dots();
 }
+
+
+/**
+ * Size
+**/
+
+.h-32px {
+    height: 32px;
+}
+.line-height-32px {
+    line-height: 32px;
+}
+.lh-32px {
+    height: 32px;
+    line-height: 32px;
+}
+.w-32px {
+    width: 32px;
+}
+.size-32px {
+    width: 32px;
+    height: 32px;
+}
+
+.h-36px {
+    height: 36px;
+}
+.w-36px {
+    width: 36px;
+}
+.size-36px {
+    width: 36px;
+    height: 36px;
+}
+
+
+.h-100px { height: 100px; }
+.w-100px { width: 100px; }
+
+
+
+
+.photo-icon-2x {
+    width: 40px;
+    height: 40px;
+}
+
+.photo-icon {
+    width: 32px;
+    height: 32px;
+}
+
+
+/**
+ *
+ * BOX
+ *
+ */
+
+.overflow-hidden {
+    overflow: hidden;
+}
+

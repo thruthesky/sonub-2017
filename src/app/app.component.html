@@ -15,22 +15,28 @@
                         </div>
 
                         <div class="box box-menu my-menu" *ngIf="app.user.isLogin">
-                            <ul>
-                                <li class="profile">
+                            <ul class="fs-sm">
+                                <li class="profile mb-1">
+
                                     <a class="flex" href="/user/profile" routerLink="/user/profile">
-                                        <img class="photo-icon" src="{{ app.userProfilePhotoUrl }}">
-                                        <div class="fs-sm">{{ app.user.name }}</div>
+                                        <ol class="list-line">
+                                            <li><img class="size-32px" src="{{ app.userProfilePhotoUrl }}"></li>
+                                            <li>
+                                                <div class="pl-2 w-100px lh-32px fs-sm ellipsis">{{ app.user.name }}: this is my name</div>
+                                            </li>
+                                        </ol>
                                     </a>
+
                                 </li>
-                                <li><a href="" routerLink="/user/profile">Message</a></li>
+                                <li><a href="/user/message" routerLink="/user/message"><i class="fa fa-envelope" aria-hidden="true"></i> Message</a></li>
                                 <li><a href="/user/settings" routerLink="/user/settings">
-                                    <i class="fa fa-gear" aria-hidden="true"></i>
+                                    <i class="fa fa-gears" aria-hidden="true"></i>
                                     Settings</a></li>
                             </ul>
                         </div>
 
                         <div class="box box-menu my-forum">
-                            <ul>
+                            <ul class="fs-sm list-dots">
                                 <li><a href="/forum" routerLink="/forum">Forum Page</a></li>
                                 <li><a href="/forum/qna" routerLink="/forum/qna">QnA Forum</a></li>
                                 <li><a href="/forum/discussion" routerLink="/forum/discussion">Discussion Forum</a></li>
@@ -51,24 +57,21 @@
                             <i class="fa fa-birthday-cake" aria-hidden="true"></i> Birthday: Jaeho and 2 other
                         </div>
 
-                        <div class="box box-menu news">
-                            <ul class="news-menu">
-                                <li><a class="link-secondary" href="/forum/news" routerLink="/forum/news">Headline News</a></li>
-                                <li class="link-primary" (click)="onClickCreateNews()">Create News</li>
-                            </ul>
-                            <div *ngIf="news" class="news-list">
-                                <ul>
-                                    <li *ngFor="let post of news.posts">
-                                        <a href="{{ app.forum.postUrl( post.ID )}}" routerLink="{{ app.forum.postUrl( post.ID )}}">
-                                        <img src="{{ app.forum.getFirstImageThumbnailUrl(post) }}">
-                                        <div class="post-title">{{ post.post_title }}</div>
-                                    </a>
-                                    </li>
-                                </ul>
+                            <div class="box box-menu">
+                                <post-latest-widget
+                                [category]=" 'news' "
+                                [title]=" app.text('headline_news') "
+                                [titleCreate] = " app.text( 'create_post', { category: app.text('news') } ) "
+                                ></post-latest-widget>
                             </div>
-                        </div>
+                            <div class="box box-menu">
+                                <post-latest-widget [category]=" 'qna' "
 
+                                [title]=" app.text('qna') "
+                                [titleCreate] = " app.text( 'create_question' ) "
 
+                                ></post-latest-widget>
+                            </div>
 
 
                         <div class="box box-menu advertisement">

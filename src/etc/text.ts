@@ -113,6 +113,29 @@ export let TEXT = {
         ko: '음식과 관련된 정보를 공유하는 게시판입니다.'
     },
 
+    news: {
+        en: 'News',
+        ko: '뉴스'
+    },
+    headline_news: {
+        en: 'Headline News',
+        ko: '헤드라인 뉴스'
+    },
+
+    create_post: {
+        en: 'Create #category',
+        ko: '#category 등록'
+    },
+
+    qna: {
+        en: 'Questions &amp; Answers',
+        ko: '질문과답변'
+    },
+    create_question: {
+        en: 'Ask',
+        ko: '질문하기'
+    },
+
     ///
     confirmDelete: {
         en: {

@@ -129,7 +129,7 @@ export class UserService extends Base {
             session_id: this.profile.session_id,
             keys_values: keys_values
         };
-        console.log('data', data);
+        // console.log('data', data);
         return this.wp.post( data );
     }
 

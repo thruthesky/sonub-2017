@@ -1,12 +1,10 @@
-/**
- * Post View Component is not only used in forum pages but also other pages.
- * So, it is not in forum pages folder.
- * 
- * When you need it, import it in that module and use it.
- */
-import { Component, OnInit } from '@angular/core';
-import { AppService } from './../../providers/app.service';
-import { POST, POSTS } from './../../providers/wordpress-api/interface';
+
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { AppService, POST, POSTS, POST_LIST, PAGE } from './../../providers/app.service';
+
+
+import { PostCreateEditModalService } from './../../modules/forum/modals/post-create-edit/post-create-edit.modal';
+
 
 
 @Component({
@@ -14,15 +12,74 @@ import { POST, POSTS } from './../../providers/wordpress-api/interface';
     templateUrl: 'post-latest.html'
 })
 
-export class PostLatestWidget implements OnInit {
+export class PostLatestWidget implements OnInit, AfterViewInit {
 
-    posts: POSTS;
+
+    @Input() category;
+    @Input() title;
+    @Input() titleCreate;
+    page: PAGE;
+    titleLength = 58;
     constructor(
-        public app: AppService
+        public app: AppService,
+        private postCreateEditModal: PostCreateEditModalService
     ) {
-        this.app.forum.postLatest('abc')
-            .subscribe( posts => this.posts = posts, e => this.app.warning(e) );
+
     }
 
-    ngOnInit() { }
+    ngOnInit() {
+    }
+    ngAfterViewInit() {
+        setTimeout(() => this.loadPosts(), 100);
+    }
+
+
+    loadPosts() {
+
+        let req: POST_LIST = {
+            category_name: this.category,
+            paged: 1,
+            posts_per_page: 5,
+            thumbnail: '32x32'
+        };
+        // console.log('latest: ', req);
+        this.page = this.app.cacheGetPage(req);
+        // console.log("cached: ", this.news);
+        this.app.forum.postList(req).subscribe((page: PAGE) => {
+            // console.log('Page::', page);
+            this.prepare(page);
+            this.app.cacheSetPage(req, page);
+            this.page = page;
+        }, e => this.app.warning(e));
+
+
+    }
+
+
+    prepare( page: PAGE ) {
+        if ( page && page.posts && page.posts.length ) {
+            for( let post of page.posts ) {
+                if ( post.post_title.length < this.titleLength - 20 && post.post_content.length > 20 ) {
+                    post.post_title += ' ▶ ' + post.post_content.substr(0, 100);
+                }
+                post.post_title = post.post_title.substring( 0, this.titleLength );
+
+            }
+        }
+    }
+
+
+
+    onClickCreate() {
+
+        if (!this.app.user.isLogin) {
+            this.app.alert.notice('login', 'login_first');
+            return;
+        }
+
+        this.postCreateEditModal.open({ category: this.category }).then(id => {
+            this.loadPosts();
+        }, err => console.error(err));
+    }
+
 }

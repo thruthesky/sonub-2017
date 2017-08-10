@@ -3,22 +3,8 @@
 
         <button type="button" routerLink="/">Home..</button>
 
-
         <div *ngIf="categories">
             <div *ngFor="let category of categories">
                 <a routerLink="/forum/{{category.slug}}">{{ category.name }} : {{ category.description }}</a>
             </div>
         </div>
-
-        <div class="flex-grid">
-
-
-<div class="fa">AAAA<br>aaaa</div>
-<div class="fb">BBBB<br>bbbb</div>
-<div class="fc">CCCC<br>cccc</div>
-<div class="fd">DDDD<br>dddd</div>
-<div class="fe">EEEEEEEEEEEEEEEEEEE0</div>
-<div class="fg">GGGG</div>
-
-
-</div>
