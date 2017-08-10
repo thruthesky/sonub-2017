@@ -6,14 +6,17 @@
 </div>
 <div class="modal-body">
     <div class="text-center mb-3">
-        <span id="profile-user-photo">
-            <img *ngIf="files.length"
-                 src="{{files[0].url ? files[0].url : 'assets/img/anonymous.png'}}"
-                 (click)="fileUploadWidget.onClickCamera()"
-            >
-        </span>
-        <div>
-            <button (click)="fileUploadWidget.onClickCamera()">Change Profile</button>
+        <div id="profile-user" class="d-inline-block">
+            <span id="profile-user-photo">
+                <img *ngIf="files.length"
+                     src="{{files[0].url ? files[0].url : 'assets/img/anonymous.png'}}"
+                     (click)="fileUploadWidget.onClickCamera()"
+                >
+            </span>
+            <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadWidget.onChangeFile($event)">
+            <div>
+                <button (click)="fileUploadWidget.onClickCamera()">Change Profile</button>
+            </div>
         </div>
     </div>
     <div class="input-group mb-3">
@@ -29,19 +32,18 @@
 
     <label class="input-group-addon">Gender</label>
     <div class="form-control mb-3">
-        <div class="col-sm-6">
-            <label for="male" class="radio-inline nowrap">
+        <div class="form-check">
+            <label for="male"  class="form-check-label">
                 <input type="radio" name="gender" id="male" [(ngModel)]="gender" value="m">
                 <span>Male</span>
             </label>
-        </div>
-        <div class="col-sm-6">
-            <label for="female" class="radio-inline nowrap">
+            <label for="female" class="form-check-label">
                 <input type="radio" name="gender" id="female" [(ngModel)]="gender" value="f">
                 <span>Female</span>
             </label>
         </div>
     </div>
+
     <div class="input-group mb-3">
         <span class="input-group-addon input-group-addon-primary" id="date_begin">Birthday</span>
         <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="birthday" ngbDatepicker

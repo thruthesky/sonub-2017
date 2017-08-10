@@ -10,3 +10,7 @@ a {
 html, body {
     background-color: #e9ebee;
 }
+
+input[type=file] {
+    cursor: pointer;
+}

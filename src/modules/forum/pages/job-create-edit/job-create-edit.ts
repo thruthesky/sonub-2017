@@ -11,19 +11,20 @@ import { AppService, POST, FILES, FILE, POST_CREATE } from './../../../../provid
 export class JobCreateEditPage implements OnInit, OnDestroy {
 
     title: 'Job Post Title';  // generate base on the given info
-    content: 'Job Post Content';  //personal content
-    text_1: ''; //profession
-    text_2: ''; //first name
-    text_3: ''; //middle name
-    text_4: ''; //last name
+    content: 'Job Post Content';  //personal message
     char_1: 'm'; //Gender
-    varchar_1: ''; //address
+    varchar_1: ''; //profession
     varchar_2: 'all'; //province
     varchar_3: 'all'; //city
-    varchar_4: ''; //mobile
-    varchar_5: '1999-01-25'; //birthday
+    varchar_4: '19991225'; //birthday
     int_1: '0'; //work experience
     int_2: ''; //birthday
+
+    mobile: ''; //mobile meta
+    firstName: ''; //first name meta
+    middleName: ''; //middle name meta
+    lastName: ''; //last name meta
+    address: ''; //address meta
 
     files: FILES = [];
     file: FILE;
@@ -56,6 +57,10 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
             console.log("Post create: ", res);
             this.app.alert.open({ content: this.app.text('saved') });
         }, e => this.app.warning(e));
+
+    }
+
+    onSuccessUpdateProfile() {
 
     }
 
