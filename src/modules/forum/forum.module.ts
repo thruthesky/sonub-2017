@@ -32,6 +32,11 @@ import { AdvertisementHowtoPage } from './pages/advertisement-howto/advertisemen
 import { AdvertisementCreateEditPage } from './pages/advertisement-create-edit/advertisement-create-edit';
 import { AdvertisementListPage } from './pages/advertisement-list/advertisement-list';
 
+import { JobCreateEditPage } from "./pages/job-create-edit/job-create-edit";
+
+
+
+
 const appRoutes: Routes = [
 
 
@@ -40,6 +45,10 @@ const appRoutes: Routes = [
     { path: 'adv/create', component: AdvertisementCreateEditPage },
     { path: 'adv/edit/:id', component: AdvertisementCreateEditPage },
     { path: 'adv/list', component: AdvertisementListPage },
+
+    { path: 'job/create', component: JobCreateEditPage},
+    { path: 'job/edit:id', component: JobCreateEditPage},
+
 
     { path: 'view/:id/:title', component: ForumViewPage }, /** /view/:id/-with-title */
     { path: 'view/:id', component: ForumViewPage },
@@ -60,7 +69,8 @@ const appRoutes: Routes = [
         ForumViewPage,
         AdvertisementHowtoPage,
         AdvertisementCreateEditPage,
-        AdvertisementListPage
+        AdvertisementListPage,
+        JobCreateEditPage
     ],
     entryComponents: [
         PostCreateEditContent,

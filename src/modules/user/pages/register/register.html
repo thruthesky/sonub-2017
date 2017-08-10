@@ -29,15 +29,21 @@
                     <span type="text" class="form-control" id="email2">{{user_email}}</span>
                 </div>
 
-                <img *ngIf="files.length"
-                     src="{{files[0].url}}"
-                     (click)="fileUploadWidget.onClickCamera()"
-                     style="max-width: 100%;"
-                >
-                <span *ngIf="!files.length" class="camera" (click)="fileUploadWidget.onClickCamera()">
-                    <i class="fa fa-user-circle-o  fa-5x" aria-hidden="true"></i>
-                    <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadComponent.onChangeFile($event)">
-                </span>
+
+                <div class="text-center mb-3">
+                    <div id="profile-user" class="d-inline-block">
+                        <span id="profile-user-photo">
+                            <img *ngIf="files"
+                                 src="{{files[0]?.url ? files[0].url : 'assets/img/anonymous.png'}}"
+                                 (click)="fileUploadWidget.onClickCamera()"
+                            >
+                        </span>
+                        <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadWidget.onChangeFile($event)">
+                        <div>
+                            <button (click)="fileUploadWidget.onClickCamera()">Change Profile</button>
+                        </div>
+                    </div>
+                </div>
 
                 <file-upload-widget
                     #fileUploadWidget
@@ -47,7 +53,6 @@
                     [showUploadedFiles]="false"
                     (success)="onSuccessUpdateProfile()"
                 ></file-upload-widget>
-                <button (click)="fileUploadWidget.onClickCamera()">Change Profile Picture</button>
                 <button type="button" id="skipProfilePicture" (click)="activeForm = 'form3'">{{ files.length ? 'Next' : 'Skip'}}</button>
             </div>
 
@@ -67,15 +72,13 @@
 
 
                 <label class="input-group-addon">Gender</label>
-                <div class="form-control">
-                    <div class="col-sm-6">
-                        <label for="male" class="radio-inline nowrap">
+                <div class="form-control mb-3">
+                    <div class="form-check">
+                        <label for="male"  class="form-check-label">
                             <input type="radio" name="gender" id="male" [(ngModel)]="gender" value="m">
                             <span>Male</span>
                         </label>
-                    </div>
-                    <div class="col-sm-6">
-                        <label for="female" class="radio-inline nowrap">
+                        <label for="female" class="form-check-label">
                             <input type="radio" name="gender" id="female" [(ngModel)]="gender" value="f">
                             <span>Female</span>
                         </label>

@@ -6,43 +6,53 @@
 </div>
 <div class="modal-body">
     <div class="text-center mb-3">
-        <span id="profile-user-photo">
-            <img *ngIf="files.length"
-                 src="{{files[0].url}}"
-                 (click)="fileUploadWidget.onClickCamera()"
-            >
-        </span>
-        <div>
-            <button (click)="fileUploadWidget.onClickCamera()">Change Profile</button>
+        <div id="profile-user" class="d-inline-block">
+            <span id="profile-user-photo">
+                <img *ngIf="files.length"
+                     src="{{files[0].url ? files[0].url : 'assets/img/anonymous.png'}}"
+                     (click)="fileUploadWidget.onClickCamera()"
+                >
+            </span>
+            <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadWidget.onChangeFile($event)">
+            <div>
+                <button (click)="fileUploadWidget.onClickCamera()">Change Profile</button>
+            </div>
+            <file-upload-widget
+                #fileUploadWidget
+                [title]="false"
+                [fileSelectionButton]="false"
+                [files]="files"
+                [showUploadedFiles]="false"
+                (success)="onSuccessUpdateProfile()"
+            ></file-upload-widget>
         </div>
     </div>
-    <div class="input-group">
+    <div class="input-group mb-3">
         <label for="user1" class="input-group-addon">Email Address</label>
         <input type="text" class="form-control" id="user1" name="user_email" placeholder="Email Address"
                [(ngModel)]="user_email">
     </div>
-    <div class="input-group">
+    <div class="input-group mb-3">
         <label for="name" class="input-group-addon">Name</label>
         <input type="text" class="form-control" id="name" name="name" placeholder="Name" [(ngModel)]="name">
     </div>
 
 
     <label class="input-group-addon">Gender</label>
-    <div class="form-control">
-        <div class="col-sm-6">
-            <label for="male" class="radio-inline nowrap">
+    <div class="form-control mb-3">
+        <div class="form-check">
+            <label for="male"  class="form-check-label">
                 <input type="radio" name="gender" id="male" [(ngModel)]="gender" value="m">
                 <span>Male</span>
             </label>
-        </div>
-        <div class="col-sm-6">
-            <label for="female" class="radio-inline nowrap">
+            <label for="female" class="form-check-label">
                 <input type="radio" name="gender" id="female" [(ngModel)]="gender" value="f">
                 <span>Female</span>
             </label>
         </div>
     </div>
-    <div class="input-group">
+
+    <div class="input-group mb-3">
         <span class="input-group-addon input-group-addon-primary" id="date_begin">Birthday</span>
         <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="birthday" ngbDatepicker
                #b="ngbDatepicker" (ngModelChange)="onChangeBirthday()">
@@ -50,7 +60,7 @@
             <i class="fa fa-calendar" style="cursor: pointer;"></i>
         </div>
     </div>
-    <div class="input-group">
+    <div class="input-group mb-3">
         <label for="mobile" class="input-group-addon">Mobile</label>
         <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobile" [(ngModel)]="mobile">
     </div>
@@ -77,12 +87,5 @@
 
 
 <hr>
-<file-upload-widget
-    #fileUploadWidget
-    [title]="false"
-    [fileSelectionButton]="false"
-    [files]="files"
-    [showUploadedFiles]="false"
-    (success)="onSuccessUpdateProfile()"
-></file-upload-widget>
+
 
