@@ -8,8 +8,8 @@
     <div class="text-center mb-3">
         <div id="profile-user" class="d-inline-block">
             <span id="profile-user-photo">
-                <img *ngIf="files.length"
-                     src="{{files[0].url ? files[0].url : 'assets/img/anonymous.png'}}"
+                <img *ngIf="files"
+                     src="{{files[0]?.url ? files[0].url : 'assets/img/anonymous.png'}}"
                      (click)="fileUploadWidget.onClickCamera()"
                 >
             </span>

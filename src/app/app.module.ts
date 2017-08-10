@@ -42,6 +42,7 @@ import { TestService } from './../providers/test.service';
 import { PageScroll } from './../providers/page-scroll';
 import { PushMessageService } from './../providers/push-message';
 
+import { PhilippineRegion } from "../providers/philippine-region";
 
 // import { TextService } from './../providers/text.service';
 
@@ -84,6 +85,7 @@ const appRoutes: Routes = [
     WordpressApiService,
     TestService,
     PageScroll,
+    PhilippineRegion,
     // TextService,
     PushMessageService,
     { provide: ErrorHandler, useClass: CustomErrorHandler }

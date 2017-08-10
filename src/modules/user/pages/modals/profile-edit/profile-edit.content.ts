@@ -7,7 +7,7 @@ import {
     FILES, USER_UPDATE, USER_UPDATE_RESPONSE
 } from './../../../../../providers/wordpress-api/interface';
 import {FileUploadWidget} from "../../../../../widgets/file-upload/file-upload";
-import {_DATE} from "../../register/register";
+import {DATEPICKER} from "../../../../../etc/interface";
 
 @Component({
     selector: 'profile-edit-content',
@@ -23,7 +23,7 @@ export class ProfileEditContent implements OnInit {
     name: string = '';
     mobile: string = '';
     gender: string = 'm';
-    birthday: _DATE;
+    birthday: DATEPICKER;
 
 
     user: USER_UPDATE = <USER_UPDATE>{};

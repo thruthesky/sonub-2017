@@ -5,12 +5,7 @@ import { AppService } from "../../../../providers/app.service";
 import { FileUploadWidget } from "../../../../widgets/file-upload/file-upload";
 import { NgbDatepickerConfig } from "@ng-bootstrap/ng-bootstrap";
 import { Base } from './../../../../etc/base';
-
-export interface _DATE {
-    year: number;
-    month: number;
-    day: number;
-}
+import { DATEPICKER } from "../../../../etc/interface";
 
 @Component({
     selector: 'register-page',
@@ -28,7 +23,7 @@ export class RegisterPage extends Base implements OnInit {
     name: string = '';
     mobile: string = '';
     gender: string = 'm';
-    birthday: _DATE;
+    birthday: DATEPICKER;
 
     files: FILES = [];
 

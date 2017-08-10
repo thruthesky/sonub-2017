@@ -6,57 +6,131 @@
 
 
                 <div class="form-group row">
-                    <div class="text-center w-100">
-                        <div id="profile-user-photo" style="position: relative;">
+
+                    <div class="text-center w-100 mb-3">
+                        <div id="profile-user" class="d-inline-block">
+                        <span id="profile-user-photo">
                             <img *ngIf="files"
                                  src="{{files[0]?.url ? files[0].url : 'assets/img/anonymous.png'}}"
                                  (click)="fileUploadWidget.onClickCamera()"
                             >
+                        </span>
                             <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadWidget.onChangeFile($event)">
-                        </div>
-                        <div>
-                            <button (click)="fileUploadWidget.onClickCamera()">Change Profile</button>
+                            <div>
+                                <button (click)="fileUploadWidget.onClickCamera()">Change Profile</button>
+                            </div>
+                            <file-upload-widget
+                                #fileUploadWidget
+                                [title]="false"
+                                [fileSelectionButton]="false"
+                                [files]="files"
+                                [showUploadedFiles]="false"
+                                (success)="onSuccessUpdateJobProfile()"
+                            ></file-upload-widget>
                         </div>
                     </div>
-
-
                 </div>
-                <button (click)="fileUploadWidget.onClickCamera()">Change Profile Picture</button>
-                <file-upload-widget
-                    #fileUploadWidget
-                    [title]="false"
-                    [fileSelectionButton]="false"
-                    [files]="files"
-                    [showUploadedFiles]="false"
-                    (success)="onSuccessUpdateProfile()"
-                ></file-upload-widget>
+
+                <div class="input-group">
+                </div>
 
 
-                <!--<div class="form-group row">-->
-                    <!--<label for="adv-create-title">Title</label>-->
-                    <!--<input id="adv-create-title" type="text" name="title" class="form-control" [(ngModel)]="title">-->
-                    <!--<small>Input advertisement title.</small>-->
-                <!--</div>-->
-                <!--<div class="form-group row">-->
-                    <!--<label for="adv-create-summary">Summary</label>-->
-                    <!--<input id="adv-create-summary" type="text" name="summary" class="form-control"-->
-                           <!--[(ngModel)]="summary">-->
-                    <!--<small>Input advertisement summary with in 128 characters.</small>-->
-                <!--</div>-->
-                <!--<div class="form-group row">-->
-                    <!--<label for="adv-create-domain">Domain</label>-->
-                    <!--<input id="adv-create-domain" type="text" name="domain" class="form-control" [(ngModel)]="domain">-->
-                    <!--<small>Input homepage display domain. Example) sonub.com or www.sonub.com</small>-->
-                <!--</div>-->
-                <!--<div class="form-group row">-->
-                    <!--<label for="adv-create-url">Url</label>-->
-                    <!--<input id="adv-create-url" type="text" name="url" class="form-control" [(ngModel)]="url">-->
-                    <!--<small>Input your site url.</small>-->
-                <!--</div>-->
 
 
-                <button type="submit" (click)="onClickSubmit()">POST</button>
+                <div class="input-group row mb-3">
+                    <label for="firstName" class="input-group-addon">First Name</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" [(ngModel)]="firstName">
+                </div>
 
+                <div class="input-group row mb-3">
+                    <label for="middleName" class="input-group-addon">Middle Name</label>
+                    <input type="text" class="form-control" id="middleName" name="middleName" placeholder="Middle Name" [(ngModel)]="middleName">
+                </div>
+
+                <div class="input-group row mb-3">
+                    <label for="firstName" class="input-group-addon">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" [(ngModel)]="lastName">
+                </div>
+
+                <div class="input-group row mb-3">
+                    <label for="mobile" class="input-group-addon">Mobile</label>
+                    <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobile Number" [(ngModel)]="mobile">
+                </div>
+
+                <div class="input-group row mb-3">
+                    <label for="address" class="input-group-addon">Address</label>
+                    <input type="text" class="form-control" id="address" name="address" placeholder="Address" [(ngModel)]="address">
+                </div>
+
+                <div class="input-group row mb-3">
+                    <label class="input-group-addon">Province</label>
+                    <select class="form-control" id="province" name="province" [(ngModel)]="varchar_2" (change)="onClickProvince()">
+                        <option value="all">All</option>
+                        <option *ngFor="let province of provinces" [value]="province">{{province}}</option>
+                    </select>
+                </div>
+
+                <div *ngIf="showCities" class="input-group row mb-3">
+                    <label class="input-group-addon">City</label>
+                    <select class="form-control" id="city" name="city" [(ngModel)]="varchar_3">
+                        <option *ngFor="let key of cityKeys" [value]="key">{{cities[key]}}</option>
+                    </select>
+                </div>
+
+                <div class="input-group row mb-3">
+                    <span class="input-group-addon input-group-addon-primary" id="date_begin">Birthday</span>
+                    <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="birthday" ngbDatepicker
+                           [placement]="'top'"
+                           #b="ngbDatepicker" (ngModelChange)="onChangeBirthday()">
+                    <div class="input-group-addon" (click)="b.toggle()">
+                        <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                    </div>
+                </div>
+
+
+                <div class="input-group row mb-3">
+                    <label class="input-group-addon">Gender</label>
+                    <div class="form-control">
+                        <div class="form-check">
+                            <label for="male"  class="form-check-label">
+                                <input type="radio" name="gender" id="male" [(ngModel)]="char_1" value="m">
+                                <span>Male</span>
+                            </label>
+                            <label for="female" class="form-check-label">
+                                <input type="radio" name="gender" id="female" [(ngModel)]="char_1" value="f">
+                                <span>Female</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group row mb-3">
+                    <label class="input-group-addon">Experience</label>
+                    <select class="form-control" id="workExperience" name="workExperience" [(ngModel)]="int_1">
+                        <option value="0">No work Experience</option>
+                        <option *ngFor="let number of numbers" [value]="number">{{number}} years</option>
+                    </select>
+                </div>
+
+
+                <div class="input-group row mb-3">
+                    <label class="input-group-addon">Profession</label>
+                    <select class="form-control" id="workProfession" name="workProfession" [(ngModel)]="varchar_1">
+                        <option value="housemaid">House Maid</option>
+                        <option value="driver">Driver</option>
+                    </select>
+                </div>
+
+                <div class="input-group row mb-3">
+                    <label for="content" class="input-group-addon">Message</label>
+                    <textarea type="text" class="form-control" id="content" name="content" placeholder="Personal Message" [(ngModel)]="content"></textarea>
+                </div>
+
+
+
+                <div class="input-group row mb-3">
+                    <button type="submit" class="btn btn-primary btn-block" (click)="onClickSubmit()">Submit</button>
+                </div>
             </form>
         </div>
     </div>
