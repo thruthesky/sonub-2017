@@ -3,7 +3,6 @@
     <div class="pages" *ngIf="pages">
         <div class="page" *ngFor="let page of pages">
 
-
             <div class="post-list-page-header mb-3">
                 <div class="d-flex justify-content-between bg-white">
                     <h3 class="title m-0 p-3 lightblack">{{ app.text(this.slug) }}</h3>
@@ -15,38 +14,9 @@
                 <small>{{ app.text( this.slug + '_description' ) }}</small>
             </div>
 
-
             <div class="posts">
                 <div class="post" *ngFor="let post of page.posts " [attr.post-id]="post.ID">
                     <post-view-widget [post]="post" [page]="page"></post-view-widget>
-                    <!--
-                                        <div class="post-data bg-white p-2">
-                                            <post-header-widget [post]="post"></post-header-widget>
-                                            <h2 class="post-title fs-xl fw-100">{{ post.post_title }}</h2>
-                                            <div class="post-content mb-2 fs-sm">
-                                                {{ post.post_content }}
-                                            </div>
-                                            <file-display-widget [files]="post.files"></file-display-widget>
-                                        </div>
-                                        <hr>
-                                        <div class="buttons">
-                                            <button class="btn btn-secondary btn-sm" (click)="onClickPostEdit( post )">Edit</button>
-                                            <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post, page )">Delete</button>
-                                            <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">Reply</button>
-                                            <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">Like</button>
-                                            <button class="btn btn-secondary btn-sm" (click)="onClickPostDelete( post )">More</button> dislike,
-                                            report, favorate, share
-                                        </div>
-
-
-                                        <comment-create-widget [post]="post" (create)="onCommentCreate($event, post)"></comment-create-widget>
-
-                                        <div class="comments" *ngIf="post.comments.length">
-                                            <ng-container *ngFor="let comment of post.comments">
-                                                <comment-view-widget [post]="post" [comment]="comment"></comment-view-widget>
-                                            </ng-container>
-                                        </div> -->
-
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { AppService } from './../../providers/app.service';
 @Component({
     selector: 'post-header-widget',
@@ -8,6 +8,9 @@ import { AppService } from './../../providers/app.service';
 export class PostHeaderWidget implements OnInit {
 
     @Input() post;
+    @Output() edit = new EventEmitter<any>();
+    @Output() delete = new EventEmitter<any>();
+
 
     constructor(
         public app: AppService

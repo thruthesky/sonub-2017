@@ -10,8 +10,8 @@
         <div ngbDropdown class="d-inline-block">
             <div class="px-2 pointer" ngbDropdownToggle></div>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownBasic1">
-                <button class="dropdown-item">Edit</button>
-                <button class="dropdown-item">Another Action</button>
+                <button class="dropdown-item" (click)=" edit.emit() " >Edit</button>
+                <button class="dropdown-item" (click)=" delete.emit() ">Delete</button>
                 <button class="dropdown-item">Something else is here</button>
             </div>
         </div>

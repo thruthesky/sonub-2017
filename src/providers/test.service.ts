@@ -23,6 +23,7 @@ export class TestService extends Base {
         // app.wp.getPosts().subscribe( data => console.log(data) );
 
 
+        this.app.user.logout();
 
         this.testApi();
         this.testRegister();
@@ -57,6 +58,8 @@ export class TestService extends Base {
 
     testApi() {
 
+        // console.log("============= testApi() =============");
+
         this.app.wp.post({ route: 'wordpress.error' }).subscribe(res => {
             console.log('res', res);
         }, err => this.test(err.code == -40000, 'error'));
@@ -80,7 +83,7 @@ export class TestService extends Base {
             res => this.bad("Api call with wrong-route must befailed"),
             err => {
                 // console.log(err);
-                this.test(err.code == 'no_user_data_by_that_session_id_on_session_login', "wrong session id");
+                this.test(err.code == 'no_user_data_by_that_session_id_on_session_login', "testApi() => wrong session id: " + this.app.getErrorString(err));
             }
         );
         // this.app.wp.post({ route: 'user.wrongMethod', session_id: '-session_id' }).subscribe(

@@ -8,8 +8,6 @@ import {
 } from './../providers/wordpress-api/interface';
 
 
-import { PostCreateEditModalService } from './../modules/forum/modals/post-create-edit/post-create-edit.modal';
-
 
 @Component({
   selector: 'app-root',
@@ -22,14 +20,13 @@ export class AppComponent implements OnInit, AfterViewInit {
   news: PAGE;
   constructor(
     private router: Router,
-    public app: AppService,
-    private postCreateEditModal: PostCreateEditModalService
+    public app: AppService
   ) {
 
 
 
     document.addEventListener('deviceready', () => this.onDeviceReady(), false);
-    this.loadNews();
+    
     this.loadAdvertisement();
 
   }
@@ -51,37 +48,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.app.push.initCordova();
   }
 
-
-  loadNews() {
-
-    let req: POST_LIST = {
-      category_name: 'news',
-      paged: 1,
-      posts_per_page: 5,
-      thumbnail: '32x32'
-    };
-    this.news = this.app.cacheGetPage(req);
-    // console.log("cached: ", this.news);
-    this.app.forum.postList(req).subscribe((page: PAGE) => {
-      // console.log('Page::', page);
-      this.app.cacheSetPage(req, page);
-      this.news = page;
-    }, err => this.app.displayError(this.app.getErrorString(err)));
-
-
-  }
-
-  onClickCreateNews() {
-
-    if (!this.app.user.isLogin) {
-      this.app.alert.notice('login', 'login_first');
-      return;
-    }
-
-    this.postCreateEditModal.open({ category: 'news' }).then(id => {
-      this.loadNews();
-    }, err => console.error(err));
-  }
 
   loadAdvertisement() {
     this.app.wp.post({route: 'wordpress.get_advertisement', position: 'sidebar'} )

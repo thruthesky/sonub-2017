@@ -29,13 +29,13 @@ export class PostListThumbnailTextWidget implements OnInit, OnDestroy, AfterView
         public app: AppService,
         private pageScroll: PageScroll,
     ) {
-        console.log("PostListWidget::constructor()");
+        // console.log("PostListWidget::constructor()");
         this.loadPage();
     }
 
     ngOnInit() { }
     ngOnDestroy() {
-        console.log("PostListWidget::onDestroy()");
+        // console.log("PostListWidget::onDestroy()");
         this.watch.unsubscribe();
     }
     ngAfterViewInit() {
@@ -44,7 +44,7 @@ export class PostListThumbnailTextWidget implements OnInit, OnDestroy, AfterView
     }
 
     loadPage() {
-        console.log(`::loadPage(). noMorePosts: ${this.noMorePosts}, inLoading: ${this.inLoading}`);
+        // console.log(`::loadPage(). noMorePosts: ${this.noMorePosts}, inLoading: ${this.inLoading}`);
         if (this.noMorePosts) return;
         if (this.inLoading) return;
         else this.inLoading = true;
@@ -58,7 +58,7 @@ export class PostListThumbnailTextWidget implements OnInit, OnDestroy, AfterView
         };
         this.loadCache(req);
         this.app.forum.postList(req).subscribe((page: PAGE) => {
-            console.log('Page::', page);
+            // console.log('Page::', page);
             this.app.title(page.category_name);
             this.inLoading = false;
             if (page.paged == page.max_num_pages) {
@@ -72,7 +72,7 @@ export class PostListThumbnailTextWidget implements OnInit, OnDestroy, AfterView
     loadCache(req: POST_LIST) {
         let p = this.app.cacheGetPage(req);
         if (p) {
-            console.log("cached for ", this.app.cacheKeyPage(req));
+            // console.log("cached for ", this.app.cacheKeyPage(req));
             this.pages.push(p);
         }
     }
@@ -87,7 +87,7 @@ export class PostListThumbnailTextWidget implements OnInit, OnDestroy, AfterView
         this.prepare( page );
         let i = page.paged - 1;
         if ( i < this.pages.length ) {
-            console.log("replace cached page for: ", this.app.cacheKeyPage(req));
+            // console.log("replace cached page for: ", this.app.cacheKeyPage(req));
             this.pages[i] = page;
         }
         else this.pages.push(page);
