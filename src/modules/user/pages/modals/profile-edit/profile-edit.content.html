@@ -17,6 +17,14 @@
             <div>
                 <button (click)="fileUploadWidget.onClickCamera()">Change Profile</button>
             </div>
+            <file-upload-widget
+                #fileUploadWidget
+                [title]="false"
+                [fileSelectionButton]="false"
+                [files]="files"
+                [showUploadedFiles]="false"
+                (success)="onSuccessUpdateProfile()"
+            ></file-upload-widget>
         </div>
     </div>
     <div class="input-group mb-3">
@@ -79,12 +87,5 @@
 
 
 <hr>
-<file-upload-widget
-    #fileUploadWidget
-    [title]="false"
-    [fileSelectionButton]="false"
-    [files]="files"
-    [showUploadedFiles]="false"
-    (success)="onSuccessUpdateProfile()"
-></file-upload-widget>
+
 

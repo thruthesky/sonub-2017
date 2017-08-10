@@ -78,11 +78,11 @@ export class ProfileEditContent implements OnInit {
         };
         if( this.files.length > 1 ) {
             data['photoURL']= this.files[1].url;
-            if( this.files.length ) setTimeout( () => this.fileUploadComponent.deleteFile( this.files[0]) );
-
+            if( this.files && this.files[0] && this.files[0].id ) setTimeout( () => this.fileUploadComponent.deleteFile( this.files[0]) );
         }
         this.app.user.update(data).subscribe((res: USER_UPDATE_RESPONSE) => {
             console.log('updateProfilePicture:', res);
+            this.files[0] = res.photo;
             this.app.rerenderPage();
         }, err => {
             console.log('error while updating user profile picture', err);

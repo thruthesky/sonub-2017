@@ -72,6 +72,7 @@ export interface USER_REGISTER_RESPONSE {
     display_name: string;
     session_id: string;
     photoURL: string;
+    photo: FILE;
 };
 export interface USER_LOGIN_RESPONSE extends USER_REGISTER_RESPONSE { };
 export interface USER_UPDATE_RESPONSE extends USER_REGISTER_RESPONSE { };
