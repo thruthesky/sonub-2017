@@ -1,11 +1,12 @@
-import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppService, POST, FILES, FILE, POST_CREATE } from './../../../../providers/app.service';
-import {USER_UPDATE} from "../../../../providers/wordpress-api/interface";
+import { JOB_CREATE } from "../../../../providers/wordpress-api/interface";
 import { FileUploadWidget } from "../../../../widgets/file-upload/file-upload";
 import { PhilippineRegion } from "../../../../providers/philippine-region";
 import { DATEPICKER } from "../../../../etc/interface";
-import {NgbDatepickerConfig} from "@ng-bootstrap/ng-bootstrap";
+import { NgbDatepickerConfig } from "@ng-bootstrap/ng-bootstrap";
+
 
 
 @Component({
@@ -17,13 +18,12 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
 
     @ViewChild('fileUploadWidget') public fileUploadComponent: FileUploadWidget;
 
-    title: string =  'Job Post Title';  // generate base on the given info
-    content: string = 'Job Post Content';  // personal message
-    char_1: string = 'm'; // Gender
-    varchar_1: string = 'driver'; // profession
-    varchar_2: string = 'all'; // province
-    varchar_3: string = 'all'; // city
-    int_1: number = 0; // work experience
+    message: string = 'Job Post Content';  // personal message
+    gender: string = 'm'; // Gender
+    profession: string = 'driver'; // profession
+    province: string = 'all'; // province
+    city: string = 'all'; // city
+    experience: string = ''; // work experience
 
     birthday: DATEPICKER;
 
@@ -43,7 +43,7 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
 
     now = (new Date());
 
-    numbers = Array.from(new Array(20), (x,i) => i+1);
+    numbers = Array.from(new Array(20), (x, i) => i + 1);
 
     constructor(
         private region: PhilippineRegion,
@@ -52,74 +52,78 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
         dateConfig: NgbDatepickerConfig,
 
     ) {
-        region.get_province( re => {
+        region.get_province(re => {
             this.provinces = re;
         }, e => {
         });
 
-        dateConfig.minDate = {year: 1956, month: 1, day: 1};
-        dateConfig.maxDate = {year: this.now.getFullYear(), month: 12, day: 31};
+        dateConfig.minDate = { year: 1956, month: 1, day: 1 };
+        dateConfig.maxDate = { year: this.now.getFullYear(), month: 12, day: 31 };
 
     }
 
-    ngOnInit() {}
+    ngOnInit() { }
 
-    ngOnDestroy() {}
+    ngOnDestroy() { }
 
     get cityKeys() {
-        return Object.keys( this.cities );
+        return Object.keys(this.cities);
     }
 
 
     onClickSubmit() {
 
-        let data: POST_CREATE = {
-            category: 'jobs',
-            post_title: '',
-            post_content: this.content,     // personal message
-            char_1: this.char_1,            // gender
-            varchar_1: this.varchar_1,      // profession
-            varchar_2: this.varchar_2,      // province
-            varchar_3: this.varchar_3,      // city
-            varchar_4: this.firstName + ' ' + this.middleName + ' ' + this.lastName,
-            int_1: this.int_1,              // work experience
-            int_2: parseInt( this.birthday.year + this.app.add0(this.birthday.month) + this.app.add0(this.birthday.day) ) // birthday
+        let data: JOB_CREATE = {
+            message: this.message,
+            gender: this.gender,
+            profession: this.profession,
+            province: this.province,
+            city: this.city,
+            first_name: this.firstName,
+            middle_name: this.middleName,
+            last_name: this.lastName,
+            experience: this.experience,
+            birthday: parseInt(this.birthday.year + this.app.add0(this.birthday.month) + this.app.add0(this.birthday.day)), // birthday
+            mobile: this.mobile,
+            address: this.address
         };
         data.fid = this.files.reduce((_, file) => { _.push(file.id); return _; }, []);
-        data['ID'] = this.ID;
 
         console.log('onClickSubmit::data:: ', data);
-        this.app.forum.postCreate(data).subscribe(res => {
+        this.app.job.create(data).subscribe(res => {
             console.log("job create: ", res);
             this.app.alert.open({ content: this.app.text('saved') });
+            this.app.forum.postData(res).subscribe((post: POST) => {
+                console.log("created job: ", post);
+            }, e => this.app.warning(e));
         }, e => this.app.warning(e));
 
     }
 
     onSuccessUpdateJobProfile() {
         console.log("onSuccessUpdateJobProfile::", this.files);
-        if( this.files.length > 1 ) {
-            if( this.files && this.files[0] && this.files[0].id ) setTimeout( () => this.fileUploadComponent.deleteFile( this.files[0]) );
+        if (this.files.length > 1) {
+            if (this.files && this.files[0] && this.files[0].id) setTimeout(() => this.fileUploadComponent.deleteFile(this.files[0]));
         }
     }
 
 
     onClickProvince() {
-        console.log('Province::', this.varchar_2);
-        if( this.varchar_2 != 'all') {
-            this.varchar_3 = this.varchar_2;
+        console.log('Province::', this.province);
+        if (this.province != 'all') {
+            this.city = this.province;
             this.getCities();
         }
         else {
-            this.varchar_3 = 'all';
+            this.city = 'all';
             this.showCities = false;
         }
     }
 
 
     getCities() {
-        this.region.get_cities( this.varchar_2, re => {
-            if(re) {
+        this.region.get_cities(this.province, re => {
+            if (re) {
                 this.cities = re;
                 this.showCities = true;
             }

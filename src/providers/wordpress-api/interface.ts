@@ -39,8 +39,8 @@ export interface SOCIAL_PROFILE {
     photoURL?: string;
 };
 
-export interface SOCIAL_REGISTER extends REQUEST, SOCIAL_PROFILE {};
-export interface SOCIAL_UPDATE extends REQUEST, SOCIAL_PROFILE {};
+export interface SOCIAL_REGISTER extends REQUEST, SOCIAL_PROFILE { };
+export interface SOCIAL_UPDATE extends REQUEST, SOCIAL_PROFILE { };
 
 export interface USER_LOGIN {
     route?: string;
@@ -279,7 +279,7 @@ export interface COMMENT_DATA extends REQUEST, comment_ID {
     thumbnail?: THUMBNAIL_SIZES; // default thumbnail size.
 };
 
-export interface COMMENT_DELETE extends REQUEST, comment_ID {};
+export interface COMMENT_DELETE extends REQUEST, comment_ID { };
 
 export interface CATEGORY_ENTITY {
     term_id: number;
@@ -304,3 +304,74 @@ export type CATEGORIES = Array<CATEGORY_ENTITY>;
 
 
 
+
+
+/**
+ * 
+ * JOB SERVICE INTERFACE
+ * 
+ */
+export interface JOB_CREATE {
+    route?: string;
+    session_id?: string;
+    password?: string;
+    first_name: string;
+    middle_name: string;
+    last_name: string;
+    mobile: string;
+    address: string;
+    province: string;
+    city: string;
+    birthday: number;
+    gender: string;
+    experience: string;
+    profession: string;
+    message: string;
+    fid?: Array<number>;
+};
+
+export interface JOB {
+    ID: number;
+    post_author: number;
+    first_name: string;
+    middle_name: string;
+    last_name: string;
+    mobile: string;
+    address: string;
+    province: string;
+    city: string;
+    birthday: number;
+    gender: string;
+    experience: string;
+    profession: string;
+    message: string;
+    files: FILES;
+    timestamp_create: number;
+};
+
+export type JOBS = Array<JOB>;
+
+export interface JOB_LIST_REQUEST extends REQUEST {
+    category_name?: string; // slug. This is not category name. This is how wordpress does. it uses category_name insteadm of 'slug' to search slug.
+    posts_per_page?: number; // no of posts in a page.
+    paged?: number; // what page.
+    thumbnail?: THUMBNAIL_SIZES; // default thumbnail size.
+};
+
+
+export interface JOB_PAGE {
+    posts: JOBS;
+
+    post_count: number; // number of posts retrived from database. if it is less than POST_LIST.posts_per_page, this may be the last page.
+    found_posts: number; // number of total posts found by the search of POST_LIST request. This is the number of posts by the search.
+    max_num_pages: number; // number of total pages by the POST_LIST search request.
+
+
+
+    //// Below are coming from https://codex.wordpress.org/Class_Reference/WP_Query#Properties $query_vars
+    cat: string;                    // catgory no
+    category_name: string;          // category name
+    comments_per_page: string;      // comments_per_page
+    paged: number;                  // paged
+}
+export type JOB_PAGES = Array<JOB_PAGE>;

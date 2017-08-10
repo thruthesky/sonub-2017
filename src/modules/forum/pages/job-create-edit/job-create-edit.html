@@ -64,7 +64,7 @@
 
                 <div class="input-group row mb-3">
                     <label class="input-group-addon">Province</label>
-                    <select class="form-control" id="province" name="province" [(ngModel)]="varchar_2" (change)="onClickProvince()">
+                    <select class="form-control" id="province" name="province" [(ngModel)]="province" (change)="onClickProvince()">
                         <option value="all">All</option>
                         <option *ngFor="let province of provinces" [value]="province">{{province}}</option>
                     </select>
@@ -72,7 +72,7 @@
 
                 <div *ngIf="showCities" class="input-group row mb-3">
                     <label class="input-group-addon">City</label>
-                    <select class="form-control" id="city" name="city" [(ngModel)]="varchar_3">
+                    <select class="form-control" id="city" name="city" [(ngModel)]="city">
                         <option *ngFor="let key of cityKeys" [value]="key">{{cities[key]}}</option>
                     </select>
                 </div>
@@ -93,11 +93,11 @@
                     <div class="form-control">
                         <div class="form-check">
                             <label for="male"  class="form-check-label">
-                                <input type="radio" name="gender" id="male" [(ngModel)]="char_1" value="m">
+                                <input type="radio" name="gender" id="male" [(ngModel)]="gender" value="m">
                                 <span>Male</span>
                             </label>
                             <label for="female" class="form-check-label">
-                                <input type="radio" name="gender" id="female" [(ngModel)]="char_1" value="f">
+                                <input type="radio" name="gender" id="female" [(ngModel)]="gender" value="f">
                                 <span>Female</span>
                             </label>
                         </div>
@@ -106,7 +106,7 @@
 
                 <div class="input-group row mb-3">
                     <label class="input-group-addon">Experience</label>
-                    <select class="form-control" id="workExperience" name="workExperience" [(ngModel)]="int_1">
+                    <select class="form-control" id="workExperience" name="workExperience" [(ngModel)]="experience">
                         <option value="0">No work Experience</option>
                         <option *ngFor="let number of numbers" [value]="number">{{number}} years</option>
                     </select>
@@ -115,7 +115,7 @@
 
                 <div class="input-group row mb-3">
                     <label class="input-group-addon">Profession</label>
-                    <select class="form-control" id="workProfession" name="workProfession" [(ngModel)]="varchar_1">
+                    <select class="form-control" id="workProfession" name="workProfession" [(ngModel)]="profession">
                         <option value="housemaid">House Maid</option>
                         <option value="driver">Driver</option>
                     </select>
@@ -123,7 +123,7 @@
 
                 <div class="input-group row mb-3">
                     <label for="content" class="input-group-addon">Message</label>
-                    <textarea type="text" class="form-control" id="content" name="content" placeholder="Personal Message" [(ngModel)]="content"></textarea>
+                    <textarea type="text" class="form-control" id="content" name="content" placeholder="Personal Message" [(ngModel)]="message"></textarea>
                 </div>
 
 

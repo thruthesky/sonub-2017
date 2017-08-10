@@ -54,7 +54,9 @@ $header-content-height: 24px;
         position: relative;
         top: -2px;
         padding-left: 4px;
-        width: 170px;
+        width: 120px;
+        @media (min-width: 320px) { width: 140px; }
+        @media (min-width: 340px) { width: 170px; }
         @media (min-width: $sm) {
             padding-left: 6px;
             width: 240px;

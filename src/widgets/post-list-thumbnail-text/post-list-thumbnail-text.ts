@@ -30,10 +30,11 @@ export class PostListThumbnailTextWidget implements OnInit, OnDestroy, AfterView
         private pageScroll: PageScroll,
     ) {
         // console.log("PostListWidget::constructor()");
-        this.loadPage();
     }
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.loadPage();
+    }
     ngOnDestroy() {
         // console.log("PostListWidget::onDestroy()");
         this.watch.unsubscribe();
@@ -65,7 +66,7 @@ export class PostListThumbnailTextWidget implements OnInit, OnDestroy, AfterView
                 this.noMorePosts = true;
             }
             this.addOrReplacePage(req, page);
-        }, err => this.app.displayError(this.app.getErrorString(err)));
+        }, e => this.app.warning(e));
     }
 
 

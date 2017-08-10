@@ -13,6 +13,7 @@ import { WordpressApiService } from './wordpress-api/wordpress-api.service';
 import { UserService } from './wordpress-api/user.service';
 import { ForumService } from './wordpress-api/forum.service';
 import { FileService } from './wordpress-api/file.service';
+import { JobService } from './wordpress-api/job.service';
 
 
 import { ConfirmModalService, CONFIRM_OPTIONS } from './modals/confirm/confirm.modal';
@@ -21,7 +22,10 @@ export { CONFIRM_OPTIONS } from './modals/confirm/confirm.modal';
 // import { TextService } from './text.service';
 
 import { SOCIAL_PROFILE, USER_REGISTER } from './wordpress-api/interface';
-export { POST, POSTS, POST_LIST, PAGE, PAGES, FILE, FILES, POST_CREATE, POST_DELETE, POST_DELETE_RESPONSE } from './wordpress-api/interface';
+export {
+    POST, POSTS, POST_LIST, PAGE, PAGES, FILE, FILES, POST_CREATE, POST_DELETE, POST_DELETE_RESPONSE,
+    JOB, JOBS, JOB_LIST_REQUEST, JOB_PAGE, JOB_PAGES
+} from './wordpress-api/interface';
 
 
 import { AlertModalService } from './modals/alert/alert.modal';
@@ -58,6 +62,7 @@ export class AppService extends Base {
     constructor(
         public user: UserService,
         public forum: ForumService,
+        public job: JobService,
         public wp: WordpressApiService,
         public file: FileService,
         // public text: TextService,
@@ -278,10 +283,10 @@ export class AppService extends Base {
      * @param req Request of post list.
      * @param page 
      */
-    cacheSetPage(req: POST_LIST, page: PAGE) {
+    cacheSetPage(req: any, page: any) {
         if (req.paged <= 3) this.cacheSet(this.cacheKeyPage(req), page);
     }
-    cacheGetPage(req: POST_LIST) {
+    cacheGetPage(req: any) {
         return this.cacheGet(this.cacheKeyPage(req));
     }
 
@@ -295,12 +300,12 @@ export class AppService extends Base {
 
 
     postUserPhotoUrl(data) {
-        if ( data && data.author && data.author.photoURL ) return data.author.photoURL;
+        if (data && data.author && data.author.photoURL) return data.author.photoURL;
         else return this.anonymousPhotoURL;
     }
 
-    postUserName( data ) {
-        if ( data && data.author && data.author.name ) return data.author.name;
+    postUserName(data) {
+        if (data && data.author && data.author.name) return data.author.name;
         else return 'Anonymous';
     }
 
@@ -309,10 +314,10 @@ export class AppService extends Base {
      * Returns true if 'data' is mine.
      * @param data Post or Comment
      */
-    my( data ) {
-        if ( ! this.user.id ) return false;
-        if ( data && data['ID'] && data['post_author'] == this.user.id ) return true;
-        if ( data && data['comment_ID'] && data['user_id'] == this.user.id ) return true;
+    my(data) {
+        if (!this.user.id) return false;
+        if (data && data['ID'] && data['post_author'] == this.user.id) return true;
+        if (data && data['comment_ID'] && data['user_id'] == this.user.id) return true;
         return false;
     }
 
@@ -320,9 +325,9 @@ export class AppService extends Base {
      * Returns true if 'data' is written by anonymous.
      * @param data Post of Comment
      */
-    anonymous( data ) {
-        if ( (data && data['ID']) && (data['post_author'] == 0) ) return true;
-        if ( (data && data['comment_ID']) && (data['user_id'] == 0) ) return true;
+    anonymous(data) {
+        if ((data && data['ID']) && (data['post_author'] == 0)) return true;
+        if ((data && data['comment_ID']) && (data['user_id'] == 0)) return true;
         return false;
     }
 

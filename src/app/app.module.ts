@@ -37,6 +37,8 @@ import { WordpressApiService } from './../providers/wordpress-api/wordpress-api.
 import { UserService } from './../providers/wordpress-api/user.service';
 import { ForumService } from './../providers/wordpress-api/forum.service';
 import { FileService } from './../providers/wordpress-api/file.service';
+import { JobService } from './../providers/wordpress-api/job.service';
+
 import { AppService } from './../providers/app.service';
 import { TestService } from './../providers/test.service';
 import { PageScroll } from './../providers/page-scroll';
@@ -82,6 +84,7 @@ const appRoutes: Routes = [
     UserService,
     ForumService,
     FileService,
+    JobService,
     WordpressApiService,
     TestService,
     PageScroll,

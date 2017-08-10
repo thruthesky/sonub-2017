@@ -33,6 +33,7 @@ import { AdvertisementCreateEditPage } from './pages/advertisement-create-edit/a
 import { AdvertisementListPage } from './pages/advertisement-list/advertisement-list';
 
 import { JobCreateEditPage } from "./pages/job-create-edit/job-create-edit";
+import { JobListPage } from "./pages/job-list/job-list";
 
 
 
@@ -48,6 +49,7 @@ const appRoutes: Routes = [
 
     { path: 'job/create', component: JobCreateEditPage},
     { path: 'job/edit:id', component: JobCreateEditPage},
+    { path: 'job', component: JobListPage},
 
 
     { path: 'view/:id/:title', component: ForumViewPage }, /** /view/:id/-with-title */
@@ -70,7 +72,8 @@ const appRoutes: Routes = [
         AdvertisementHowtoPage,
         AdvertisementCreateEditPage,
         AdvertisementListPage,
-        JobCreateEditPage
+        JobCreateEditPage,
+        JobListPage
     ],
     entryComponents: [
         PostCreateEditContent,
