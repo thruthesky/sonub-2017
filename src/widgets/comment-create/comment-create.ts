@@ -79,8 +79,8 @@ export class CommentCreateWidget implements OnInit, AfterViewInit {
             this.resetForm();
 
 
-            this.app.forum.commentSendPushMessages( id )
-                .subscribe( id => id, e => e ); // don't do for the result.
+            this.app.user.activity( { action: 'comment-create', target: id } )
+                .subscribe( res => console.log("activity: ", res), e => e ); // don't do for the result.
                 
 
 

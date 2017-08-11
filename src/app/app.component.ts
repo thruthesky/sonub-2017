@@ -26,8 +26,12 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 
     document.addEventListener('deviceready', () => this.onDeviceReady(), false);
-    
+
     this.loadAdvertisement();
+
+
+    this.app.listenActivity();
+    
 
   }
 
@@ -50,10 +54,12 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 
   loadAdvertisement() {
-    this.app.wp.post({route: 'wordpress.get_advertisement', position: 'sidebar'} )
-      .subscribe( (post: POST) => {
+    this.app.wp.post({ route: 'wordpress.get_advertisement', position: 'sidebar' })
+      .subscribe((post: POST) => {
         // console.log('adv: ', post);
         this.advSidebar = post;
       }, e => this.app.warning(e));
   }
+
+
 }

@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 import { Base } from './../etc/base';
@@ -21,10 +21,11 @@ export { CONFIRM_OPTIONS } from './modals/confirm/confirm.modal';
 
 // import { TextService } from './text.service';
 
-import { SOCIAL_PROFILE, USER_REGISTER } from './wordpress-api/interface';
+import { SOCIAL_PROFILE, USER_REGISTER, ACTIVITIES, ACTIVITY } from './wordpress-api/interface';
 export {
     POST, POSTS, POST_LIST, PAGE, PAGES, FILE, FILES, POST_CREATE, POST_DELETE, POST_DELETE_RESPONSE,
-    JOB, JOBS, JOB_LIST_REQUEST, JOB_PAGE, JOB_PAGES
+    JOB, JOBS, JOB_LIST_REQUEST, JOB_PAGE, JOB_PAGES,
+    ACTIVITY, ACTIVITIES
 } from './wordpress-api/interface';
 
 
@@ -58,6 +59,9 @@ export class AppService extends Base {
 
     anonymousPhotoURL = '/assets/img/anonymous.png';
 
+
+    firebaseDatabaseListenActivityEventHandler = null;
+    activity: ACTIVITIES = [];
 
     constructor(
         public user: UserService,
@@ -243,6 +247,17 @@ export class AppService extends Base {
 
         // this.updateUserLogin();
 
+        this.listenActivity();
+
+    }
+
+    /**
+     * All user logout must call this method.
+     * @warning this must be the only method to be used to logout.
+     */
+    logout() {
+        this.user.logout();
+        this.listenActivity();
     }
 
 
@@ -329,6 +344,49 @@ export class AppService extends Base {
         if ((data && data['ID']) && (data['post_author'] == 0)) return true;
         if ((data && data['comment_ID']) && (data['user_id'] == 0)) return true;
         return false;
+    }
+
+
+
+
+    /**
+     * 
+     * This may be called multiple times. When user
+     *      - app boots
+     *      - login
+     *      - logout
+     */
+    listenActivity() {
+
+        if (!this.user.isLogin) return;
+        let ref = this.db.child('user-activity').child(this.user.id.toString());
+        if (this.firebaseDatabaseListenActivityEventHandler) {
+            // ref.off('value', this.firebaseDatabaseListenActivityEventHandler);
+            // this.firebaseDatabaseListenActivityEventHandler = null;
+        }
+
+        this.firebaseDatabaseListenActivityEventHandler = ref
+            .limitToLast(5)
+            .on('value', snap => {
+                let val = snap.val();
+                if (!val) return;
+                if (typeof val !== 'object') return;
+
+                console.log( 'snap.val', val);
+                let keys = Object.keys(val);
+                if (keys && keys.length) {
+                    this.activity = [];
+                    for (let key of keys.reverse()) {
+                        this.activity.push(val[key]);
+                    }
+                }
+
+                this.rerenderPage();
+
+                // val.reverse();
+            }, e => console.error(e));
+
+
     }
 
 }

@@ -10,7 +10,8 @@ import { Observable } from 'rxjs/Observable';
 import {
     USER_REGISTER, USER_REGISTER_RESPONSE, USER_LOGIN, USER_LOGIN_RESPONSE,
     USER_UPDATE, USER_UPDATE_RESPONSE, USER_DATA_RESPONSE, USER_DATA,
-    SOCIAL_REGISTER, SOCIAL_UPDATE
+    SOCIAL_REGISTER, SOCIAL_UPDATE,
+    ACTIVITY_REQUEST, ACTIVITY_RESPONSE
 } from './interface';
 
 @Injectable()
@@ -155,7 +156,27 @@ export class UserService extends Base {
         else return '';
     }
 
+    get email(): string {
+        if (this.profile && this.profile.user_email) return this.profile.user_email;
+        else return '';
+    }
+
     get nameOrAnonymous() {
         return this.name || 'Anonymous';
     }
+
+
+    /**
+     * Request for processing user action activiy to backend server.
+     * @note use this method after user action like 'like', 'dislike', 'comment', 'post', etc
+     * @note the server may do 'push message', 'log into firebase database', etc.
+     * 
+     *  
+     */
+    activity(req: ACTIVITY_REQUEST): Observable<ACTIVITY_RESPONSE> {
+        req.route = 'wordpress.activity';
+        req.session_id = this.sessionId;
+        return this.wp.post(req);
+    }
+
 }
