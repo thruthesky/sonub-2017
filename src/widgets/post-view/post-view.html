@@ -27,7 +27,7 @@
 
     </div>
 
-    <div class="comments" *ngIf="post.comments.length">
+    <div class="comments" *ngIf="post.comments && post.comments.length">
         <ng-container *ngFor="let comment of post.comments">
             <comment-view-widget [post]="post" [comment]="comment"></comment-view-widget>
         </ng-container>

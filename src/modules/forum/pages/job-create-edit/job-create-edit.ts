@@ -18,13 +18,13 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
 
     @ViewChild('fileUploadWidget') public fileUploadComponent: FileUploadWidget;
 
-    message: string = 'Job Post Content';  // personal message
+    message: string = 'Personal Message';  // personal message
     gender: string = 'm'; // Gender
     profession: string = 'driver'; // profession
     province: string = 'all'; // province
     city: string = 'all'; // city
-    experience: string = ''; // work experience
-
+    experience: string = '0'; // work experience
+    password: string = '';
     birthday: DATEPICKER;
 
     mobile: string = ''; // mobile meta
@@ -73,6 +73,12 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
 
     onClickSubmit() {
 
+        if( this.experience) {
+            console.log('data::', this.experience);
+            console.log( { experience: this.experience} );
+        }
+
+
         let data: JOB_CREATE = {
             message: this.message,
             gender: this.gender,
@@ -85,7 +91,8 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
             experience: this.experience,
             birthday: parseInt(this.birthday.year + this.app.add0(this.birthday.month) + this.app.add0(this.birthday.day)), // birthday
             mobile: this.mobile,
-            address: this.address
+            address: this.address,
+            password: this.password
         };
         data.fid = this.files.reduce((_, file) => { _.push(file.id); return _; }, []);
 
@@ -131,8 +138,5 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
         });
     }
 
-    onChangeBirthday() {
-        console.log(this.birthday);
-    }
 
 }

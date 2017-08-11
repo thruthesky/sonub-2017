@@ -19,7 +19,7 @@ export class JobService extends Base {
     create(data: JOB_CREATE): Observable<JOB> {
 
         let req: POST_CREATE = this.convertCreate(data);
-        // console.log(data);
+        console.log('convertedCreate', req);
         return this.wp.post(req);
     }
 
@@ -28,8 +28,8 @@ export class JobService extends Base {
         let req: POST_CREATE = {
             category: 'jobs',
             post_title: data.profession + ' ' + data.birthday + ' ' + data.gender,
-            post_content: data.message
-
+            post_content: data.message,
+            fid: data.fid
         };
 
 
@@ -47,7 +47,7 @@ export class JobService extends Base {
 
         req.int_2 = data.birthday;
         req.char_1 = data.gender;
-
+        req.post_password = data.password;
         req.session_id = this.user.sessionId;
         req.route = 'post.create';
         return req;
@@ -102,7 +102,7 @@ export class JobService extends Base {
             }
         }
 
-
+        console.log('Converted Page:: ', page );
         return <any>page;
     }
 

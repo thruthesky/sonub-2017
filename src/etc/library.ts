@@ -162,6 +162,7 @@ export class Library {
 
 
     add0(n: number): string {
+        if( !n ) return;
         return n < 10 ? '0' + n : n.toString();
     }
 

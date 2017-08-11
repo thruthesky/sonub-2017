@@ -20,6 +20,8 @@ export class JobListPage implements OnInit {
     noMorePosts: boolean = false;
     posts_per_page = 6;
 
+    urlDefault: string = "assets/img/anonymous.png";
+    urlPhoto: string = this.urlDefault;
 
     constructor(
         public app: AppService
@@ -37,7 +39,7 @@ export class JobListPage implements OnInit {
         else this.inLoading = true;
         this.pageNo++;
 
-        
+
         this.loadCache(this.request);
         this.app.job.list(this.request).subscribe((page: JOB_PAGE) => {
             console.log('Job Page::', page);
@@ -61,9 +63,9 @@ export class JobListPage implements OnInit {
 
 
     /**
-     * 
-     * @param req 
-     * @param page 
+     *
+     * @param req
+     * @param page
      */
     addOrReplacePage(req: JOB_LIST_REQUEST, page: JOB_PAGE) {
         this.prepare(page);

@@ -81,7 +81,7 @@
                     <span class="input-group-addon input-group-addon-primary" id="date_begin">Birthday</span>
                     <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="birthday" ngbDatepicker
                            [placement]="'top'"
-                           #b="ngbDatepicker" (ngModelChange)="onChangeBirthday()">
+                           #b="ngbDatepicker">
                     <div class="input-group-addon" (click)="b.toggle()">
                         <i class="fa fa-calendar" style="cursor: pointer;"></i>
                     </div>
@@ -108,7 +108,7 @@
                     <label class="input-group-addon">Experience</label>
                     <select class="form-control" id="workExperience" name="workExperience" [(ngModel)]="experience">
                         <option value="0">No work Experience</option>
-                        <option *ngFor="let number of numbers" [value]="number">{{number}} years</option>
+                        <option *ngFor="let number of numbers" [value]="number+''">{{number}} years</option>
                     </select>
                 </div>
 
@@ -119,6 +119,12 @@
                         <option value="housemaid">House Maid</option>
                         <option value="driver">Driver</option>
                     </select>
+                </div>
+
+
+                <div *ngIf=" !app.user.isLogin " class="input-group row mb-3">
+                    <label for="password" class="input-group-addon">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password"  [(ngModel)]="password">
                 </div>
 
                 <div class="input-group row mb-3">

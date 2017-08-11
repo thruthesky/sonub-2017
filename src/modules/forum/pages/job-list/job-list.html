@@ -16,8 +16,26 @@
 
             <div class="posts">
                 <div class="post" *ngFor="let post of page.posts " [attr.post-id]="post.ID">
-                    <div>Age: {{ post.birthday }}</div>
-                    <div>Gender: {{ post.gender }}</div>
+
+                    <div class="card"  (click)=" post.active = ! post?.active">
+                        <img class="" src="{{post?.files[0]?.url ? post.files[0]['url'] : urlPhoto}}" #photoImg  (error)="photoImg.src = post.files[0]['url'] ">
+                        <div class="">
+                            <p class="">{{ post?.fullname }}</p>
+                            <p class="">{{ post?.profession }}</p>
+                            <p class="">Mobile : {{post?.mobile}}</p>
+                            <p class=""  *ngIf="post.active">Experience : {{post?.experience }} years</p>
+                            <p class=""  *ngIf="post.active">Address : {{post?.address}}</p>
+                            <div class="text"     *ngIf="post.active">Province : {{post?.province}}</div>
+                            <p class="card-text"  *ngIf="post.active">City : {{post?.city}}</p>
+                        </div>
+                        <div class="card-footer" *ngIf=" post.active " >
+                            <!--div class="nav-click" (click)="onClickDelete( $event, post )"><i class="fa fa-trash-o"></i> Delete</div-->
+                            <!--<div class="nav-click" (click)="onClickEdit( $event, post )"><i class="fa fa-pencil"></i> Update Post</div>-->
+                        </div>
+                    </div>
+
+
+
                 </div>
             </div>
         </div>
