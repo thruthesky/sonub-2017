@@ -375,3 +375,29 @@ export interface JOB_PAGE {
     paged: number;                  // paged
 }
 export type JOB_PAGES = Array<JOB_PAGE>;
+
+
+
+////
+export interface ACTIVITY_REQUEST {
+    route?: 'wordpress.activity';
+    session_id?: string;
+    action: string;
+    target: any;     // if the action is 'comment', then it should be comment_ID
+};
+export interface ACTIVITY_RESPONSE {
+    action: string;
+    target_ID: any;
+}
+
+
+export interface ACTIVITY {
+    action: string;
+    target: number;
+    timestamp: number;
+    user_id: number;
+    user_name: string;
+    contnet: string;
+};
+
+export type ACTIVITIES = Array<ACTIVITY>;

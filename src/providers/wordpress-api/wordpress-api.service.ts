@@ -10,10 +10,7 @@ import { error, ERROR } from './../../etc/error';
 
 
 
-import {
-    SOCIAL_PROFILE, USER_REGISTER, USER_REGISTER_RESPONSE, USER_LOGIN, USER_LOGIN_RESPONSE,
-    USER_UPDATE, USER_UPDATE_RESPONSE, USER_DATA, USER_DATA_RESPONSE
-} from './interface';
+// import { } from './interface';
 
 import 'rxjs/add/operator/map';
 
@@ -53,6 +50,8 @@ export class WordpressApiService extends Base {
         req['paged'] = req['paged'] ? req['paged'] : 1;
         return this.post(req);
     }
+
+
 
 
 }

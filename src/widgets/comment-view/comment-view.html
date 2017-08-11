@@ -8,10 +8,11 @@
                         <i class="fa fa-mail-forward fa-flip-vertical grey" aria-hidden="true"></i>
                     </div>
                 </td>
-                <td><img class="xy-36px" src="{{ app.postUserPhotoUrl( comment )}}"></td>
+                <td><img class="size-36px" src="{{ app.postUserPhotoUrl( comment )}}"></td>
                 <td>
                     <div class="ml-2">
                         <div class="mb-2">
+                            {{ comment.comment_ID }}
                             {{ comment.author.name }} {{ app.shortDate( comment.meta.timestamp_create ) }} {{ comment.comment_content }}
                         </div>
                         <file-display-widget [files]="comment.files"></file-display-widget>
