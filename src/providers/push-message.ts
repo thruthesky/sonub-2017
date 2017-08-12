@@ -167,7 +167,10 @@ export class PushMessageService extends Base {
         return this.user.update_user_metas(keys_values).subscribe(key => {
             // console.log("token Update success: user_meta_update: key: ", key);
             this.storage.set(USER_TOKEN_KEY, token);
-        }, err => this.alert.error(err));
+        }, e => {
+            console.error(e);
+            this.alert.error(e);
+        });
     }
 
 

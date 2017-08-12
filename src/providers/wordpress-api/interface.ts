@@ -395,9 +395,9 @@ export interface ACTIVITY {
     action: string;
     target: number;
     timestamp: number;
-    user_id: number;
-    user_name: string;
-    contnet: string;
+    author_id: number;
+    author_name: string;
+    content: string;
 };
 
 export type ACTIVITIES = Array<ACTIVITY>;

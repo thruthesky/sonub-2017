@@ -3,69 +3,15 @@
 
     <section class="page-body">
 
-        <div class="page-body-content" [class.page-body-content-wide]=" app.pageLayout == 'wide' ">
+        <div class="page-body-content">
             <div class="page-body-content-layout">
                 <ng-container *ngIf=" app.pageLayout == 'column' || app.pageLayout == 'advertisement' ">
                     <div class="a">
-                        <section class="sidebar-a">
-                            <div class="box box-menu login-or-register" *ngIf="!app.user.isLogin">
-                                <ul>
-                                    <li><a href="/user/login" routerLink="/user/login">Login</a></li>
-                                    <li><a href="/user/register" routerLink="/user/register">Register</a></li>
-                                </ul>
-                            </div>
-
-                            <div class="box box-menu my-menu" *ngIf="app.user.isLogin">
-                                <ul class="fs-sm">
-                                    <li class="profile mb-1">
-
-                                        <a class="flex" href="/user/profile" routerLink="/user/profile">
-                                            <ol class="list-line">
-                                                <li><img class="size-32px" src="{{ app.userProfilePhotoUrl }}"></li>
-                                                <li>
-                                                    <div class="pl-2 w-100px lh-32px fs-sm ellipsis">{{ app.user.name }}: this is my name</div>
-                                                </li>
-                                            </ol>
-                                        </a>
-
-                                    </li>
-                                    <li><a href="/user/message" routerLink="/user/message"><i class="fa fa-envelope" aria-hidden="true"></i> Message</a></li>
-                                    <li><a href="/user/settings" routerLink="/user/settings">
-                                    <i class="fa fa-gears" aria-hidden="true"></i>
-                                    Settings</a></li>
-                                </ul>
-                            </div>
-
-                            <div class="box box-menu my-forum">
-                                <ul class="fs-sm list-dots">
-                                    <li><a href="/forum" routerLink="/forum">Forum Page</a></li>
-                                    <li><a href="/forum/qna" routerLink="/forum/qna">QnA Forum</a></li>
-                                    <li><a href="/forum/discussion" routerLink="/forum/discussion">Discussion Forum</a></li>
-                                    <li><a href="/forum/news" routerLink="/forum/news">News Forum</a></li>
-                                </ul>
-                            </div>
-
-
-
-                            <h4 class="m-0 mb-2 p-2 bg-blue white">My Activity</h4>
-                            <div class="p-2 bg-white fs-xs word-break-all">
-                                <div *ngIf=" app.activity && app.activity.length ">
-                                    <div *ngFor=" let activity of app.activity ">
-                                        <div *ngIf=" activity.action == 'comment-create' ">
-                                            {{ activity.user_name }} says {{ activity.content }}
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="copyright w-100 p-2 flex justify-content-center bg-white">
-                                <ul class="list-line list-dots fs-xs">
-                                    <li>Terms</li>
-                                    <li>Advertising</li>
-                                </ul>
-                            </div>
-
+                        <section class="fix-sidebar-a">
+                            <user-login-logout-widget></user-login-logout-widget>
+                            <sidebar-forum-menu-widget></sidebar-forum-menu-widget>
+                            <activity-widget></activity-widget>
+                            <copyright-widget></copyright-widget>
                         </section>
                     </div>
                     <!--/a-->
@@ -75,19 +21,16 @@
                 </div>
                 <ng-container *ngIf=" app.pageLayout == 'column' ">
                     <div class="c">
-                        <section class="sidebar-c">
+                        <section class="fix-sidebar-c">
                             <div class="box box-menu birthdays">
                                 <i class="fa fa-birthday-cake" aria-hidden="true"></i> Birthday: Jaeho and 2 other
                             </div>
-
                             <div class="box box-menu">
                                 <post-latest-widget [category]=" 'news' " [title]=" app.text('headline_news') " [titleCreate]=" app.text( 'create_post', { category: app.text('news') } ) "></post-latest-widget>
                             </div>
                             <div class="box box-menu">
                                 <post-latest-widget [category]=" 'qna' " [title]=" app.text('qna') " [titleCreate]=" app.text( 'create_question' ) "></post-latest-widget>
                             </div>
-
-
                             <div class="box box-menu advertisement">
                                 <ul class="advertisement-menu">
                                     <li><a class="link-secondary" href="/adv/howto" routerLink="/adv/howto">Sponsered</a></li>
@@ -96,14 +39,6 @@
 
                                 <advertisement-sidebar-widget [post]="advSidebar"></advertisement-sidebar-widget>
                             </div>
-
-                            <br>&nbsp;<br> Sponsers ...
-                            <br>&nbsp;<br> Sponsers ...
-                            <br>&nbsp;<br> Sponsers ...
-                            <br>&nbsp;<br> Sponsers ...
-                            <br>&nbsp;<br> Sponsers ...
-                            <br>&nbsp;<br> Sponsers ...
-                            <br>&nbsp;<br>
                         </section>
                         <!--/sidebar-c-->
                     </div>
@@ -112,12 +47,7 @@
 
                 <ng-container *ngIf=" app.pageLayout == 'advertisement' ">
                     <div class="c">
-                        <h4>Advertisement Sidebar</h4>
-                        <h4>Advertisement Sidebar</h4>
-                        <h4>Advertisement Sidebar</h4>
-                        <h4>Advertisement Sidebar</h4>
-                        <h4>Advertisement Sidebar</h4>
-                        <h4>Advertisement Sidebar</h4>
+                        <advertisement-my-list-sidebar-widget></advertisement-my-list-sidebar-widget>
                     </div>
                 </ng-container>
             </div>
@@ -125,24 +55,8 @@
 
             <ng-container *ngIf=" app.pageLayout == 'column' ">
                 <div class="d">
-                    <section class="sidebar-c bg-darkseagreen">
-                        
-                        Community<br>
-                        QnA<br>
-                        Discussion<br>
-                        Chats<br>
-                        <br>&nbsp;<br> Friend History ...
-                        <br>&nbsp;<br> Friend History ...
-                        <br>&nbsp;<br> Friend History ...
-                        <br>&nbsp;<br> Friend History ...
-                        <br>&nbsp;<br> Friend History ...
-                        <br>&nbsp;<br> Friend History ...
-                        <br>&nbsp;<br> Friend History ...
-                        <br>&nbsp;<br> Friend History ...
-                        <br>&nbsp;<br> Friend History ...
-                        <br>&nbsp;<br> Friend History ...
-                        <br>&nbsp;<br> Friend History ...
-                        <br>&nbsp;<br> Friend History ...
+                    <section class="fix-sidebar-d bg-darkseagreen">
+                        <community-log-widget></community-log-widget>
                     </section>
                     <!--sidebar-d-->
                 </div>
@@ -158,7 +72,5 @@
 
 </section>
 <!--/page-->
-
-
 
 <ng-template ngbModalContainer></ng-template>

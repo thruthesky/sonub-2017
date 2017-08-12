@@ -33,13 +33,17 @@ export class WordpressApiService extends Base {
 
     post(data): Observable<any> {
         return this.http.post(this.url, data)
-            .map(e => this.checkResult(e));
+            .map(e => this.checkResult(e, data));
     }
 
 
-    checkResult(res) {
+    checkResult(res, data) {
         // console.log("res: ", res);
-        if (!res) throw error(ERROR.RESPONSE_EMPTY);
+        if (!res) {
+            console.error("Response from backend is empty");
+            console.log("Request data: ", data);
+            throw error(ERROR.RESPONSE_EMPTY);
+        }
         else if (res['code'] === void 0) throw error(ERROR.RESPONSE_NO_CODE);
         else if ( res['code'] !== 0 ) throw error( res['code'], res['message'] );
         else return res['data'];

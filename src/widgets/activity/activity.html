@@ -1,0 +1,16 @@
+<h4 class="m-0 mb-2 p-2 bg-blue white">
+
+    My Activity</h4>
+<div class="p-2 bg-white fs-xs word-break-all">
+    <div *ngIf=" app.activity.length ">
+        <div *ngFor=" let activity of app.activity ">
+            <div *ngIf=" activity.action == 'comment-create' ">
+                <b>{{ activity.author_name }}</b> says {{ activity.content }}
+            </div>
+        </div>
+    </div>
+    <div *ngIf=" app.activity.length == 0">
+        You have no record.
+    </div>
+
+</div>

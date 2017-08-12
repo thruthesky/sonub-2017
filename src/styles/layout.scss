@@ -87,7 +87,7 @@ section.page {
     }
 }
 
-.page-body-content-wide {
+.wide .page-body-content {
     .b {
         margin: 0;
         padding: 0;
@@ -98,7 +98,7 @@ section.page {
 
 /// left sidebar
 
-.sidebar-a {
+.fix-sidebar-a {
     position: fixed;
     width: $a-width;
     height: 100%;
@@ -111,11 +111,11 @@ section.page {
         border-bottom: 100px solid white; /// 100px 은 크롬에서 스크롤을 할 때, 맨 밑 바닥에서 위로 스크를을 하면, 왼쪽 스크롤을 할 때, 밑에 숨겨진 내용들이 보인다. 그것을 숨기기 위한 것이다.
     }
 }
-.sidebar-c {
+.fix-sidebar-c {
     position: fixed;
     width: $c-width;
 }
-.sidebar-d {
+.fix-sidebar-d {
     position: fixed;
     width: $d-width;
 }

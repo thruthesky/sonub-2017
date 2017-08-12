@@ -168,7 +168,7 @@ TEXT['auth/account-exists-with-different-credential'] = {
  * For number code.
  */
 TEXT[ERROR.EMPTY] = { en: 'Error object is empty', ko: '에러 값이 없습니다.' };
-TEXT[ERROR.NO_CODE] = { en: 'Error object has no code', ko: '에러 값에 코드가 없습니다.' };
+TEXT[ERROR.NO_CODE] = { en: 'No Code. This may be server error or server down.', ko: '코드가 없습니다. 서버 에러 또는 서버 다운 일 수 있습니다.' };
 TEXT[ERROR.RESPONSE_EMPTY] = { en: 'Response from backend is empty. This may be a server error.', ko: '서버로 부터 결과 값이 없습니다. 서버 에러 일 수 있습니다.' };
 TEXT[ERROR.RESPONSE_NO_CODE] = { en: 'Response from backend has no code', ko: '서버로 부터 응답 중에 코드 값이 없습니다.' };
 TEXT[ERROR.CODE_KEY_IS_EMPTY] = { en: 'Key is empty', ko: '키 값이 존재하지 않습니다.' };

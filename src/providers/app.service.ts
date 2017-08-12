@@ -204,12 +204,13 @@ export class AppService extends Base {
      *          -- If no, create one ( with secret key )
      * 
      * @param profile User profile coming from the social login.
+     * @see https://docs.google.com/document/d/1m3-wYZOaZQGbAzXeVlIpJNSdTIt3HCUiIt9UTmZUgXo/edit#heading=h.30erqp1hvdiu
      */
     socialLoginSuccess(profile: SOCIAL_PROFILE, callback) {
 
         console.log('Going to socialLgoin: ', profile);
         this.user.loginSocial(profile.uid).subscribe(res => {
-            console.log("Social login success");
+            console.log("Social login success. res: ", res);
             callback();
             profile['session_id'] = res.session_id;
             this.user.updateSocial(profile).subscribe(res => {

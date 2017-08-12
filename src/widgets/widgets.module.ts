@@ -20,6 +20,12 @@ import { CommentCreateWidget } from './comment-create/comment-create';
 import { CommentViewWidget } from './comment-view/comment-view';
 
 import { PostHeaderWidget } from './post-header/post-header';
+import { ActivityWidget } from './activity/activity';
+import { CopyrightWidget } from './copyright/copyright';
+import { UserLoginLogoutWidget } from './user-login-logout/user-login-logout';
+import { SidebarForumMenuWidget } from './sidebar-forum-menu/sidebar-forum-menu';
+import { AdvertisementMyListSidebarWidget } from './advertisement-my-list-sidebar/advertisement-my-list-sidebar';
+import { CommunityLogWidget } from './community-log/community-log';
 
 @NgModule({
     imports: [
@@ -39,7 +45,13 @@ import { PostHeaderWidget } from './post-header/post-header';
         PostListFullWidget,
         CommentCreateWidget,
         CommentViewWidget,
-        PostHeaderWidget
+        PostHeaderWidget,
+        ActivityWidget,
+        CopyrightWidget,
+        UserLoginLogoutWidget,
+        SidebarForumMenuWidget,
+        AdvertisementMyListSidebarWidget,
+        CommunityLogWidget
     ],
     declarations: [
         FileDisplayWidget,
@@ -52,7 +64,13 @@ import { PostHeaderWidget } from './post-header/post-header';
         PostListFullWidget,
         CommentCreateWidget,
         CommentViewWidget,
-        PostHeaderWidget
+        PostHeaderWidget,
+        ActivityWidget,
+        CopyrightWidget,
+        UserLoginLogoutWidget,
+        SidebarForumMenuWidget,
+        AdvertisementMyListSidebarWidget,
+        CommunityLogWidget
     ],
     providers: [],
 })

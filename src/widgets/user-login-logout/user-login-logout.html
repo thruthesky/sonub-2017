@@ -1,0 +1,27 @@
+<div class="box box-menu login-or-register" *ngIf="!app.user.isLogin">
+    <ul>
+        <li><a href="/user/login" routerLink="/user/login">Login</a></li>
+        <li><a href="/user/register" routerLink="/user/register">Register</a></li>
+    </ul>
+</div>
+
+<div class="box box-menu my-menu" *ngIf="app.user.isLogin">
+    <ul class="fs-sm">
+        <li class="profile mb-1">
+
+            <a class="flex" href="/user/profile" routerLink="/user/profile">
+                <ol class="list-line">
+                    <li><img class="size-32px" src="{{ app.userProfilePhotoUrl }}"></li>
+                    <li>
+                        <div class="pl-2 w-100px lh-32px fs-sm ellipsis">{{ app.user.name }}: this is my name</div>
+                    </li>
+                </ol>
+            </a>
+
+        </li>
+        <li><a href="/user/message" routerLink="/user/message"><i class="fa fa-envelope" aria-hidden="true"></i> Message</a></li>
+        <li><a href="/user/settings" routerLink="/user/settings">
+                                        <i class="fa fa-gears" aria-hidden="true"></i>
+                                        Settings</a></li>
+    </ul>
+</div>

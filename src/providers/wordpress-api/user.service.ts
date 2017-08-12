@@ -6,6 +6,7 @@ import { Base } from '../../etc/base';
 import { KEY_LOGIN } from '../../etc/define';
 import { WordpressApiService } from './wordpress-api.service';
 import { Observable } from 'rxjs/Observable';
+import { error, ERROR } from './../../etc/error';
 
 import {
     USER_REGISTER, USER_REGISTER_RESPONSE, USER_LOGIN, USER_LOGIN_RESPONSE,
@@ -30,7 +31,7 @@ export class UserService extends Base {
     get isLogin(): boolean {
         /// one time data load from localStorage
         if (this.profile === null) this.loadProfile();
-        if ( this.profile.session_id !== void 0 && this.profile.session_id != '' ) return true;
+        if ( this.sessionId ) return true;
         else return false;
     }
 
@@ -61,7 +62,8 @@ export class UserService extends Base {
     }
 
     logout() {
-        this.setUserProfile(null);
+        console.log('user service::logout');
+        this.rawSetUserProfile(null);
     }
 
     register(data: USER_REGISTER): Observable<USER_REGISTER_RESPONSE> {
@@ -77,6 +79,7 @@ export class UserService extends Base {
             uid: uid,
             // timezone_offset: this.getTimezoneOffset()
         };
+        console.log("loginSoical: uid: ", uid);
         return this.wp.post( data )
             .map(res => this.setUserProfile( res ) );
     }
@@ -99,7 +102,7 @@ export class UserService extends Base {
         
 
     update(data: USER_UPDATE): Observable<USER_UPDATE_RESPONSE> {
-        data.session_id = this.profile.session_id;
+        data.session_id = this.sessionId;
         data.route = 'user.profile';
         return this.wp.post(data)
             .map(res => this.setUserProfile(res));
@@ -108,7 +111,7 @@ export class UserService extends Base {
     data(): Observable<USER_DATA_RESPONSE> {
         let data: USER_DATA = {
             route: 'user.data',
-            session_id: this.profile.session_id
+            session_id: this.sessionId
         };
         return this.wp.post(data);
     }
@@ -117,7 +120,7 @@ export class UserService extends Base {
     update_user_meta(key, value): Observable<string> {
         let data = {
             route: 'wordpress.update_user_meta',
-            session_id: this.profile.session_id,
+            session_id: this.sessionId,
             key: key,
             value: value
         };
@@ -127,23 +130,34 @@ export class UserService extends Base {
     update_user_metas( keys_values ): Observable<any> {
         let data = {
             route: 'wordpress.update_user_metas',
-            session_id: this.profile.session_id,
+            session_id: this.sessionId,
             keys_values: keys_values
         };
         // console.log('data', data);
         return this.wp.post( data );
     }
 
-    setUserProfile(res) {
-        this.profile = res;
-        this.storage.set(KEY_LOGIN, res);
-        return res;
+    setUserProfile(res: USER_LOGIN_RESPONSE) {
+        if ( res && res.session_id && typeof res.session_id === 'string' && res.session_id ) {
+            this.rawSetUserProfile(res);
+            return res;
+        }
+        else throw error( ERROR.USER_LOGIN_RESPONSE_HAS_NO_SESSION_ID, "Error on setUserProfile(). No session id exists. It may be a wrong session id or User login failed." );
+    }
+
+    /**
+     * This must only be called by setUserProfile() and logout()
+     * @param data 
+     */
+    rawSetUserProfile( data ) {
+        this.profile = data;
+        this.storage.set(KEY_LOGIN, data);
     }
 
 
 
     get sessionId(): string {
-        if (this.profile && this.profile.session_id) return this.profile.session_id;
+        if (this.profile && this.profile.session_id && typeof this.profile.session_id === 'string' ) return this.profile.session_id;
         else return '';
     }
     get id(): number {
