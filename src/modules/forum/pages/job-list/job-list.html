@@ -1,5 +1,64 @@
 <section class="job-list-page">
 
+    <nav class="search form-inline">
+        <div class="active">
+            <label class="mr-sm-2" for="profession">I look for</label>
+            <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="profession" name="profession" [(ngModel)]="profession" >
+                <option value="all">Profession</option>
+                <option value="housemaid">Housemaid</option>
+                <option value="driver">Driver</option>
+                <option value="babysitter">Babysitter</option>
+            </select>
+        </div>
+        <div class="more" [class.active]=" profession != 'all'">
+            <label class="mr-sm-2" for="province">lives in</label>
+            <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="province" [(ngModel)]="province" >
+                <option value="all">All</option>
+                <option *ngFor="let province of provinces" [value]="province">{{province}}</option>
+            </select>
+        </div>
+
+        <div class="more" [class.active]=" profession != 'all'">
+            <label class="mr-sm-2" for="city" *ngIf="showCities">city of</label>
+            <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="city" [(ngModel)]="city"  *ngIf="showCities">
+                <option *ngFor="let key of cityKeys" [value]="key">{{cities[key]}}</option>
+            </select>
+        </div>
+
+        <div class="more" [class.active]=" profession != 'all'">
+            <label class="mr-sm-2" for="minAge">age between</label>
+            <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="minAge" [(ngModel)]="minAgeSelected" >
+                <option [value]="minAge">{{minAge}}</option>
+                <option *ngFor="let min of minAgeRange" [value]="min+minAge">{{min+minAge}}</option>
+            </select>
+        </div>
+
+        <div class="more" [class.active]=" profession != 'all'">
+            <label class="mr-sm-2" for="maxAge">and</label>
+            <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="maxAge" [(ngModel)]="maxAgeSelected" >
+                <option *ngFor="let max of maxAgeRange" [value]="max+betweenAge">{{max+betweenAge}}</option>
+                <option [value]="maxAge">{{maxAge}}</option>
+            </select>
+        </div>
+
+        <div class="more" [class.active]=" profession != 'all'">
+            <label class="mr-sm-2" for="gender">Gender</label>
+            <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="gender" [(ngModel)]="gender"  >
+                <option value="all">Both</option>
+                <option value="m">Male</option>
+                <option value="f">Female</option>
+            </select>
+        </div>
+
+        <div class="more" [class.active]=" profession != 'all'">
+            <label class="mr-sm-2" for="experience">Experience</label>
+            <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="experience" [(ngModel)]="experience" >
+                <option value="all">All</option>
+                <option value="0">'No Work Experience'</option>
+                <option *ngFor="let number of numbers" [value]="number+''">{{number}} years</option>
+            </select>
+        </div>
+    </nav>
     <div class="pages" *ngIf="pages">
         <div class="page" *ngFor="let page of pages">
 

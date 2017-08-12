@@ -23,6 +23,29 @@ export class JobListPage implements OnInit {
     urlDefault: string = "assets/img/anonymous.png";
     urlPhoto: string = this.urlDefault;
 
+
+
+    /** Work Experience Variable*/
+    numbers = Array.from(new Array(20), (x,i) => i+1);
+
+    /** Min and Max Age Variables*/
+    minAge: number = 18;
+    maxAge: number = 60;
+    minAgeRange = Array.from(new Array( this.maxAge - this.minAge), (x,i) => i+1);
+    maxAgeRange = this.minAgeRange;
+    minAgeSelected: number = this.minAge;
+    maxAgeSelected: number = this.maxAge;
+    betweenAge: number = this.minAge -1;
+
+    profession: string = 'all';
+    experience: string = 'all';
+    province: string = 'all';
+    city: string = 'all';
+    gender: string = 'm';
+    provinces: Array<string> = [];
+    cities = [];
+    showCities: boolean = false;
+
     constructor(
         public app: AppService
     ) { }
