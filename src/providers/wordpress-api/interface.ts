@@ -183,7 +183,9 @@ export interface POST_READ_COMMON extends ID, POST_CREATE_COMMON {
     post_parent: number;
     post_password?: string; // password does not come from server.
     meta: any;
-    shortDate;
+    shortDate?: string;             /// made by client
+    count_image_files: number;      /// number of image files. made by server.
+    count_non_image_files: number;  /// number of files that are not image. made by server.
 };
 
 export interface POST_CREATE extends REQUEST, CATEGORY, POST_CREATE_COMMON { };

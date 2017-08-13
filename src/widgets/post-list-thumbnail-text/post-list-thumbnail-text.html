@@ -1,11 +1,11 @@
 <div class="post-list-widget" *ngIf=" pages ">
-    <div cellpadding="0" cellspacing="0" border="0" class="post-list-page" *ngFor=" let page of pages ">
+    <div class="post-list-page" *ngFor=" let page of pages ">
 
 
-        <div valign="top" class="post-list-widget-post" *ngFor=" let post of page.posts ">
+        <div valign="top" class="post-list-widget-post" *ngFor=" let post of page.posts " [attr.image]=" post.count_images ? 1 : 0" [attr.file]=" post.count_files ? 1: 0">
             <a href="/view/{{post.ID}}" routerLink="/view/{{post.ID}}">
                 <div class="thumbnail">
-                    <img *ngIf="thumbnail && post.files.length" src="{{post.files[0].url_thumbnail}}">
+                    <img *ngIf="thumbnail && app.forum.getFirstImageThumbnailUrl(post)" src="{{ app.forum.getFirstImageThumbnailUrl(post) }}">
                 </div>
                 <div class="title">
                     {{ post.post_title }}

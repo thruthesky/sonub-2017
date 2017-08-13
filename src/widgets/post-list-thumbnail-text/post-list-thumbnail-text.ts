@@ -59,7 +59,7 @@ export class PostListThumbnailTextWidget implements OnInit, OnDestroy, AfterView
         };
         this.loadCache(req);
         this.app.forum.postList(req).subscribe((page: PAGE) => {
-            // console.log('Page::', page);
+            console.log('PostListThumbnailTextWidget::loadPage::', page);
             this.app.title(page.category_name);
             this.inLoading = false;
             if (page.paged == page.max_num_pages) {
