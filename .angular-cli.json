@@ -24,7 +24,7 @@
       "styles": [
         "styles.scss",
         "./third-party/css/font-awesome-4/css/font-awesome.min.css",
-        "./third-party/css/bootstrap-alpha-6/bootstrap.min.css"
+        "./third-party/css/bootstrap/bootstrap.min.css"
       ],
       "scripts": [
         "./third-party/js/kakao.min.js"

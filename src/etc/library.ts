@@ -162,7 +162,7 @@ export class Library {
 
 
     add0(n: number): string {
-        if( !n ) return;
+        if (!n) return;
         return n < 10 ? '0' + n : n.toString();
     }
 
@@ -195,4 +195,17 @@ export class Library {
     //     catch (e) { };
     //     return offset;
     // }
+
+
+    /**
+     * 
+     * @param s - the string
+     * @param n - the positing to cut. if the n'th position is not a blank, then it searches after the n'th position.
+     */
+    wordcut(s, n = 10) {
+        let cut = s.indexOf(' ', n);
+        if (cut == -1) return s;
+        return s.substring(0, cut)
+    }
+
 }

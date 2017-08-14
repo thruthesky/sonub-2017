@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppService } from '../../providers/app.service';
 
 @Component({
     selector: 'community-log-widget',
@@ -6,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class CommunityLogWidget implements OnInit {
-    constructor() { }
+    constructor(
+        public app: AppService
+    ) { }
 
     ngOnInit() { }
 }

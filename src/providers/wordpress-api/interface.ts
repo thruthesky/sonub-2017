@@ -396,10 +396,30 @@ export interface ACTIVITY_RESPONSE {
 export interface ACTIVITY {
     action: string;
     target: number;
-    timestamp: number;
+    stamp: number;
     author_id: number;
     author_name: string;
+    author_photoURL: string;
+    thumbnail_url: string;
     content: string;
 };
 
 export type ACTIVITIES = Array<ACTIVITY>;
+
+
+
+export interface COMMUNITY_LOG {
+    post_ID: number;                // all log has post_ID
+    comment_ID?: number;            // logs that are comment has comment_ID
+    action: string;
+    stamp: number;
+    author_id: number;
+    author_name: string;
+    author_photoURL: string;
+    category: string;
+    thumbnail_url: string;
+    content: string;
+};
+
+
+export type COMMUNITY_LOGS = Array<COMMUNITY_LOG>;
