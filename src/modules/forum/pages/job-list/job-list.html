@@ -1,64 +1,104 @@
 <section class="job-list-page">
 
-    <nav class="search form-inline">
-        <div class="active">
-            <label class="mr-sm-2" for="profession">I look for</label>
-            <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="profession" name="profession" [(ngModel)]="profession" >
-                <option value="all">Profession</option>
-                <option value="housemaid">Housemaid</option>
-                <option value="driver">Driver</option>
-                <option value="babysitter">Babysitter</option>
-            </select>
-        </div>
-        <div class="more" [class.active]=" profession != 'all'">
-            <label class="mr-sm-2" for="province">lives in</label>
-            <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="province" [(ngModel)]="province" >
-                <option value="all">All</option>
-                <option *ngFor="let province of provinces" [value]="province">{{province}}</option>
-            </select>
-        </div>
-
-        <div class="more" [class.active]=" profession != 'all'">
-            <label class="mr-sm-2" for="city" *ngIf="showCities">city of</label>
-            <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="city" [(ngModel)]="city"  *ngIf="showCities">
-                <option *ngFor="let key of cityKeys" [value]="key">{{cities[key]}}</option>
-            </select>
-        </div>
-
-        <div class="more" [class.active]=" profession != 'all'">
-            <label class="mr-sm-2" for="minAge">age between</label>
-            <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="minAge" [(ngModel)]="minAgeSelected" >
-                <option [value]="minAge">{{minAge}}</option>
-                <option *ngFor="let min of minAgeRange" [value]="min+minAge">{{min+minAge}}</option>
-            </select>
-        </div>
-
-        <div class="more" [class.active]=" profession != 'all'">
-            <label class="mr-sm-2" for="maxAge">and</label>
-            <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="maxAge" [(ngModel)]="maxAgeSelected" >
-                <option *ngFor="let max of maxAgeRange" [value]="max+betweenAge">{{max+betweenAge}}</option>
-                <option [value]="maxAge">{{maxAge}}</option>
-            </select>
-        </div>
-
-        <div class="more" [class.active]=" profession != 'all'">
-            <label class="mr-sm-2" for="gender">Gender</label>
-            <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="gender" [(ngModel)]="gender"  >
-                <option value="all">Both</option>
-                <option value="m">Male</option>
-                <option value="f">Female</option>
-            </select>
-        </div>
-
-        <div class="more" [class.active]=" profession != 'all'">
-            <label class="mr-sm-2" for="experience">Experience</label>
-            <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="experience" [(ngModel)]="experience" >
-                <option value="all">All</option>
-                <option value="0">'No Work Experience'</option>
-                <option *ngFor="let number of numbers" [value]="number+''">{{number}} years</option>
-            </select>
-        </div>
+    <nav class="search-option">
+        <button type="button" class="btn btn-primary btn-sm" (click)="onClickProfession()">Profession</button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="onClickLocation()">Location</button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="onClickMore()">More Option</button>
     </nav>
+
+    <form [formGroup]="formGroup" novalidate class="search-form">
+        <div class="row-container" >
+            <label class="text">Gender</label>
+            <div class="input">
+                <label class="form-check-inline">
+                    <input type="checkbox" id="male" formControlName="male"> Male
+                </label>
+                <label class="form-check-inline">
+                    <input type="checkbox" id="female" formControlName="female"> Female
+                </label>
+            </div>
+        </div>
+
+        <div class="row-container">
+            <label class="text" for="experience">Experience</label>
+            <div class="input">
+                <select class="form-control" id="experience" formControlName="experience">
+                    <option value="all">All</option>
+                    <option value="0">No Work Experience</option>
+                    <option *ngFor="let number of numbers" [value]="number+''">{{number}} years</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="row-container">
+            <label class="text"  for="profession">Profession</label>
+            <div class="input">
+                <select class="form-control" id="profession" formControlName="profession">
+                    <option value="all">All</option>
+                    <option value="housemaid">House Maid</option>
+                    <option value="driver">Driver</option>
+                    <option value="babysitter">Babysitter</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row-container">
+            <label class="text">Province</label>
+            <div class="input">
+                <select class="form-control" id="searchByProvince" formControlName="province" (change)="onClickProvince()">
+                    <option value="all">All</option>
+                    <option *ngFor="let province of provinces" [value]="province">{{province}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row-container" *ngIf="showCities">
+            <label class="text" *ngIf="showCities">City</label>
+            <div class="input">
+                <select class="form-control" id="city" formControlName="city">
+                    <option *ngFor="let key of cityKeys" [value]="key">{{cities[key]}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row-container">
+            <label class="text">Age Range</label>
+            <div class="input">
+                <label class="range text">Min</label>
+                <div class="range input">
+                    <select class="form-control" id="searchByMinAge" formControlName="minAge" (change)="minRangeChange()">
+                        <option [value]="18">{{minAge}}</option>
+                        <option *ngFor="let min of minAgeRange" [value]="min+minAge">{{min+minAge}}</option>
+                    </select>
+                </div>
+                <label class="range text">Max</label>
+                <div class="range input">
+                    <select class="form-control" id="searchByMaxAge" formControlName="maxAge" (change)="maxRangeChange()">
+                        <option *ngFor="let max of maxAgeRange" [value]="max+betweenAge">{{max+betweenAge}}</option>
+                        <option [value]="maxAge">{{maxAge}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-container">
+            <label for="name" class="text">Name</label>
+            <div class="input">
+                <input class="form-control" type="text" id="name" formControlName="name" placeholder="Input Name...">
+            </div>
+        </div>
+
+        <div class="row-container">
+            <label for="name" class="text">My Post</label>
+            <div class="input">
+                <div class="btn btn-primary btn-sm my-post" (click)="onClickShowMyPost()">Show My Posts</div>
+            </div>
+        </div>
+
+        <i class="close fa fa-times" (click)=" searchBy = {} "></i>
+
+    </form>
     <div class="pages" *ngIf="pages">
         <div class="page" *ngFor="let page of pages">
 
@@ -74,27 +114,28 @@
             </div>
 
             <div class="posts">
-                <div class="post" *ngFor="let post of page.posts " [attr.post-id]="post.ID">
-
-                    <div class="card"  (click)=" post.active = ! post?.active">
-                        <img class="" src="{{post?.files[0]?.url ? post.files[0]['url'] : urlPhoto}}" #photoImg  (error)="photoImg.src = post.files[0]['url'] ">
-                        <div class="">
-                            <p class="">{{ post?.fullname }}</p>
-                            <p class="">{{ post?.profession }}</p>
-                            <p class="">Mobile : {{post?.mobile}}</p>
-                            <p class=""  *ngIf="post.active">Experience : {{post?.experience }} years</p>
-                            <p class=""  *ngIf="post.active">Address : {{post?.address}}</p>
-                            <div class="text"     *ngIf="post.active">Province : {{post?.province}}</div>
-                            <p class="card-text"  *ngIf="post.active">City : {{post?.city}}</p>
+                <div class="post  mb-2 w-50  float-left" *ngFor="let post of page.posts " [attr.post-id]="post.ID" (click)=" post.active = ! post?.active">
+                    <div class="profile card mx-1 p-2">
+                        <div id="profile-user">
+                            <span id="profile-user-photo">
+                                <img src="{{post?.files[0]?.url ? post.files[0]['url'] : urlPhoto}}" #photoImg  (error)="photoImg.src = post.files[0]['url'] ">
+                            </span>
+                        </div>
+                        <div id="profile-info">
+                            <div class="">Name: {{ post?.fullname }}</div>
+                            <div class="">Profession: {{ post?.profession }}</div>
+                            <div class="">Mobile: {{post?.mobile}}</div>
+                            <div class=""  *ngIf="post.active">Experience: {{post?.experience }} years</div>
+                            <div class=""  *ngIf="post.active">Address: {{post?.address}}</div>
+                            <div class=""  *ngIf="post.active">Province: {{post?.province}}</div>
+                            <div class=""  *ngIf="post.active">City: {{post?.city}}</div>
+                            <div class=""  *ngIf="post.active">Message: {{post?.message}}</div>
                         </div>
                         <div class="card-footer" *ngIf=" post.active " >
                             <!--div class="nav-click" (click)="onClickDelete( $event, post )"><i class="fa fa-trash-o"></i> Delete</div-->
                             <!--<div class="nav-click" (click)="onClickEdit( $event, post )"><i class="fa fa-pencil"></i> Update Post</div>-->
                         </div>
                     </div>
-
-
-
                 </div>
             </div>
         </div>
