@@ -1,6 +1,11 @@
-
-                        Community<br> QnA
-                        <br> Discussion
-                        <br> Chats
-                        <br>
-                        <br>&nbsp;<br> Friend History ...
+<h4 class="title m-0 p-0 fs-sm fw-normal">{{ app.text('community_logs') }}</h4>
+<div class="bg-white" *ngIf="app.communityLogs.length">
+    <div class="log pt-2 fs-xs" *ngFor=" let log of app.communityLogs ">
+        <a href="{{ app.forum.postUrl( log.post_ID ) }}" routerLink="{{ app.forum.postUrl( log.post_ID ) }}">
+            <div *ngIf=" log.thumbnail_url " class="thumbnail float-left mr-2"><img class="size-32px" src="{{ log.thumbnail_url}} "></div>
+            <span class="name fw-bold">{{ log.author_name }} ...</span>
+            <span class="content">{{ app.wordcut( log.content, 42 ) }}</span>
+        </a>
+        <hr class="mt-1 mb-0 mx-2 p-0">
+    </div>
+</div>

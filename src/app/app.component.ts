@@ -30,7 +30,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.loadAdvertisement();
 
 
-    this.app.listenActivity();
+    this.app.bootstrap();
+    this.app.bootstrapLoginLogout();
     
 
   }

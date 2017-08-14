@@ -136,6 +136,13 @@ export let TEXT = {
         ko: '질문하기'
     },
 
+
+    ///
+    community_logs: {
+        en: 'Latest Articles',
+        ko: '최근 커뮤니티 글'
+    },
+
     ///
     confirmDelete: {
         en: {

@@ -21,11 +21,11 @@ export { CONFIRM_OPTIONS } from './modals/confirm/confirm.modal';
 
 // import { TextService } from './text.service';
 
-import { SOCIAL_PROFILE, USER_REGISTER, ACTIVITIES, ACTIVITY } from './wordpress-api/interface';
+import { SOCIAL_PROFILE, USER_REGISTER, ACTIVITIES, ACTIVITY, COMMUNITY_LOGS } from './wordpress-api/interface';
 export {
     POST, POSTS, POST_LIST, PAGE, PAGES, FILE, FILES, POST_CREATE, POST_DELETE, POST_DELETE_RESPONSE,
     JOB, JOBS, JOB_LIST_REQUEST, JOB_PAGE, JOB_PAGES,
-    ACTIVITY, ACTIVITIES
+    ACTIVITY, ACTIVITIES, COMMUNITY_LOGS
 } from './wordpress-api/interface';
 
 
@@ -62,7 +62,7 @@ export class AppService extends Base {
 
     firebaseDatabaseListenActivityEventHandler = null;
     activity: ACTIVITIES = [];
-
+    communityLogs: COMMUNITY_LOGS = [];
     constructor(
         public user: UserService,
         public forum: ForumService,
@@ -188,8 +188,11 @@ export class AppService extends Base {
     }
 
 
-    rerenderPage() {
-        this.ngZone.run(() => { });
+    rerenderPage(timeout = 0) {
+        if (timeout) {
+            setTimeout(() => this.ngZone.run(() => {}), timeout);
+        }
+        else this.ngZone.run(() => {});
     }
 
 
@@ -248,7 +251,7 @@ export class AppService extends Base {
 
         // this.updateUserLogin();
 
-        this.listenActivity();
+        this.bootstrapLoginLogout();
 
     }
 
@@ -258,7 +261,7 @@ export class AppService extends Base {
      */
     logout() {
         this.user.logout();
-        this.listenActivity();
+        this.bootstrapLoginLogout();
     }
 
 
@@ -348,6 +351,13 @@ export class AppService extends Base {
     }
 
 
+    /**
+     * This is called only one time when the app boots.
+     * This is directly called by app.component.ts
+     */
+    bootstrap() {
+        this.listenFirebaseComunityLog();
+    }
 
 
     /**
@@ -357,15 +367,23 @@ export class AppService extends Base {
      *      - login
      *      - logout
      */
-    listenActivity() {
+    bootstrapLoginLogout() {
+        this.listenFirebaseUserActivity();
+    }
 
-        if (!this.user.isLogin) return;
+    listenFirebaseUserActivity() {
         let ref = this.db.child('user-activity').child(this.user.id.toString());
+        if (this.user.isLogout) {
+            if (this.firebaseDatabaseListenActivityEventHandler) {
+                ref.off('value', this.firebaseDatabaseListenActivityEventHandler);
+                this.firebaseDatabaseListenActivityEventHandler = null;
+            }
+            return;
+        }
         if (this.firebaseDatabaseListenActivityEventHandler) {
             // ref.off('value', this.firebaseDatabaseListenActivityEventHandler);
             // this.firebaseDatabaseListenActivityEventHandler = null;
         }
-
         this.firebaseDatabaseListenActivityEventHandler = ref
             .limitToLast(5)
             .on('value', snap => {
@@ -373,7 +391,7 @@ export class AppService extends Base {
                 if (!val) return;
                 if (typeof val !== 'object') return;
 
-                console.log( 'snap.val', val);
+                console.log('snap.val', val);
                 let keys = Object.keys(val);
                 if (keys && keys.length) {
                     this.activity = [];
@@ -381,11 +399,39 @@ export class AppService extends Base {
                         this.activity.push(val[key]);
                     }
                 }
-
                 this.rerenderPage();
-
                 // val.reverse();
             }, e => console.error(e));
+    }
+
+    listenFirebaseComunityLog() {
+        let path = this.db.child('forum-log').child('posts-comments');
+        let ref = path.limitToLast(10).once('value', snap => {
+            let val = snap.val();
+            if (!val) return;
+            if (typeof val !== 'object') return;
+
+            console.log('posts-comments: snap.val: ', val);
+            let keys = Object.keys(val);
+            if (keys && keys.length) {
+                for (let key of keys.reverse()) {
+                    this.communityLogs.push(val[key]);
+                }
+            }
+            this.rerenderPage();
+        }, e => console.error(e));
+
+
+        path.on('child_added', snap => {
+            let val = snap.val();
+            if (!val) return;
+            if (typeof val !== 'object') return;
+            console.log('posts-comments: child_added: snap.val: ', val);
+            this.communityLogs.unshift(val);
+            this.rerenderPage( 10 );
+        });
+
+
 
 
     }

@@ -35,6 +35,10 @@ export class UserService extends Base {
         else return false;
     }
 
+    get isLogout(): boolean {
+        return ! this.isLogin;
+    }
+
     /**
      * 
      * @Warning This will load user profile from localStorage.
