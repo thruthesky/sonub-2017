@@ -15,10 +15,17 @@ export class ForumViewPage implements OnInit {
         public app: AppService
     ) {
         active.params.subscribe(params => {
-            this.app.forum.postData( params['id'] )
-                .subscribe( post => this.post = post, e => this.app.warning(e));
+
+            this.post = null;
+
+            this.app.forum.postData(params['id'])
+                .subscribe(post => this.post = post, e => this.app.warning(e));
+
+
+
+
         });
-        
+
     }
 
     ngOnInit() { }

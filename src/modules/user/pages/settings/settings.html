@@ -2,8 +2,12 @@
 
 
 <ul>
-    <li>Select language</li>
+    <li>
+        Select language :
+        <label><input type="radio" name="language" checked="{{ app.getLanguage() == 'en' ? 1 : '' }}" (click)="onClickLanguage('en')"> English</label>
+        <label><input type="radio" name="language" checked="{{ app.getLanguage() == 'ko' ? 1 : '' }}" (click)="onClickLanguage('ko')"> Korean</label>
+        <label><input type="radio" name="language" checked="{{ app.getLanguage() == 'ch' ? 1 : '' }}"  (click)="onClickLanguage('ch')"> Chinese</label>
+    </li>
     <li><a href="/adv/list" routerLink="/adv/list">Manage Advertisement</a></li>
-    <li>Buy bizcoin</li>
+    
 </ul>
-

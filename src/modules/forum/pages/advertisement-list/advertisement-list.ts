@@ -11,7 +11,7 @@ export class AdvertisementListPage implements OnInit, OnDestroy {
     constructor(
         public app: AppService
     ) {
-        app.pageLayout = 'advertisement';
+        app.pageLayout = 'two-column';
         app.wp.post( {route: 'wordpress.get_my_advertisements', session_id: app.user.sessionId} )
             .subscribe( (posts: POSTS) => {
                 console.log("My ads: ", posts);

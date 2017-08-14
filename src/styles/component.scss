@@ -1,11 +1,11 @@
 .box {
-    padding: $box-padding-y $box-padding-x;
+    padding: $global-padding;
     box-sizing: border-box;
     background-color: $box-background-color;
 }
 
 .box-menu {
-    margin-bottom: $box-padding-y;
+    margin-bottom: $global-padding;
     font-size: $font-size-sm;
     ul {
         @include list-style-none();

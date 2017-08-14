@@ -13,6 +13,23 @@ section.page {
         height: $header-height;
         border-bottom: $header-border-bottom-height solid $background-color;
         overflow: hidden;
+
+        .page-header-container-center {
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+            margin: 0 2px 0 8px;
+            @media ( min-width: $break-d) {
+                max-width: $layout-max-width;
+                padding-right: $d-width + $global-padding;
+            }
+            @media ( min-width: $layout-max-width) {
+                margin: 0 auto;
+                max-width: $layout-max-width;
+                padding-right: $d-width;
+            }
+        }
+
     }
     section.page-body {
         margin-top: $header-height - $header-border-bottom-height;
@@ -51,13 +68,13 @@ section.page {
             overflow: hidden;
         }
         .b {
-            margin-left: $a-width + $box-padding-x;
+            margin-left: $a-width + $global-padding;
             overflow: hidden;
         }
     }
     @media (min-width: $break-c) {
         .b {
-            margin-right: $c-width + $box-padding-x;
+            margin-right: $c-width + $global-padding;
         }
         .c {
             position: absolute;
@@ -69,13 +86,17 @@ section.page {
     }
 }
 
+
+
+
+
 @media (min-width: $break-d) {
     [layout="column"] {
         .b {
-            margin-right: $c-width + $d-width + $box-padding-x;
+            margin-right: $c-width + $d-width + $global-padding * 2;
         }
         .c {
-            right: $d-width;
+            right: $d-width + $global-padding;
         }
         .d {
             position: absolute;
@@ -95,9 +116,29 @@ section.page {
     }
 }
 
+section.page[layout="two-column"] {
+    section.page-header {
+        .page-header-container-center {
+            margin: 0 auto;
+            padding-right: 0;
+            max-width: $lg;
+        }
+    }
+    .page-body-content {
+        .page-body-content-layout {
+            margin: 0 auto;
+            padding: 0;
+            max-width: $lg;
+
+            .b {
+                margin-right: 0;
+                padding: 0;
+            }
+        }
+    }
+}
 
 /// left sidebar
-
 .fix-sidebar-a {
     position: fixed;
     width: $a-width;
@@ -111,19 +152,19 @@ section.page {
         border-bottom: 100px solid white; /// 100px 은 크롬에서 스크롤을 할 때, 맨 밑 바닥에서 위로 스크를을 하면, 왼쪽 스크롤을 할 때, 밑에 숨겨진 내용들이 보인다. 그것을 숨기기 위한 것이다.
     }
 }
+
 .fix-sidebar-c {
     position: fixed;
     width: $c-width;
 }
+
 .fix-sidebar-d {
     position: fixed;
     width: $d-width;
 }
 
-
 ///
 /// page title, description
-
 .jumbotron {
     background-color: white !important;
     .lead {

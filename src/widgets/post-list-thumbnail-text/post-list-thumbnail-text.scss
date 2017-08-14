@@ -1,10 +1,22 @@
-.post-list-widget {}
+.post-list-widget {
+    .post-list-page {
+        box-sizing: border-box;
+        padding: $global-padding;
+        background-color: white;
+    }
+}
 
 .post-list-widget-post {
-    margin-top: 1em;
-    padding: 0;
-    height: 75px;
-    overflow: hidden;
+    margin: $global-padding * 2 0 $global-padding;
+    &:first-child { margin-top: $global-padding; }
+    padding-bottom: $global-padding * 2;
+
+    border-bottom: 1px solid #CCCCCC;
+    a {
+        display: block;
+        height: 75px;
+        overflow: hidden;
+    }
     &:after {
         display: block;
         content: '';

@@ -184,8 +184,8 @@ export interface POST_READ_COMMON extends ID, POST_CREATE_COMMON {
     post_password?: string; // password does not come from server.
     meta: any;
     shortDate?: string;             /// made by client
-    count_image_files: number;      /// number of image files. made by server.
-    count_non_image_files: number;  /// number of files that are not image. made by server.
+    count_images: number;      /// number of image files. made by server.
+    count_files: number;  /// number of files that are not image. made by server.
 };
 
 export interface POST_CREATE extends REQUEST, CATEGORY, POST_CREATE_COMMON { };
@@ -394,6 +394,7 @@ export interface ACTIVITY_RESPONSE {
 
 
 export interface ACTIVITY {
+    post_ID: number;
     action: string;
     target: number;
     stamp: number;

@@ -17,7 +17,7 @@ import { ForumCodeShareService } from '../../modules/forum/forum-code-share.serv
 
 export class PostViewWidget implements OnInit {
 
-    @Input() post: POST;
+    @Input() post: POST; // = { ID: 0, author: {}, comment_count: 0, comments: [], guid: '', post_date: '', post_parent: 0, meta: [], count_images: 0, count_files: 0, post_title: 'Loading', post_content: 'Loading', files: [] };
     @Input() page: PAGE;
     constructor(
         public app: AppService,

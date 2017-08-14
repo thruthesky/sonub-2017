@@ -9,7 +9,7 @@ export class AdvertisementHowtoPage implements OnInit, OnDestroy {
     constructor(
         public app: AppService
     ) {
-        app.pageLayout = 'wide';
+        app.pageLayout = 'two-column';
     }
 
     ngOnInit() { }

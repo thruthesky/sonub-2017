@@ -5,7 +5,7 @@
 
         <div class="page-body-content">
             <div class="page-body-content-layout">
-                <ng-container *ngIf=" app.pageLayout == 'column' || app.pageLayout == 'advertisement' ">
+                <ng-container *ngIf=" app.pageLayout == 'column' || app.pageLayout == 'two-column' ">
                     <div class="a">
                         <section class="fix-sidebar-a">
                             <user-login-logout-widget></user-login-logout-widget>
@@ -22,34 +22,29 @@
                 <ng-container *ngIf=" app.pageLayout == 'column' ">
                     <div class="c">
                         <section class="fix-sidebar-c">
-                            <div class="box box-menu birthdays">
-                                <i class="fa fa-birthday-cake" aria-hidden="true"></i> Birthday: Jaeho and 2 other
-                            </div>
-                            <div class="box box-menu">
-                                <post-latest-widget [category]=" 'news' " [title]=" app.text('headline_news') " [titleCreate]=" app.text( 'create_post', { category: app.text('news') } ) "></post-latest-widget>
-                            </div>
-                            <div class="box box-menu">
-                                <post-latest-widget [category]=" 'qna' " [title]=" app.text('qna') " [titleCreate]=" app.text( 'create_question' ) "></post-latest-widget>
-                            </div>
+
                             <div class="box box-menu advertisement">
-                                <ul class="advertisement-menu">
+                                <ul class="advertisement-menu pb-2 fs-xs">
                                     <li><a class="link-secondary" href="/adv/howto" routerLink="/adv/howto">Sponsered</a></li>
                                     <li><a class="link-primary" href="/adv/create" routerLink="/adv/create">Create Ad</a></li>
                                 </ul>
 
                                 <advertisement-sidebar-widget [post]="advSidebar"></advertisement-sidebar-widget>
                             </div>
+
+                            <div class="box box-menu">
+                                <post-latest-widget [category]=" 'news' " [title]=" app.text('headline_news') " [titleCreate]=" app.text( 'create_post', { category: app.text('news') } ) "></post-latest-widget>
+                            </div>
+                            <div class="box box-menu">
+                                <post-latest-widget [category]=" 'qna' " [title]=" app.text('qna') " [titleCreate]=" app.text( 'create_question' ) "></post-latest-widget>
+                            </div>
+
                         </section>
                         <!--/sidebar-c-->
                     </div>
 
                 </ng-container>
 
-                <ng-container *ngIf=" app.pageLayout == 'advertisement' ">
-                    <div class="c">
-                        <advertisement-my-list-sidebar-widget></advertisement-my-list-sidebar-widget>
-                    </div>
-                </ng-container>
             </div>
             <!--/page-body-content-layout-->
 
@@ -65,10 +60,8 @@
         </div>
         <!--/page-body-content-->
 
-
     </section>
     <!--/page-body-->
-
 
 </section>
 <!--/page-->

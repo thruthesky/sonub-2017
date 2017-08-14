@@ -1,14 +1,17 @@
-<section class="post-view-widget-loading">
-        <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
-        <span class="sr-only">Loading...</span>
+<section class="post-view-widget-loading bg-white p-5" *ngIf=" ! post ">
+
+    <div class="flex">
+        <div><i class="d-block float-left fa fa-circle-o-notch fa-spin fa-2x grey"></i></div>
+        <div class="p-1 pl-2"><span class="loader">{{ app.text('post_view_loading') }}</span></div>
+    </div>
+
+
 </section>
+
 <section class="post-view-widget mb-2" *ngIf="post">
 
     <div class="post-area bg-white mb-2 p-2">
-        <post-header-widget [post]="post"
-        (edit)="onClickPostEdit( post )"
-        (delete)="onClickPostDelete( post, page )"
-        ></post-header-widget>
+        <post-header-widget [post]="post" (edit)="onClickPostEdit( post )" (delete)="onClickPostDelete( post, page )"></post-header-widget>
         <h2 class="post-title fs-xl fw-100">{{ post.post_title }}</h2>
         <div class="post-content mb-2 fs-sm">
             {{ post.post_content }}
@@ -26,7 +29,7 @@
             <li>share</li>
         </ul>
 
-    <comment-create-widget [post]="post" (create)="onCommentCreate($event, post)"></comment-create-widget>
+        <comment-create-widget [post]="post" (create)="onCommentCreate($event, post)"></comment-create-widget>
 
     </div>
 

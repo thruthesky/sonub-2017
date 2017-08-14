@@ -4,21 +4,7 @@ $icon-width-on-wide: 26px;
 $header-content-height: 24px;
 .page-header {
     color: white;
-    .page-header-container-center {
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: space-between;
-        margin: 0 2px 0 8px;
-        @media ( min-width: $break-d) {
-            max-width: $layout-max-width;
-            padding-right: $d-width;
-        }
-        @media ( min-width: $layout-max-width) {
-            margin: 0 auto;
-            max-width: $layout-max-width;
-            padding-right: $d-width;
-        }
-    }
+    
     .page-header-container {
         /// layout
         height: $header-inner-height;
@@ -33,6 +19,10 @@ $header-content-height: 24px;
         }
     }
     .center {
+        display: none;
+        @media ( min-width: $break-header-menu ) {
+            display: block;
+        }
         a {
             display: inline-block;
             padding: 0 .4em;
@@ -54,12 +44,12 @@ $header-content-height: 24px;
         position: relative;
         top: -2px;
         padding-left: 4px;
-        width: 120px;
+        width: 100px;
         @media (min-width: 320px) { width: 140px; }
-        @media (min-width: 340px) { width: 170px; }
+        @media (min-width: 350px) { width: 180px; }
         @media (min-width: $sm) {
             padding-left: 6px;
-            width: 240px;
+            width: 340px;
         }
         height: $header-content-height;
         border: 0;

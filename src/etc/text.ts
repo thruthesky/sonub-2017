@@ -142,6 +142,10 @@ export let TEXT = {
         en: 'Latest Articles',
         ko: '최근 커뮤니티 글'
     },
+    post_view_loading: {
+        en: 'Please wait while loading post',
+        ko: '서버로 부터 글을 가져 오는 중입니다.'
+    },
 
     ///
     confirmDelete: {
@@ -199,7 +203,7 @@ export function text(code, args?) {
     if (TEXT[code] === void 0) return code; // no code?
     if (TEXT[code][ln] === void 0) { // no code for that language ?
         // try 'en' for default language.
-        if (TEXT['code']['en'] === void 0) return code;
+        if (TEXT[code]['en'] === void 0) return code;
         else ln = 'en';
     }
 

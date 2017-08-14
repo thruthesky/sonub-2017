@@ -6,15 +6,18 @@ import { FormsModule } from '@angular/forms';
 
 
 import { MenuPage } from './pages/menu/menu';
+import { RulesPage } from './pages/rules/rules';
 
 
 const appRoutes: Routes = [
-    { path: 'menu', component: MenuPage }
+    { path: 'menu', component: MenuPage },
+    { path: 'rules', component: RulesPage }
 ];
 
 @NgModule({
     declarations: [
-        MenuPage
+        MenuPage,
+        RulesPage
     ],
     imports: [
         CommonModule,

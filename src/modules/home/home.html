@@ -1,15 +1,24 @@
-<post-view-widget [post]="post">
-</post-view-widget>
+<post-view-widget *ngIf="post" [post]="post"></post-view-widget>
 <!-- <post-create-fake-widget></post-create-fake-widget> -->
-<textarea style="width:100%;" placeholder="What are you thinking right now?"></textarea>
-<div class="d-flex justify-content-between">
-    <div class="">Upload Photos</div>
-    <button type="text">POST</button>
+
+<div class="home-form">
+    <div class="home-form-header fs-xs">Create a Post | Sell an Item | Hire Someone | Deliver Food</div>
+    
+
+    <div class="home-form-text">
+        <img class="size-32px" src="{{ app.userPhotoUrl }}">
+        What are you thinking{{ app.user.isLogin ? ", " + app.user.name : '' }}?
+    </div>
+    <hr>
+    <div class="home-form-footer d-flex justify-content-between">
+        <div class="">Upload Photos</div>
+        <button type="text">POST</button>
+    </div>
+
 </div>
 
 <hr>
 
-<post-list-thumbnail-text-widget
-    [titleLength]="128"
-    [thumbnail]="true"
-></post-list-thumbnail-text-widget>
+
+
+<post-list-thumbnail-text-widget [titleLength]="128" [thumbnail]="true"></post-list-thumbnail-text-widget>

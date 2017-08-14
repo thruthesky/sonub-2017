@@ -1,8 +1,11 @@
 import { Injectable, NgZone, EventEmitter } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 import { Base } from './../etc/base';
 import { text } from './../etc/text';
+import { getLanguage, setLanguage  } from './../etc/language';
+
 
 
 
@@ -47,6 +50,7 @@ export class AppService extends Base {
     config = config;
 
     text = text;
+    
 
     //
     auth: firebase.auth.Auth;
@@ -55,7 +59,7 @@ export class AppService extends Base {
 
     headerWidget: HeaderWidget;
 
-    pageLayout: 'wide' | 'column' | 'advertisement' = 'column';
+    pageLayout: 'wide' | 'column' | 'two-column' = 'column';
 
     anonymousPhotoURL = '/assets/img/anonymous.png';
 
@@ -63,7 +67,14 @@ export class AppService extends Base {
     firebaseDatabaseListenActivityEventHandler = null;
     activity: ACTIVITIES = [];
     communityLogs: COMMUNITY_LOGS = [];
+
+
+    getLanguage = getLanguage;
+    setLanguage = setLanguage;
+
+    
     constructor(
+        private domSanitizer: DomSanitizer,
         public user: UserService,
         public forum: ForumService,
         public job: JobService,
@@ -190,9 +201,9 @@ export class AppService extends Base {
 
     rerenderPage(timeout = 0) {
         if (timeout) {
-            setTimeout(() => this.ngZone.run(() => {}), timeout);
+            setTimeout(() => this.ngZone.run(() => { }), timeout);
         }
-        else this.ngZone.run(() => {});
+        else this.ngZone.run(() => { });
     }
 
 
@@ -310,9 +321,13 @@ export class AppService extends Base {
     }
 
 
-    get userProfilePhotoUrl() {
+    get userProfilePhotoUrl(): string {
         if (this.user.isLogin && this.user.profile.photoURL) return this.user.profile.photoURL;
         else return '/assets/img/anonymous.png';
+    }
+
+    get userPhotoUrl(): string {
+        return this.userProfilePhotoUrl;
     }
 
 
@@ -411,29 +426,39 @@ export class AppService extends Base {
             if (!val) return;
             if (typeof val !== 'object') return;
 
-            console.log('posts-comments: snap.val: ', val);
+            // console.log('posts-comments: snap.val: ', val);
             let keys = Object.keys(val);
             if (keys && keys.length) {
                 for (let key of keys.reverse()) {
                     this.communityLogs.push(val[key]);
                 }
             }
+            this.communityLogs.shift(); // last one(latest log) will be added by 'child_added'
             this.rerenderPage();
+
+
+            /// listen the lastest one.
+            path.orderByKey().limitToLast(1).on('child_added', snap => {
+                let val = snap.val();
+                if (!val) return;
+                if (typeof val !== 'object') return;
+                // console.log('posts-comments: child_added: snap.val: ', val);
+                this.communityLogs.unshift(val);
+                this.rerenderPage(10);
+            });
+
+
+
         }, e => console.error(e));
 
 
-        path.on('child_added', snap => {
-            let val = snap.val();
-            if (!val) return;
-            if (typeof val !== 'object') return;
-            console.log('posts-comments: child_added: snap.val: ', val);
-            this.communityLogs.unshift(val);
-            this.rerenderPage( 10 );
-        });
 
 
 
+    }
 
+    safeHtml(raw): string {
+        return this.domSanitizer.bypassSecurityTrustHtml(raw) as string;
     }
 
 }
