@@ -81,6 +81,25 @@ export class JobListPage implements OnInit {
         });
 
 
+        this.app.job.search({
+            gender: {
+                type: 'string',
+                exp: '=',
+                value: 'M'
+            },
+            birthday: {
+                exp: 'BETWEEN',
+                value: '19500101 AND 20010101'
+            },
+            fullname: {
+                type: 'string',
+                exp: 'LIKE',
+                value: '%jae%'
+            }
+        }).subscribe( res => {
+            console.log("job search", res);
+        }, e => this.app.warning(e));
+
     }
 
 
@@ -128,6 +147,8 @@ export class JobListPage implements OnInit {
 
     onValueChanged(data?: any) {
         console.log('onValueChanges::data::', data);
+
+
 
 
         // console.log('onValueChanges::formGroup:', this.formGroup);

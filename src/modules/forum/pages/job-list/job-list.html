@@ -113,7 +113,7 @@
                 <small>This is job forum.</small>
             </div>
 
-            <div class="posts">
+            <div class="posts clearfix">
                 <div class="post  mb-2 w-50  float-left" *ngFor="let post of page.posts " [attr.post-id]="post.ID" (click)=" post.active = ! post?.active">
                     <div class="profile card mx-1 p-2">
                         <div id="profile-user">
