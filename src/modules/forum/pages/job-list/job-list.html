@@ -103,11 +103,13 @@
             </div>
         </div>
 
-        <div class="row-container" *ngIf=" searchBy.more ">
-            <label for="name" class="text">My Post</label>
-            <div class="input">
-                <div class="btn btn-primary btn-sm my-post" (click)="onClickShowMyPost()">Show My Posts</div>
-            </div>
+        <div class="row-container" *ngIf=" searchBy.more && app.user.isLogin ">
+                <label class="text">Show My Post</label>
+                <div class="input">
+                    <label class="form-check-inline">
+                        <input type="checkbox" id="myPost" formControlName="myPost"> My Post Only
+                    </label>
+                </div>
         </div>
 
         <i class="close fa fa-times pointer" (click)=" searchBy = {} "></i>
@@ -137,8 +139,8 @@
                             </ng-container>
                         </div>
                         <div class="card-footer" *ngIf="job['active']">
-                            <!--div class="nav-click" (click)="onClickDelete( $event, post )"><i class="fa fa-trash-o"></i> Delete</div-->
-                            <!--<div class="nav-click" (click)="onClickEdit( $event, post )"><i class="fa fa-pencil"></i> Update Post</div>-->
+                            <div class="nav-click" (click)="$event.stopPropagation(); onClickDelete( job )"><i class="fa fa-trash-o"></i> Delete</div>
+                            <div class="nav-click" (click)="$event.stopPropagation(); onClickEdit( job.ID )"><i class="fa fa-pencil"></i> Update Post</div>
                         </div>
                     </div>
                 </div>
