@@ -17,7 +17,6 @@ export class JobService extends Base {
         super();
     }
     create(data: JOB_CREATE): Observable<JOB> {
-
         let req: POST_CREATE = this.convertCreate(data);
         console.log('convertedCreate', req);
         return this.wp.post(req);
@@ -65,7 +64,10 @@ export class JobService extends Base {
         str = str.replace('birthday', 'int_2');
         str = str.replace('fullname', 'varchar_5');
         req = JSON.parse(str);
+
+        req['slug'] = "jobs";
         req['route'] = "wordpress.post_query";
+        
         console.log(req);
         return this.wp.post(req)
             .map(e => this.convertPage(e));

@@ -30,14 +30,14 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.app.bootstrapLoginLogout();
 
 
-app.toast({
-  content: "This is toast",
-  callback: () => {
-    app.toastClose();
-  },
-  timeout: 7000,
-  delay: 100
-});
+    app.toast({
+      content: "This is toast",
+      callback: () => {
+        app.toastClose();
+      },
+      timeout: 7000,
+      delay: 100
+    });
 
   }
 

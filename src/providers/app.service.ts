@@ -2,6 +2,10 @@ import { Injectable, NgZone, EventEmitter } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
+
+import { Observable } from 'rxjs/Observable';
+
+
 import { Base } from './../etc/base';
 import { text } from './../etc/text';
 import { getLanguage, setLanguage } from './../etc/language';
@@ -78,6 +82,10 @@ export class AppService extends Base {
         content: '',
         callback: () => { }
     };
+
+
+    width = 0; /// page width
+
     constructor(
         private domSanitizer: DomSanitizer,
         public user: UserService,
@@ -101,6 +109,21 @@ export class AppService extends Base {
         this.auth = firebase.auth();
         this.db = firebase.database().ref('/');
 
+
+        Observable.fromEvent(window, 'resize')
+            .debounceTime(100)
+            .subscribe((event) => {
+                this.width = window.innerWidth;
+            });
+
+    }
+
+    get size(): 'mobile' | 'break-a' | 'break-c' | 'break-d' {
+        if (this.width <= 360) return 'mobile';
+        else if ( this.width < 600 ) return 'break-a';
+        else if ( this.width < 840 ) return 'break-c';
+        else if ( this.width < 1140 ) return 'break-d';
+        
     }
 
 
