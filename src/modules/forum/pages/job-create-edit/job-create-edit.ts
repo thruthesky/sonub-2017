@@ -18,12 +18,12 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
 
     @ViewChild('fileUploadWidget') public fileUploadComponent: FileUploadWidget;
 
-    message: string = 'Personal Message';  // personal message
+    message: string = '';  // personal message
     gender: string = 'm'; // Gender
     profession: string = 'driver'; // profession
     province: string = 'all'; // province
     city: string = 'all'; // city
-    experience: string = '0'; // work experience
+    experience: number = 0; // work experience
     password: string = '';
     birthday: DATEPICKER;
 

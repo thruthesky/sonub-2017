@@ -18,7 +18,7 @@ export class JobService extends Base {
     }
     create(data: JOB_CREATE): Observable<JOB> {
         let req: POST_CREATE = this.convertCreate(data);
-        console.log('convertedCreate', req);
+        // console.log('convertedCreate', req);
         return this.wp.post(req);
     }
 
@@ -40,10 +40,11 @@ export class JobService extends Base {
 
         req.varchar_1 = data.city;
         req.varchar_2 = data.province;
-        req.varchar_3 = data.experience;
         req.varchar_4 = data.profession;
         req.varchar_5 = data.first_name + ' ' + data.middle_name + ' ' + data.last_name;
 
+
+        req.int_1 = data.experience;
         req.int_2 = data.birthday;
         req.char_1 = data.gender;
         req.post_password = data.password;
@@ -67,8 +68,12 @@ export class JobService extends Base {
 
         req['slug'] = "jobs";
         req['route'] = "wordpress.post_query";
+<<<<<<< HEAD
         
         console.log(req);
+=======
+        // console.log('search',req);
+>>>>>>> 4ff0f9064936731a9ff72b7786e5da8a93e2aa8a
         return this.wp.post(req)
             .map(e => this.convertPage(e));
     }
@@ -84,9 +89,9 @@ export class JobService extends Base {
                 post['mobile'] = post.meta['mobile'];
                 post['city'] = post.varchar_1;
                 post['province'] = post.varchar_2;
-                post['experience'] = post.varchar_3;
                 post['profession'] = post.varchar_4;
                 post['fullname'] = post.varchar_5;
+                post['experience'] = post.int_1;
                 post['birthday'] = post.int_2;
                 post['gender'] = post.char_1;
                 post['timestamp_create'] = post.meta['timestamp_create'];
@@ -116,7 +121,7 @@ export class JobService extends Base {
             }
         }
 
-        console.log('Converted Page:: ', page);
+        //console.log('Converted Page:: ', page);
         return <any>page;
     }
 
