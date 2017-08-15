@@ -309,9 +309,9 @@ export type CATEGORIES = Array<CATEGORY_ENTITY>;
 
 
 /**
- * 
+ *
  * JOB SERVICE INTERFACE
- * 
+ *
  */
 export interface JOB_CREATE {
     route?: string;
@@ -326,7 +326,7 @@ export interface JOB_CREATE {
     city: string;
     birthday: number;
     gender: string;
-    experience: string;
+    experience: number;
     profession: string;
     message: string;
     fid?: Array<number>;

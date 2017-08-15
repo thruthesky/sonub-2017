@@ -44,30 +44,8 @@ export class JobListPage implements OnInit {
     cities = [];
     showCities: boolean = false;
 
-
-
-    formErrors = {
-        male: '',
-        female: '',
-        experience: '',
-        profession: '',
-        province: '',
-        city: '',
-        minAge: '',
-        maxAge: '',
-        name: ''
-    };
-    validationMessages = {
-        male: {},
-        female: {},
-        experience: {},
-        profession: {},
-        province: {},
-        city: {},
-        minAge: {},
-        maxAge: {},
-        name: {}
-    };
+    today = new Date();
+    currentYear = this.today.getFullYear();
 
     constructor(
         private fb: FormBuilder,
@@ -80,26 +58,26 @@ export class JobListPage implements OnInit {
             this.app.displayError('Unable to get Province data' + e)
         });
 
-        this.app.job.search({
-            gender: {
-                exp: '=',
-                value: 'M'
-            },
-            birthday: {
-                exp: 'BETWEEN',
-                value: '19500101 AND 20010101'
-            },
-            fullname: {
-                exp: 'LIKE',
-                value: '%jae%'
-            },
-            clause: [
-                `(ID > 100 AND char_1='M') OR (ID < 99999 AND char_1='F')`,
-                `post_type = 'post' OR post_type = 'attachment'`
-            ]
-        }).subscribe(res => {
-            console.log("job search", res);
-        }, e => this.app.warning(e));
+        // this.app.job.search({
+        //     gender: {
+        //         exp: '=',
+        //         value: 'M'
+        //     },
+        //     birthday: {
+        //         exp: 'BETWEEN',
+        //         value: '19500101 AND 20010101'
+        //     },
+        //     fullname: {
+        //         exp: 'LIKE',
+        //         value: '%jae%'
+        //     },
+        //     clause: [
+        //         `(ID > 100 AND char_1='M') OR (ID < 99999 AND char_1='F')`,
+        //         `post_type = 'post' OR post_type = 'attachment'`
+        //     ]
+        // }).subscribe(res => {
+        //     console.log("job search", res);
+        // }, e => this.app.warning(e));
 
     }
 
@@ -111,15 +89,15 @@ export class JobListPage implements OnInit {
 
     initSearchForm() {
         this.formGroup = this.fb.group({
-            male: [],
-            female: [],
+            male: [false],
+            female: [false],
             experience: ['all'],
             profession: ['all'],
             province: ['all'],
             city: ['all'],
             minAge: [this.minAge],
             maxAge: [this.maxAge],
-            name: []
+            name: ['']
         });
         this.formGroup.valueChanges
             .debounceTime(1000)
@@ -149,22 +127,107 @@ export class JobListPage implements OnInit {
     onValueChanged(data?: any) {
         console.log('onValueChanges::data::', data);
 
+        // city:"all"
+        // experience:"all"
+        // female:false
+        // male:true
+        // maxAge:60
+        // minAge:18
+        // name:null
+        // profession:"all"
+        // province:"all"
+
+        let clause = [];
+
+        let req = {};
+
+        // GENDER
+        if( data.male != data.female ) {
+            req['gender'] = {
+                exp: '=',
+                value: data.male ? 'm' : 'f'
+            }
+        }
+        else {
+            clause.push(`char_1='m' OR char_1='f'`)
+        }
+
+        // BIRTHDAY
+        let min = (this.currentYear - data.minAge + 1) + '0101'; console.log('min::', min);
+        let max = (this.currentYear - data.maxAge) + '0101'; console.log('max::', max);
+        req['birthday'] = {
+            exp: 'BETWEEN',
+            value: `${max} AND ${min}`
+        };
+
+        // PROFESSION
+        if ( data.profession != 'all') {
+            req['profession'] = {
+                exp: '=',
+                value: data.profession
+            }
+        }
+
+        // PROVINCE
+        if ( data.province != 'all') {
+            req['province'] = {
+                exp: '=',
+                value: data.province
+            }
+        }
+
+        // CITY
+        if ( data.city != 'all' ) {
+            req['city'] = {
+                exp: '=',
+                value: data.city
+            }
+        }
 
 
 
-        // console.log('onValueChanges::formGroup:', this.formGroup);
-        // if ( ! this.formGroup ) return;
-        // const form = this.formGroup;
-        // for ( const field in this.formErrors ) {
-        //     this.formErrors[field] = '';
-        //     const control = form.get(field);
-        //     if ( control && control.dirty && ! control.valid ) {
-        //         const messages = this.validationMessages[field];
-        //         for ( const key in control.errors ) {
-        //             this.formErrors[field] += messages[key] + ' ';
-        //         }
-        //     }
-        // }
+
+
+        if ( data.name ) {
+            req['fullname'] = {
+                exp: 'LIKE',
+                value: `%${data.name}%`
+            }
+        }
+
+
+        // CLAUSE
+        if ( clause.length ) {
+            req['clause'] = clause;
+        }
+
+        console.log('REQUEST ON VALUE CHANGE :::', req);
+
+
+
+
+
+        // this.app.job.search({
+        // gender: {
+        //     exp: '=',
+        //     value: 'M'
+        // },
+        // birthday: {
+        //     exp: 'BETWEEN',
+        //     value: '19500101 AND 20010101'
+        // },
+        // fullname: {
+        //     exp: 'LIKE',
+        //     value: '%jae%'
+        // },
+        //     clause: [
+        //         `(ID < 99999 AND char_1='F')`,
+        //         `post_type = 'post' OR post_type = 'attachment'`
+        //     ]
+        // }).subscribe(res => {
+        //     console.log("job search", res);
+        // }, e => this.app.warning(e));
+
     }
 
 
