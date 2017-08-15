@@ -1,12 +1,30 @@
-
 .advertisement-side-bar {
     img {
         width: 100%;
     }
 }
 
+#toast {
+    position: fixed;
+    z-index: 9999;
+    display: none;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 0;
+    background-color: white;
+    &.show {
+        display: block;
+        height: auto;
+    }
+    #toast-content {
+        padding: $global-padding;
+        border-top: 2px solid #D5D5D5;
+    }
 
-
-
-
-
+    @media ( min-width: $md ) {
+        width: 360px;
+        left: auto;
+        border-left: 2px solid #d5d5d5;
+    }
+}

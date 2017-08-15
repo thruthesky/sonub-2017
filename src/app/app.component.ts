@@ -18,21 +18,26 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   advSidebar: POST;
   news: PAGE;
+  showFooterSticker = true;
   constructor(
     private router: Router,
     public app: AppService
   ) {
 
-
-
     document.addEventListener('deviceready', () => this.onDeviceReady(), false);
-
     this.loadAdvertisement();
-
-
     this.app.bootstrap();
     this.app.bootstrapLoginLogout();
-    
+
+
+app.toast({
+  content: "This is toast",
+  callback: () => {
+    app.toastClose();
+  },
+  timeout: 7000,
+  delay: 100
+});
 
   }
 
