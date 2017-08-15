@@ -31,7 +31,7 @@ export { CONFIRM_OPTIONS } from './modals/confirm/confirm.modal';
 import { SOCIAL_PROFILE, USER_REGISTER, ACTIVITIES, ACTIVITY, COMMUNITY_LOG, COMMUNITY_LOGS } from './wordpress-api/interface';
 export {
     POST, POSTS, POST_LIST, PAGE, PAGES, FILE, FILES, POST_CREATE, POST_DELETE, POST_DELETE_RESPONSE,
-    JOB, JOBS, JOB_LIST_REQUEST, JOB_PAGE, JOB_PAGES,
+    JOB, JOBS, POST_QUERY_REQUEST, JOB_PAGE, JOB_PAGES, POST_QUERY_RESPONSE,
     ACTIVITY, ACTIVITIES, COMMUNITY_LOGS
 } from './wordpress-api/interface';
 
@@ -349,13 +349,10 @@ export class AppService extends Base {
     }
 
 
-    get userProfilePhotoUrl(): string {
+    
+    get userPhotoUrl(): string {
         if (this.user.isLogin && this.user.profile.photoURL) return this.user.profile.photoURL;
         else return '/assets/img/anonymous.png';
-    }
-
-    get userPhotoUrl(): string {
-        return this.userProfilePhotoUrl;
     }
 
 
@@ -516,8 +513,8 @@ export class AppService extends Base {
 
     toastLog(val, type) {
 
-        console.log("toastLog: width: ", this.width);
-        console.log("toastLog: size: ", this.size);
+        // console.log("toastLog: width: ", this.width);
+        // console.log("toastLog: size: ", this.size);
 
         if (this.size == 'break-d') return;
 

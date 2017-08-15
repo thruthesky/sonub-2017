@@ -41,7 +41,7 @@ export class WordpressApiService extends Base {
         // console.log("res: ", res);
         if (!res) {
             console.error("Response from backend is empty");
-            console.log("Request data: ", data);
+            console.log("Requested data(that cause empty response): ", data);
             throw error(ERROR.RESPONSE_EMPTY);
         }
         else if (res['code'] === void 0) throw error(ERROR.RESPONSE_NO_CODE);

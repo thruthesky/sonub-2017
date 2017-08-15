@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Base } from './../../etc/base';
 import { UserService } from './user.service';
 import { WordpressApiService } from './wordpress-api.service';
-import { JOB_CREATE, JOB, POST_CREATE, JOB_LIST_REQUEST, PAGE, JOB_PAGE } from './interface';
+import { JOB_CREATE, JOB, JOBS, POST_CREATE, POSTS, POST, POST_QUERY_RESPONSE, JOB_PAGE } from './interface';
 import { Observable } from 'rxjs/Observable';
 
 
@@ -54,10 +54,10 @@ export class JobService extends Base {
     }
 
 
-    list(req: JOB_LIST_REQUEST): Observable<JOB_PAGE> {
-        return this.wp.query(req)
-            .map(e => this.convertPage(e))
-    }
+    // list(req): Observable<JOBS> {
+    //     return this.wp.query(req)
+    //         .map(e => this.convertPage(e))
+    // }
 
     search(req): Observable<JOB_PAGE> {
         let str = JSON.stringify(req);
@@ -66,17 +66,19 @@ export class JobService extends Base {
         str = str.replace('fullname', 'varchar_5');
         req = JSON.parse(str);
 
-        req['slug'] = "jobs";
+        if ( req['query'] === void 0 ) req['query'] = {};
+        req['query']['slug'] = "jobs";
         req['route'] = "wordpress.post_query";
-        
-        console.log(req);
+
+        console.log("job search request: ", req);
         return this.wp.post(req)
             .map(e => this.convertPage(e));
     }
 
-    convertPage(page: PAGE): JOB_PAGE {
+    convertPage(page: POST_QUERY_RESPONSE): JOB_PAGE {
 
-        if (page && page.posts && page.posts.length) {
+        console.log('convertPage: ', page);
+        if ( page.posts && page.posts.length) {
             for (let post of page.posts) {
                 post['first_name'] = post.meta['first_name'];
                 post['middle_name'] = post.meta['middle_name'];
