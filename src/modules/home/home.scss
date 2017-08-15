@@ -1,10 +1,20 @@
+
 .home-form {
     background-color: white;
 }
 .home-form-header {
-    padding: $global-padding;
-    background-color: #f6f7f9;
-    border-bottom: 2px solid #e2e3e6;
+    color: #002171;
+    background-color: #FAFAFA;
+    border-bottom: 2px solid #002171;
+
+    @include list-line();
+
+    height: 30px;
+    line-height: 30px;
+    font-size: $fs-xs;
+    li {
+        padding: 0 $global-padding;
+    }
 }
 
 .home-form-text {
@@ -22,7 +32,7 @@
     padding: $global-padding;
     .home-form-footer-button {
         padding: $global-padding/2 $global-padding;
-        background-color: #EFEDED;
+        background-color: #f0f0f0;
     }
 
     .advertisement-button {

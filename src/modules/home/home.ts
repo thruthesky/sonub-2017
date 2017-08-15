@@ -18,7 +18,7 @@ export class HomePage implements OnInit, AfterViewInit {
         public app: AppService,
         // private test: TestService
     ) {
-
+        app.section('home');
         if ( window['forum_post'] ) {
             this.post = Object.assign({}, window['forum_post']);
             window['forum_post'] = null;

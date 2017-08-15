@@ -1,14 +1,15 @@
 /// show hide
 
-.show-on-mobile {
-    display: initial;
-    @media ( min-width: $mobile-width ) {
-        display: none;
+
+.hidden-360-down {
+    display: none;
+    @media ( min-width: 361px ) {
+        display: initial;
     }
 }
-.show-on-desktop {
+.hidden-320-down {
     display: none;
-    @media ( min-width: $mobile-width ) {
+    @media ( min-width: 321px ) {
         display: initial;
     }
 }

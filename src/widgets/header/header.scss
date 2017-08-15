@@ -1,15 +1,13 @@
-$header-background-color: #0A5561;
+$header-background-color: #0d47a1;
 $icon-width: 30px;
 $icon-width-on-wide: 26px;
 $header-content-height: 24px;
+/// layout & placement & size
 .page-header {
-    color: white;
-    
     .page-header-container {
         /// layout
         height: $header-inner-height;
         overflow: hidden;
-        background-color: $header-background-color;
         .left,
         .center,
         .right {
@@ -18,83 +16,76 @@ $header-content-height: 24px;
             line-height: $header-inner-height;
         }
     }
-    .center {
-        display: none;
-        @media ( min-width: $break-header-menu ) {
-            display: block;
-        }
-        a {
-            display: inline-block;
-            padding: 0 .4em;
-            color: white;
-            font-weight: 300;
-            font-size: $font-size-xs;
-        }
-    }
     .fa {
         display: inline-block;
         padding: 10px 0;
         width: $icon-width;
-        text-align: center;
-    }
-    .fa-search {
-        width: 14px;
-    }
-    input {
-        position: relative;
-        top: -2px;
-        padding-left: 4px;
-        width: 100px;
-        @media (min-width: 320px) { width: 140px; }
-        @media (min-width: 350px) { width: 180px; }
-        @media (min-width: $sm) {
-            padding-left: 6px;
-            width: 320px;
-        }
-        height: $header-content-height;
-        border: 0;
-        font-size: $font-size-xs;
-    }
-    .fa-search {
-        position: absolute;
-        display: block;
-        margin: 0;
-        padding: 0;
-        top: 0;
-        right: 4px;
-        width: 14px!important;
-        font-size: 10pt;
-        z-index: 999;
-        color: #888;
-        height: $header-inner-height;
-        line-height: $header-inner-height;
-
-        @media (min-width: $sm) {
-            right: 6px;
-        }
-    }
-    .logo {
-        float: left;
-        width: 24px;
-        text-align: center;
-        a {
-            display: inline-block;
-            width: 22px;
-            height: 24px;
-            line-height: 24px;
-            background-color: white;
-            color: $header-background-color;
-        }
     }
     @media (min-width: $md) {
         .fa {
             width: $icon-width-on-wide;
         }
     }
-    .logo,
-    a,
-    .fa {
-        /// cursor
-        cursor: pointer;
+    .input-group {
+        margin-top: $global-padding;
+        height: 28px;
+        .input-group-addon {
+            border: 0;
+            border-radius: 0;
+            height: 28px;
+        }
+        input {
+            border: 0;
+        }
+        .btn {
+            padding: 0 4px;
+            height: 28px;
+        }
+        .fa {
+            padding: 0;
+        }
     }
+}
+
+/// design
+.page-header {
+    color: white;
+    .page-header-container {
+        background-color: $header-background-color;
+    }
+    .left {
+        @media (min-width: $lg) {
+            width: 640px;
+        }
+        .input-group {
+            @media (min-width: $lg) {
+                width: 340px;
+            }
+            .input-group-addon {
+                background-color: white;
+            }
+            input {
+                border-radius: 0;
+                font-size: $fs-xs;
+            }
+            .btn {
+                border: 0;
+                border-radius: 0;
+                background-color: rgba( 155, 155, 155, .6);
+            }
+        }
+        .links {
+            a {
+                display: inline-block;
+                padding-left: $global-padding;
+                color: white;
+                font-size: $fs-xs;
+            }
+        }
+    }
+}
+
+/// color
+.page[section='forum'] .page-header .page-header-container {
+    background-color: #4527a0;
 }

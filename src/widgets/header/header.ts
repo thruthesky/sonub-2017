@@ -6,7 +6,6 @@ import { AppService } from './../../providers/app.service';
 })
 
 export class HeaderWidget implements OnInit {
-    @Input() title;
     constructor(
         public app: AppService
     ) { }

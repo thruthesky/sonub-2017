@@ -40,7 +40,7 @@ export class ProfileEditContent implements OnInit {
         public app: AppService,
         dateConfig: NgbDatepickerConfig
     ) {
-        app.title('register');
+        
         dateConfig.minDate = {year: 1956, month: 1, day: 1};
         dateConfig.maxDate = {year: this.now.getFullYear(), month: 12, day: 31};
     }

@@ -20,7 +20,7 @@ export class LoginPage implements OnInit, AfterViewInit {
         public app: AppService
     ) {
 
-        app.title('login');
+        app.section('user');
             
     }
 

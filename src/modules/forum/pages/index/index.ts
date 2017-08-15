@@ -15,7 +15,7 @@ export class ForumIndexPage implements OnInit {
         private http: HttpClient,
         public app: AppService
     ) {
-        app.title('forum');
+        app.section('forum');
         // this.app.file.uploadForm( {} ).subscribe( e => {
         //     console.log(e);
         // }, err => console.log( this.app.file.getErrorString(err) ) );

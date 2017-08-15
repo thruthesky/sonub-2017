@@ -1,24 +1,27 @@
 <section class="page-header">
     <div class="page-header-container">
         <div class="page-header-container-center">
-            <div class="left">
-                <div class="logo" routerLink="/">
-                    <a href="/" routerLink="/">S</a>
+            <div class="left flex">
+
+                <div class="input-group">
+                    <a class="input-group-addon" href="/" routerLink="/">S</a>
+                    <input type="text" class="form-control m-0 p-0" placeholder="{{ app.size == 'mobile' ? 'Search for ...' : 'What are you searching' }} ?" aria-label="Search for...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-secondary" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </span>
                 </div>
-                <input placeholder="What are you searching?">
-                <i class="fa fa-search fa-inverse"></i>
-            </div>
-            <div class="center">
-                <a href="/forum/news" routerLink="/forum/news">News</a>
-                <a href="/job" routerLink="/job">Job</a>
-                <a href="/forum/qna" routerLink="/forum/qna">Q &amp; A</a>
-                <a href="/forum/buyandsell" routerLink="/forum/buyandsell">Buy &amp; Sell</a>
-                <a href="/forum/food" routerLink="/forum/food">Food</a>
+                <div class="links d-none d-sm-block">
+                    <a href="/forum/news" routerLink="/forum/news">News</a>
+                    <a href="/forum/qna" routerLink="/forum/qna">Ask</a>
+                    <a href="/job" routerLink="/job">Jobs</a>
+                    <a href="/forum/buyandsell" routerLink="/forum/buyandsell">Buy&amp;Sell</a>
+                    <a href="/forum/food" routerLink="/forum/food">Food</a>
+                </div>
             </div>
             <div class="right">
-                <i routerLink="/forum" class="fa fa-comments-o fa-inverse"></i>
-                <i class="fa fa-envelope fa-inverse"></i>
-                <i class="fa fa-users fa-inverse"></i>
+                <span class="d-none d-sm-inline"><i class="fa fa-comments-o fa-inverse" routerLink="/forum"></i></span>
+                <span class="hidden-360-down"><i class="fa fa-envelope fa-inverse"></i></span>
+                <span class="hidden-320-down"><i class="fa fa-users fa-inverse"></i></span>
                 <!-- <i class="fa fa-gear fa-inverse"></i> -->
                 <i routerLink="/menu" class="fa fa-bars fa-inverse"></i>
             </div>

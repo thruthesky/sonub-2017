@@ -11,7 +11,7 @@ export class ForumListPage implements OnInit, AfterViewInit, OnDestroy {
     constructor(
         public app: AppService
     ) {
-        app.title('forum');
+        app.section('forum');
     }
 
     ngOnInit() {

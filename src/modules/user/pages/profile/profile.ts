@@ -17,7 +17,7 @@ export class ProfilePage implements OnInit {
         public app: AppService,
         private profileEditModal: ProfileEditModalService
     ) {
-        app.title('profile');
+        app.section('user');
         this.initProfile();
     }
 

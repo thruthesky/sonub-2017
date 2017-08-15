@@ -55,6 +55,9 @@ export class AppService extends Base {
 
     text = text;
 
+    // section of the page
+    sectionName = 'home';
+
 
     //
     auth: firebase.auth.Auth;
@@ -306,11 +309,11 @@ export class AppService extends Base {
 
 
     /**
-     * Set's header title.
-     * @param str 
+     * Set's section.
+     * @param name 
      */
-    title(str) {
-        this.headerWidget.title = this.text(str);
+    section(name) {
+        this.sectionName = name;
     }
 
 

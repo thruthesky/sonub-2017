@@ -44,7 +44,7 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
         private postCreateEditModal: PostCreateEditModalService,
         private forumShare: ForumCodeShareService
     ) {
-        app.title('forum');
+        
 
         /// page navigated ( by clicking a menu )
         active.params.subscribe(params => {
@@ -102,7 +102,6 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
         this.loadCache(req);
         this.app.forum.postList(req).subscribe((page: POST_LIST_RESPONSE) => {
             console.log('Page::', page);
-            this.app.title(page.category_name);
             this.inLoading = false;
             if (page.paged == page.max_num_pages) {
                 this.noMorePosts = true;
