@@ -1,3 +1,21 @@
+/// show hide
+
+.show-on-mobile {
+    display: initial;
+    @media ( min-width: $mobile-width ) {
+        display: none;
+    }
+}
+.show-on-desktop {
+    display: none;
+    @media ( min-width: $mobile-width ) {
+        display: initial;
+    }
+}
+
+
+////
+
 .box {
     padding: $global-padding;
     box-sizing: border-box;

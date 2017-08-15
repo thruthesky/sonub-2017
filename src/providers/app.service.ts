@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 import { Base } from './../etc/base';
 import { text } from './../etc/text';
-import { getLanguage, setLanguage  } from './../etc/language';
+import { getLanguage, setLanguage } from './../etc/language';
 
 
 
@@ -50,7 +50,7 @@ export class AppService extends Base {
     config = config;
 
     text = text;
-    
+
 
     //
     auth: firebase.auth.Auth;
@@ -72,7 +72,12 @@ export class AppService extends Base {
     getLanguage = getLanguage;
     setLanguage = setLanguage;
 
-    
+
+    toastOption = {
+        show: false,
+        content: '',
+        callback: () => { }
+    };
     constructor(
         private domSanitizer: DomSanitizer,
         public user: UserService,
@@ -459,6 +464,23 @@ export class AppService extends Base {
 
     safeHtml(raw): string {
         return this.domSanitizer.bypassSecurityTrustHtml(raw) as string;
+    }
+
+
+
+    toast(option) {
+        if (option.delay === void 0) option.delay = 1;
+        setTimeout(() => {
+            this.toastOption = option;
+            this.toastOption.show = true;
+            if (option.timeout !== void 0) {
+                setTimeout(() => this.toastOption.show = false, option.timeout);
+            }
+        }, option.delay);
+    }
+
+    toastClose() {
+        this.toastOption.show = false;
     }
 
 }

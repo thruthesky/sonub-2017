@@ -20,4 +20,13 @@
 
 .home-form-footer {
     padding: $global-padding;
+    .home-form-footer-button {
+        padding: $global-padding/2 $global-padding;
+        background-color: #EFEDED;
+    }
+
+    .advertisement-button {
+        background-color: transparent;
+    }
+
 }
