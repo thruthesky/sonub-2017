@@ -117,6 +117,10 @@ export let TEXT = {
         en: 'News',
         ko: '뉴스'
     },
+    news_description: {
+        en: 'Find the latest news. Please post your news also.',
+        ko: '새로운 뉴스를 전해드립니다. 여러분의 뉴스를 올려주세요.'
+    },
     headline_news: {
         en: 'Headline News',
         ko: '헤드라인 뉴스'
@@ -130,6 +134,10 @@ export let TEXT = {
     qna: {
         en: 'Questions &amp; Answers',
         ko: '질문과답변'
+    },
+    qna_description: {
+        en: 'Ask anything. Please answer and earn badges.',
+        ko: '무엇이든 물어보세요. 답변을 하고 내공을 쌓으세요.'
     },
     create_question: {
         en: 'Ask',

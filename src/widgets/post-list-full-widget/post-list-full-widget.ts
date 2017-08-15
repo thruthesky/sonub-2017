@@ -45,6 +45,7 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
         private forumShare: ForumCodeShareService
     ) {
         
+        this.onClickPostCreate();
 
         /// page navigated ( by clicking a menu )
         active.params.subscribe(params => {

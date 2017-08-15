@@ -9,6 +9,9 @@ import {
 } from './../../../../providers/wordpress-api/interface';
 
 
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/debounceTime';
+
 
 export interface OPTIONS {
     category?: string;
@@ -40,14 +43,32 @@ export class PostCreateEditContent implements OnInit {
     /// callbacks
     // successCallback;
     // failureCallback;
+
+
+    private typing = new Subject<string>();
+
+
     constructor(
         public activeModal: NgbActiveModal,
         public app: AppService
     ) { }
 
-    ngOnInit() { }
+
+    ngOnInit() {
+        this.typing
+            .debounceTime(300)
+            .subscribe( text => {
+                this.post_title = text;
+                console.log('post_title: ', this.post_title);
+            });
+    }
 
 
+    contentInput( text: string ): void {
+        console.log('text: ', text);
+        this.typing.next(text);
+    }
+    
 
     setOptions(options: OPTIONS) {
         this.options = options;
@@ -119,4 +140,7 @@ export class PostCreateEditContent implements OnInit {
         // this.failureCallback('cancelled');
         this.activeModal.dismiss('cancelled');
     }
+
+    
+
 }

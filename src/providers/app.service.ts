@@ -536,6 +536,7 @@ export class AppService extends Base {
         }
 
         if (type == 'community') {
+            if ( val.author_id == this.user.id ) return;
             if (val.comment_ID === void 0 || !val.comment_ID) {
                 toastOption.content = '<span class="cap community-cap">C</span> ' + toastOption.content;
                 this.toast(toastOption);

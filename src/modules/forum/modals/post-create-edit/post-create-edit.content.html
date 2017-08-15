@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title">Post create</h4>
+    <div class="modal-title"><input type="text" name="post_title" [(ngModel)]="post_title"></div>
     <button type="button" class="close" aria-label="Close" (click)="onClickCancel()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -15,8 +15,8 @@
 
 
 
-    Title: <input type="text" name="post_title" [(ngModel)]="post_title"><br>
-    <textarea name="post_content" [(ngModel)]="post_content"></textarea>
+    
+    <textarea name="post_content" [(ngModel)]="post_content" #textareaPostContent (keyup)="contentInput(textareaPostContent.value)"></textarea>
 
 
 </div>
