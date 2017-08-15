@@ -81,13 +81,10 @@ export class JobListPage implements OnInit {
         });
 
         this.app.job.search({
-            gender: {
-                exp: '=',
-                value: 'M'
-            },
+            gender: 'M',
             birthday: {
                 exp: 'BETWEEN',
-                value: '19500101 AND 20010101'
+                value: '19500101 AND 20800101'
             },
             fullname: {
                 exp: 'LIKE',
