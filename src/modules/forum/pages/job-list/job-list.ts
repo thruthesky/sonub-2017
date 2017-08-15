@@ -58,6 +58,7 @@ export class JobListPage implements OnInit {
             this.app.displayError('Unable to get Province data' + e)
         });
 
+        
         this.app.job.search({
             gender: 'M',
             birthday: {
