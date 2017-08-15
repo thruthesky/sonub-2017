@@ -59,22 +59,16 @@ export class JobService extends Base {
             .map(e => this.convertPage(e))
     }
 
-    search( req ): Observable<JOB_PAGE> {
-
-        let str = JSON.stringify( req );
-
+    search(req): Observable<JOB_PAGE> {
+        let str = JSON.stringify(req);
         str = str.replace('gender', 'char_1');
         str = str.replace('birthday', 'int_2');
         str = str.replace('fullname', 'varchar_5');
-
-        req = JSON.parse( str );
-
+        req = JSON.parse(str);
         req['route'] = "wordpress.post_query";
-
         console.log(req);
-        return this.wp.post( req )
-            .map( e => this.convertPage( e ) );
-
+        return this.wp.post(req)
+            .map(e => this.convertPage(e));
     }
 
     convertPage(page: PAGE): JOB_PAGE {
@@ -120,7 +114,7 @@ export class JobService extends Base {
             }
         }
 
-        console.log('Converted Page:: ', page );
+        console.log('Converted Page:: ', page);
         return <any>page;
     }
 
