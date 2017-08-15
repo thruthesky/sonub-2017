@@ -68,7 +68,7 @@ export class JobService extends Base {
 
         req['slug'] = "jobs";
         req['route'] = "wordpress.post_query";
-        
+
         console.log(req);
         return this.wp.post(req)
             .map(e => this.convertPage(e));
@@ -116,8 +116,6 @@ export class JobService extends Base {
 
             }
         }
-
-        //console.log('Converted Page:: ', page);
         return <any>page;
     }
 

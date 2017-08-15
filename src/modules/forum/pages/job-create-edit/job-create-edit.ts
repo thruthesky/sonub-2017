@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { AppService, POST, FILES, FILE, POST_CREATE } from './../../../../providers/app.service';
 import { JOB_CREATE } from "../../../../providers/wordpress-api/interface";
 import { FileUploadWidget } from "../../../../widgets/file-upload/file-upload";
@@ -47,7 +47,7 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
 
     constructor(
         private region: PhilippineRegion,
-        private activeRoute: ActivatedRoute,
+        private router: Router,
         public app: AppService,
         dateConfig: NgbDatepickerConfig,
 
@@ -75,7 +75,6 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
 
         if( this.experience) {
             console.log('data::', this.experience);
-            console.log( { experience: this.experience} );
         }
 
 
@@ -100,9 +99,10 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
         this.app.job.create(data).subscribe(res => {
             console.log("job create: ", res);
             this.app.alert.open({ content: this.app.text('saved') });
-            this.app.forum.postData(res).subscribe((post: POST) => {
-                console.log("created job: ", post);
-            }, e => this.app.warning(e));
+            this.router.navigateByUrl('/job');
+            // this.app.forum.postData(res).subscribe((post: POST) => {
+            //     console.log("created job: ", post);
+            // }, e => this.app.warning(e));
         }, e => this.app.warning(e));
 
     }
