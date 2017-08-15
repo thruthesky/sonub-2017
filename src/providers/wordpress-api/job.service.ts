@@ -24,9 +24,11 @@ export class JobService extends Base {
 
     convertCreate(data: JOB_CREATE): POST_CREATE {
 
+        let title = `${data.first_name} is a ${data.profession} from ${data.city ? data.city : data.province} looking for a job` ;
+
         let req: POST_CREATE = {
             category: 'jobs',
-            post_title: data.profession + ' ' + data.birthday + ' ' + data.gender,
+            post_title: title,
             post_content: data.message,
             fid: data.fid
         };
@@ -62,7 +64,11 @@ export class JobService extends Base {
     search(req): Observable<JOB_PAGE> {
         let str = JSON.stringify(req);
         str = str.replace('gender', 'char_1');
+        str = str.replace('experience', 'int_1');
         str = str.replace('birthday', 'int_2');
+        str = str.replace('city', 'varchar_1');
+        str = str.replace('province', 'varchar_2');
+        str = str.replace('profession', 'varchar_4');
         str = str.replace('fullname', 'varchar_5');
         req = JSON.parse(str);
 
@@ -89,7 +95,7 @@ export class JobService extends Base {
                 post['province'] = post.varchar_2;
                 post['profession'] = post.varchar_4;
                 post['fullname'] = post.varchar_5;
-                post['experience'] = post.int_1;
+                post['experience'] = post.int_1 < 12 ? post.int_1 + ' months' : post.int_1/12 + ' years';
                 post['birthday'] = post.int_2;
                 post['gender'] = post.char_1;
                 post['timestamp_create'] = post.meta['timestamp_create'];
