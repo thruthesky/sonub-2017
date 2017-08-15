@@ -108,7 +108,9 @@
                     <label class="input-group-addon">Experience</label>
                     <select class="form-control" id="workExperience" name="workExperience" [(ngModel)]="experience">
                         <option [value]="0">No work Experience</option>
+                        <option [value]="3">3 months</option>
                         <option [value]="6">6 months</option>
+                        <option [value]="9">9 months</option>
                         <option *ngFor="let number of numbers" [value]="number*12">{{number}} years</option>
                     </select>
                 </div>

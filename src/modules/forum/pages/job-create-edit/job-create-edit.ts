@@ -41,7 +41,7 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
     cities = [];
     showCities: boolean = false;
 
-    now = (new Date());
+    today = (new Date());
 
     numbers = Array.from(new Array(20), (x, i) => i + 1);
 
@@ -58,7 +58,9 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
         });
 
         dateConfig.minDate = { year: 1956, month: 1, day: 1 };
-        dateConfig.maxDate = { year: this.now.getFullYear(), month: 12, day: 31 };
+        dateConfig.maxDate =  { year: this.today.getFullYear() - 14, month: 12, day: 31 };
+        this.birthday = { year: this.today.getFullYear() - 14, month: 12, day: 31 };
+
 
     }
 

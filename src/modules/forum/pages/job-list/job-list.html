@@ -17,8 +17,8 @@
         <button type="button" class="btn btn-primary btn-sm" (click)="onClickMore()">More Option</button>
     </nav>
 
-    <form [formGroup]="formGroup" novalidate class="search-form">
-        <div class="row-container">
+    <form [formGroup]="formGroup" novalidate class="search-form" *ngIf=" (searchBy | json) != '{}' " [class.more]=" searchBy.more ">
+        <div class="row-container" *ngIf=" searchBy.more ">
             <label class="text">Gender</label>
             <div class="input">
                 <label class="form-check-inline">
@@ -30,19 +30,22 @@
             </div>
         </div>
 
-        <div class="row-container">
+        <div class="row-container" *ngIf=" searchBy.more ">
             <label class="text" for="experience">Experience</label>
             <div class="input">
                 <select class="form-control" id="experience" formControlName="experience">
                     <option value="all">All</option>
                     <option value="0">No Work Experience</option>
-                    <option *ngFor="let number of numbers" [value]="number+''">{{number}} years</option>
+                    <option [value]="3">3 months</option>
+                    <option [value]="6">6 months</option>
+                    <option [value]="9">9 months</option>
+                    <option *ngFor="let number of numbers" [value]="number*12">{{number}} years</option>
                 </select>
             </div>
         </div>
 
 
-        <div class="row-container">
+        <div class="row-container" *ngIf=" searchBy.profession ">
             <label class="text" for="profession">Profession</label>
             <div class="input">
                 <select class="form-control" id="profession" formControlName="profession">
@@ -54,7 +57,7 @@
             </div>
         </div>
 
-        <div class="row-container">
+        <div class="row-container" *ngIf=" searchBy.location ">
             <label class="text">Province</label>
             <div class="input">
                 <select class="form-control" id="searchByProvince" formControlName="province" (change)="onClickProvince()">
@@ -64,7 +67,7 @@
             </div>
         </div>
 
-        <div class="row-container" *ngIf="showCities">
+        <div class="row-container" *ngIf="showCities && searchBy.location">
             <label class="text" *ngIf="showCities">City</label>
             <div class="input">
                 <select class="form-control" id="city" formControlName="city">
@@ -73,13 +76,13 @@
             </div>
         </div>
 
-        <div class="row-container">
+        <div class="row-container" *ngIf=" searchBy.more ">
             <label class="text">Age Range</label>
             <div class="input">
                 <label class="range text">Min</label>
                 <div class="range input">
                     <select class="form-control" id="searchByMinAge" formControlName="minAge" (change)="minRangeChange()">
-                        <option [value]="18">{{minAge}}</option>
+                        <option [value]="minAge">{{minAge}}</option>
                         <option *ngFor="let min of minAgeRange" [value]="min+minAge">{{min+minAge}}</option>
                     </select>
                 </div>
@@ -93,21 +96,21 @@
             </div>
         </div>
 
-        <div class="row-container">
+        <div class="row-container" *ngIf=" searchBy.more ">
             <label for="name" class="text">Name</label>
             <div class="input">
                 <input class="form-control" type="text" id="name" formControlName="name" placeholder="Input Name...">
             </div>
         </div>
 
-        <div class="row-container">
+        <div class="row-container" *ngIf=" searchBy.more ">
             <label for="name" class="text">My Post</label>
             <div class="input">
                 <div class="btn btn-primary btn-sm my-post" (click)="onClickShowMyPost()">Show My Posts</div>
             </div>
         </div>
 
-        <i class="close fa fa-times" (click)=" searchBy = {} "></i>
+        <i class="close fa fa-times pointer" (click)=" searchBy = {} "></i>
 
     </form>
     <div class="pages" *ngIf="pages">
@@ -126,7 +129,7 @@
                             <div class="">Profession: {{ job?.profession }}</div>
                             <div class="">Mobile: {{job?.mobile}}</div>
                             <ng-container *ngIf="job['active']">
-                                <div class="">Experience: {{job?.experience }} years</div>
+                                <div class="">Experience: {{job?.experience}}</div>
                                 <div class="">Address: {{job?.address}}</div>
                                 <div class="">Province: {{job?.province}}</div>
                                 <div class="">City: {{job?.city}}</div>

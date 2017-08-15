@@ -18,6 +18,10 @@ export class JobListPage implements OnInit, OnDestroy {
 
     pages: JOB_PAGES = [];
 
+    query: {};
+
+    searchBy: { location?, profession?, more? } = {};
+
 
     /// for page scroll
     watch = null;
@@ -35,7 +39,7 @@ export class JobListPage implements OnInit, OnDestroy {
     numbers = Array.from(new Array(20), (x, i) => i + 1);
 
     /** Min and Max Age Variables*/
-    minAge: number = 18;
+    minAge: number = 14;
     maxAge: number = 60;
     minAgeRange = Array.from(new Array(this.maxAge - this.minAge), (x, i) => i + 1);
     maxAgeRange = this.minAgeRange;
@@ -116,6 +120,22 @@ export class JobListPage implements OnInit, OnDestroy {
             .subscribe(res => this.onValueChanged(res));
     }
 
+
+    resetForm(){
+        this.showCities = false;
+        this.formGroup.reset({
+            male: false,
+            female: false,
+            experience: 'all',
+            profession: 'all',
+            province: 'all',
+            city: 'all',
+            minAge: this.minAge,
+            maxAge: this.maxAge,
+            name: ''
+        });
+    }
+
     loadPage() {
         // console.log(`::loadPage(). noMorePosts: ${this.noMorePosts}, inLoading: ${this.inLoading}`);
         if (this.noMorePosts) return;
@@ -123,16 +143,18 @@ export class JobListPage implements OnInit, OnDestroy {
         else this.inLoading = true;
         this.pageNo++;
 
-        this.app.job.search({
-            posts_per_page: 4,
+        let req: POST_QUERY_REQUEST = {
+            posts_per_page: 2,
             page: this.pageNo,
+            query: this.query,
             // order: 'ID',
             // by: 'DESC'
-        }).subscribe((page: JOB_PAGE) => {
+        };
+
+
+        this.app.job.search(req).subscribe((page: JOB_PAGE) => {
             console.log("jobSearch", page);
-            this.inLoading = false;
-            this.pages.push(page);
-            if ( page.posts.length < page.posts_per_page ) this.noMorePosts = true;
+            this.displayPage( page );
         }, e => {
             console.log("loadPage::e::", e);
             this.inLoading = false;
@@ -140,54 +162,79 @@ export class JobListPage implements OnInit, OnDestroy {
         });
     }
 
+    displayPage( page ) {
+        this.inLoading = false;
+        if ( page.posts.length < page.posts_per_page ) this.noMorePosts = true;
+        if ( page.pageNo == 1 ) this.pages[0] = page;
+        else this.pages.push( page );
+    }
+
 
     onValueChanged(data?: any) {
         console.log('onValueChanges::data::', data);
-
         let clause = [];
-        let req = {};
+        this.query = {};
 
-        // GENDER
-        if (data.male != data.female) {
-            req['gender'] = data.male ? 'm' : 'f';
-        }
-        else {
-            clause.push(`char_1='m' OR char_1='f'`)
-        }
 
-        // BIRTHDAY
-        let min = (this.currentYear - data.minAge + 1) + '0000'; console.log('min::', min);
-        let max = (this.currentYear - data.maxAge) + '0000'; console.log('max::', max);
-        req['birthday'] = {
-            exp: 'BETWEEN',
-            value: `${max} AND ${min}`
-        };
-
-        // PROFESSION
-        if (data.profession != 'all') req['profession'] = data.profession;
-
-        // PROVINCE
-        if (data.province != 'all') req['province'] = data.province;
-
-        // CITY
-        if (data.city != 'all') req['city'] = data.city;
-
-        if (data.name) {
-            req['fullname'] = {
-                exp: 'LIKE',
-                value: `%${data.name}%`
+        if (this.searchBy.more == true ) {
+            // GENDER
+            if (data.male != data.female) {
+                this.query['gender'] = data.male ? 'm' : 'f';
             }
+            else {
+                clause.push(`char_1='m' OR char_1='f'`)
+            }
+
+
+            // FULL NAME
+            if (data.name) {
+                this.query['fullname'] = {
+                    exp: 'LIKE',
+                    value: `%${data.name}%`
+                }
+            }
+
+            // Experience
+            if (data.experience != 'all') {
+                this.query['experience'] = {
+                    exp: '>=',
+                    value: data.experience
+                }
+            }
+
+            // BIRTHDAY
+            let min = (this.currentYear - data.minAge + 1) + '0000'; console.log('min::', min);
+            let max = (this.currentYear - data.maxAge) + '0000'; console.log('max::', max);
+            this.query['birthday'] = {
+                exp: 'BETWEEN',
+                value: `${max} AND ${min}`
+            };
+
         }
+
+
+        if( this.searchBy.profession == true ){
+            // PROFESSION
+            if (data.profession != 'all') this.query['profession'] = data.profession;
+        }
+
+        if (this.searchBy.location == true ) {
+            // PROVINCE
+            if (data.province != 'all') this.query['province'] = data.province;
+
+            // CITY
+            if (data.city != 'all') this.query['city'] = data.city;
+        }
+
 
         // CLAUSE
-        if (clause.length) req['clause'] = clause;
+        if (clause.length) this.query['clause'] = clause;
 
-        console.log('REQUEST ON VALUE CHANGE :::', req);
-
-        this.app.job.search(req).subscribe(res => {
-            console.log("job search", res);
-        }, e => this.app.warning(e));
-
+        console.log('REQUEST ON VALUE CHANGE :::', this.query);
+        this.pages = [];
+        this.noMorePosts = false;
+        this.pageNo = 0;
+        this.loadPage();
     }
 
 
@@ -271,14 +318,19 @@ export class JobListPage implements OnInit, OnDestroy {
 
     onClickProfession() {
         console.log('SearchByProfession');
+        this.searchBy = (!this.searchBy.profession || this.searchBy.more ) ? {profession: true} : {};
+        this.resetForm();
     }
 
     onClickLocation() {
         console.log('SearchByLocation');
+        this.searchBy = (!this.searchBy.location || this.searchBy.more ) ? {location: true} : {};
+        this.resetForm();
     }
 
     onClickMore() {
-        console.log('showMore Option')
+        console.log('showMore Option');
+        this.searchBy = (!this.searchBy.more) ? this.searchBy = { profession: true, more: true, location: true } : {};
     }
 
     minRangeChange() {
