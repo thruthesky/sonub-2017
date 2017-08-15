@@ -48,7 +48,7 @@ const appRoutes: Routes = [
     { path: 'adv/list', component: AdvertisementListPage },
 
     { path: 'job/create', component: JobCreateEditPage},
-    { path: 'job/edit:id', component: JobCreateEditPage},
+    { path: 'job/edit/:id', component: JobCreateEditPage},
     { path: 'job', component: JobListPage},
 
 

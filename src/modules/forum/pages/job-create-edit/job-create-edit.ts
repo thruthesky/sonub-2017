@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { AppService, POST, FILES, FILE, POST_CREATE } from './../../../../providers/app.service';
 import { JOB_CREATE } from "../../../../providers/wordpress-api/interface";
 import { FileUploadWidget } from "../../../../widgets/file-upload/file-upload";
@@ -49,6 +49,7 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
         private region: PhilippineRegion,
         private router: Router,
         public app: AppService,
+        private activeRoute: ActivatedRoute,
         dateConfig: NgbDatepickerConfig,
 
     ) {
@@ -60,6 +61,16 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
         dateConfig.minDate = { year: 1956, month: 1, day: 1 };
         dateConfig.maxDate =  { year: this.today.getFullYear() - 14, month: 12, day: 31 };
         this.birthday = { year: this.today.getFullYear() - 14, month: 12, day: 31 };
+
+
+        let params = activeRoute.snapshot.params;
+        if (params['id']) {
+            this.app.wp.post({ route: 'wordpress.get_advertisement_by_id', ID: params['id'] })
+                .subscribe((post: POST) => {
+                    console.log('adv: ', post);
+
+                }, e => this.app.warning(e));
+        }
 
 
     }
