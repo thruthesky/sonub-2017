@@ -18,8 +18,22 @@
         height: auto;
     }
     #toast-content {
-        padding: $global-padding;
-        border-top: 2px solid #D5D5D5;
+        padding: $global-padding * 2;
+        border-top: 2px solid #5d99c6;
+        background-color: #90caf9;
+        color: black;
+        font-size: $fs-xs;
+
+        .cap {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            line-height: 18px;
+            vertical-align: middle;
+            text-align: center;
+            border-radius: 50%;
+            background-color: white;
+        }
     }
 
     @media ( min-width: $md ) {

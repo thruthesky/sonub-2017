@@ -71,7 +71,5 @@
     <button type="button" class="p-2 close" aria-label="Close" (click)="app.toastClose()">
         <span aria-hidden="true">&times;</span>
     </button>
-    <div id="toast-content" (click)=" app.toastOption.callback() ">
-        {{ app.toastOption.content }}
-    </div>
+    <div id="toast-content" (click)=" app.toastOption.callback() " [innerHTML]="app.toastOption.content"></div>
 </section>

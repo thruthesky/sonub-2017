@@ -28,7 +28,7 @@ export { CONFIRM_OPTIONS } from './modals/confirm/confirm.modal';
 
 // import { TextService } from './text.service';
 
-import { SOCIAL_PROFILE, USER_REGISTER, ACTIVITIES, ACTIVITY, COMMUNITY_LOGS } from './wordpress-api/interface';
+import { SOCIAL_PROFILE, USER_REGISTER, ACTIVITIES, ACTIVITY, COMMUNITY_LOG, COMMUNITY_LOGS } from './wordpress-api/interface';
 export {
     POST, POSTS, POST_LIST, PAGE, PAGES, FILE, FILES, POST_CREATE, POST_DELETE, POST_DELETE_RESPONSE,
     JOB, JOBS, JOB_LIST_REQUEST, JOB_PAGE, JOB_PAGES,
@@ -109,21 +109,21 @@ export class AppService extends Base {
         this.auth = firebase.auth();
         this.db = firebase.database().ref('/');
 
-
         Observable.fromEvent(window, 'resize')
             .debounceTime(100)
             .subscribe((event) => {
                 this.width = window.innerWidth;
             });
 
+        this.width = window.innerWidth;
     }
 
+
     get size(): 'mobile' | 'break-a' | 'break-c' | 'break-d' {
-        if (this.width <= 360) return 'mobile';
-        else if ( this.width < 600 ) return 'break-a';
-        else if ( this.width < 840 ) return 'break-c';
-        else if ( this.width < 1140 ) return 'break-d';
-        
+        if (this.width < 600) return 'mobile';
+        else if (this.width < 840) return 'break-a';
+        else if (this.width < 1140) return 'break-c';
+        return 'break-d';
     }
 
 
@@ -429,19 +429,21 @@ export class AppService extends Base {
         }
         this.firebaseDatabaseListenActivityEventHandler = ref
             .limitToLast(5)
-            .on('value', snap => {
-                let val = snap.val();
+            .on('child_added', snap => {
+                let val: ACTIVITY = snap.val();
                 if (!val) return;
                 if (typeof val !== 'object') return;
 
-                console.log('snap.val', val);
-                let keys = Object.keys(val);
-                if (keys && keys.length) {
-                    this.activity = [];
-                    for (let key of keys.reverse()) {
-                        this.activity.push(val[key]);
-                    }
-                }
+                // console.log('snap.val', val);
+                // let keys = Object.keys(val);
+                // if (keys && keys.length) {
+                //     this.activity = [];
+                //     for (let key of keys.reverse()) {
+                //         this.activity.push(val[key]);
+                //     }
+                // }
+                this.activity.unshift(val);
+                this.toastLog(val, 'activity');
                 this.rerenderPage();
                 // val.reverse();
             }, e => console.error(e));
@@ -450,7 +452,7 @@ export class AppService extends Base {
     listenFirebaseComunityLog() {
         let path = this.db.child('forum-log').child('posts-comments');
         let ref = path.limitToLast(10).once('value', snap => {
-            let val = snap.val();
+            let val: COMMUNITY_LOGS = snap.val();
             if (!val) return;
             if (typeof val !== 'object') return;
 
@@ -467,15 +469,16 @@ export class AppService extends Base {
 
             /// listen the lastest one.
             path.orderByKey().limitToLast(1).on('child_added', snap => {
-                let val = snap.val();
+                let val: COMMUNITY_LOG = snap.val();
                 if (!val) return;
                 if (typeof val !== 'object') return;
                 // console.log('posts-comments: child_added: snap.val: ', val);
+
+                this.toastLog(val, 'community');
+
                 this.communityLogs.unshift(val);
-                this.rerenderPage(10);
+                this.rerenderPage(100);
             });
-
-
 
         }, e => console.error(e));
 
@@ -506,4 +509,37 @@ export class AppService extends Base {
         this.toastOption.show = false;
     }
 
+
+    postView(post_ID) {
+        this.router.navigateByUrl(this.forum.postUrl(post_ID));
+    }
+
+    toastLog(val, type) {
+
+        console.log("toastLog: width: ", this.width);
+        console.log("toastLog: size: ", this.size);
+
+        if (this.size == 'break-d') return;
+
+        let toastOption = {
+            content: val.content,
+            timeout: 7000,
+            callback: () => {
+                this.toastClose();
+                this.postView(val.post_ID);
+            }
+        };
+
+        if (type == 'activity' && this.size == 'mobile' ) {
+            toastOption.content = '<span class="cap activity-cap">A</span> ' + toastOption.content;
+            this.toast(toastOption);
+        }
+
+        if (type == 'community') {
+            if (val.comment_ID === void 0 || !val.comment_ID) {
+                toastOption.content = '<span class="cap community-cap">C</span> ' + toastOption.content;
+                this.toast(toastOption);
+            }
+        }
+    }
 }

@@ -73,7 +73,7 @@ export class JobListPage implements OnInit {
                 `(ID > 100 AND char_1='M') OR (ID < 99999 AND char_1='F')`,
                 `post_type = 'post' OR post_type = 'attachment'`
             ]
-        }).subscribe(res => {
+        }).subscribe((res: JOB_PAGE) => {
             console.log("job search", res);
         }, e => this.app.warning(e));
 

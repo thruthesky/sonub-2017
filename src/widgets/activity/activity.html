@@ -10,6 +10,7 @@
                     
             <a href="{{ app.forum.postUrl( activity.post_ID ) }}" routerLink="{{ app.forum.postUrl( activity.post_ID ) }}">
                     <div *ngIf=" activity.thumbnail_url " class="thumbnail float-left mr-2"><img class="size-32px" src="{{ activity.thumbnail_url}} "></div>
+                    <div *ngIf=" ! activity.thumbnail_url && activity.author_photoURL " class="thumbnail float-left mr-2"><img class="size-32px" src="{{ activity.author_photoURL}} "></div>
                     <span class="name fw-bold">{{ activity.author_name }} ...</span>
                     <span class="content">{{ app.wordcut( activity.content, 42 ) }}</span>
                 </a>
