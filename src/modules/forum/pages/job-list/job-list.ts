@@ -1,13 +1,13 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import {
     AppService, JOB, JOBS, POST_QUERY_REQUEST, JOB_PAGE, JOB_PAGES, POST_QUERY_RESPONSE
 } from './../../../../providers/app.service';
-import {PhilippineRegion} from "../../../../providers/philippine-region";
-import {PageScroll} from './../../../../providers/page-scroll';
-import {Router} from "@angular/router";
-import {PAGE, POST} from "../../../../providers/wordpress-api/interface";
-import {current} from "codelyzer/util/syntaxKind";
+import { PhilippineRegion } from "../../../../providers/philippine-region";
+import { PageScroll } from './../../../../providers/page-scroll';
+import { Router } from "@angular/router";
+import { PAGE, POST } from "../../../../providers/wordpress-api/interface";
+import { current } from "codelyzer/util/syntaxKind";
 
 
 @Component({
@@ -54,11 +54,14 @@ export class JobListPage implements OnInit, OnDestroy {
     today = new Date();
     currentYear = this.today.getFullYear();
 
-    constructor(private fb: FormBuilder,
-                public app: AppService,
-                private region: PhilippineRegion,
-                private pageScroll: PageScroll,
-                private router: Router) {
+    constructor(
+        private fb: FormBuilder,
+        public app: AppService,
+        private region: PhilippineRegion,
+        private pageScroll: PageScroll,
+        private router: Router
+    ) {
+        app.section('job');
         region.get_province(re => {
             this.provinces = re;
         }, e => {
@@ -66,31 +69,31 @@ export class JobListPage implements OnInit, OnDestroy {
         });
 
 
-// let req: POST_QUERY_REQUEST = {
-//     page: 3,
-//     posts_per_page: 2,
-//     query: {
-//         slug: 'jobs',
-//         gender: 'M',
-//         birthday: {
-//             exp: 'BETWEEN',
-//             value: '19500101 AND 20800101'
-//         },
-//         fullname: {
-//             exp: 'LIKE',
-//             value: '%jae%'
-//         },
-//         clause: [
-//             `(ID > 100 AND char_1='M') OR (ID < 99999 AND char_1='F')`,
-//             `post_type = 'post' OR post_type = 'attachment'`
-//         ]
-//     },
-//     order: 'ID',
-//     by: 'DESC'
-// };
-// this.app.job.search(req).subscribe((page: JOB_PAGE) => {
-//     console.log("job search", page);
-// }, e => this.app.warning(e));
+        // let req: POST_QUERY_REQUEST = {
+        //     page: 3,
+        //     posts_per_page: 2,
+        //     query: {
+        //         slug: 'jobs',
+        //         gender: 'M',
+        //         birthday: {
+        //             exp: 'BETWEEN',
+        //             value: '19500101 AND 20800101'
+        //         },
+        //         fullname: {
+        //             exp: 'LIKE',
+        //             value: '%jae%'
+        //         },
+        //         clause: [
+        //             `(ID > 100 AND char_1='M') OR (ID < 99999 AND char_1='F')`,
+        //             `post_type = 'post' OR post_type = 'attachment'`
+        //         ]
+        //     },
+        //     order: 'ID',
+        //     by: 'DESC'
+        // };
+        // this.app.job.search(req).subscribe((page: JOB_PAGE) => {
+        //     console.log("job search", page);
+        // }, e => this.app.warning(e));
     }
 
 
@@ -297,11 +300,11 @@ export class JobListPage implements OnInit, OnDestroy {
     onClickProvince() {
         console.log('Province::', this.formGroup.value.province);
         if (this.formGroup.value.province != 'all') {
-            this.formGroup.patchValue({city: this.formGroup.value.province});
+            this.formGroup.patchValue({ city: this.formGroup.value.province });
             this.getCities();
         }
         else {
-            this.formGroup.patchValue({city: 'all'});
+            this.formGroup.patchValue({ city: 'all' });
             this.showCities = false;
         }
     }
@@ -367,7 +370,7 @@ export class JobListPage implements OnInit, OnDestroy {
 
     postDelete(page, ID, password?) {
         // debugger;
-        this.app.forum.postDelete({ID: ID, post_password: password}).subscribe(res => {
+        this.app.forum.postDelete({ ID: ID, post_password: password }).subscribe(res => {
             console.log("file deleted: ", res);
 
             let index = page.posts.findIndex(post => post.ID == res.ID);
@@ -380,12 +383,12 @@ export class JobListPage implements OnInit, OnDestroy {
 
     showSearchForm() {
         this.searchForm = true;
-        this.formGroup.patchValue({profession: this.jobProfession});
+        this.formGroup.patchValue({ profession: this.jobProfession });
     }
 
     hideSearchForm() {
         this.searchForm = false;
-        this.jobProfession= 'all';
+        this.jobProfession = 'all';
         this.resetForm();
     }
 

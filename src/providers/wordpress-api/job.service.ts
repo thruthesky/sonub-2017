@@ -35,6 +35,7 @@ export class JobService extends Base {
         };
 
 
+        /// meta info that will be saved into wp_postmeta
         req['first_name'] = data.first_name;
         req['middle_name'] = data.middle_name;
         req['last_name'] = data.last_name;
@@ -45,7 +46,6 @@ export class JobService extends Base {
         req.varchar_2 = data.province;
         req.varchar_4 = data.profession;
         req.varchar_5 = data.first_name + ' ' + data.middle_name + ' ' + data.last_name;
-
 
         req.int_1 = data.experience;
         req.int_2 = data.birthday;

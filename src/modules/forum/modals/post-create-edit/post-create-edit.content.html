@@ -8,17 +8,32 @@
     <div class="modal-title"><input class="px-1 w-100" type="text" name="post_title" [(ngModel)]="post_title" (keyup)="titleInput()" placeholder="{{ app.text('input_title') }}"></div>
 
     <div *ngIf=" ! app.user.isLogin " class="anonymouse-form">
-        Author Name: <input type="text" name="post_author_name" [(ngModel)]="post_author_name"><br> Author Email:
-        <input type="email" name="post_author_email" [(ngModel)]="post_author_email"><br> Author Mobile No.: <input type="text"
-            name="post_author_phone_number" [(ngModel)]="post_author_phone_number"><br> Password: <input type="password" name="post_password"
-            [(ngModel)]="post_password"><br>
+        <div class="container m-0 p-0">
+            <div class="row mt-2 mb-1">
+                <div class="col-2">{{ app.text('name') }}</div>
+                <div class="col-10"><input type="text" name="post_author_name" [(ngModel)]="post_author_name"></div>
+            </div>
+            <div class="row my-1">
+                <div class="col-2">{{ app.text('email') }}</div>
+                <div class="col-10"><input type="email" name="post_author_email" [(ngModel)]="post_author_email"></div>
+            </div>
+            <div class="row my-1">
+                <div class="col-2">{{ app.text('mobile_no') }}</div>
+                <div class="col-10"><input type="text" name="post_author_phone_number" [(ngModel)]="post_author_phone_number"></div>
+            </div>
+            <div class="row mt-1 mb-2">
+                <div class="col-2">{{ app.text('password') }}</div>
+                <div class="col-10"><input type="password" name="post_password" [(ngModel)]="post_password"></div>
+            </div>
+        </div>
     </div>
 
 
 
 
     <div class="mt-2">
-        <textarea class="p-1 w-100 h-15em" name="post_content" [(ngModel)]="post_content" #textareaPostContent (keyup)="contentInput(textareaPostContent.value)" placeholder="{{ app.text('input_content') }}"></textarea>
+        <textarea class="p-1 w-100 h-15em" name="post_content" [(ngModel)]="post_content" #textareaPostContent (keyup)="contentInput(textareaPostContent.value)"
+            placeholder="{{ app.text('input_content') }}"></textarea>
     </div>
 
     <!--     

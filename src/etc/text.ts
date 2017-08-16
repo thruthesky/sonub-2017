@@ -11,6 +11,26 @@ export let TEXT = {
         en: 'Login',
         ko: '로그인'
     },
+    register: {
+        en: 'Register',
+        ko: '회원가입'
+    },
+    name: {
+        en: 'Name',
+        ko: '이름'
+    },
+    email: {
+        en: 'Email',
+        ko: '이메일'
+    },
+    mobile_no: {
+        en: 'Mobile No.',
+        ko: '휴대폰 번호'
+    },
+    password: {
+        en: 'Password',
+        ko: '비밀번호'
+    },
     home: {
         en: 'Home',
         ko: '홈'
@@ -114,6 +134,10 @@ export let TEXT = {
         en: 'Start a Discussion',
         ko: '자유게시판 글쓰기'
     },
+    discussion_description: {
+        en: 'Please share your thoughts and ideas.',
+        ko: '자유토론 게시판입니다.'
+    },
     ask: {
         en: 'Ask',
         ko: '질문하기'
@@ -140,7 +164,15 @@ export let TEXT = {
         en: 'Jobs',
         ko: '구인구직'
     },
-    
+    job_description: {
+        en: '',
+        ko: ''
+    },
+
+    crowded_forums: {
+        en: 'Crowded Forums',
+        ko: '새글이 많은 게시판'
+    },
 
     /// page title
     menu_page_title: {
@@ -209,6 +241,15 @@ export let TEXT = {
         ko: '장터'
     },
 
+    message: {
+        en: 'Message',
+        ko: '메세지'
+    },
+    settings: {
+        en: 'Settings',
+        ko: '설정'
+    },
+
     ///
     community_logs: {
         en: 'Latest Articles',
@@ -266,7 +307,7 @@ TEXT[ERROR.CODE_COMMENT_DUPLICATE] = { en: 'Please do not comment with same text
 TEXT[ERROR.LOGIN_FIRST] = { en: 'Please login first', ko: '로그인을 먼저하십시오.' };
 TEXT[ERROR.CODE_WRONG_SESSION_ID] = { en: 'Wrong login information. Wrong session. Please login again.', ko: '로그인 오류. 로그인 정보가 올바르지 않습니다. 로그인을 다시 해 주세요.' };
 TEXT[ERROR.CODE_NO_USER_BY_THAT_SESSION_ID] = { en: 'Wrong loing information. No user. Please login again.', ko: '로그인 오류. 로그인 정보를 찾을 수 없습니다. 다시 로그인을 해 주세요.' };
-
+TEXT[ERROR.CODE_PERMISSION_DENIED] = { en: 'Permission denied', ko: '권한이 없습니다.' };
 
 /**
  * 

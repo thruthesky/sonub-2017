@@ -510,13 +510,14 @@ export class AppService extends Base {
             this.toastOption = option;
             this.toastOption.show = true;
             if (option.timeout !== void 0) {
-                setTimeout(() => this.toastOption.show = false, option.timeout);
+                setTimeout(() => this.toastClose(), option.timeout);
             }
         }, option.delay);
     }
 
     toastClose() {
         this.toastOption.show = false;
+        this.rerenderPage();
     }
 
 
