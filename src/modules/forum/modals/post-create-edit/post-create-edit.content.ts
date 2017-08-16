@@ -46,6 +46,7 @@ export class PostCreateEditContent implements OnInit {
 
 
     private typing = new Subject<string>();
+    private subscriptionTyping = null;
 
 
     constructor(
@@ -55,7 +56,7 @@ export class PostCreateEditContent implements OnInit {
 
 
     ngOnInit() {
-        this.typing
+        this.subscriptionTyping = this.typing
             .debounceTime(300)
             .subscribe( text => {
                 this.post_title = this.app.wordcut( text, 60);
@@ -65,6 +66,9 @@ export class PostCreateEditContent implements OnInit {
     contentInput( text: string ): void {
         console.log('text: ', text);
         this.typing.next(text);
+    }
+    titleInput() {
+        if ( this.subscriptionTyping ) this.subscriptionTyping.unsubscribe();
     }
     
 

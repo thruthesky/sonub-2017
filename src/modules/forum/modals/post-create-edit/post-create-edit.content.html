@@ -1,11 +1,11 @@
 <div class="modal-body">
+    <!-- <button class="close absolute top-right pl-2 pointer" type="button" aria-label="Close" (click)="onClickCancel()">
+        <span aria-hidden="true">&times;</span>
+    </button> -->
 
-    <div class="relative">
-        <div class="modal-title mr-4"><input class="w-100" type="text" name="post_title" [(ngModel)]="post_title"></div>
-        <button class="close absolute top-right pl-2 pointer" type="button" aria-label="Close" (click)="onClickCancel()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
+
+    <div class="modal-title"><input class="w-100" type="text" name="post_title" [(ngModel)]="post_title" (keyup)="titleInput()"></div>
+
     <div *ngIf=" ! app.user.isLogin " class="anonymouse-form">
         Author Name: <input type="text" name="post_author_name" [(ngModel)]="post_author_name"><br> Author Email:
         <input type="email" name="post_author_email" [(ngModel)]="post_author_email"><br> Author Mobile No.: <input type="text"
@@ -17,17 +17,17 @@
 
 
     <div class="mt-2">
-        <textarea class="w-100" name="post_content" [(ngModel)]="post_content" #textareaPostContent (keyup)="contentInput(textareaPostContent.value)"></textarea>
+        <textarea class="w-100 h-15em" name="post_content" [(ngModel)]="post_content" #textareaPostContent (keyup)="contentInput(textareaPostContent.value)"></textarea>
     </div>
 
-<!--     
+    <!--     
         <select class="form-control form-control-sm">
                     <option value="">{{ app.text('choose_forum') }}</option>
                     <option value="discussion">{{ app.text('discussion') }}</option>
                     <option value="qna">{{ app.text('qna') }}</option>
                     <option value="news">{{ app.text('news') }}</option>
                   </select> -->
-                  
+
 </div>
 <div class="modal-footer justify-content-between">
 
@@ -50,4 +50,3 @@
 <hr class="mx-2" *ngIf="files && files.length">
 
 <file-upload-widget #fileUploadWidget [title]="false" [fileSelectionButton]="false" [files]="files" [post_password]="post_password"></file-upload-widget>
-

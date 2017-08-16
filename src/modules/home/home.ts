@@ -19,7 +19,7 @@ export class HomePage implements OnInit, AfterViewInit {
         // private test: TestService
     ) {
         app.section('home');
-        if ( window['forum_post'] ) {
+        if (window['forum_post']) {
             this.post = Object.assign({}, window['forum_post']);
             window['forum_post'] = null;
         }
@@ -43,10 +43,9 @@ export class HomePage implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
 
-        setTimeout(() => {
-
-        this.app.warning("hi");
-        }, 10);
+        // setTimeout(() => {
+        //     this.app.warning("hi");
+        // }, 10);
 
         // this.router.navigateByUrl('/forum/abc');
     }
