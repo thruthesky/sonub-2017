@@ -58,7 +58,7 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
         }, e => {
         });
 
-        dateConfig.minDate = { year: 1956, month: 1, day: 1 };
+        dateConfig.minDate = { year: 1946, month: 1, day: 1 };
         dateConfig.maxDate =  { year: this.today.getFullYear() - 14, month: 12, day: 31 };
         this.birthday = { year: this.today.getFullYear() - 14, month: 12, day: 31 };
 

@@ -11,14 +11,51 @@
         <small>This is job forum.</small>
     </div>
 
-    <nav class="search-option">
-        <button type="button" class="btn btn-primary btn-sm" (click)="onClickProfession()">Profession</button>
-        <button type="button" class="btn btn-primary btn-sm" (click)="onClickLocation()">Location</button>
-        <button type="button" class="btn btn-primary btn-sm" (click)="onClickMore()">More Option</button>
+    <nav class="bg-light mb-2 text-center py-2" *ngIf="!searchForm">
+        <span>I am looking for a</span>
+
+        <select id="jobProfession" [(ngModel)]="jobProfession" (change)="showSearchForm()" >
+            <option value="all">Select Job</option>
+            <option value="housemaid">House Maid</option>
+            <option value="driver">Driver</option>
+            <option value="babysitter">Babysitter</option>
+        </select>
     </nav>
 
-    <form [formGroup]="formGroup" novalidate class="search-form" *ngIf=" (searchBy | json) != '{}' " [class.more]=" searchBy.more ">
-        <div class="row-container" *ngIf=" searchBy.more ">
+    <form [formGroup]="formGroup" novalidate class="search-form" *ngIf="searchForm">
+
+        <div class="row-container">
+            <label class="text" for="profession">Profession</label>
+            <div class="input">
+                <select class="form-control" id="profession" formControlName="profession">
+                    <option value="all">All</option>
+                    <option value="housemaid">House Maid</option>
+                    <option value="driver">Driver</option>
+                    <option value="babysitter">Babysitter</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row-container">
+            <label class="text">Province</label>
+            <div class="input">
+                <select class="form-control" id="searchByProvince" formControlName="province" (change)="onClickProvince()">
+                    <option value="all">All</option>
+                    <option *ngFor="let province of provinces" [value]="province">{{province}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row-container" *ngIf="showCities">
+            <label class="text" *ngIf="showCities">City</label>
+            <div class="input">
+                <select class="form-control" id="city" formControlName="city">
+                    <option *ngFor="let key of cityKeys" [value]="key">{{cities[key]}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row-container">
             <label class="text">Gender</label>
             <div class="input">
                 <label class="form-check-inline">
@@ -30,7 +67,7 @@
             </div>
         </div>
 
-        <div class="row-container" *ngIf=" searchBy.more ">
+        <div class="row-container">
             <label class="text" for="experience">Experience</label>
             <div class="input">
                 <select class="form-control" id="experience" formControlName="experience">
@@ -45,38 +82,7 @@
         </div>
 
 
-        <div class="row-container" *ngIf=" searchBy.profession ">
-            <label class="text" for="profession">Profession</label>
-            <div class="input">
-                <select class="form-control" id="profession" formControlName="profession">
-                    <option value="all">All</option>
-                    <option value="housemaid">House Maid</option>
-                    <option value="driver">Driver</option>
-                    <option value="babysitter">Babysitter</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="row-container" *ngIf=" searchBy.location ">
-            <label class="text">Province</label>
-            <div class="input">
-                <select class="form-control" id="searchByProvince" formControlName="province" (change)="onClickProvince()">
-                    <option value="all">All</option>
-                    <option *ngFor="let province of provinces" [value]="province">{{province}}</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="row-container" *ngIf="showCities && searchBy.location">
-            <label class="text" *ngIf="showCities">City</label>
-            <div class="input">
-                <select class="form-control" id="city" formControlName="city">
-                    <option *ngFor="let key of cityKeys" [value]="key">{{cities[key]}}</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="row-container" *ngIf=" searchBy.more ">
+        <div class="row-container">
             <label class="text">Age Range</label>
             <div class="input">
                 <label class="range text">Min</label>
@@ -96,14 +102,14 @@
             </div>
         </div>
 
-        <div class="row-container" *ngIf=" searchBy.more ">
+        <div class="row-container">
             <label for="name" class="text">Name</label>
             <div class="input">
                 <input class="form-control" type="text" id="name" formControlName="name" placeholder="Input Name...">
             </div>
         </div>
 
-        <div class="row-container" *ngIf=" searchBy.more && app.user.isLogin ">
+        <div class="row-container" *ngIf="app.user.isLogin">
                 <label class="text">Show My Post</label>
                 <div class="input">
                     <label class="form-check-inline">
@@ -112,11 +118,11 @@
                 </div>
         </div>
 
-        <i class="close fa fa-times pointer" (click)=" searchBy = {} "></i>
+        <i class="close fa fa-times pointer" (click)="hideSearchForm()"></i>
 
     </form>
 
-    <div class="card p-1 mb-1">
+    <div class="card p-1 mb-1" *ngIf="searchForm">
         <div class="search-summary">
             <span>Searching...</span>
             <span *ngIf="formGroup.value.myPost"> My Post</span>

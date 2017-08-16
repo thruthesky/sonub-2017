@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {
     AppService, JOB, JOBS, POST_QUERY_REQUEST, JOB_PAGE, JOB_PAGES, POST_QUERY_RESPONSE
 } from './../../../../providers/app.service';
-import { PhilippineRegion } from "../../../../providers/philippine-region";
-import { PageScroll } from './../../../../providers/page-scroll';
+import {PhilippineRegion} from "../../../../providers/philippine-region";
+import {PageScroll} from './../../../../providers/page-scroll';
 import {Router} from "@angular/router";
 import {PAGE, POST} from "../../../../providers/wordpress-api/interface";
 import {current} from "codelyzer/util/syntaxKind";
@@ -23,7 +23,9 @@ export class JobListPage implements OnInit, OnDestroy {
 
     query = {};
 
-    searchBy: { location?, profession?, more? } = {};
+    searchForm: boolean = false;
+    jobProfession: string = 'all';
+
 
 
     /// for page scroll
@@ -35,15 +37,12 @@ export class JobListPage implements OnInit, OnDestroy {
     ///
 
 
-
-
-
     /** Work Experience Variable*/
     numbers = Array.from(new Array(20), (x, i) => i + 1);
 
     /** Min and Max Age Variables*/
     minAge: number = 14;
-    maxAge: number = 60;
+    maxAge: number = 70;
     minAgeRange = Array.from(new Array(this.maxAge - this.minAge), (x, i) => i + 1);
     maxAgeRange = this.minAgeRange;
     betweenAge: number = this.minAge - 1;
@@ -55,13 +54,11 @@ export class JobListPage implements OnInit, OnDestroy {
     today = new Date();
     currentYear = this.today.getFullYear();
 
-    constructor(
-        private fb: FormBuilder,
-        public app: AppService,
-        private region: PhilippineRegion,
-        private pageScroll: PageScroll,
-        private router: Router
-    ) {
+    constructor(private fb: FormBuilder,
+                public app: AppService,
+                private region: PhilippineRegion,
+                private pageScroll: PageScroll,
+                private router: Router) {
         region.get_province(re => {
             this.provinces = re;
         }, e => {
@@ -97,16 +94,16 @@ export class JobListPage implements OnInit, OnDestroy {
     }
 
 
-
     ngOnInit() {
         this.initSearchForm();
         this.loadPage();
-        this.watch = this.pageScroll.watch( 'body', 350 ).subscribe( e => this.loadPage() );
+        this.watch = this.pageScroll.watch('body', 350).subscribe(e => this.loadPage());
     }
 
     ngOnDestroy() {
         this.watch.unsubscribe();
     }
+
     initSearchForm() {
         this.formGroup = this.fb.group({
             male: [false],
@@ -126,7 +123,7 @@ export class JobListPage implements OnInit, OnDestroy {
     }
 
 
-    resetForm(){
+    resetForm() {
         this.showCities = false;
         this.formGroup.reset({
             male: false,
@@ -160,7 +157,7 @@ export class JobListPage implements OnInit, OnDestroy {
 
         this.app.job.search(req).subscribe((page: JOB_PAGE) => {
             console.log("jobSearch", page);
-            this.displayPage( page );
+            this.displayPage(page);
         }, e => {
             console.log("loadPage::e::", e);
             this.inLoading = false;
@@ -168,11 +165,11 @@ export class JobListPage implements OnInit, OnDestroy {
         });
     }
 
-    displayPage( page ) {
+    displayPage(page) {
         this.inLoading = false;
-        if ( page.posts.length < page.posts_per_page ) this.noMorePosts = true;
-        if ( page.pageNo == 1 ) this.pages[0] = page;
-        else this.pages.push( page );
+        if (page.posts.length < page.posts_per_page) this.noMorePosts = true;
+        if (page.pageNo == 1) this.pages[0] = page;
+        else this.pages.push(page);
     }
 
 
@@ -182,64 +179,60 @@ export class JobListPage implements OnInit, OnDestroy {
         this.query = {};
 
 
-        if (this.searchBy.more == true ) {
-            // GENDER
-            if (data.male != data.female) {
-                this.query['gender'] = data.male ? 'm' : 'f';
-            }
-            else {
-                clause.push(`char_1='m' OR char_1='f'`)
-            }
+        // GENDER
+        if (data.male != data.female) {
+            this.query['gender'] = data.male ? 'm' : 'f';
+        }
+        else {
+            clause.push(`char_1='m' OR char_1='f'`)
+        }
 
 
-            // FULL NAME
-            if (data.name) {
-                this.query['fullname'] = {
+        // FULL NAME
+        if (data.name) {
+            this.query['fullname'] = {
+                exp: 'LIKE',
+                value: `%${data.name}%`
+            }
+        }
+
+        // Experience
+        if (data.experience != 'all') {
+            this.query['experience'] = {
+                exp: '>=',
+                value: data.experience
+            }
+        }
+
+        // BIRTHDAY
+        let min = (this.currentYear - data.minAge + 1) + '0000';
+        console.log('min::', min);
+        let max = (this.currentYear - data.maxAge) + '0000';
+        console.log('max::', max);
+        this.query['birthday'] = {
+            exp: 'BETWEEN',
+            value: `${max} AND ${min}`
+        };
+
+
+        if (data.myPost) this.query['post_author'] = this.app.user.id;
+
+
+        // PROFESSION
+        if (data.profession != 'all') this.query['profession'] = data.profession;
+
+
+        // PROVINCE
+        if (data.province != 'all') this.query['province'] = data.province;
+
+        // CITY
+        if (data.city != 'all') {
+            if (data.province == data.city) {
+                this.query['city'] = {
                     exp: 'LIKE',
-                    value: `%${data.name}%`
+                    value: `%${data.city}%`
                 }
-            }
-
-            // Experience
-            if (data.experience != 'all') {
-                this.query['experience'] = {
-                    exp: '>=',
-                    value: data.experience
-                }
-            }
-
-            // BIRTHDAY
-            let min = (this.currentYear - data.minAge + 1) + '0000'; console.log('min::', min);
-            let max = (this.currentYear - data.maxAge) + '0000'; console.log('max::', max);
-            this.query['birthday'] = {
-                exp: 'BETWEEN',
-                value: `${max} AND ${min}`
-            };
-
-
-            if(data.myPost) this.query['post_author'] = this.app.user.id;
-
-        }
-
-
-        if( this.searchBy.profession == true ){
-            // PROFESSION
-            if (data.profession != 'all') this.query['profession'] = data.profession;
-        }
-
-        if (this.searchBy.location == true ) {
-            // PROVINCE
-            if (data.province != 'all') this.query['province'] = data.province;
-
-            // CITY
-            if (data.city != 'all') {
-                if (data.province == data.city ) {
-                    this.query['city'] = {
-                        exp: 'LIKE',
-                        value: `%${data.city}%`
-                    }
-                } else this.query['city'] = data.city;
-            }
+            } else this.query['city'] = data.city;
         }
 
 
@@ -304,11 +297,11 @@ export class JobListPage implements OnInit, OnDestroy {
     onClickProvince() {
         console.log('Province::', this.formGroup.value.province);
         if (this.formGroup.value.province != 'all') {
-            this.formGroup.patchValue({ city: this.formGroup.value.province });
+            this.formGroup.patchValue({city: this.formGroup.value.province});
             this.getCities();
         }
         else {
-            this.formGroup.patchValue({ city: 'all' });
+            this.formGroup.patchValue({city: 'all'});
             this.showCities = false;
         }
     }
@@ -328,27 +321,11 @@ export class JobListPage implements OnInit, OnDestroy {
         return Object.keys(this.cities);
     }
 
-        onClickProfession() {
-        console.log('SearchByProfession');
-        this.searchBy = (!this.searchBy.profession || this.searchBy.more ) ? {profession: true} : {};
-        this.resetForm();
-    }
-
-    onClickLocation() {
-        console.log('SearchByLocation');
-        this.searchBy = (!this.searchBy.location || this.searchBy.more ) ? {location: true} : {};
-        this.resetForm();
-    }
-
-    onClickMore() {
-        console.log('showMore Option');
-        this.searchBy = (!this.searchBy.more) ? this.searchBy = { profession: true, more: true, location: true } : {};
-    }
-
     minRangeChange() {
         this.betweenAge = this.formGroup.value.minAge - 1;
         this.maxAgeRange = this.getRange(this.formGroup.value.minAge, this.maxAge);
     }
+
     maxRangeChange() {
         this.minAgeRange = this.getRange(this.minAge, this.formGroup.value.maxAge);
     }
@@ -357,13 +334,12 @@ export class JobListPage implements OnInit, OnDestroy {
         return Array.from(new Array(max - min), (x, i) => i + 1);
     }
 
-    getAge(birthday){
-        if( birthday && birthday.length > 4 ) {
-            let year = parseInt( birthday.substring(0,4) );
+    getAge(birthday) {
+        if (birthday && birthday.length > 4) {
+            let year = parseInt(birthday.substring(0, 4));
             return this.currentYear - year;
         }
     }
-
 
 
     urlPhoto(post) {
@@ -372,12 +348,12 @@ export class JobListPage implements OnInit, OnDestroy {
         else return this.app.anonymousPhotoURL;
     }
 
-    onClickEdit(idx){
+    onClickEdit(idx) {
         this.router.navigate(['/job/edit', idx]);
     }
 
 
-    onClickDelete( post: POST , page: PAGE ) {
+    onClickDelete(post: POST, page: PAGE) {
         if (post.author.ID) {
             this.app.confirm(this.app.text('confirmDelete')).then(code => {
                 if (code == 'yes') this.postDelete(page, post.ID);
@@ -391,7 +367,7 @@ export class JobListPage implements OnInit, OnDestroy {
 
     postDelete(page, ID, password?) {
         // debugger;
-        this.app.forum.postDelete({ ID: ID, post_password: password }).subscribe(res => {
+        this.app.forum.postDelete({ID: ID, post_password: password}).subscribe(res => {
             console.log("file deleted: ", res);
 
             let index = page.posts.findIndex(post => post.ID == res.ID);
@@ -399,6 +375,18 @@ export class JobListPage implements OnInit, OnDestroy {
                 page.posts.splice(index, 1);
             }
         }, err => this.app.warning(err));
+    }
+
+
+    showSearchForm() {
+        this.searchForm = true;
+        this.formGroup.patchValue({profession: this.jobProfession});
+    }
+
+    hideSearchForm() {
+        this.searchForm = false;
+        this.jobProfession= 'all';
+        this.resetForm();
     }
 
 
