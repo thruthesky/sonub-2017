@@ -182,6 +182,13 @@ export let TEXT = {
                 { code: 'no', text: '아니오' }
             ]
         }
+    },
+
+    /// errors
+
+    this_post_is_not_owned_by_you_on_delete_post: {
+        en: 'You cannot delete this. Permission denied.',
+        ko: '글을 삭제 할 수 없습니다. 권한 없음.'
     }
 };
 

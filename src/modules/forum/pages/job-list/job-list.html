@@ -14,7 +14,7 @@
     <nav class="bg-light mb-2 text-center py-2" *ngIf="!searchForm">
         <span>I am looking for a</span>
 
-        <select id="jobProfession" [(ngModel)]="jobProfession" (change)="showSearchForm()" >
+        <select id="jobProfession" [(ngModel)]="jobProfession" (change)="showSearchForm()">
             <option value="all">Select Job</option>
             <option value="housemaid">House Maid</option>
             <option value="driver">Driver</option>
@@ -110,12 +110,12 @@
         </div>
 
         <div class="row-container" *ngIf="app.user.isLogin">
-                <label class="text">Show My Post</label>
-                <div class="input">
-                    <label class="form-check-inline">
+            <label class="text">Show My Post</label>
+            <div class="input">
+                <label class="form-check-inline">
                         <input type="checkbox" id="myPost" formControlName="myPost"> My Post Only
                     </label>
-                </div>
+            </div>
         </div>
 
         <i class="close fa fa-times pointer" (click)="hideSearchForm()"></i>
@@ -137,18 +137,20 @@
         </div>
     </div>
 
-    <div class="pages" *ngIf="pages">
-        <div class="page" *ngFor="let page of pages " >
 
-            <div class="posts clearfix">
-                <div class="job" *ngFor="let job of page.posts " [attr.post-id]="job.ID" (click)=" job.active = ! job?.active">
-                    <div class="card profile">
-                        <div id="profile-user">
-                            <span id="profile-user-photo">
-                                <img src="{{ urlPhoto( job ) }}">
-                            </span>
+    <!-- jobs -->
+    <div class="container p-0" *ngIf="pages">
+        <div class="jobs mx-0 row no-gutters-job">
+            <ng-container *ngFor="let page of pages ">
+                <div class="job col-6 mb-1" *ngFor="let job of page.posts " [attr.post-id]="job.ID" (click)=" job.active = ! job?.active"
+                    [class.col-12]=" job?.active ">
+                    <div class="profile bg-white">
+
+                        <div class="photo p-2 pt-3 flex justify-content-center">
+                            <img class="border-radius-50" src="{{ urlPhoto( job ) }}">
                         </div>
-                        <div id="profile-info">
+
+                        <div class="info p-2">
                             <div class="">{{ job?.fullname }}</div>
                             <div class="profession">{{ job?.profession }}, {{ job.gender == 'm' ? 'Male' : 'Female' }}/{{getAge(job.birthday)}}</div>
                             <div class="">Mobile: {{job?.mobile}}</div>
@@ -160,7 +162,7 @@
                                 <div class="">Message: {{job?.message}}</div>
                             </ng-container>
                         </div>
-                        <div class="card-footer mt-1 p  -1" *ngIf="job['active']">
+                        <div class="card-footer mt-1 p  -1" *ngIf=" job['active']">
                             <div class="row">
                                 <div class="text-center pointer col-6 p-0" (click)="$event.stopPropagation(); onClickEdit( job.ID )"><i class="fa fa-pencil"></i> Update</div>
                                 <div class="text-center pointer col-6 p-0" (click)="$event.stopPropagation(); onClickDelete( job, page )"><i class="fa fa-trash-o"></i> Delete</div>
@@ -168,7 +170,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </ng-container>
         </div>
     </div>
 </section>

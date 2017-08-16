@@ -1,21 +1,27 @@
-nav.search-option {         /// search option
-    padding: 0 0 .2em 0;
-    overflow: auto;
-    text-align: center;
-    button {
-        display: block;
-        float: left;
-        padding: .4em 0;
-        border: 0;
-        border-right: 1px solid white;
-        border-radius: 0;
-        width: 33.333%;
-        background-color: #6b7782;
-        color: white;
+///
+/// layout
+///
+///
+/// placement
+///
+///
+/// design
+///
+.no-gutters-job {
+    margin-right: 2px;
+    margin-left: 2px;
+    >.col,
+    >[class*="col-"] {
+        padding-right: 2px;
+        padding-left: 2px;
     }
 }
 
-.search-form {            /// search form
+///
+/// search form
+///
+.search-form {
+    /// search form
     position: relative;
     margin-bottom: .3em;
     padding: .6em;
@@ -34,7 +40,6 @@ nav.search-option {         /// search option
                 width: 4em;
             }
         }
-
         .input {
             margin-left: 7em;
             margin-right: 1.6em;
@@ -44,8 +49,7 @@ nav.search-option {         /// search option
                 margin-right: 0;
             }
         }
-
-        .form-check-inline{
+        .form-check-inline {
             padding: 0.4em 0;
             margin-bottom: 0;
         }
@@ -75,29 +79,4 @@ nav.search-option {         /// search option
         top: .5rem;
         right: .5rem;
     }
-
-}
-.job {
-    float: left;
-    width: 50%;
-    margin-bottom: .3em;
-    &:nth-child(odd) {
-        .card.profile {
-            margin-right: .15em;
-        }
-    }
-    &:nth-child(even) {
-        .card.profile {
-            margin-left: .15em;
-        }
-    }
-    .card.profile {
-        padding: .25em;
-        .profession {
-            &:first-letter {
-                text-transform: uppercase;
-            }
-        }
-    }
-
 }
