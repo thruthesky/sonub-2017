@@ -162,9 +162,9 @@
                                 <div class="">Message: {{job?.message}}</div>
                             </ng-container>
                         </div>
-                        <div class="card-footer mt-1 p  -1" *ngIf=" job['active']">
+                        <div class="card-footer mt-1 p  -1" *ngIf=" job['active'] && (app.my(job) || (!app.user.isLogin && !job.author.ID))">
                             <div class="row">
-                                <div class="text-center pointer col-6 p-0" (click)="$event.stopPropagation(); onClickEdit( job.ID )"><i class="fa fa-pencil"></i> Update</div>
+                                <div class="text-center pointer col-6 p-0" (click)="$event.stopPropagation(); onClickEdit( job )"><i class="fa fa-pencil"></i> Update</div>
                                 <div class="text-center pointer col-6 p-0" (click)="$event.stopPropagation(); onClickDelete( job, page )"><i class="fa fa-trash-o"></i> Delete</div>
                             </div>
                         </div>

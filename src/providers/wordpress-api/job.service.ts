@@ -53,6 +53,7 @@ export class JobService extends Base {
         req.post_password = data.password;
         req.session_id = this.user.sessionId;
         req.route = 'post.create';
+        req.ID  =  data.ID;
         return req;
     }
 
