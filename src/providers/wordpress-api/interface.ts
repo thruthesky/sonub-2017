@@ -188,7 +188,7 @@ export interface POST_READ_COMMON extends ID, POST_CREATE_COMMON {
     count_files: number;  /// number of files that are not image. made by server.
 };
 
-export interface POST_CREATE extends REQUEST, CATEGORY, POST_CREATE_COMMON { };
+export interface POST_CREATE extends REQUEST, ID_O, CATEGORY, POST_CREATE_COMMON { };
 export type POST_CREATE_RESPONSE = number;
 
 export interface POST_UPDATE extends REQUEST, ID, CATEGORY_O, POST_CREATE_COMMON { };
@@ -314,6 +314,7 @@ export type CATEGORIES = Array<CATEGORY_ENTITY>;
  *
  */
 export interface JOB_CREATE {
+    ID?: number;
     route?: string;
     session_id?: string;
     password?: string;
@@ -345,7 +346,7 @@ export interface JOB {
     city: string;
     birthday: number;
     gender: string;
-    experience: number;
+    experience: string;
     profession: string;
     message: string;
     files: FILES;

@@ -16,6 +16,7 @@ export class JobService extends Base {
     ) {
         super();
     }
+
     create(data: JOB_CREATE): Observable<JOB> {
         let req: POST_CREATE = this.convertCreate(data);
         // console.log('convertedCreate', req);

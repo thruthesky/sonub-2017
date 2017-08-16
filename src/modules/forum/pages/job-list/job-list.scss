@@ -77,3 +77,27 @@ nav.search-option {         /// search option
     }
 
 }
+.job {
+    float: left;
+    width: 50%;
+    margin-bottom: .3em;
+    &:nth-child(odd) {
+        .card.profile {
+            margin-right: .15em;
+        }
+    }
+    &:nth-child(even) {
+        .card.profile {
+            margin-left: .15em;
+        }
+    }
+    .card.profile {
+        padding: .25em;
+        .profession {
+            &:first-letter {
+                text-transform: uppercase;
+            }
+        }
+    }
+
+}

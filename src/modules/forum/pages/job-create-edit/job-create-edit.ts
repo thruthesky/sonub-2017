@@ -65,10 +65,28 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
 
         let params = activeRoute.snapshot.params;
         if (params['id']) {
-            this.app.wp.post({ route: 'wordpress.get_advertisement_by_id', ID: params['id'] })
+            this.app.wp.post({ route: 'wordpress.get_post', ID: params['id'] })
                 .subscribe((post: POST) => {
-                    console.log('adv: ', post);
+                    console.log('edit post: ', post);
+                    this.ID = post.ID;
+                    this.message = post.post_content;
+                    this.gender = post.char_1;
+                    this.firstName = post.meta.first_name;
+                    this.middleName = post.meta.middle_name;
+                    this.lastName = post.meta.last_name;
+                    this.mobile = post.meta.mobile;
+                    this.address = post.meta.address;
+                    this.city = post.varchar_1;
+                    this.province = post.varchar_2;
+                    this.profession = post.varchar_4;
+                    this.experience = post.int_1;
+                    this.birthday = this.birthdayData(post.int_2);
+                    if (post.files.length) {
+                        this.files[0] = post.files[0];
+                        this.file = post.files[0];
+                    }
 
+                    if( post.varchar_4 != 'all' ) this.getCities();
                 }, e => this.app.warning(e));
         }
 
@@ -78,6 +96,14 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
     ngOnInit() { }
 
     ngOnDestroy() { }
+
+    birthdayData( birthday ) {
+        if( birthday ) return {
+            year: parseInt( birthday.substring(0,4) ),
+            month: parseInt( birthday.substring(4,6) ),
+            day: parseInt( birthday.substring(6,8) )
+        };
+    }
 
     get cityKeys() {
         return Object.keys(this.cities);
@@ -107,15 +133,13 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
             password: this.password
         };
         data.fid = this.files.reduce((_, file) => { _.push(file.id); return _; }, []);
+        data['ID'] = this.ID;
 
         console.log('onClickSubmit::data:: ', data);
         this.app.job.create(data).subscribe(res => {
             console.log("job create: ", res);
             this.app.alert.open({ content: this.app.text('saved') });
             this.router.navigateByUrl('/job');
-            // this.app.forum.postData(res).subscribe((post: POST) => {
-            //     console.log("created job: ", post);
-            // }, e => this.app.warning(e));
         }, e => this.app.warning(e));
 
     }

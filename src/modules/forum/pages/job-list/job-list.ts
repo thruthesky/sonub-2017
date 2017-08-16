@@ -6,6 +6,8 @@ import {
 import { PhilippineRegion } from "../../../../providers/philippine-region";
 import { PageScroll } from './../../../../providers/page-scroll';
 import {Router} from "@angular/router";
+import {PAGE, POST} from "../../../../providers/wordpress-api/interface";
+import {current} from "codelyzer/util/syntaxKind";
 
 
 @Component({
@@ -148,11 +150,11 @@ export class JobListPage implements OnInit, OnDestroy {
         this.pageNo++;
 
         let req: POST_QUERY_REQUEST = {
-            posts_per_page: 2,
+            posts_per_page: 6,
             page: this.pageNo,
             query: this.query,
-            // order: 'ID',
-            // by: 'DESC'
+            order: 'ID',
+            by: 'DESC'
         };
 
 
@@ -350,8 +352,16 @@ export class JobListPage implements OnInit, OnDestroy {
     maxRangeChange() {
         this.minAgeRange = this.getRange(this.minAge, this.formGroup.value.maxAge);
     }
+
     getRange(min, max) {
         return Array.from(new Array(max - min), (x, i) => i + 1);
+    }
+
+    getAge(birthday){
+        if( birthday && birthday.length > 4 ) {
+            let year = parseInt( birthday.substring(0,4) );
+            return this.currentYear - year;
+        }
     }
 
 
@@ -367,20 +377,28 @@ export class JobListPage implements OnInit, OnDestroy {
     }
 
 
-    onClickDelete( post ) {
-        if (this.app.user.isLogin) {
+    onClickDelete( post: POST , page: PAGE ) {
+        if (post.author.ID) {
             this.app.confirm(this.app.text('confirmDelete')).then(code => {
-                if (code == 'yes') {
-                    this.app.forum.postDelete({ ID: post.ID}).subscribe(res => {
-                        console.log('success delete: ', res);
-                        this.loadPage();
-                    }, e => this.app.warning(e));
-                }
-            })
+                if (code == 'yes') this.postDelete(page, post.ID);
+            });
         }
         else {
-            this.app.warning('Please login to delete this post.');
+            let password = this.app.input('Input password');
+            if (password) this.postDelete(page, post.ID, password);
         }
+    }
+
+    postDelete(page, ID, password?) {
+        // debugger;
+        this.app.forum.postDelete({ ID: ID, post_password: password }).subscribe(res => {
+            console.log("file deleted: ", res);
+
+            let index = page.posts.findIndex(post => post.ID == res.ID);
+            if (res.mode == 'delete') {
+                page.posts.splice(index, 1);
+            }
+        }, err => this.app.warning(err));
     }
 
 
