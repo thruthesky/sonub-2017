@@ -17,7 +17,7 @@ nav.search-option {         /// search option
 
 .search-form {            /// search form
     position: relative;
-    margin-bottom: 1em;
+    margin-bottom: .3em;
     padding: .6em;
     color: #eee;
     background-color: #74858d;
@@ -74,6 +74,30 @@ nav.search-option {         /// search option
         position: absolute;
         top: .5rem;
         right: .5rem;
+    }
+
+}
+.job {
+    float: left;
+    width: 50%;
+    margin-bottom: .3em;
+    &:nth-child(odd) {
+        .card.profile {
+            margin-right: .15em;
+        }
+    }
+    &:nth-child(even) {
+        .card.profile {
+            margin-left: .15em;
+        }
+    }
+    .card.profile {
+        padding: .25em;
+        .profession {
+            &:first-letter {
+                text-transform: uppercase;
+            }
+        }
     }
 
 }
