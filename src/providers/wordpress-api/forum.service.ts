@@ -42,11 +42,11 @@ export class ForumService extends Base {
         // console.log(data);
         return this.wp.post(data);
     }
-    postData(no): Observable<POST> {
+    postData(post_ID): Observable<POST> {
         let data: POST_DATA = {
             session_id: this.user.sessionId,
             route: 'wordpress.get_post',
-            ID: no,
+            ID: post_ID,
             thumbnail: '200x200'
         };
         return this.wp.post(data)

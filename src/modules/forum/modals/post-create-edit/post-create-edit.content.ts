@@ -58,12 +58,10 @@ export class PostCreateEditContent implements OnInit {
         this.typing
             .debounceTime(300)
             .subscribe( text => {
-                this.post_title = text;
+                this.post_title = this.app.wordcut( text, 60);
                 console.log('post_title: ', this.post_title);
             });
     }
-
-
     contentInput( text: string ): void {
         console.log('text: ', text);
         this.typing.next(text);

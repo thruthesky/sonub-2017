@@ -18,6 +18,10 @@ export class AlertModalService extends Base {
   }
 
 
+  /**
+   * 
+   * @param a 
+   */
   open(a): Promise<any> {
     let options = {};
     if (typeof a === 'string') {
@@ -28,8 +32,9 @@ export class AlertModalService extends Base {
 
     if (this.modalRef) this.modalRef.close();
     // return null;
-
-    this.modalRef = this.modalService.open(AlertContent, { windowClass: 'alert-modal', backdrop: 'static' });
+    let cls = 'alert-modal';
+    if ( options['class'] ) cls += ' ' + options['class'];
+    this.modalRef = this.modalService.open(AlertContent, { windowClass: cls, backdrop: 'static' });
     this.modalRef.componentInstance.setOptions(options);
     
     return this.modalRef.result;
@@ -41,7 +46,7 @@ export class AlertModalService extends Base {
    */
   error(e: ERROR_RESPONSE): Promise<any> {
     let content = this.getErrorString(e);
-    return this.open({ title: text('error'), content: content, button: text('close') });
+    return this.open({ class: 'error', title: text('error'), content: content, button: text('close') });
   }
 
 
@@ -51,7 +56,7 @@ export class AlertModalService extends Base {
    * @param content 
    */
   notice( title, content ) {
-    return this.open({ title: text(title), content: text(content), button: text('close') });
+    return this.open({ class: 'notice', title: text(title), content: text(content), button: text('close') });
   }
 
 }

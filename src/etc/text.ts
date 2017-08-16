@@ -144,6 +144,15 @@ export let TEXT = {
         ko: '질문하기'
     },
 
+    choose_forum: {
+        en: 'Choose Forum',
+        ko: '게시판 선택'
+    },
+    discussion: {
+        en: 'Discussion',
+        ko: '자유게시판'
+    },
+
 
     ///
     community_logs: {

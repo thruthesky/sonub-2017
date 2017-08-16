@@ -44,8 +44,10 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
         private postCreateEditModal: PostCreateEditModalService,
         private forumShare: ForumCodeShareService
     ) {
-        
-        this.onClickPostCreate();
+
+        // setTimeout(() => {
+        //     this.onClickPostCreate();
+        // }, 500);
 
         /// page navigated ( by clicking a menu )
         active.params.subscribe(params => {
@@ -55,13 +57,18 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
                 this.resetLoading();
                 this.loadPage();
             }
+            if ( params['action'] ) {
+                if ( params['action'] == 'create' ) {
+                    setTimeout(() => this.onClickPostCreate(), 100);
+                }
+            }
 
         });
     }
 
     ngOnInit() {
         /// post view page navigated ( by viewing a post )
-        if ( this.category ) {
+        if (this.category) {
             /// use the post's category to show to posts of the category.
             this.slug = this.category;
             this.loadPage();

@@ -2,11 +2,11 @@
 <!-- <post-create-fake-widget></post-create-fake-widget> -->
 
 <div class="home-form">
-    <ul class="home-form-header">
-        <li>Create a Post</li>
+    <ul class="home-form-header pt-1 pointers">
+        <li routerLink="/forum/discussion/create">Start a Discussion</li>
         <li>Ask</li>
         <li>Sell</li>
-        <li>Hire</li>
+        <li routerLink="/job/create"><a href="/job/create" routerLink="/job/create">Hire</a></li>
     </ul>
 
     <div class="home-form-text">
@@ -20,8 +20,8 @@
                 <i class="fa fa-photo" aria-hidden="true"></i>
                 <span>Upload Photos</span>
             </div>
-            <div class="home-form-footer-button advertisement-button">
-                Create Ads
+            <div class="home-form-footer-button advertisement-button" routerLink="/adv/howto">
+                <a href="/adv/howto" routerLink="/adv/howto">Create Ads</a>
             </div>
         </div>
 

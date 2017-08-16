@@ -1,48 +1,48 @@
 $header-background-color: #0d47a1;
-$icon-width: 30px;
+$icon-width: 24px;
 $icon-width-on-wide: 26px;
 $header-content-height: 24px;
-/// layout & placement & size
+$header-break-menu: 640px;
+/// layout only
 .page-header {
+    height: $header-inner-height;
     .page-header-container {
-        /// layout
         height: $header-inner-height;
         overflow: hidden;
-        .left,
-        .center,
-        .right {
-            position: relative;
+        .page-header-container-center {
             height: $header-inner-height;
-            line-height: $header-inner-height;
+            table {
+                height: $header-inner-height;
+            }
         }
     }
-    .fa {
-        display: inline-block;
-        padding: 10px 0;
-        width: $icon-width;
-    }
-    @media (min-width: $md) {
-        .fa {
-            width: $icon-width-on-wide;
+    .menu {
+        display: none;
+        @media (min-width: $header-break-menu) {
+            display: table-cell;
         }
     }
-    .input-group {
-        margin-top: $global-padding;
-        height: 28px;
-        .input-group-addon {
-            border: 0;
-            border-radius: 0;
-            height: 28px;
-        }
+}
+
+/// playcement only. Not layout. Not design.
+.page-header {
+    .right {
+        padding-right: $global-padding;
+        width: 30%;
+        text-align: right;
+    }
+}
+
+/// size, width, height only
+.page-header {
+    .search-box {
         input {
-            border: 0;
-        }
-        .btn {
-            padding: 0 4px;
-            height: 28px;
-        }
-        .fa {
-            padding: 0;
+            @media (min-width: $md) {
+                width: 240px;
+            }
+            @media (min-width: $lg) {
+                width: auto;
+            }
         }
     }
 }
@@ -53,25 +53,35 @@ $header-content-height: 24px;
     .page-header-container {
         background-color: $header-background-color;
     }
+    .fa {
+        display: inline-block;
+        width: $icon-width;
+    }
     .left {
-        @media (min-width: $lg) {
-            width: 640px;
-        }
         .input-group {
+            height: 28px;
+            .input-group-addon {
+                border: 0;
+                border-radius: 0;
+                height: 28px;
+            }
+            input {
+                border: 0;
+                border-radius: 0;
+                font-size: $fs-xs;
+            }
+            .btn {
+                padding: 0 4px;
+                height: 28px;
+                border: 0;
+                border-radius: 0;
+                background-color: rgba( 155, 155, 155, .6);
+            }
             @media (min-width: $lg) {
                 width: 340px;
             }
             .input-group-addon {
                 background-color: white;
-            }
-            input {
-                border-radius: 0;
-                font-size: $fs-xs;
-            }
-            .btn {
-                border: 0;
-                border-radius: 0;
-                background-color: rgba( 155, 155, 155, .6);
             }
         }
         .links {

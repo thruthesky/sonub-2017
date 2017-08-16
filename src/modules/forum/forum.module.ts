@@ -57,6 +57,7 @@ const appRoutes: Routes = [
 
     ///
     { path: 'forum/:slug', component: ForumListPage },
+    { path: 'forum/:slug/:action', component: ForumListPage },
     { path: 'forum', component: ForumIndexPage }
 ];
 

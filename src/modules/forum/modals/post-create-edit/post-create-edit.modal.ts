@@ -16,7 +16,7 @@ export class PostCreateEditModalService {
 
     open( options: OPTIONS ): Promise<any> {
         if (this.modalRef) this.modalRef.close();
-        this.modalRef = this.modalService.open(PostCreateEditContent, { windowClass: 'post-create-modal', backdrop: 'static' });
+        this.modalRef = this.modalService.open(PostCreateEditContent, { windowClass: 'post-create-edit-modal', backdrop: 'static' });
 
         this.modalRef.componentInstance.setOptions( options );
         // this.modalRef.componentInstance['failureCallback'] = failureCallback;

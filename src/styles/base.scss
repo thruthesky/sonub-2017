@@ -1,13 +1,18 @@
-
 *:focus {
     outline: none;
+}
+
+button:focus {
+    /// for chrome
+    outline: 0 !important;
 }
 
 a {
     text-decoration: none!important;
 }
 
-html, body {
+html,
+body {
     background-color: #e9ebee;
 }
 

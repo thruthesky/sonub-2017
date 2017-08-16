@@ -43,6 +43,10 @@ export class HomePage implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
 
+        setTimeout(() => {
+
+        this.app.warning("hi");
+        }, 10);
 
         // this.router.navigateByUrl('/forum/abc');
     }

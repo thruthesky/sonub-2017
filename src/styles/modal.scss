@@ -1,0 +1,46 @@
+.modal-dialog {
+    .modal-content {
+        border: 0!important;
+        border-radius: 0!important;
+        box-shadow: 1px 1px 5px #333;
+        .modal-footer {
+            .btn {
+                border: 0;
+                border-radius: 0;
+            }
+        }
+    }
+}
+
+///
+/// alert error
+///
+.alert-modal.error {
+    .modal-header {
+        color: #b71c1c;
+        .close {
+            text-shadow: 0;
+            opacity: 1;
+            color: #b71c1c;
+        }
+    }
+    .btn {
+        background-color: #b71c1c;
+    }
+}
+
+/// forum post create/edit
+///
+.modal.post-create-edit-modal {
+    .modal-dialog {
+        @media (min-width: $sm) {
+            max-width: $sm - 80px;
+        }
+        @media (min-width: $md) {
+            max-width: 600px;
+        }
+        @media (min-width: $lg) {
+            max-width: 680px;
+        }
+    }
+}

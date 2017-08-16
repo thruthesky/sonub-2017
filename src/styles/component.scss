@@ -125,8 +125,18 @@
 /**
  * POSITION
  */
+ .relative {
+     position: relative;
+ }
+ .absolute {
+     position: absolute;
+ }
 .fixed {
     position: fixed;
+}
+.top-right {
+    top: 0;
+    right: 0;
 }
 
 /**
