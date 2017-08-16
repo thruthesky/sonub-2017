@@ -87,7 +87,9 @@
                 <div class="input-group">
                     <span class="input-group-addon input-group-addon-primary" id="date_begin">Birthday</span>
                     <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="birthday" ngbDatepicker
-                           #b="ngbDatepicker" (ngModelChange)="onChangeBirthday()">
+                           #b="ngbDatepicker"
+                           [placement]="'top'"
+                           (ngModelChange)="onChangeBirthday()">
                     <div class="input-group-addon" (click)="b.toggle()">
                         <i class="fa fa-calendar" style="cursor: pointer;"></i>
                     </div>

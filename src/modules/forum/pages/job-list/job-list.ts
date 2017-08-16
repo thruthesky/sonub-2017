@@ -348,8 +348,8 @@ export class JobListPage implements OnInit, OnDestroy {
         else return this.app.anonymousPhotoURL;
     }
 
-    onClickEdit(idx) {
-        this.router.navigate(['/job/edit', idx]);
+    onClickEdit(job) {
+        this.router.navigate(['/job/edit', job.ID]);
     }
 
 

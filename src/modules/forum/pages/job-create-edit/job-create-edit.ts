@@ -7,6 +7,7 @@ import { PhilippineRegion } from "../../../../providers/philippine-region";
 import { DATEPICKER } from "../../../../etc/interface";
 import { NgbDatepickerConfig } from "@ng-bootstrap/ng-bootstrap";
 
+import { error, ERROR } from '../../../../etc/error';
 
 
 @Component({
@@ -65,8 +66,24 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
 
         let params = activeRoute.snapshot.params;
         if (params['id']) {
+
+
+
             this.app.wp.post({ route: 'wordpress.get_post', ID: params['id'] })
                 .subscribe((post: POST) => {
+
+                    if ( post.author.ID ) {
+                        if(!app.user.isLogin ) {
+                            this.app.warning( error( ERROR.LOGIN_FIRST) );
+                            this.router.navigateByUrl('/user/login');
+                            return;
+                        }
+                        else if( post.author.ID != app.user.id) {
+                            this.app.warning( error( ERROR.CODE_PERMISSION_DENIED) );
+                            this.router.navigateByUrl('/job');
+                            return;
+                        }
+                    }
                     console.log('edit post: ', post);
                     this.ID = post.ID;
                     this.message = post.post_content;
