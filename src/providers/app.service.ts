@@ -8,6 +8,8 @@ import { Observable } from 'rxjs/Observable';
 
 import { Base } from './../etc/base';
 import { text } from './../etc/text';
+import { ERROR } from './../etc/error';
+export { ERROR } from './../etc/error';
 import { getLanguage, setLanguage } from './../etc/language';
 
 
@@ -52,8 +54,8 @@ import {
 @Injectable()
 export class AppService extends Base {
     config = config;
-
     text = text;
+
 
     // section of the page
     sectionName = 'home';
@@ -203,20 +205,28 @@ export class AppService extends Base {
      * @param e Error object or can be a string.
      */
     displayError(e) {
-        let msg;
-        if (typeof e === 'string') msg = e;
-        else {
-            // if ( e.code === void 0 && e.message !== void 0 ) e.code = e.message;
-            // msg = `${e.code}: ${message}`;
+        this.warning(e);
+        // let msg;
+        // if (typeof e === 'string') msg = e;
+        // else {
+        //     // if ( e.code === void 0 && e.message !== void 0 ) e.code = e.message;
+        //     // msg = `${e.code}: ${message}`;
 
-            msg = this.getErrorString(e);
-        }
-        alert(msg);
+        //     msg = this.getErrorString(e);
+        // }
+        // alert(msg);
     }
 
+    /**
+     * 
+     * @param e - is an Error Response Object or ERROR code from error.ts
+     */
     warning(e) {
+        if ( typeof e == 'number' && e < 0 ) {
+            e = { code: e };
+        }
         this.alert.error(e);
-        setTimeout(() => this.rerenderPage(), 500);
+        setTimeout(() => this.rerenderPage(), 400);
     }
 
 

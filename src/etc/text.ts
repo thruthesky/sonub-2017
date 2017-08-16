@@ -43,6 +43,18 @@ export let TEXT = {
         en: 'No',
         ko: '아니오'
     },
+    cancel: {
+        en: 'Cancel',
+        ko: '취소'
+    },
+    submit_post: {
+        en: 'Submit Post',
+        ko: '글 등록하기'
+    },
+    update_post: {
+        en: 'Update Post',
+        ko: '글 수정하기'
+    },
     user_exist: {
         en: 'User login ID is already exist. Please choose another.',
         ko: '입력하신 아이디는 이미 존재합니다. 다른 아이디를 입력하세요.'
@@ -89,6 +101,46 @@ export let TEXT = {
         ko: '글 등록하기'
     },
 
+    input_title: {
+        en: 'Input title',
+        ko: '제목을 입력하세요.'
+    },
+    input_content: {
+        en: 'Input content',
+        ko: '내용을 입력하세요.'
+    },
+
+    start_discussion: {
+        en: 'Start a Discussion',
+        ko: '자유게시판 글쓰기'
+    },
+    ask: {
+        en: 'Ask',
+        ko: '질문하기'
+    },
+    sell: {
+        en: 'Sell',
+        ko: '물건팔기'
+    },
+    hire: {
+        en: 'Hire',
+        ko: '사람구하기'
+    },
+
+    search_for: {
+        en: 'Search for ... ?',
+        ko: '검색하기 ...'
+    },
+    what_are_you_searching: {
+        en: 'What are you searching for?',
+        ko: '무엇이든지 검색해 보세요.'
+    },
+
+    jobs: {
+        en: 'Jobs',
+        ko: '구인구직'
+    },
+    
 
     /// page title
     menu_page_title: {
@@ -132,7 +184,7 @@ export let TEXT = {
     },
 
     qna: {
-        en: 'Questions &amp; Answers',
+        en: 'Ask',
         ko: '질문과답변'
     },
     qna_description: {
@@ -152,7 +204,10 @@ export let TEXT = {
         en: 'Discussion',
         ko: '자유게시판'
     },
-
+    buyandsell: {
+        en: 'Buy&Sell',
+        ko: '장터'
+    },
 
     ///
     community_logs: {

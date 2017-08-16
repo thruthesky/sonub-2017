@@ -4,7 +4,8 @@
     </button> -->
 
 
-    <div class="modal-title"><input class="w-100" type="text" name="post_title" [(ngModel)]="post_title" (keyup)="titleInput()"></div>
+    <div class="mb-2">{{ app.text( options.category ) }}</div>
+    <div class="modal-title"><input class="px-1 w-100" type="text" name="post_title" [(ngModel)]="post_title" (keyup)="titleInput()" placeholder="{{ app.text('input_title') }}"></div>
 
     <div *ngIf=" ! app.user.isLogin " class="anonymouse-form">
         Author Name: <input type="text" name="post_author_name" [(ngModel)]="post_author_name"><br> Author Email:
@@ -17,7 +18,7 @@
 
 
     <div class="mt-2">
-        <textarea class="w-100 h-15em" name="post_content" [(ngModel)]="post_content" #textareaPostContent (keyup)="contentInput(textareaPostContent.value)"></textarea>
+        <textarea class="p-1 w-100 h-15em" name="post_content" [(ngModel)]="post_content" #textareaPostContent (keyup)="contentInput(textareaPostContent.value)" placeholder="{{ app.text('input_content') }}"></textarea>
     </div>
 
     <!--     
@@ -39,9 +40,9 @@
             </span>
     </div>
     <div>
-        <button *ngIf="options.category" type="submit" class="btn btn-secondary" (click)="onClickSubmit()">Submit Post</button>
-        <button *ngIf="options.post" type="submit" class="btn btn-secondary" (click)="onClickEdit()">Edit Post</button>
-        <button type="button" class="btn btn-secondary" (click)="onClickCancel()">Cancel</button>
+        <button *ngIf="options.category" type="submit" class="btn btn-secondary" (click)="onClickSubmit()">{{ app.text('submit_post') }}</button>
+        <button *ngIf="options.post" type="submit" class="btn btn-secondary" (click)="onClickEdit()">{{ app.text('update_post') }}</button>
+        <button type="button" class="btn btn-secondary" (click)="onClickCancel()">{{ app.text('cancel') }}</button>
     </div>
 
 </div>

@@ -1,6 +1,4 @@
 $header-background-color: #0d47a1;
-$icon-width: 24px;
-$icon-width-on-wide: 26px;
 $header-content-height: 24px;
 $header-break-menu: 640px;
 /// layout only
@@ -55,7 +53,7 @@ $header-break-menu: 640px;
     }
     .fa {
         display: inline-block;
-        width: $icon-width;
+        padding: $global-padding;
     }
     .left {
         .input-group {

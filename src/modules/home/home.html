@@ -3,10 +3,10 @@
 
 <div class="home-form">
     <ul class="home-form-header pt-1 pointers">
-        <li routerLink="/forum/discussion/create">Start a Discussion</li>
-        <li>Ask</li>
-        <li>Sell</li>
-        <li routerLink="/job/create"><a href="/job/create" routerLink="/job/create">Hire</a></li>
+        <li routerLink="/forum/discussion/create">{{ app.text('start_discussion') }}</li>
+        <li>{{ app.text('ask') }}</li>
+        <li>{{ app.text('sell') }}</li>
+        <li routerLink="/job/create"><a href="/job/create" routerLink="/job/create">{{ app.text('hire') }}</a></li>
     </ul>
 
     <div class="home-form-text">

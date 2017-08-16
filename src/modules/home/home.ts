@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { AppService } from './../../providers/app.service';
+import { AppService, ERROR } from './../../providers/app.service';
 import { TestService } from './../../providers/test.service';
 import { Router, NavigationStart } from '@angular/router';
 
@@ -42,6 +42,10 @@ export class HomePage implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
+
+        // setTimeout(()=>{
+        //     this.app.warning( ERROR.LOGIN_FIRST );
+        // }, 10);
 
         // setTimeout(() => {
         //     this.app.warning("hi");
