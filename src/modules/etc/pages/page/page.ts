@@ -1,27 +1,25 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppService } from './../../../../providers/app.service';
 
 @Component({
-    selector: 'forum-index-page',
-    templateUrl: 'index.html'
+    selector: 'page-page',
+    templateUrl: 'page.html'
 })
 
-export class ForumIndexPage implements OnInit {
+export class PagePage implements OnInit {
     html = '';
+    doneListen = false;
     constructor(
-        private zone: NgZone,
         public app: AppService
     ) {
+        this.html = '';
+        this.doneListen = false;
         app.section('forum');
         app.wp.page('forum-index').subscribe(html => {
-            // console.log("page: ", html);
+            console.log("page: ", html);
             this.html = html;
-            setTimeout(() => this.listenUrlClick(), 1000);
-            // this.listenUrlClick();
-            // zone.run( () => this.listenUrlClick() );
+            setTimeout(() => this.listenUrlClick(), 0);
         }, e => app.warning({ code: -404 }));
-
-
 
     }
 
@@ -38,15 +36,12 @@ export class ForumIndexPage implements OnInit {
 
         links.forEach(link => {
             link.addEventListener('click', e => {
+                e.preventDefault();
                 let url = e.srcElement.getAttribute('routerLink');
                 console.log( url );
+                this.app.go( url );
             });
 
-            // let listener = this.renderer.listen(anchor,'click',e=>{
-            //      e.preventDefault();
-            //      let href = e.srcElement.getAttribute('href');
-            //      this.router.navigateByUrl(href);
-            // }
         });
 
     }

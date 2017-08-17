@@ -185,6 +185,11 @@ export let TEXT = {
         ko: '이 페이지에서 모든 메뉴를 볼 수 있습니다.'
     },
 
+    /// menu, button text
+    my_posts_menu: {
+        en: 'List my posts',
+        ko: '내가 작성한 글 목록'
+    },
 
 
     /// forum create name

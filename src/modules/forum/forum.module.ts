@@ -34,11 +34,15 @@ import { AdvertisementListPage } from './pages/advertisement-list/advertisement-
 
 import { JobCreateEditPage } from "./pages/job-create-edit/job-create-edit";
 import { JobListPage } from "./pages/job-list/job-list";
+import { MyPostsPage } from './pages/my-posts/my-posts';
 
 
 
 
 const appRoutes: Routes = [
+
+    /// my posts
+    { path: 'my-posts', component: MyPostsPage },
 
 
     /// advertisement
@@ -74,7 +78,8 @@ const appRoutes: Routes = [
         AdvertisementCreateEditPage,
         AdvertisementListPage,
         JobCreateEditPage,
-        JobListPage
+        JobListPage,
+        MyPostsPage
     ],
     entryComponents: [
         PostCreateEditContent,

@@ -492,10 +492,6 @@ export class AppService extends Base {
 
         }, e => console.error(e));
 
-
-
-
-
     }
 
     safeHtml(raw): string {
@@ -553,5 +549,10 @@ export class AppService extends Base {
                 this.toast(toastOption);
             }
         }
+    }
+
+
+    go( url ) {
+        this.router.navigateByUrl( url );
     }
 }
