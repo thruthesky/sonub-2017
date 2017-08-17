@@ -1,51 +1,53 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppService } from './../../../../providers/app.service';
-
 @Component({
     selector: 'page-page',
     templateUrl: 'page.html'
 })
-
-export class PagePage implements OnInit {
+export class PagePage implements OnInit, OnDestroy {
     html = '';
-    doneListen = false;
+    links: Array<Node> = [];
     constructor(
+        private active: ActivatedRoute,
+        private router: Router,
         public app: AppService
     ) {
-        this.html = '';
-        this.doneListen = false;
-        app.section('forum');
-        app.wp.page('forum-index').subscribe(html => {
-            console.log("page: ", html);
-            this.html = html;
-            setTimeout(() => this.listenUrlClick(), 0);
-        }, e => app.warning({ code: -404 }));
-
-    }
-
-    ngOnInit() {
-        
-    }
-
-    listenUrlClick() {
-
-        let nodes:NodeList = document.querySelectorAll('.page-body-content-layout > .b [routerLink]');
-        let links: Array<Node> = Array.from( nodes );
-        console.log("links: ", links);
-
-
-        links.forEach(link => {
-            link.addEventListener('click', e => {
-                e.preventDefault();
-                let url = e.srcElement.getAttribute('routerLink');
-                console.log( url );
-                this.app.go( url );
-            });
-
+        active.data.subscribe(data => {
+            console.log('data: ', data);
+            app.section(data['section']);
+            this.html = '';
+            app.wp.page(data['filename']).subscribe(html => {
+                this.html = html;
+                setTimeout(() => this.listenUrlClick(), 0);
+            }, e => app.warning({ code: -404 }));
         });
-
     }
-
-
-    
+    ngOnInit() {
+    }
+    ngOnDestroy() {
+        this.removeRouteClickEvent();
+    }
+    listenUrlClick() {
+        this.removeRouteClickEvent();
+        let nodes: NodeList = document.querySelectorAll('.page-body-content-layout > .b [routerLink]');
+        this.links = Array.from(nodes);
+        console.log("links: ", this.links);
+        this.links.forEach(link => {
+            link.addEventListener('click', e => this.addRouteClickEvent(e));
+        });
+    }
+    addRouteClickEvent(e) {
+        e.preventDefault();
+        let url = e.srcElement.getAttribute('routerLink');
+        console.log("click on url: ", url);
+        this.router.navigateByUrl(url);
+    }
+    removeRouteClickEvent() {
+        if (this.links && this.links.length) {
+            this.links.forEach(link => {
+                link.removeEventListener('click', e => this.addRouteClickEvent(e));
+            });
+        }
+    }
 }

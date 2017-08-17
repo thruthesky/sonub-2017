@@ -10,7 +10,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { WidgetsModule } from './../../widgets/widgets.module';
 
 
-import { ForumIndexPage } from './pages/index/index';
+
 import { ForumListPage } from './pages/list/list';
 import { PostCreateEditModalService } from './modals/post-create-edit/post-create-edit.modal';
 import { PostCreateEditContent } from './modals/post-create-edit/post-create-edit.content';
@@ -62,12 +62,11 @@ const appRoutes: Routes = [
     ///
     { path: 'forum/:slug', component: ForumListPage },
     { path: 'forum/:slug/:action', component: ForumListPage },
-    { path: 'forum', component: ForumIndexPage }
+    
 ];
 
 @NgModule({
     declarations: [
-        ForumIndexPage,
         ForumListPage,
         PostCreateEditContent,
         // CommentCreateComponent,

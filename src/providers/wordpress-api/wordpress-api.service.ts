@@ -61,7 +61,7 @@ export class WordpressApiService extends Base {
 
     page(pageName: string) {
         let url = this.serverUrl + '/wp-content/plugins/xapi-2/pages/page.php?name=' + pageName + '&ln=' + getLanguage();
-        console.log('page: ', url);
+        // console.log('page: ', url);
         return this.http.get(url, { responseType: 'text' })
             .map(e => this.domSanitizer.bypassSecurityTrustHtml(e) as string);
     }
