@@ -62,7 +62,6 @@ export class JobListPage implements OnInit, OnDestroy {
         region.get_province(re => {
             this.provinces = re;
         }, e => {
-            this.app.displayError('Unable to get Province data' + e)
         });
 
 

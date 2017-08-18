@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import { AppService, POST, FILES, FILE, POST_CREATE } from './../../../../providers/app.service';
 import { JOB_CREATE } from "../../../../providers/wordpress-api/interface";
@@ -15,7 +15,7 @@ import { error, ERROR } from '../../../../etc/error';
     templateUrl: 'job-create-edit.html'
 })
 
-export class JobCreateEditPage implements OnInit, OnDestroy {
+export class JobCreateEditPage {
 
     @ViewChild('fileUploadWidget') public fileUploadComponent: FileUploadWidget;
 
@@ -110,9 +110,6 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
 
     }
 
-    ngOnInit() { }
-
-    ngOnDestroy() { }
 
     birthdayData( birthday ) {
         if( birthday ) return {
@@ -121,11 +118,6 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
             day: parseInt( birthday.substring(6,8) )
         };
     }
-
-    get cityKeys() {
-        return Object.keys(this.cities);
-    }
-
 
     onClickSubmit() {
 
@@ -168,7 +160,6 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
         }
     }
 
-
     onClickProvince() {
         console.log('Province::', this.province);
         if (this.province != 'all') {
@@ -181,7 +172,6 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
         }
     }
 
-
     getCities() {
         this.region.get_cities(this.province, re => {
             if (re) {
@@ -190,6 +180,10 @@ export class JobCreateEditPage implements OnInit, OnDestroy {
             }
         }, e => {
         });
+    }
+
+    get cityKeys() {
+        return Object.keys(this.cities);
     }
 
 

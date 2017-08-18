@@ -1,0 +1,70 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{product.title}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="onClickCancel()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+
+
+
+    <div class="text-center mb-1">
+    <img class="selected-image w-100 mw-100" src="{{selectedImage}}">
+    </div>
+    <div>
+
+    <img class="list-image w-25 mb-1"
+         *ngFor="let file of product.files"
+         src="{{file.url}}"
+         (click)="selectedImage = file.url"
+    >
+    </div>
+
+
+    <div class="input-group mb-3">
+        <label for="description" class="input-group-addon">Desciption</label>
+        <span type="text" class="form-control" id="description">{{product.description}}</span>
+    </div>
+
+    <div class="input-group mb-3">
+        <label for="province" class="input-group-addon">Location</label>
+        <span type="text" class="form-control" id="province">{{product.province}}</span>
+    </div>
+    <div class="input-group mb-3">
+        <label for="city" class="input-group-addon">City</label>
+        <span type="text" class="form-control" id="city">{{product.city}}</span>
+    </div>
+
+    <div class="input-group mb-3">
+        <label for="usedItem" class="input-group-addon">Is it Used</label>
+        <span type="text" class="form-control" id="usedItem">{{product.usedItem}}</span>
+    </div>
+    <div class="input-group mb-3">
+        <label for="deliverable" class="input-group-addon">Can it be Delevered</label>
+        <span type="text" class="form-control" id="deliverable">{{product.deliverable}}</span>
+    </div>
+
+    <div class="input-group mb-3">
+        <label for="price" class="input-group-addon">Price</label>
+        <span type="text" class="form-control" id="price">{{product.price}}</span>
+    </div>
+
+    <div class="input-group mb-3">
+        <label for="contact" class="input-group-addon">Contact Information</label>
+        <span type="text" class="form-control" id="contact">{{product.contact}}</span>
+    </div>
+
+
+</div>
+
+<div class="modal-footer justify-content-between">
+    <div>
+        &nbsp;
+    </div>
+    <div>
+        <button type="button" *ngIf=" app.my(product)">
+            <a  href="/buyandsell/edit/{{product.ID}}" (click)="onClickUpdate(product.ID)">Update</a>
+        </button>
+        <button type="button" (click)="onClickCancel()">Close</button>
+    </div>
+</div>

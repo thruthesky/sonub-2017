@@ -1,0 +1,47 @@
+<section class="buyandsell-list-page">
+
+    <div class="job-list-page-header mb-3">
+        <div class="d-flex justify-content-between bg-white">
+            <h3 class="title m-0 p-3 lightblack">Buy and Sell</h3>
+            <div class="text-right fs-xs flex flex-column justify-content-between">
+                <a class="p-2 blue" id="post-list-create-button" href="/buyandsell/create" routerLink="/buyandsell/create">{{ app.text('create_a_post') }}</a>
+                <div class="pr-2 pb-2 fs-sm">Page 1. 438 posts.</div>
+            </div>
+        </div>
+        <small>This is Buy and Sell forum.</small>
+    </div>
+
+
+    <div class="container p-0" *ngIf="pages">
+        <div class="jobs mx-0 row no-gutters-job">
+            <ng-container *ngFor="let page of pages ">
+                <a class="job col-6 mb-1"
+                   *ngFor="let product of page.posts "
+                   [attr.post-id]="product.ID"
+                   (click)="onClickShowProductView( product )"
+                >
+                    <div class="profile bg-white">
+
+                        <div class="photo p-2 pt-3 flex justify-content-center">
+                            <img src="{{ urlPhoto( product ) }}">
+                        </div>
+
+                        <div class="info p-2">
+                            <div>{{product?.title }}</div>
+                            <div>Price: {{product?.price }}</div>
+                            <div>Place: {{product?.province}}</div>
+                        </div>
+                    </div>
+                </a>
+            </ng-container>
+        </div>
+    </div>
+    <div *ngIf="inLoading" class="py-5 text-center">
+        <i class="fa fa-spinner fa-spin fa-2x" aria-hidden="true"></i><span class="fa-2x"> loading...</span>
+    </div>
+
+    <div *ngIf="noMorePosts">
+        <h3 class="text-center">No more posts ... !</h3>
+    </div>
+
+</section>
