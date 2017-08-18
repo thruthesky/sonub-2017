@@ -7,26 +7,28 @@
                 <img src="{{ app.userPhotoUrl }}">
             </div>
             <div class="bb input-box">
-                <input #contentBox class="comment-content" name="comment_content" [(ngModel)]="comment_content">
+                <input #contentBox class="comment-content" name="comment_content" [(ngModel)]="comment_content" (keyup)="typing.next(contentBox.value)">
             </div>
             <div class="cc buttons">
-
                 <span class="icon camera" (click)="fileUploadWidget.onClickCamera()">
                     <i class="fa fa-icon-text fa-camera" aria-hidden="true"></i>
                     <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadComponent.onChangeFile($event)">
                 </span>
-
                 <span class="icon smile" (click)="true">
                     <i class="fa fa-icon-text fa-smile-o" aria-hidden="true"></i>
                 </span>
-
             </div>
         </div>
-
-        <!-- <button type="submit">Submit</button>  -->
-
     </form>
 
+
+    <div class="loader" *ngIf=" sitePreviewUrl ">
+        <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Loading site preview ...
+    </div>
+    <div class="site-preview" *ngIf=" preview ">
+        <img src="{{ preview.url_image }}">
+        <div>{{ preview.content }}</div>
+    </div>
 
     <file-upload-widget #fileUploadWidget [title]="false" [fileSelectionButton]="false" [files]="files"></file-upload-widget>
 

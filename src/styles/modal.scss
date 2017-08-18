@@ -31,16 +31,16 @@
 
 /// forum post create/edit
 ///
-.modal.post-create-edit-modal {
-    .modal-dialog {
-        @media (min-width: $sm) {
-            max-width: $sm - 80px;
-        }
-        @media (min-width: $md) {
-            max-width: 600px;
-        }
-        @media (min-width: $lg) {
-            max-width: 680px;
-        }
-    }
-}
+// .modal.post-create-edit-modal {
+//     .modal-dialog {
+//         @media (min-width: $sm) {
+//             max-width: $sm - 80px;
+//         }
+//         @media (min-width: $md) {
+//             max-width: 600px;
+//         }
+//         @media (min-width: $lg) {
+//             max-width: 680px;
+//         }
+//     }
+// }

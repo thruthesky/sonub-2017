@@ -187,6 +187,7 @@ export interface POST_READ_COMMON extends ID, POST_CREATE_COMMON {
     shortDate?: string;             /// made by client
     readonly count_images?: number;      /// number of image files. made by server.
     readonly count_files?: number;  /// number of files that are not image. made by server.
+    readonly site_preview: any;
 };
 
 export interface POST_CREATE extends REQUEST, ID_O, CATEGORY, POST_CREATE_COMMON { };

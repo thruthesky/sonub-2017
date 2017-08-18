@@ -22,7 +22,7 @@ export class BuyAndSellViewModalService {
 
         console.log('OpenModalView::', product);
         if (this.modalRef) this.modalRef.close();
-        this.modalRef = this.modalService.open(BuyAndSellViewContent, { windowClass: 'buy-and-sell-modal', backdrop: true });
+        this.modalRef = this.modalService.open(BuyAndSellViewContent, { windowClass: 'buy-and-sell-modal', backdrop: true, size: 'lg' });
         this.modalRef.componentInstance.setOptions( product );
         return this.modalRef.result;
     }

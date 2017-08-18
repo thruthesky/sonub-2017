@@ -3,6 +3,9 @@ import {
 } from '@angular/core';
 import { AppService } from './../../providers/app.service';
 
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/debounceTime';
+
 import {
     POST, FILES,
     COMMENT, COMMENT_CREATE, COMMENT_CREATE_RESPONSE
@@ -26,6 +29,11 @@ export class CommentCreateWidget implements OnInit, AfterViewInit {
     @Output() create = new EventEmitter<number>();
 
 
+    /// site preview
+    typing = new Subject<string>();
+    sitePreviewUrl = '';
+    preview;
+
     constructor(
         public app: AppService,
         private alert: AlertModalService
@@ -35,7 +43,7 @@ export class CommentCreateWidget implements OnInit, AfterViewInit {
 
     get userPhotoURL() {
 
-        if ( this.app.user.isLogin && this.app.user.profile.photoURL ) {
+        if (this.app.user.isLogin && this.app.user.profile.photoURL) {
             return this.app.user.profile.photoURL;
         }
         else return null;
@@ -43,11 +51,35 @@ export class CommentCreateWidget implements OnInit, AfterViewInit {
 
     ngOnInit() {
 
+        /// debounce 0.3s
+        /// send to php the url only and if the url is on the beginning of the text.
+        /// @todo since this code is reusable for post and comment, make it service.
+        this.typing
+            .debounceTime(300)
+            .subscribe(text => {
+
+                console.log('text: ', text);
+
+                if (text.indexOf('http') === 0) {
+                    let arr = text.split(/\s+/, 2);
+                    if (arr && arr[0]) {
+                        if ( this.sitePreviewUrl == arr[0] ) return;
+                        this.sitePreviewUrl = arr[0];
+                        console.log("sedning: ", this.sitePreviewUrl);
+                        this.app.wp.post({ route: 'wordpress.site_preview', url: this.sitePreviewUrl })
+                            .subscribe(res => {
+                                this.sitePreviewUrl = '';
+                                console.log("preview: ", res);
+                                this.preview = res;
+                            }, e => this.app.warning(e));
+                    }
+                }
+            });
+
     }
 
     ngAfterViewInit() {
         // setTimeout( () => this.checkCommentComment(), 10 );
-
 
 
     }
@@ -75,17 +107,17 @@ export class CommentCreateWidget implements OnInit, AfterViewInit {
             console.log("comment created", re);
             this.insertComment(id);
 
-            
+
             this.resetForm();
 
 
             // this.app.user.activity( { action: 'comment-create', target: id } )
             //     .subscribe( res => console.log("activity: ", res), e => e ); // don't do for the result.
-                
+
 
 
             this.create.emit(id);
-            
+
         }, err => {
             this.app.warning(err);
             // this.alert.open("error !!");
@@ -106,7 +138,7 @@ export class CommentCreateWidget implements OnInit, AfterViewInit {
     //         name = this.app.text( 'replied', { name: name } );
     //         let body = this.comment_content.replace(/\s+/g, ' ').trim();
     //         let url = this.app.forum.postUrl( re.post_ID );
-            
+
     //         for (let token of re.tokens) {
     //             this.app.push.send(token, name, body, url)
     //                 .subscribe(
@@ -119,7 +151,7 @@ export class CommentCreateWidget implements OnInit, AfterViewInit {
     insertComment(comment_ID) {
         this.app.forum.commentData(comment_ID).subscribe((comment: COMMENT) => {
             console.log(comment);
-            if( ! this.post.comments ) this.post['comments'] = [];
+            if (!this.post.comments) this.post['comments'] = [];
 
             if (comment.comment_parent == 0) {
                 this.post.comments.unshift(comment);
@@ -137,5 +169,7 @@ export class CommentCreateWidget implements OnInit, AfterViewInit {
             }
         }, e => this.app.warning(e));
     }
+
+
 
 }
