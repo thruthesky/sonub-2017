@@ -208,4 +208,14 @@ export class Library {
         return s.substring(0, cut)
     }
 
+
+    strip_tags (input, allowed = '') { // eslint-disable-line camelcase
+        allowed = (((allowed || '') + '').toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join('')
+        var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi
+        var commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi
+        return input.replace(commentsAndPhpTags, '').replace(tags, function ($0, $1) {
+          return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : ''
+        })
+      }
+
 }

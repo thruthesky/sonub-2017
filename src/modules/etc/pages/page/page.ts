@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppService } from './../../../../providers/app.service';
+import { environment } from '../../../../environments/environment';
+
 @Component({
     selector: 'page-page',
     templateUrl: 'page.html'
@@ -13,19 +15,40 @@ export class PagePage implements OnInit, OnDestroy {
         private router: Router,
         public app: AppService
     ) {
+
+        let pageData;
         active.data.subscribe(data => {
-            console.log('data: ', data);
-            app.section(data['section']);
-            this.html = '';
-            app.wp.page(data['filename']).subscribe(html => {
-                this.html = html;
-                setTimeout(() => this.listenUrlClick(), 0);
-            }, e => app.warning({ code: -404 }));
+            if ( ! data || ! data['filename'] ) return;
+            this.loadPage(data);
+            pageData = data;
         });
+        active.params.subscribe(params => {
+            if ( params['name'] === void 0 ) return;
+            pageData = {
+                section: '',
+                layout: 'two-column',
+                filename: params['name']
+            };
+        });
+
+        /// remove this after test.
+        // if ( environment.production === false ) setInterval( () => this.loadPage( pageData ), 2000 );
+    }
+    loadPage(data) {
+        console.log('data: ', data);
+        this.app.section(data['section']);
+        this.app.pageLayout = data['layout'];
+        if ( environment.production ) this.html = '';
+        this.app.wp.page(data['filename']).subscribe(html => {
+            this.html = html;
+            setTimeout(() => this.listenUrlClick(), 0);
+        }, e => this.app.warning({ code: -404 }));
+
     }
     ngOnInit() {
     }
     ngOnDestroy() {
+        this.app.layoutColumn();
         this.removeRouteClickEvent();
     }
     listenUrlClick() {

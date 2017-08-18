@@ -77,4 +77,18 @@ export class PostViewWidget implements OnInit {
         }, err => this.app.warning(err));
     }
 
+
+    /// default
+    get filePositionBottom() {
+        return ! this.filePositionTop;
+    }
+
+    get filePositionTop() {
+        if ( this.post && this.post.category_option && this.post.category_option['file-position'] ) {
+            return this.post.category_option['file-position'] == 'top';
+        }
+        return false;
+    }
+
+
 }

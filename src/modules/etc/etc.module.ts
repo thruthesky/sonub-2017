@@ -11,9 +11,11 @@ import { PagePage } from './pages/page/page';
 
 const appRoutes: Routes = [
     { path: 'menu', component: MenuPage },
-    { path: 'rules', component: PagePage, data: { filename: 'rules', section: 'etc' } },
-    { path: 'my-page', component: PagePage, data: { filename: 'my-page', section: 'user' } },
-    { path: 'forum', component: PagePage, data: { filename: 'forum-index', section: 'forum' } }
+    { path: 'page/:name', component: PagePage },
+    { path: 'rules', component: PagePage, data: { filename: 'rules', section: 'etc', layout: 'two-column' } },
+    { path: 'my-page', component: PagePage, data: { filename: 'my-page', section: 'user', layout: 'two-column' } },
+    { path: 'forum', component: PagePage, data: { filename: 'forum-index', section: 'forum', layout: 'two-column' } },
+    { path: 'adv/howto', component: PagePage, data: { filename: 'advertisement-howto', section: 'advertisement', layout: 'wide' } }
 ];
 
 @NgModule({

@@ -28,7 +28,7 @@ import { PostViewWidget } from './../../widgets/post-view/post-view';
 
 import { ForumViewPage } from './pages/view/view';
 
-import { AdvertisementHowtoPage } from './pages/advertisement-howto/advertisement-howto';
+
 import { AdvertisementCreateEditPage } from './pages/advertisement-create-edit/advertisement-create-edit';
 import { AdvertisementListPage } from './pages/advertisement-list/advertisement-list';
 
@@ -46,7 +46,6 @@ const appRoutes: Routes = [
 
 
     /// advertisement
-    { path: 'adv/howto', component: AdvertisementHowtoPage },
     { path: 'adv/create', component: AdvertisementCreateEditPage },
     { path: 'adv/edit/:id', component: AdvertisementCreateEditPage },
     { path: 'adv/list', component: AdvertisementListPage },
@@ -73,7 +72,6 @@ const appRoutes: Routes = [
         // CommentViewComponent,
         CommentEditContent,
         ForumViewPage,
-        AdvertisementHowtoPage,
         AdvertisementCreateEditPage,
         AdvertisementListPage,
         JobCreateEditPage,

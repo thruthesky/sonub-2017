@@ -1,5 +1,5 @@
 <div class="p-2 bg-white fs-xs word-break-all">
-    <h4 class="m-0 mb-0 fs-md fw-normal">My Activity</h4>
+    <h4 class="m-0 mb-0 fs-md fw-normal">{{ app.text('my_activity') }}</h4>
     <div class="logs" *ngIf=" app.activity.length ">
         <div class="pt-2" *ngFor=" let activity of app.activity ">
             <div *ngIf=" activity.action == 'comment-create' || activity.action == 'post-create' ">

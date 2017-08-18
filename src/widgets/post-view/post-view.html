@@ -13,10 +13,9 @@
     <div class="post-area bg-white mb-2 p-2">
         <post-header-widget [post]="post" (edit)="onClickPostEdit( post )" (delete)="onClickPostDelete( post, page )"></post-header-widget>
         <h2 class="post-title fs-xl fw-100">{{ post.post_title }}</h2>
-        <div class="post-content mb-2 fs-sm">
-            {{ post.post_content }}
-        </div>
-        <file-display-widget [files]="post.files"></file-display-widget>
+        <file-display-widget *ngIf="filePositionTop" [files]="post.files"></file-display-widget>
+        <div class="post-content mb-2 fs-sm" [innerHTML]=" app.safeHtml( post.post_content )"></div>
+        <file-display-widget *ngIf="filePositionBottom" [files]="post.files"></file-display-widget>
         <hr>
         <ul class="buttons list-line list-dots fs-xs">
             <li *ngIf=" app.my( post ) || app.anonymous( post )" (click)="onClickPostEdit( post )">Edit</li>

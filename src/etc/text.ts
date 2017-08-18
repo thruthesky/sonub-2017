@@ -95,6 +95,10 @@ export let TEXT = {
         en: 'Please login first',
         ko: '로그인을 먼저 하세요.'
     },
+    my_activity: {
+        en: 'My Activity',
+        ko: '내 활동 로그'
+    },
     select_image: {
         en: 'Select a image.',
         ko: '이미지를 선택해 주세요.'
@@ -106,6 +110,14 @@ export let TEXT = {
     advertisement_delete: {
         en: 'Do you want to delete this advertisement?',
         ko: '광고를 삭제하시겠습니까?'
+    },
+    rules: {
+        en: 'Rules',
+        ko: '규정'
+    },
+    advertising: {
+        en: 'Advertising',
+        ko: '광고안내'
     },
     saved: {
         en: 'Successfully saved.',
@@ -263,6 +275,22 @@ export let TEXT = {
     post_view_loading: {
         en: 'Please wait while loading post',
         ko: '서버로 부터 글을 가져 오는 중입니다.'
+    },
+
+    ///
+    sponsered: {
+        en: 'Sponsered',
+        ko: '광고'
+    },
+
+    create_ad: {
+        en: 'Create Ad',
+        ko: '광고 등록'
+    },
+
+    upload_photo: {
+        en: 'Upload photos',
+        ko: '사진 올리기'
     },
 
     ///

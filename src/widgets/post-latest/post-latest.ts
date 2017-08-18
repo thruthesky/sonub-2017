@@ -62,8 +62,9 @@ export class PostLatestWidget implements OnInit, AfterViewInit {
                 if ( post.post_title.length < this.titleLength - 20 && post.post_content.length > 20 ) {
                     post.post_title += ' ▶ ' + post.post_content.substr(0, 100);
                 }
-                post.post_title = post.post_title.substring( 0, this.titleLength );
-
+                // post.post_title = post.post_title.substring( 0, this.titleLength );
+                post.post_title = this.app.wordcut( post.post_title, this.titleLength );
+                
             }
         }
     }

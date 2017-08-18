@@ -1,6 +1,10 @@
+<ul class="advertisement-menu flex justify-content-between pb-2 fs-xs">
+    <li><a class="link-secondary" href="/adv/howto" routerLink="/adv/howto">{{ app.text('sponsered') }}</a></li>
+    <li><a class="link-primary" href="/adv/create" routerLink="/adv/create">{{ app.text('create_ad') }}</a></li>
+</ul>
 <div *ngIf="post" class="advertisement-side-bar fs-xs">
     <a href="{{post.varchar_4}}" target="_blank">
-        <div *ngIf="post.files.length"><img src="{{ post.files[0].url }}"></div>
+        <div *ngIf="post.files.length"><img class="w-100" src="{{ post.files[0].url }}"></div>
         <div>{{ post.post_title }}</div>
         <div>{{ post.varchar_2 }}</div>
         <div>{{ post.post_content }}</div>

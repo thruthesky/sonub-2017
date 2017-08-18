@@ -34,7 +34,7 @@ import { SOCIAL_PROFILE, USER_REGISTER, ACTIVITIES, ACTIVITY, COMMUNITY_LOG, COM
 export {
     POST, POSTS, POST_LIST, PAGE, PAGES, FILE, FILES, POST_CREATE, POST_DELETE, POST_DELETE_RESPONSE,
     JOB, JOBS, POST_QUERY_REQUEST, JOB_PAGE, JOB_PAGES, POST_QUERY_RESPONSE,
-    ACTIVITY, ACTIVITIES, COMMUNITY_LOGS
+    ACTIVITY, ACTIVITIES, COMMUNITY_LOGS, COMMUNITY_LOG
 } from './wordpress-api/interface';
 
 
@@ -324,6 +324,12 @@ export class AppService extends Base {
      */
     section(name) {
         this.sectionName = name;
+    }
+    layoutWide() {
+        this.pageLayout = 'wide';
+    }
+    layoutColumn() {
+        this.pageLayout = 'column';
     }
 
 

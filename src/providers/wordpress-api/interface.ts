@@ -174,7 +174,8 @@ export interface POST_CREATE_COMMON {
 };
 export interface POST_READ_COMMON extends ID, POST_CREATE_COMMON {
     author: AUTHOR;
-    category?: string; // category. only available on get_post()
+    readonly category?: string; // category. only available on get_post()
+    readonly category_option?: any;
     comment_count: number;
     comments: COMMENTS;
     guid: string;
@@ -184,8 +185,8 @@ export interface POST_READ_COMMON extends ID, POST_CREATE_COMMON {
     post_password?: string; // password does not come from server.
     meta: any;
     shortDate?: string;             /// made by client
-    count_images: number;      /// number of image files. made by server.
-    count_files: number;  /// number of files that are not image. made by server.
+    readonly count_images?: number;      /// number of image files. made by server.
+    readonly count_files?: number;  /// number of files that are not image. made by server.
 };
 
 export interface POST_CREATE extends REQUEST, ID_O, CATEGORY, POST_CREATE_COMMON { };

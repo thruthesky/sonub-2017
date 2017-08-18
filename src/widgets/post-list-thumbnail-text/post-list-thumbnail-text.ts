@@ -101,7 +101,8 @@ export class PostListThumbnailTextWidget implements OnInit, OnDestroy, AfterView
                 if ( post.post_title.length < this.titleLength - 20 && post.post_content.length > 20 ) {
                     post.post_title += ' ▶ ' + post.post_content;
                 }
-                post.post_title = post.post_title.substring( 0, this.titleLength );
+                post.post_title = this.app.strip_tags( post.post_title );
+                post.post_title = this.app.wordcut( post.post_title, this.titleLength );
 
             }
         }

@@ -5,9 +5,11 @@
 <div *ngIf="page && page.posts" class="news-list">
     <ul>
         <li class="fs-sm mb-1" *ngFor="let post of page.posts">
-            <a class="flex" href="{{ app.forum.postUrl( post.ID )}}" routerLink="{{ app.forum.postUrl( post.ID )}}">
-                <img *ngIf="app.forum.getFirstImageThumbnailUrl(post)" class="size-32px" src="{{ app.forum.getFirstImageThumbnailUrl(post) }}">
-                <div class="post-title p-0 m-0 pl-2 overflow-hidden" style="height: 2.4em; line-height: 1.2em;">{{ post.post_title }}</div>
+            <a href="{{ app.forum.postUrl( post.ID )}}" routerLink="{{ app.forum.postUrl( post.ID )}}">
+                <div *ngIf="app.forum.getFirstImageThumbnailUrl(post)" class="float-left">
+                <img class="size-32px" src="{{ app.forum.getFirstImageThumbnailUrl(post) }}">
+                </div>
+                <div class="post-title p-0 m-0 pl-2 overflow-hidden break-word" style="height: 2.4em; line-height: 1.2em;">{{ post.post_title }}</div>
             </a>
         </li>
     </ul>

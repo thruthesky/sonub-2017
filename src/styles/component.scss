@@ -40,10 +40,6 @@
     }
 }
 
-.advertisement-menu {
-    display: flex;
-    justify-content: space-between;
-}
 
 .link-primary {
     color: #35F;
@@ -56,11 +52,11 @@
 
 
 .post-title {
-    word-break: break-all;
+    word-wrap: break-word;
 }
 
 .post-content {
-    word-break: break-all;
+    word-wrap: break-word;
 }
 
 
@@ -109,7 +105,9 @@
 .word-break-all {
     word-break: break-all;
 }
-
+.break-word {
+    word-wrap: break-word;
+}
 .white-space-nowrap {
     white-space: nowrap;
 }

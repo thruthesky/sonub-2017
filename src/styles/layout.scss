@@ -1,11 +1,13 @@
+$two-column-max-width: $lg;
 body {
     margin: 0;
     padding: 0;
 }
 
+/// header layout only. no size, no placement.
 section.page {
     background-color: $background-color;
-    section.page-header {
+    .page-header {
         position: fixed;
         z-index: 999;
         top: 0;
@@ -13,7 +15,6 @@ section.page {
         height: $header-height;
         border-bottom: $header-border-bottom-height solid $background-color;
         overflow: hidden;
-
         .page-header-container-center {
             display: flex;
             flex-flow: row nowrap;
@@ -29,110 +30,130 @@ section.page {
                 padding-right: $d-width;
             }
         }
-
     }
-    section.page-body {
+    &[layout="two-column"],
+    &[layout="wide"] {
+        .page-header {
+            .page-header-container-center {
+                margin: 0 2px 0 8px;
+                padding-right: 0;
+                max-width: $two-column-max-width;
+                @media ( min-width: $two-column-max-width) {
+                    margin: 0 auto;
+                }
+            }
+        }
+    } // &[layout="wide"] {
+    //     .page-header {
+    //         .page-header-container-center {
+    //             margin: 0 2px 0 8px;
+    //             @media ( min-width: $break-d) {
+    //                 padding-right: 0;
+    //                 max-width: $break-d;
+    //             }
+    //         }
+    //     }
+    // }
+}
+
+///
+/// body column layout. no placement, sizing
+section.page {
+    .page-body {
         margin-top: $header-height - $header-border-bottom-height;
         padding: 8px;
         width: 100%;
     }
-}
 
-.page-body-content {
-    position: relative;
-    .page-body-content-layout {
+    .page-body-content { /// default.
         position: relative;
-        max-width: $layout-max-width;
-        margin: 0 auto;
-        &:after {
-            display: block;
-            content: "";
-            clear: both;
+        .page-body-content-layout {
+            position: relative;
+            max-width: $layout-max-width;
+            margin: 0 auto;
+            &:after {
+                display: block;
+                content: "";
+                clear: both;
+            }
         }
-    }
-    .a {
-        display: none;
-    }
-    .b {}
-    .c {
-        display: none;
-    }
-    .d {
-        display: none;
-    }
-    @media (min-width: $break-a) {
         .a {
-            display: block;
-            float: left;
-            width: $a-width;
-            overflow: hidden;
+            display: none;
         }
-        .b {
-            margin-left: $a-width + $global-padding;
-            overflow: hidden;
-        }
-    }
-    @media (min-width: $break-c) {
-        .b {
-            margin-right: $c-width + $global-padding;
-        }
+        .b {}
         .c {
-            position: absolute;
-            display: block;
-            top: 0;
-            right: 0;
-            width: $c-width;
-        }
-    }
-}
-
-
-
-
-
-@media (min-width: $break-d) {
-    [layout="column"] {
-        .b {
-            margin-right: $c-width + $d-width + $global-padding * 2;
-        }
-        .c {
-            right: $d-width + $global-padding;
+            display: none;
         }
         .d {
-            position: absolute;
-            display: block;
-            top: 0;
-            right: 0;
-            width: $d-width;
+            display: none;
         }
-    }
-}
-
-.wide .page-body-content {
-    .b {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-    }
-}
-
-section.page[layout="two-column"] {
-    section.page-header {
-        .page-header-container-center {
-            margin: 0 auto;
-            padding-right: 0;
-            max-width: $lg;
-        }
-    }
-    .page-body-content {
-        .page-body-content-layout {
-            margin: 0 auto;
-            padding: 0;
-            max-width: $lg;
-
+        @media (min-width: $break-a) {
+            .a {
+                display: block;
+                float: left;
+                width: $a-width;
+                overflow: hidden;
+            }
             .b {
-                margin-right: 0;
+                margin-left: $a-width + $global-padding;
+                overflow: hidden;
+            }
+        }
+        @media (min-width: $break-c) {
+            .b {
+                margin-right: $c-width + $global-padding;
+            }
+            .c {
+                position: absolute;
+                display: block;
+                top: 0;
+                right: 0;
+                width: $c-width;
+            }
+        }
+    }
+
+    &[layout="column"] { /// column layout on break-d
+        .page-body {
+            .page-body-content {
+                @media (min-width: $break-d) {
+                    .b {
+                        margin-right: $c-width + $d-width + $global-padding * 2;
+                    }
+                    .c {
+                        right: $d-width + $global-padding;
+                    }
+                    .d {
+                        position: absolute;
+                        display: block;
+                        top: 0;
+                        right: 0;
+                        width: $d-width;
+                    }
+                }
+            }
+        }
+    }
+    
+    &[layout="two-column"] { /// two-column layout
+        .page-body-content {
+            .page-body-content-layout {
+                margin: 0 auto;
                 padding: 0;
+                max-width: $two-column-max-width;
+                .b {
+                    margin-right: 0;
+                    padding: 0;
+                }
+            }
+        }
+    }
+    &[layout="wide"] { /// wide layout
+        .page-body-content {
+            .b {
+                margin: 0 auto;
+                padding: 0;
+                max-width: $two-column-max-width;
             }
         }
     }

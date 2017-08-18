@@ -1,7 +1,8 @@
+/// for layout see layout.scss
 $header-background-color: #0d47a1;
 $header-content-height: 24px;
 $header-break-menu: 640px;
-/// layout only
+/// for layout see layout.scss
 .page-header {
     height: $header-inner-height;
     .page-header-container {
@@ -24,6 +25,9 @@ $header-break-menu: 640px;
 
 /// playcement only. Not layout. Not design.
 .page-header {
+    // .left {
+    //     padding-left: $global-padding;
+    // }
     .right {
         padding-right: $global-padding;
         width: 30%;
