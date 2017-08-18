@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -7,6 +8,7 @@ import { Base } from '../../etc/base';
 
 import { error, ERROR } from './../../etc/error';
 
+import { getLanguage, setLanguage } from './../../etc/language';
 
 
 
@@ -21,6 +23,7 @@ export class WordpressApiService extends Base {
 
     private url: string;// =  environment.xapiUrl;
     constructor(
+        private domSanitizer: DomSanitizer,
         private http: HttpClient
     ) {
         super();
@@ -45,7 +48,7 @@ export class WordpressApiService extends Base {
             throw error(ERROR.RESPONSE_EMPTY);
         }
         else if (res['code'] === void 0) throw error(ERROR.RESPONSE_NO_CODE);
-        else if ( res['code'] !== 0 ) throw error( res['code'], res['message'] );
+        else if (res['code'] !== 0) throw error(res['code'], res['message']);
         else return res['data'];
     }
 
@@ -54,6 +57,15 @@ export class WordpressApiService extends Base {
         req['paged'] = req['paged'] ? req['paged'] : 1;
         return this.post(req);
     }
+
+
+    page(pageName: string) {
+        let url = this.serverUrl + '/wp-content/plugins/xapi-2/pages/page.php?name=' + pageName + '&ln=' + getLanguage();
+        // console.log('page: ', url);
+        return this.http.get(url, { responseType: 'text' })
+            .map(e => this.domSanitizer.bypassSecurityTrustHtml(e) as string);
+    }
+
 
 
 

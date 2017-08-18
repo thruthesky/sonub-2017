@@ -1,6 +1,4 @@
 $header-background-color: #0d47a1;
-$icon-width: 24px;
-$icon-width-on-wide: 26px;
 $header-content-height: 24px;
 $header-break-menu: 640px;
 /// layout only
@@ -53,10 +51,6 @@ $header-break-menu: 640px;
     .page-header-container {
         background-color: $header-background-color;
     }
-    .fa {
-        display: inline-block;
-        width: $icon-width;
-    }
     .left {
         .input-group {
             height: 28px;
@@ -92,10 +86,27 @@ $header-break-menu: 640px;
                 font-size: $fs-xs;
             }
         }
+        .fa {
+            display: inline-block;
+            padding: 0 $global-padding;
+        }
+    }
+    .right {
+        .fa {
+            display: inline-block;
+            padding: $global-padding;
+        }
+        .fa-th-large {
+            position: relative;
+            top: 1px;
+        }
     }
 }
 
 /// color
 .page[section='forum'] .page-header .page-header-container {
     background-color: #4527a0;
+}
+.page[section='job'] .page-header .page-header-container {
+    background-color: #265C5B;
 }

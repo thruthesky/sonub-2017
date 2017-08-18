@@ -11,6 +11,26 @@ export let TEXT = {
         en: 'Login',
         ko: '로그인'
     },
+    register: {
+        en: 'Register',
+        ko: '회원가입'
+    },
+    name: {
+        en: 'Name',
+        ko: '이름'
+    },
+    email: {
+        en: 'Email',
+        ko: '이메일'
+    },
+    mobile_no: {
+        en: 'Mobile No.',
+        ko: '휴대폰 번호'
+    },
+    password: {
+        en: 'Password',
+        ko: '비밀번호'
+    },
     home: {
         en: 'Home',
         ko: '홈'
@@ -42,6 +62,18 @@ export let TEXT = {
     no: {
         en: 'No',
         ko: '아니오'
+    },
+    cancel: {
+        en: 'Cancel',
+        ko: '취소'
+    },
+    submit_post: {
+        en: 'Submit Post',
+        ko: '글 등록하기'
+    },
+    update_post: {
+        en: 'Update Post',
+        ko: '글 수정하기'
     },
     user_exist: {
         en: 'User login ID is already exist. Please choose another.',
@@ -89,6 +121,58 @@ export let TEXT = {
         ko: '글 등록하기'
     },
 
+    input_title: {
+        en: 'Input title',
+        ko: '제목을 입력하세요.'
+    },
+    input_content: {
+        en: 'Input content',
+        ko: '내용을 입력하세요.'
+    },
+
+    start_discussion: {
+        en: 'Start a Discussion',
+        ko: '자유게시판 글쓰기'
+    },
+    discussion_description: {
+        en: 'Please share your thoughts and ideas.',
+        ko: '자유토론 게시판입니다.'
+    },
+    ask: {
+        en: 'Ask',
+        ko: '질문하기'
+    },
+    sell: {
+        en: 'Sell',
+        ko: '물건팔기'
+    },
+    hire: {
+        en: 'Hire',
+        ko: '사람구하기'
+    },
+
+    search_for: {
+        en: 'Search for ... ?',
+        ko: '검색하기 ...'
+    },
+    what_are_you_searching: {
+        en: 'What are you searching for?',
+        ko: '무엇이든지 검색해 보세요.'
+    },
+
+    jobs: {
+        en: 'Jobs',
+        ko: '구인구직'
+    },
+    job_description: {
+        en: '',
+        ko: ''
+    },
+
+    crowded_forums: {
+        en: 'Crowded Forums',
+        ko: '새글이 많은 게시판'
+    },
 
     /// page title
     menu_page_title: {
@@ -101,6 +185,11 @@ export let TEXT = {
         ko: '이 페이지에서 모든 메뉴를 볼 수 있습니다.'
     },
 
+    /// menu, button text
+    my_posts_menu: {
+        en: 'List my posts',
+        ko: '내가 작성한 글 목록'
+    },
 
 
     /// forum create name
@@ -132,7 +221,7 @@ export let TEXT = {
     },
 
     qna: {
-        en: 'Questions &amp; Answers',
+        en: 'Ask',
         ko: '질문과답변'
     },
     qna_description: {
@@ -152,7 +241,19 @@ export let TEXT = {
         en: 'Discussion',
         ko: '자유게시판'
     },
+    buyandsell: {
+        en: 'Buy&Sell',
+        ko: '장터'
+    },
 
+    message: {
+        en: 'Message',
+        ko: '메세지'
+    },
+    settings: {
+        en: 'Settings',
+        ko: '설정'
+    },
 
     ///
     community_logs: {
@@ -211,7 +312,7 @@ TEXT[ERROR.CODE_COMMENT_DUPLICATE] = { en: 'Please do not comment with same text
 TEXT[ERROR.LOGIN_FIRST] = { en: 'Please login first', ko: '로그인을 먼저하십시오.' };
 TEXT[ERROR.CODE_WRONG_SESSION_ID] = { en: 'Wrong login information. Wrong session. Please login again.', ko: '로그인 오류. 로그인 정보가 올바르지 않습니다. 로그인을 다시 해 주세요.' };
 TEXT[ERROR.CODE_NO_USER_BY_THAT_SESSION_ID] = { en: 'Wrong loing information. No user. Please login again.', ko: '로그인 오류. 로그인 정보를 찾을 수 없습니다. 다시 로그인을 해 주세요.' };
-
+TEXT[ERROR.CODE_PERMISSION_DENIED] = { en: 'Permission denied', ko: '권한이 없습니다.' };
 
 /**
  * 

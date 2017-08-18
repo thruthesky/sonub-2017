@@ -4,36 +4,24 @@ import { RouterModule, Routes, Router } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 
-
-
 import { environment } from '../environments/environment'; // environment
-
-
-
 
 //// firebase
 import * as firebase from 'firebase';
 firebase.initializeApp(environment.firebase);
 
-
 /// Ng Bootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-
 /// Error Handler
 import { CustomErrorHandler } from './app.error-handler';
-
-
 
 import { UserModule } from '../modules/user/user.module';
 import { ForumModule } from '../modules/forum/forum.module';
 import { EtcModule } from '../modules/etc/etc.module';
 
-
-
 import { AppComponent } from './app.component';
 import { HomeModule, HomePage } from './../modules/home/home.module';
-
 
 import { WordpressApiService } from './../providers/wordpress-api/wordpress-api.service';
 import { UserService } from './../providers/wordpress-api/user.service';
@@ -49,22 +37,15 @@ import { PushMessageService } from './../providers/push-message';
 
 import { PhilippineRegion } from "../providers/philippine-region";
 
-// import { TextService } from './../providers/text.service';
-
-
-
 import { ModalServiceModule } from '../providers/modals/modal.service.module';
 import { WidgetsModule } from './../widgets/widgets.module';
 
 
 
 const appRoutes: Routes = [
-  // { path: 'user', loadChildren: '../pages/user/user.module#UserModule' },
-  // { path: 'forum', loadChildren: '../pages/forum/forum.module#ForumModule' },
   { path: '', component: HomePage, pathMatch: 'full' },
   { path: '**', component: HomePage }
 ];
-
 
 @NgModule({
   declarations: [
@@ -94,7 +75,6 @@ const appRoutes: Routes = [
     TestService,
     PageScroll,
     PhilippineRegion,
-    // TextService,
     PushMessageService,
     { provide: ErrorHandler, useClass: CustomErrorHandler }
   ],

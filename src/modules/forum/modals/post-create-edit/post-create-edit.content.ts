@@ -59,6 +59,7 @@ export class PostCreateEditContent implements OnInit {
         this.subscriptionTyping = this.typing
             .debounceTime(300)
             .subscribe( text => {
+                text = text.replace(/\s+/g, " ");
                 this.post_title = this.app.wordcut( text, 60);
                 console.log('post_title: ', this.post_title);
             });

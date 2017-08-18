@@ -24,9 +24,12 @@ export class Base extends Library {
         super();
     }
 
+    get serverUrl() {
+        return environment.serverUrl;
+    }
 
     xapiUrl() {
-        return environment.serverUrl + '/wp-json/xapi/v2/do';
+        return this.serverUrl + '/wp-json/xapi/v2/do';
     }
 
     postUrl(id: number): string {

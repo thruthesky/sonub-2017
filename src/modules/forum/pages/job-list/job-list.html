@@ -8,7 +8,7 @@
                 <div class="pr-2 pb-2 fs-sm">Page 1. 438 posts.</div>
             </div>
         </div>
-        <small>This is job forum.</small>
+        <small>{{ app.text('job_description') }}</small>
     </div>
 
     <nav class="bg-light mb-2 text-center py-2" *ngIf="!searchForm">

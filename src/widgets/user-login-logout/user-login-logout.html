@@ -1,7 +1,7 @@
 <div class="box box-menu login-or-register" *ngIf="!app.user.isLogin">
     <ul>
-        <li><a href="/user/login" routerLink="/user/login">Login</a></li>
-        <li><a href="/user/register" routerLink="/user/register">Register</a></li>
+        <li><a href="/user/login" routerLink="/user/login">{{ app.text('login') }}</a></li>
+        <li><a href="/user/register" routerLink="/user/register">{{ app.text('register') }}</a></li>
     </ul>
 </div>
 
@@ -19,9 +19,7 @@
             </a>
 
         </li>
-        <li><a href="/user/message" routerLink="/user/message"><i class="fa fa-envelope" aria-hidden="true"></i> Message</a></li>
-        <li><a href="/user/settings" routerLink="/user/settings">
-                                        <i class="fa fa-gears" aria-hidden="true"></i>
-                                        Settings</a></li>
+        <li><a href="/user/message" routerLink="/user/message"><i class="fa fa-envelope" aria-hidden="true"></i> {{ app.text('message') }}</a></li>
+        <li><a href="/user/settings" routerLink="/user/settings"><i class="fa fa-gears" aria-hidden="true"></i>  {{ app.text('settings') }}</a></li>
     </ul>
 </div>

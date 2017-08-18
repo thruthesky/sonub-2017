@@ -10,7 +10,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { WidgetsModule } from './../../widgets/widgets.module';
 
 
-import { ForumIndexPage } from './pages/index/index';
+
 import { ForumListPage } from './pages/list/list';
 import { PostCreateEditModalService } from './modals/post-create-edit/post-create-edit.modal';
 import { PostCreateEditContent } from './modals/post-create-edit/post-create-edit.content';
@@ -34,6 +34,7 @@ import { AdvertisementListPage } from './pages/advertisement-list/advertisement-
 
 import { JobCreateEditPage } from './pages/job-create-edit/job-create-edit';
 import { JobListPage } from './pages/job-list/job-list';
+import { MyPostsPage } from './pages/my-posts/my-posts';
 
 import { BuyAndSellCreateEditPage } from './pages/buy-and-sell-create-edit/buy-and-sell-create-edit';
 import { BuyAndSellListPage } from "./pages/buy-and-sell-list/buy-and-sell-list";
@@ -42,9 +43,10 @@ import {BuyAndSellViewModalService} from "./modals/buy-and-sell-view/buy-and-sel
 
 
 
-
-
 const appRoutes: Routes = [
+
+    /// my posts
+    { path: 'my-posts', component: MyPostsPage },
 
 
     /// advertisement
@@ -69,12 +71,11 @@ const appRoutes: Routes = [
     ///
     { path: 'forum/:slug', component: ForumListPage },
     { path: 'forum/:slug/:action', component: ForumListPage },
-    { path: 'forum', component: ForumIndexPage }
+
 ];
 
 @NgModule({
     declarations: [
-        ForumIndexPage,
         ForumListPage,
         PostCreateEditContent,
         // CommentCreateComponent,
@@ -88,7 +89,8 @@ const appRoutes: Routes = [
         JobListPage,
         BuyAndSellCreateEditPage,
         BuyAndSellListPage,
-        BuyAndSellViewContent
+        BuyAndSellViewContent,
+        MyPostsPage
     ],
     entryComponents: [
         PostCreateEditContent,

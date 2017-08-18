@@ -1,13 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import { AppService, POST, FILES, FILE, POST_CREATE } from './../../../../providers/app.service';
+import { AppService, ERROR, POST, FILES, FILE, POST_CREATE } from './../../../../providers/app.service';
 import { JOB_CREATE } from "../../../../providers/wordpress-api/interface";
 import { FileUploadWidget } from "../../../../widgets/file-upload/file-upload";
 import { PhilippineRegion } from "../../../../providers/philippine-region";
 import { DATEPICKER } from "../../../../etc/interface";
 import { NgbDatepickerConfig } from "@ng-bootstrap/ng-bootstrap";
 
-import { error, ERROR } from '../../../../etc/error';
 
 
 @Component({
@@ -54,6 +53,7 @@ export class JobCreateEditPage {
         dateConfig: NgbDatepickerConfig,
 
     ) {
+        app.section('job');
         region.get_province(re => {
             this.provinces = re;
         }, e => {
@@ -74,12 +74,12 @@ export class JobCreateEditPage {
 
                     if ( post.author.ID ) {
                         if(!app.user.isLogin ) {
-                            this.app.warning( error( ERROR.LOGIN_FIRST) );
+                            this.app.warning( ERROR.LOGIN_FIRST );
                             this.router.navigateByUrl('/user/login');
                             return;
                         }
                         else if( post.author.ID != app.user.id) {
-                            this.app.warning( error( ERROR.CODE_PERMISSION_DENIED) );
+                            this.app.warning( ERROR.CODE_PERMISSION_DENIED );
                             this.router.navigateByUrl('/job');
                             return;
                         }

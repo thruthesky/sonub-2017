@@ -9,29 +9,29 @@
                                 <td class="search-box">
                                     <div class="input-group float-left">
                                         <a class="input-group-addon" href="/" routerLink="/">S</a>
-                                        <input type="text" class="form-control m-0 p-0" placeholder="{{ app.size == 'mobile' ? 'Search for ...' : 'What are you searching' }} ?"
-                                            aria-label="Search for...">
+                                        <input type="text" class="form-control m-0 p-0" placeholder="{{ app.size == 'mobile' ? app.text('search_for') : app.text('what_are_you_searching') }}"
+                                            aria-label="What are you searching for?">
                                         <span class="input-group-btn">
                                             <button class="btn btn-secondary" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
                                         </span>
                                     </div>
                                 </td>
-                                <td class="menu pl-2">
+                                <td class="menu pl-2" nowrap>
                                     <div class="links d-none d-sm-block">
-                                        <a href="/forum/news" routerLink="/forum/news">News</a>
-                                        <a href="/forum/qna" routerLink="/forum/qna">Ask</a>
-                                        <a href="/job" routerLink="/job">Jobs</a>
-                                        <a href="/buyandsell" routerLink="/buyandsell">Buy&amp;Sell</a>
+                                        <a href="/forum/news" routerLink="/forum/news">{{ app.text('news') }}</a>
+                                        <a href="/forum/qna" routerLink="/forum/qna">{{ app.text('qna') }}</a>
+                                        <a href="/job" routerLink="/job">{{ app.text('jobs') }}</a>
+                                        <a href="/buyandsell" routerLink="/buyandsell">{{ app.text('buyandsell') }}</a>
                                         <a href="/forum/discussion" routerLink="/forum/discussion">{{ app.text('discussion') }}</a>
                                     </div>
                                 </td>
                             </tr>
                         </table>
                     </td>
-                    <td class="right">
-                        <span class="d-none d-sm-inline"><i class="fa fa-comments-o fa-inverse" routerLink="/forum"></i></span>
+                    <td class="right pointers">
+                        <span class="d-none d-sm-inline"><i class="fa fa-th-large fa-inverse" routerLink="/forum"></i></span>
                         <span class="hidden-360-down"><i class="fa fa-envelope fa-inverse"></i></span>
-                        <span class="hidden-320-down"><i class="fa fa-users fa-inverse"></i></span>
+                        <span class="hidden-320-down" routerLink="/user/settings"><i class="fa fa-gear fa-inverse"></i></span>
                         <!-- <i class="fa fa-gear fa-inverse"></i> -->
                         <i routerLink="/menu" class="fa fa-bars fa-inverse"></i>
                     </td>
