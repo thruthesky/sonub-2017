@@ -23,6 +23,7 @@ import { UserService } from './wordpress-api/user.service';
 import { ForumService } from './wordpress-api/forum.service';
 import { FileService } from './wordpress-api/file.service';
 import { JobService } from './wordpress-api/job.service';
+import {BuyAndSellService} from './wordpress-api/buyandsell.service';
 
 
 import { ConfirmModalService, CONFIRM_OPTIONS } from './modals/confirm/confirm.modal';
@@ -49,6 +50,7 @@ import { HeaderWidget } from './../widgets/header/header';
 import {
     POST_LIST, PAGE
 } from './wordpress-api/interface';
+
 
 
 @Injectable()
@@ -96,6 +98,7 @@ export class AppService extends Base {
         public user: UserService,
         public forum: ForumService,
         public job: JobService,
+        public bns: BuyAndSellService,
         public wp: WordpressApiService,
         public file: FileService,
         // public text: TextService,
@@ -143,9 +146,9 @@ export class AppService extends Base {
     }
 
     /**
-     * 
+     *
      * @note Since the login of naver login different, it is not in 'login.ts'
-     *  
+     *
      * @note This will be called only one time after naver login.
      */
     checkLoginWithNaver() {
@@ -252,12 +255,12 @@ export class AppService extends Base {
 
     /**
      * All social login comes here. You have to register or login to wordpress.
-     * 
+     *
      * @note flowchart
      *      - All social login must check if their accounts are already created.
      *          -- If so, just login.
      *          -- If no, create one ( with secret key )
-     * 
+     *
      * @param profile User profile coming from the social login.
      * @see https://docs.google.com/document/d/1m3-wYZOaZQGbAzXeVlIpJNSdTIt3HCUiIt9UTmZUgXo/edit#heading=h.30erqp1hvdiu
      */
@@ -284,13 +287,13 @@ export class AppService extends Base {
 
 
     /**
-     * 
+     *
      * User logged in sucessfully.
-     * 
+     *
      * @attention All login comes here.
-     * 
-     * 
-     * 
+     *
+     *
+     *
      * @note this includes all kinds of social login and wordpress api login.
      * @note This method is being invoked for alll kinds of login.
      */
@@ -320,7 +323,7 @@ export class AppService extends Base {
 
     /**
      * Set's section.
-     * @param name 
+     * @param name
      */
     section(name) {
         this.sectionName = name;
@@ -334,15 +337,15 @@ export class AppService extends Base {
 
 
     /**
-     * 
-     * @param key 
-     * @param value 
+     *
+     * @param key
+     * @param value
      */
     cacheSet(key, value) {
         this.storage.set(key, value);
     }
     /**
-     * 
+     *
      * @param key Key
      * @return null if there is no data.
      */
@@ -358,7 +361,7 @@ export class AppService extends Base {
      * @note it caches upto 3 pages only.
      * @note it can be used for latest posts of a forum.
      * @param req Request of post list.
-     * @param page 
+     * @param page
      */
     cacheSetPage(req: any, page: any) {
         if (req.paged <= 3) this.cacheSet(this.cacheKeyPage(req), page);
@@ -368,7 +371,7 @@ export class AppService extends Base {
     }
 
 
-    
+
     get userPhotoUrl(): string {
         if (this.user.isLogin && this.user.profile.photoURL) return this.user.profile.photoURL;
         else return '/assets/img/anonymous.png';
@@ -420,7 +423,7 @@ export class AppService extends Base {
 
 
     /**
-     * 
+     *
      * This may be called multiple times. When user
      *      - app boots
      *      - login

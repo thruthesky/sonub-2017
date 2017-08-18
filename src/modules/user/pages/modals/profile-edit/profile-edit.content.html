@@ -6,8 +6,8 @@
 </div>
 <div class="modal-body">
     <div class="text-center mb-3">
-        <div id="profile-user" class="d-inline-block">
-            <span id="profile-user-photo">
+        <div class="profile-user d-inline-block">
+            <span class="profile-user-photo">
                 <img *ngIf="files"
                      src="{{files[0]?.url ? files[0].url : 'assets/img/anonymous.png'}}"
                      (click)="fileUploadWidget.onClickCamera()"
@@ -75,7 +75,6 @@
 
 </div>
 <div class="modal-footer justify-content-between">
-
         <div>
             &nbsp;
         </div>
@@ -84,8 +83,5 @@
             <button type="button" (click)="onClickCancel()">Cancel</button>
         </div>
 </div>
-
-
-<hr>
 
 

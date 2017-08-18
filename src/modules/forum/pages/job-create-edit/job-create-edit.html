@@ -1,147 +1,142 @@
-<h1>Job create and update</h1>
 <div class="container">
-    <div class="row">
-        <div class="container">
-            <form>
+    <h1>Job create and update</h1>
+    <form>
+        <div class="form-group">
 
-
-                <div class="form-group row">
-
-                    <div class="text-center w-100 mb-3">
-                        <div id="profile-user" class="d-inline-block">
-                        <span id="profile-user-photo">
+            <div class="text-center w-100 mb-3">
+                <div class="profile-user d-inline-block">
+                        <span class="profile-user-photo">
                             <img *ngIf="files"
                                  src="{{files[0]?.url ? files[0].url : 'assets/img/anonymous.png'}}"
                                  (click)="fileUploadWidget.onClickCamera()"
                             >
                         </span>
-                            <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadWidget.onChangeFile($event)">
-                            <div>
-                                <button (click)="fileUploadWidget.onClickCamera()">Change Profile</button>
-                            </div>
-                            <file-upload-widget
-                                #fileUploadWidget
-                                [title]="false"
-                                [fileSelectionButton]="false"
-                                [files]="files"
-                                [showUploadedFiles]="false"
-                                (success)="onSuccessUpdateJobProfile()"
-                            ></file-upload-widget>
-                        </div>
+                    <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadWidget.onChangeFile($event)">
+                    <div>
+                        <button (click)="fileUploadWidget.onClickCamera()">Change Profile</button>
                     </div>
+                    <file-upload-widget
+                        #fileUploadWidget
+                        [title]="false"
+                        [fileSelectionButton]="false"
+                        [files]="files"
+                        [showUploadedFiles]="false"
+                        (success)="onSuccessUpdateJobProfile()"
+                    ></file-upload-widget>
                 </div>
-
-                <div class="input-group">
-                </div>
-
-
-
-
-                <div class="input-group row mb-3">
-                    <label for="firstName" class="input-group-addon">First Name</label>
-                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" [(ngModel)]="firstName">
-                </div>
-
-                <div class="input-group row mb-3">
-                    <label for="middleName" class="input-group-addon">Middle Name</label>
-                    <input type="text" class="form-control" id="middleName" name="middleName" placeholder="Middle Name" [(ngModel)]="middleName">
-                </div>
-
-                <div class="input-group row mb-3">
-                    <label for="firstName" class="input-group-addon">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" [(ngModel)]="lastName">
-                </div>
-
-                <div class="input-group row mb-3">
-                    <label for="mobile" class="input-group-addon">Mobile</label>
-                    <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobile Number" [(ngModel)]="mobile">
-                </div>
-
-                <div class="input-group row mb-3">
-                    <label for="address" class="input-group-addon">Address</label>
-                    <input type="text" class="form-control" id="address" name="address" placeholder="Address" [(ngModel)]="address">
-                </div>
-
-                <div class="input-group row mb-3">
-                    <label class="input-group-addon">Province</label>
-                    <select class="form-control" id="province" name="province" [(ngModel)]="province" (change)="onClickProvince()">
-                        <option value="all">All</option>
-                        <option *ngFor="let province of provinces" [value]="province">{{province}}</option>
-                    </select>
-                </div>
-
-                <div *ngIf="showCities" class="input-group row mb-3">
-                    <label class="input-group-addon">City</label>
-                    <select class="form-control" id="city" name="city" [(ngModel)]="city">
-                        <option *ngFor="let key of cityKeys" [value]="key">{{cities[key]}}</option>
-                    </select>
-                </div>
-
-                <div class="input-group row mb-3">
-                    <span class="input-group-addon input-group-addon-primary" id="date_begin">Birthday</span>
-                    <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="birthday" ngbDatepicker
-                           [placement]="'top'"
-                           #b="ngbDatepicker">
-                    <div class="input-group-addon" (click)="b.toggle()">
-                        <i class="fa fa-calendar" style="cursor: pointer;"></i>
-                    </div>
-                </div>
-
-
-                <div class="input-group row mb-3">
-                    <label class="input-group-addon">Gender</label>
-                    <div class="form-control">
-                        <div class="form-check">
-                            <label for="male"  class="form-check-label">
-                                <input type="radio" name="gender" id="male" [(ngModel)]="gender" value="m">
-                                <span>Male</span>
-                            </label>
-                            <label for="female" class="form-check-label">
-                                <input type="radio" name="gender" id="female" [(ngModel)]="gender" value="f">
-                                <span>Female</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="input-group row mb-3">
-                    <label class="input-group-addon">Experience</label>
-                    <select class="form-control" id="workExperience" name="workExperience" [(ngModel)]="experience">
-                        <option [value]="0">No work Experience</option>
-                        <option [value]="3">3 months</option>
-                        <option [value]="6">6 months</option>
-                        <option [value]="9">9 months</option>
-                        <option *ngFor="let number of numbers" [value]="number*12">{{number}} years</option>
-                    </select>
-                </div>
-
-
-                <div class="input-group row mb-3">
-                    <label class="input-group-addon">Profession</label>
-                    <select class="form-control" id="workProfession" name="workProfession" [(ngModel)]="profession">
-                        <option value="housemaid">House Maid</option>
-                        <option value="driver">Driver</option>
-                        <option value="babysitter">Babysitter</option>
-                    </select>
-                </div>
-
-
-                <div *ngIf=" !app.user.isLogin " class="input-group row mb-3">
-                    <label for="password" class="input-group-addon">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password"  [(ngModel)]="password">
-                </div>
-
-                <div class="input-group row mb-3">
-                    <label for="content" class="input-group-addon">Message</label>
-                    <textarea type="text" class="form-control" id="content" name="content" placeholder="Personal Message" [(ngModel)]="message"></textarea>
-                </div>
-
-
-
-                <div class="input-group row mb-3">
-                    <button type="submit" class="btn btn-primary btn-block" (click)="onClickSubmit()">Submit</button>
-                </div>
-            </form>
+            </div>
         </div>
-    </div>
+
+        <div class="input-group mb-3">
+            <label for="firstName" class="input-group-addon">First Name</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name"
+                   [(ngModel)]="firstName">
+        </div>
+
+        <div class="input-group mb-3">
+            <label for="middleName" class="input-group-addon">Middle Name</label>
+            <input type="text" class="form-control" id="middleName" name="middleName" placeholder="Middle Name"
+                   [(ngModel)]="middleName">
+        </div>
+
+        <div class="input-group mb-3">
+            <label for="firstName" class="input-group-addon">Last Name</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name"
+                   [(ngModel)]="lastName">
+        </div>
+
+        <div class="input-group mb-3">
+            <label for="mobile" class="input-group-addon">Mobile</label>
+            <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobile Number"
+                   [(ngModel)]="mobile">
+        </div>
+
+        <div class="input-group mb-3">
+            <label for="address" class="input-group-addon">Address</label>
+            <input type="text" class="form-control" id="address" name="address" placeholder="Address"
+                   [(ngModel)]="address">
+        </div>
+
+        <div class="input-group mb-3">
+            <label class="input-group-addon">Province</label>
+            <select class="form-control" id="province" name="province" [(ngModel)]="province"
+                    (change)="onClickProvince()">
+                <option value="all">All</option>
+                <option *ngFor="let province of provinces" [value]="province">{{province}}</option>
+            </select>
+        </div>
+
+        <div *ngIf="showCities" class="input-group mb-3">
+            <label class="input-group-addon">City</label>
+            <select class="form-control" id="city" name="city" [(ngModel)]="city">
+                <option *ngFor="let key of cityKeys" [value]="key">{{cities[key]}}</option>
+            </select>
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-addon input-group-addon-primary" id="date_begin">Birthday</span>
+            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="birthday" ngbDatepicker
+                   [placement]="'top'"
+                   #b="ngbDatepicker">
+            <div class="input-group-addon" (click)="b.toggle()">
+                <i class="fa fa-calendar" style="cursor: pointer;"></i>
+            </div>
+        </div>
+
+
+        <div class="input-group mb-3">
+            <label class="input-group-addon">Gender</label>
+            <div class="form-control">
+                <div class="form-check">
+                    <label for="male" class="form-check-label">
+                        <input type="radio" name="gender" id="male" [(ngModel)]="gender" value="m">
+                        <span>Male</span>
+                    </label>
+                    <label for="female" class="form-check-label">
+                        <input type="radio" name="gender" id="female" [(ngModel)]="gender" value="f">
+                        <span>Female</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-group mb-3">
+            <label class="input-group-addon">Experience</label>
+            <select class="form-control" id="workExperience" name="workExperience" [(ngModel)]="experience">
+                <option [value]="0">No work Experience</option>
+                <option [value]="3">3 months</option>
+                <option [value]="6">6 months</option>
+                <option [value]="9">9 months</option>
+                <option *ngFor="let number of numbers" [value]="number*12">{{number}} years</option>
+            </select>
+        </div>
+
+
+        <div class="input-group mb-3">
+            <label class="input-group-addon">Profession</label>
+            <select class="form-control" id="workProfession" name="workProfession" [(ngModel)]="profession">
+                <option value="housemaid">House Maid</option>
+                <option value="driver">Driver</option>
+                <option value="babysitter">Babysitter</option>
+            </select>
+        </div>
+
+
+        <div *ngIf=" !app.user.isLogin " class="input-group mb-3">
+            <label for="password" class="input-group-addon">Password</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password"
+                   [(ngModel)]="password">
+        </div>
+
+        <div class="input-group mb-3">
+            <label for="content" class="input-group-addon">Message</label>
+            <textarea class="form-control" id="content" name="content" placeholder="Personal Message"
+                      [(ngModel)]="message"></textarea>
+        </div>
+
+
+        <div class="input-group mb-3">
+            <button type="submit" class="btn btn-primary btn-block" (click)="onClickSubmit()">Submit</button>
+        </div>
+    </form>
 </div>

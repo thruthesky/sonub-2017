@@ -32,10 +32,14 @@ import { ForumViewPage } from './pages/view/view';
 import { AdvertisementCreateEditPage } from './pages/advertisement-create-edit/advertisement-create-edit';
 import { AdvertisementListPage } from './pages/advertisement-list/advertisement-list';
 
-import { JobCreateEditPage } from "./pages/job-create-edit/job-create-edit";
-import { JobListPage } from "./pages/job-list/job-list";
+import { JobCreateEditPage } from './pages/job-create-edit/job-create-edit';
+import { JobListPage } from './pages/job-list/job-list';
 import { MyPostsPage } from './pages/my-posts/my-posts';
 
+import { BuyAndSellCreateEditPage } from './pages/buy-and-sell-create-edit/buy-and-sell-create-edit';
+import { BuyAndSellListPage } from "./pages/buy-and-sell-list/buy-and-sell-list";
+import {BuyAndSellViewContent} from "./modals/buy-and-sell-view/buy-and-sell-view.content";
+import {BuyAndSellViewModalService} from "./modals/buy-and-sell-view/buy-and-sell-view.modal";
 
 
 
@@ -55,13 +59,18 @@ const appRoutes: Routes = [
     { path: 'job', component: JobListPage},
 
 
+    { path: 'buyandsell/create', component: BuyAndSellCreateEditPage},
+    { path: 'buyandsell/edit/:id', component: BuyAndSellCreateEditPage},
+    { path: 'buyandsell', component: BuyAndSellListPage},
+
+
     { path: 'view/:id/:title', component: ForumViewPage }, /** /view/:id/-with-title */
     { path: 'view/:id', component: ForumViewPage },
 
     ///
     { path: 'forum/:slug', component: ForumListPage },
     { path: 'forum/:slug/:action', component: ForumListPage },
-    
+
 ];
 
 @NgModule({
@@ -76,11 +85,15 @@ const appRoutes: Routes = [
         AdvertisementListPage,
         JobCreateEditPage,
         JobListPage,
+        BuyAndSellCreateEditPage,
+        BuyAndSellListPage,
+        BuyAndSellViewContent,
         MyPostsPage
     ],
     entryComponents: [
         PostCreateEditContent,
-        CommentEditContent
+        CommentEditContent,
+        BuyAndSellViewContent
     ],
     imports: [
         CommonModule,
@@ -93,7 +106,8 @@ const appRoutes: Routes = [
     providers: [
         PostCreateEditModalService,
         CommentEditModalService,
-        ForumCodeShareService
+        ForumCodeShareService,
+        BuyAndSellViewModalService
     ]
 })
 export class ForumModule { }

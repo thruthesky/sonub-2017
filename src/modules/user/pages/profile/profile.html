@@ -1,7 +1,7 @@
 <h1>User Profile</h1>
 <div *ngIf="app.user.isLogin">
     <div class="text-center mb-3">
-        <span id="profile-user-photo" >
+        <span class="profile-user-photo" >
             <img src="{{ userData?.photo?.url ? userData?.photo?.url : 'assets/img/anonymous.png' }}">
         </span>
     </div>

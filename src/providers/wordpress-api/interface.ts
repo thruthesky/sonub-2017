@@ -372,6 +372,52 @@ export type JOB_PAGES = Array<JOB_PAGE>;
 //     thumbnail?: THUMBNAIL_SIZES; // default thumbnail size.
 // };
 
+/**
+ *
+ * BUY AND SELL INTERFACE
+ *
+ */
+export interface BUYANDSELL_CREATE {
+    ID?: number;
+    route?: string;
+    session_id?: string;
+    tag: string;
+    usedItem: 'y' | 'n' | 'x';
+    province: string;
+    city: string;
+    deliverable: 'y' | 'n';
+    price: number;
+    title: string;
+    description: string;
+    contact: string;
+    fid?: Array<number>;
+};
+
+
+export interface BUYANDSELL {
+    ID: number;
+    tag: string;
+    usedItem: 'y' | 'n' | 'x';
+    province: string;
+    city: string;
+    deliverable: 'y' | 'n';
+    price: number;
+    title: string;
+    description: string;
+    contact: string;
+    files: FILES;
+    timestamp_create: number;
+};
+
+export type BUYANDSELLS = Array<BUYANDSELL>;
+
+export interface BUYANDSELL_PAGE {
+    slug: string;
+    page: number;
+    posts_per_page: number;
+    posts: BUYANDSELLS;
+};
+export type BUYANDSELL_PAGES = Array<BUYANDSELL_PAGE>;
 
 
 
