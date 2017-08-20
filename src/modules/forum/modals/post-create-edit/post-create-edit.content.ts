@@ -65,7 +65,7 @@ export class PostCreateEditContent implements OnInit {
             });
     }
     contentInput( text: string ): void {
-        console.log('text: ', text);
+        // console.log('text: ', text);
         this.typing.next(text);
     }
     titleInput() {

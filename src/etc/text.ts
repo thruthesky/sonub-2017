@@ -335,13 +335,8 @@ TEXT[ERROR.EMPTY] = { en: 'Error object is empty', ko: '에러 값이 없습니�
 TEXT[ERROR.NO_CODE] = { en: 'No Code. This may be server error or server down.', ko: '코드가 없습니다. 서버 에러 또는 서버 다운 일 수 있습니다.' };
 TEXT[ERROR.RESPONSE_EMPTY] = { en: 'Response from backend is empty. This may be a server error.', ko: '서버로 부터 결과 값이 없습니다. 서버 에러 일 수 있습니다.' };
 TEXT[ERROR.RESPONSE_NO_CODE] = { en: 'Response from backend has no code', ko: '서버로 부터 응답 중에 코드 값이 없습니다.' };
-TEXT[ERROR.CODE_KEY_IS_EMPTY] = { en: 'Key is empty', ko: '키 값이 존재하지 않습니다.' };
-TEXT[ERROR.CODE_COMMENT_DUPLICATE] = { en: 'Please do not comment with same text.', ko: '비슷한 내용의 덧글을 반복적으로 작성 할 수 없습니다.' };
 TEXT[ERROR.LOGIN_FIRST] = { en: 'Please login first', ko: '로그인을 먼저하십시오.' };
-TEXT[ERROR.CODE_WRONG_SESSION_ID] = { en: 'Wrong login information. Wrong session. Please login again.', ko: '로그인 오류. 로그인 정보가 올바르지 않습니다. 로그인을 다시 해 주세요.' };
-TEXT[ERROR.CODE_NO_USER_BY_THAT_SESSION_ID] = { en: 'Wrong loing information. No user. Please login again.', ko: '로그인 오류. 로그인 정보를 찾을 수 없습니다. 다시 로그인을 해 주세요.' };
-TEXT[ERROR.CODE_PERMISSION_DENIED] = { en: 'Permission denied', ko: '권한이 없습니다.' };
-
+TEXT[ERROR.CODE_PERMISSION_DENIED_NOT_OWNER] = { en: 'You do not have permission.', ko: '권한이 없습니다.'};
 /**
  * 
  * @note default language is 'en'.

@@ -1,6 +1,8 @@
 import { Injectable, NgZone, EventEmitter } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+
+
 import * as firebase from 'firebase/app';
 
 import { Observable } from 'rxjs/Observable';
@@ -23,7 +25,7 @@ import { UserService } from './wordpress-api/user.service';
 import { ForumService } from './wordpress-api/forum.service';
 import { FileService } from './wordpress-api/file.service';
 import { JobService } from './wordpress-api/job.service';
-import {BuyAndSellService} from './wordpress-api/buyandsell.service';
+import { BuyAndSellService } from './wordpress-api/buyandsell.service';
 
 
 import { ConfirmModalService, CONFIRM_OPTIONS } from './modals/confirm/confirm.modal';
@@ -31,11 +33,11 @@ export { CONFIRM_OPTIONS } from './modals/confirm/confirm.modal';
 
 // import { TextService } from './text.service';
 
-import { SOCIAL_PROFILE, USER_REGISTER, ACTIVITIES, ACTIVITY, COMMUNITY_LOG, COMMUNITY_LOGS } from './wordpress-api/interface';
+import { SOCIAL_PROFILE, USER_REGISTER, ACTIVITIES, ACTIVITY, COMMUNITY_LOG, COMMUNITY_LOGS, SITE_PREVIEW } from './wordpress-api/interface';
 export {
     POST, POSTS, POST_LIST, PAGE, PAGES, FILE, FILES, POST_CREATE, POST_DELETE, POST_DELETE_RESPONSE,
     JOB, JOBS, POST_QUERY_REQUEST, JOB_PAGE, JOB_PAGES, POST_QUERY_RESPONSE,
-    ACTIVITY, ACTIVITIES, COMMUNITY_LOGS, COMMUNITY_LOG
+    ACTIVITY, ACTIVITIES, COMMUNITY_LOGS, COMMUNITY_LOG, SITE_PREVIEW
 } from './wordpress-api/interface';
 
 
@@ -93,6 +95,13 @@ export class AppService extends Base {
 
     width = 0; /// page width
 
+
+
+
+
+
+
+
     constructor(
         private domSanitizer: DomSanitizer,
         public user: UserService,
@@ -124,8 +133,10 @@ export class AppService extends Base {
             });
 
         this.width = window.innerWidth;
-    }
 
+        
+    }
+    
 
     get size(): 'mobile' | 'break-a' | 'break-c' | 'break-d' {
         if (this.width < 600) return 'mobile';
@@ -225,11 +236,18 @@ export class AppService extends Base {
      * @param e - is an Error Response Object or ERROR code from error.ts
      */
     warning(e) {
-        if ( typeof e == 'number' && e < 0 ) {
+        ///
+        /// setTimeout() here is for preventing error of 'ExpressionChangedAfterItHasBeenCheckedError'
+        ///     - when the focus is on input-box, and ngb-modal opens, it produces 'expression changed' error.
+        ///
+        // setTimeout(() => {
+        if (typeof e == 'number' && e < 0) {
             e = { code: e };
         }
         this.alert.error(e);
         setTimeout(() => this.rerenderPage(), 400);
+        // }, 100 );
+
     }
 
 
@@ -470,7 +488,7 @@ export class AppService extends Base {
 
     listenFirebaseComunityLog() {
         let path = this.db.child('forum-log').child('posts-comments');
-        let ref = path.limitToLast(10).once('value', snap => {
+        let ref = path.limitToLast(15).once('value', snap => {
             let val: COMMUNITY_LOGS = snap.val();
             if (!val) return;
             if (typeof val !== 'object') return;
@@ -546,13 +564,13 @@ export class AppService extends Base {
             }
         };
 
-        if (type == 'activity' && this.size == 'mobile' ) {
+        if (type == 'activity' && this.size == 'mobile') {
             toastOption.content = '<span class="cap activity-cap">A</span> ' + toastOption.content;
             this.toast(toastOption);
         }
 
         if (type == 'community') {
-            if ( val.author_id == this.user.id ) return;
+            if (val.author_id == this.user.id) return;
             if (val.comment_ID === void 0 || !val.comment_ID) {
                 toastOption.content = '<span class="cap community-cap">C</span> ' + toastOption.content;
                 this.toast(toastOption);
@@ -561,7 +579,7 @@ export class AppService extends Base {
     }
 
 
-    go( url ) {
-        this.router.navigateByUrl( url );
+    go(url) {
+        this.router.navigateByUrl(url);
     }
 }

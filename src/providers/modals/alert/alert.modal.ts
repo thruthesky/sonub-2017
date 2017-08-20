@@ -34,6 +34,19 @@ export class AlertModalService extends Base {
     // return null;
     let cls = 'alert-modal';
     if ( options['class'] ) cls += ' ' + options['class'];
+
+    /**
+     * 
+     * alert.error(), alert.notice() 를 호출 할 때, 커서가 input box 에 있으면 expression changed 에러가 발생한다.
+     * 예를 들어, 코멘트를 너무 빨리 입력해서 comment flood 에러가 발생하는 경우, 또는 site preview 에러 등에서
+     * 커서가 input box 에 있을 때, ng-bootstrap modal box 를 키면 expression changed 에러가 발생하는데,
+     * 
+     * cursor 가 있는 box 를 찾아서 .blur() 를 해 주고, modal 을 오픈한다.
+     * 
+     */
+    if ( this.getActiveElement && this.getActiveElement['blur'] ) {
+      this.getActiveElement.blur();
+    }
     this.modalRef = this.modalService.open(AlertContent, { windowClass: cls, backdrop: 'static' });
     this.modalRef.componentInstance.setOptions(options);
     

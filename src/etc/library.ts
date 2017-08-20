@@ -209,13 +209,57 @@ export class Library {
     }
 
 
-    strip_tags (input, allowed = '') { // eslint-disable-line camelcase
+    strip_tags(input, allowed = '') { // eslint-disable-line camelcase
         allowed = (((allowed || '') + '').toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join('')
         var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi
         var commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi
         return input.replace(commentsAndPhpTags, '').replace(tags, function ($0, $1) {
-          return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : ''
+            return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : ''
         })
-      }
+    }
 
+    /**
+     * Returns URL at the beginning of the text.
+     *  If the text does not begin with 'http', then it will return false.
+     * @param text - text
+     */
+    getUrlOnTextBegin(text) {
+        if (text.length < 14) return false;
+        if (text.indexOf('http') === 0) {
+            let arr = text.split(/\s+/, 2);
+            if (text.indexOf('.') === -1) return false;
+            if (arr && arr[0]) return arr[0];
+        }
+        return false;
+    }
+
+
+    /**
+     * Returns Element that has focus.
+     * If document.activeElement is not supported, if fallback to querySelector()
+     * @note 'document.activeEleemnt' will return 'document.body' If there is no activie element, then it will return null.
+     * @return
+     *      - HTML Element
+     *      - null if no active element.
+     * 
+     * 
+     * @usecase
+     * 
+     * If you open a ng-bootstrap modal when the cursor(focus) is on input box, 'expression changed' error will occur.
+     * To prevent this, you need to remove the focus.
+     * 
+     * @code
+            if ( this.getActiveElement && this.getActiveElement['blur'] ) {
+                this.getActiveElement.blur();
+            }
+     * @endcode
+     */
+    get getActiveElement(): HTMLElement {
+        var focused = document.activeElement;
+        if (!focused || focused == document.body)
+            focused = null;
+        else if (document.querySelector)
+            focused = document.querySelector(":focus");
+        return <any>focused;
+    }
 }

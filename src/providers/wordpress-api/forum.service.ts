@@ -4,6 +4,7 @@ import { ERROR, error } from './../../etc/error';
 import { WordpressApiService } from './wordpress-api.service';
 import { UserService } from './user.service';
 import { Observable } from 'rxjs/Observable';
+import { DomSanitizer } from '@angular/platform-browser';
 import 'rxjs/add/observable/throw';
 
 
@@ -18,7 +19,8 @@ import {
     CATEGORIES,
     POST_DELETE_RESPONSE,
     COMMENT_DELETE, COMMENT_DELETE_RESPONSE,
-    FILE
+    FILE,
+    SITE_PREVIEW
 
 } from './interface';
 
@@ -28,6 +30,7 @@ export class ForumService extends Base {
 
 
     constructor(
+        private domSanitizer: DomSanitizer,
         private wp: WordpressApiService,
         private user: UserService
     ) {
@@ -50,7 +53,7 @@ export class ForumService extends Base {
             thumbnail: '200x200'
         };
         return this.wp.post(data)
-            // .map(v => this.parepareData(v));
+        // .map(v => this.parepareData(v));
     }
 
     // parepareData(data) {
@@ -162,6 +165,26 @@ export class ForumService extends Base {
         let file = this.getFirstImage(post);
         if (file) return file.url_thumbnail;
         else return null;
+    }
+
+
+    preview(url: string): Observable<SITE_PREVIEW> {
+        return this.wp.post({ route: 'wordpress.site_preview', url: url });
+    }
+
+
+    /**
+     *  This does pre-processing for a post.
+     * @param post - the post
+     * @param o - options
+     *          o['safe'] - if it is set to true, it does domSanitizing.
+     * 
+     */
+    pre(post: POST, o = {}): POST {
+        if (o && o['safe']) {
+            post.post_content = <any>this.domSanitizer.bypassSecurityTrustHtml(post.post_content);
+        }
+        return post;
     }
 
 }

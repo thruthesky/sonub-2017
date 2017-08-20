@@ -29,19 +29,14 @@ export class PostViewWidget implements OnInit {
 
     ngOnInit() {
         // setTimeout( () => console.log('post view', this.post) , 1000);
-        
     }
 
     onClickPostEdit(post) {
-
         this.postCreateEditModal.open({ post: post }).then(id => {
             console.log(id);
             this.forumShare.updatePost(post);
         }, err => console.error(err));
-
     }
-
-
 
     onCommentCreate(comment_ID, post: POST) {
         console.log(`ForumListPage::onCommentCreate()  : ${comment_ID}`);

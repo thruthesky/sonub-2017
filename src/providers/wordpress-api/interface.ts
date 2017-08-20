@@ -264,6 +264,7 @@ export interface COMMENT_CREATE extends REQUEST {
     comment_content?: string; // Comment messsage... //fixed value - can be dynamic
     comment_parent?: number; // parent comment to reply under that comment. 0 if it's not a reply to another comment; if it's a reply, mention the parent comment ID here
     fid?: Array<number>;
+    site_preview_id?: number;
 };
 
 export interface COMMENT_UPDATE extends REQUEST, comment_ID {
@@ -484,4 +485,21 @@ export interface POST_QUERY_RESPONSE {
     page: number;
     posts_per_page: number;
     posts: POSTS;
+};
+
+
+////
+export interface SITE_PREVIEW {
+    id: number;
+    url_image: string;
+    content: string;
+    url: string;
+};
+
+export interface SITE_PREVIEW_FACTORY {
+    typing: any;
+    loading: boolean;
+    url: string;
+    result: SITE_PREVIEW;
+    listen: any;
 };

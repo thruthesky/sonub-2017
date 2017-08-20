@@ -1,18 +1,24 @@
 import {
     Component, OnInit, Input, Output, AfterViewInit, ViewChild, EventEmitter
 } from '@angular/core';
-import { AppService } from './../../providers/app.service';
+
 
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
 
+import { AppService } from './../../providers/app.service';
+
+
 import {
     POST, FILES,
-    COMMENT, COMMENT_CREATE, COMMENT_CREATE_RESPONSE
+    COMMENT, COMMENT_CREATE, COMMENT_CREATE_RESPONSE, SITE_PREVIEW, SITE_PREVIEW_FACTORY
 } from './../../providers/wordpress-api/interface';
 
 import { FileUploadWidget } from '../file-upload/file-upload';
 import { AlertModalService } from './../../providers/modals/alert/alert.modal';
+
+import { SitePreview } from './../../etc/site-preview';
+
 
 @Component({
     selector: 'comment-create-widget',
@@ -29,16 +35,13 @@ export class CommentCreateWidget implements OnInit, AfterViewInit {
     @Output() create = new EventEmitter<number>();
 
 
-    /// site preview
-    typing = new Subject<string>();
-    sitePreviewUrl = '';
-    preview;
+    preview: SitePreview;
 
     constructor(
         public app: AppService,
         private alert: AlertModalService
     ) {
-
+        this.preview = new SitePreview( app.forum );
     }
 
     get userPhotoURL() {
@@ -50,32 +53,7 @@ export class CommentCreateWidget implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
-
-        /// debounce 0.3s
-        /// send to php the url only and if the url is on the beginning of the text.
-        /// @todo since this code is reusable for post and comment, make it service.
-        this.typing
-            .debounceTime(300)
-            .subscribe(text => {
-
-                console.log('text: ', text);
-
-                if (text.indexOf('http') === 0) {
-                    let arr = text.split(/\s+/, 2);
-                    if (arr && arr[0]) {
-                        if ( this.sitePreviewUrl == arr[0] ) return;
-                        this.sitePreviewUrl = arr[0];
-                        console.log("sedning: ", this.sitePreviewUrl);
-                        this.app.wp.post({ route: 'wordpress.site_preview', url: this.sitePreviewUrl })
-                            .subscribe(res => {
-                                this.sitePreviewUrl = '';
-                                console.log("preview: ", res);
-                                this.preview = res;
-                            }, e => this.app.warning(e));
-                    }
-                }
-            });
-
+        this.preview.listen();
     }
 
     ngAfterViewInit() {
@@ -96,7 +74,8 @@ export class CommentCreateWidget implements OnInit, AfterViewInit {
         console.log(this.comment_content);
         let req: COMMENT_CREATE = {
             comment_post_ID: this.post.ID,
-            comment_content: this.comment_content
+            comment_content: this.comment_content,
+            site_preview_id: this.preview.id
         };
 
         req.fid = this.files.reduce((_, file) => { _.push(file.id); return _; }, []);

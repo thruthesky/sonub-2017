@@ -29,8 +29,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.app.bootstrap();
     this.app.bootstrapLoginLogout();
 
-
-
   }
 
   ngOnInit() {

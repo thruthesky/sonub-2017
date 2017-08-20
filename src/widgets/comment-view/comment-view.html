@@ -17,6 +17,11 @@
                         </div>
                         <file-display-widget [files]="comment.files"></file-display-widget>
 
+                        <div class="site-preview" *ngIf=" comment.site_preview ">
+                                <img class="w-100" src="{{ comment.site_preview.url_image }}">
+                                <div class="fs-lg">{{ comment.site_preview.title }}</div>
+                                <div>{{ comment.site_preview.content }}</div>
+                            </div>
 
                         <ul class="buttons mt-2">
                             <li>Like</li>

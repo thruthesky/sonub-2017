@@ -45,6 +45,7 @@ export class Base extends Library {
 
     /**
      * 
+     * It only check if the ERROR_REPONSE is right.
      * @param str 
      */
     getError(e): ERROR_RESPONSE {
@@ -56,12 +57,16 @@ export class Base extends Library {
 
     /**
      * 
-     * If the code of `Error response` exists in `text.ts`, then it returns the message of `text.ts`
-     * Or it will return the error code and message from error response.
+     * @Logic
+     *      1. If the input `Error Response Object` - 'e' has 'message' property, it returns the 'message' that is directly coming from the server.
+     *      2. If `Error Response Object` - 'e' has 'code' property and the 'code' exists in `text.ts`, then it returns the message of `text.ts`
+     *      3. Or it will return the error code since there is no message.
      * 
      * @param e Error response from backend.
      */
-    getErrorString(e): string {
+    getErrorString(e: ERROR_RESPONSE): string {
+        if ( this.getError(e).message ) return this.getError(e).message;
+
         let code = this.getError(e).code;
         console.log("error code: ", code);
 

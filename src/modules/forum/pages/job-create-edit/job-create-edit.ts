@@ -67,8 +67,6 @@ export class JobCreateEditPage {
         let params = activeRoute.snapshot.params;
         if (params['id']) {
 
-
-
             this.app.wp.post({ route: 'wordpress.get_post', ID: params['id'] })
                 .subscribe((post: POST) => {
 
@@ -79,7 +77,7 @@ export class JobCreateEditPage {
                             return;
                         }
                         else if( post.author.ID != app.user.id) {
-                            this.app.warning( ERROR.CODE_PERMISSION_DENIED );
+                            this.app.warning( ERROR.CODE_PERMISSION_DENIED_NOT_OWNER );
                             this.router.navigateByUrl('/job');
                             return;
                         }

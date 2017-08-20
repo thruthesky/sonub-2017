@@ -63,7 +63,7 @@ export class BuyAndSellCreateEditPage {
                 .subscribe((post: POST) => {
 
                     if ( post.author.ID && post.author.ID != app.user.id) {
-                            this.app.warning( error( ERROR.CODE_PERMISSION_DENIED) );
+                            this.app.warning( error( ERROR.CODE_PERMISSION_DENIED_NOT_OWNER) );
                             this.router.navigateByUrl('/buyandsell');
                             return;
                     }
