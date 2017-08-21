@@ -2,9 +2,10 @@
     <div class="flex">
         <div><img class="photo-icon-2x" src="{{ app.postUserPhotoUrl(post) }}"></div>
         <div class="ml-2 fs-sm">
-            <div>{{ app.postUserName(post) }}{{ post.ID }}</div>
-            <div class="fs-sm" *ngIf="post.meta && post.meta.timestamp_create">{{ post.ID }}
-                {{ app.shortDate( post.meta.timestamp_create ) }}</div>
+            <div>{{ app.postUserName(post) }}</div>
+            <div class="fs-sm" *ngIf="post.meta && post.meta.timestamp_create">
+                {{ app.shortDate( post.meta.timestamp_create ) }}
+            </div>
         </div>
     </div>
     <div class="pr-1 grey">
