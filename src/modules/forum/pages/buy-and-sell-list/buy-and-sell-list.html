@@ -106,8 +106,8 @@
         <div class="search-summary">
             <span>Searching...</span>
             <span *ngIf="formGroup.value.myPost"> My Items</span>
-            <span *ngIf="formGroup.value.tag"> "{{formGroup.value.tag}}" on tag,title,and description </span>
-            <span *ngIf="formGroup.value.priceMinimum"> price starts at "{{formGroup.value.priceMinimum}}"</span>
+            <span *ngIf="formGroup.value.tag"> "{{formGroup.value.tag}}" on tag,title,or description </span>
+            <span> price starts at "{{formGroup.value.priceMinimum ? formGroup.value.priceMinimum : '0'}}"</span>
             <span *ngIf="formGroup.value.priceMaximum"> between "{{formGroup.value.priceMaximum}}"</span>
             <span *ngIf="formGroup.value.usedItemYes"> and it is Used Item "</span>
             <span *ngIf="formGroup.value.usedItemNo"> and it not Used Item "</span>

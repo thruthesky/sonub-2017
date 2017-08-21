@@ -64,7 +64,7 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
     initSearchForm() {
         this.formGroup = this.fb.group({
             tag: [''],
-            priceMinimum: [0],
+            priceMinimum: [null],
             priceMaximum: [null],
             city: ['all'],
             province: ['all'],
@@ -85,7 +85,7 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
         this.showCities = false;
         this.formGroup.reset({
             tag: '',
-            priceMinimum: 0,
+            priceMinimum: null,
             priceMaximum: null,
             city: 'all',
             province: 'all',
@@ -120,7 +120,7 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
         else {
             this.query['price'] = {
                 exp: '>=',
-                value: data.priceMinimum
+                value: data.priceMinimum ? data.priceMinimum : 0
             }
         }
 
