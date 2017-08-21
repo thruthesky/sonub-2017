@@ -7,6 +7,7 @@ import {PageScroll} from './../../../../providers/page-scroll';
 import {Router} from "@angular/router";
 import {BUYANDSELL_PAGE, BUYANDSELL_PAGES, PAGE, POST} from "../../../../providers/wordpress-api/interface";
 import {BuyAndSellViewModalService} from "../../modals/buy-and-sell-view/buy-and-sell-view.modal";
+import {PhilippineRegion} from "../../../../providers/philippine-region";
 
 
 @Component({
@@ -31,23 +32,136 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
     posts_per_page = 6;
     ///
 
-    constructor(
-                public app: AppService,
-                private pageScroll: PageScroll,
-                private router: Router,
-                private buyAndSellModal: BuyAndSellViewModalService
-    ) {
+    provinces: Array<string> = [];
+    cities = [];
+    showCities: boolean = false;
 
+    constructor(
+        private fb: FormBuilder,
+        public app: AppService,
+        private region: PhilippineRegion,
+        private pageScroll: PageScroll,
+        private router: Router,
+        private buyAndSellModal: BuyAndSellViewModalService
+    ) {
+        app.section('job');
+        region.get_province(re => {
+            this.provinces = re;
+        }, e => {
+        });
     }
 
     ngOnInit() {
-        // this.initSearchForm();
+        this.initSearchForm();
         this.loadPage();
         this.watch = this.pageScroll.watch('body', 350).subscribe(e => this.loadPage());
     }
 
     ngOnDestroy() {
         this.watch.unsubscribe();
+    }
+
+    initSearchForm() {
+        this.formGroup = this.fb.group({
+            title: [null],
+            description: [null],
+            tag: [''],
+            price: [null],
+            city: ['all'],
+            province: ['all'],
+            usedItemYes: [false],
+            usedItemNo: [false],
+            usedItemNA: [false],
+            deliverableYes: [false],
+            deliverableNo: [false],
+            contact: [null],
+            myPost: [false]
+        });
+        this.formGroup.valueChanges
+            .debounceTime(1000)
+            .subscribe(res => this.onValueChanged(res));
+    }
+
+    resetForm() {
+        this.showCities = false;
+        this.formGroup.reset({
+            title: null,
+            description: null,
+            tag: '',
+            price: null,
+            city: 'all',
+            province: 'all',
+            usedItemYes: false,
+            usedItemNo: false,
+            usedItemNA: false,
+            deliverableYes: false,
+            deliverableNo: false,
+            contact: null,
+            myPost: false
+        });
+    }
+
+    onValueChanged(data?: any) {
+        console.log('onValueChanges::data::', data);
+        let clause = [];
+        this.query = {};
+
+
+        // TAG
+        if (data.tag) {
+            this.query['tag'] = {
+                exp: 'LIKE',
+                value: `%${data.tag}%`
+            }
+        }
+
+        //  USED ITEM
+        let usedItem = '';
+
+        console.log('data.usedItemYes::', data.usedItemYes);
+        if( data.usedItemYes ) usedItem += "char_1='y'";
+        if( data.usedItemNo ) {
+            usedItem ? usedItem += " OR char_1='n'" : usedItem += "char_1='n'";
+        }
+        if( data.usedItemNA ) {
+            usedItem ? usedItem += " OR char_1='x'" : usedItem += "char_1='x'";
+        }
+        if( usedItem ) clause.push(usedItem);
+
+
+        //  DELIVERABLE
+        if (data.deliverableYes != data.deliverableNo) {
+            this.query['deliverable'] = data.deliverableYes ? 'y' : 'n';
+        }
+        else {
+            clause.push(`char_2='y' OR char_2='n'`)
+        }
+
+        if (data.myPost) this.query['post_author'] = this.app.user.id;
+
+        // PROVINCE
+        if (data.province != 'all') this.query['province'] = data.province;
+
+        // CITY
+        if (data.city != 'all') {
+            if (data.province == data.city) {
+                this.query['city'] = {
+                    exp: 'LIKE',
+                    value: `%${data.city}%`
+                }
+            } else this.query['city'] = data.city;
+        }
+
+
+        // CLAUSE
+        if (clause.length) this.query['clause'] = clause;
+
+        console.log('REQUEST ON VALUE CHANGE :::', this.query);
+
+        this.pages = [];
+        this.noMorePosts = false;
+        this.pageNo = 0;
+        this.loadPage();
     }
 
     loadPage() {
@@ -94,11 +208,36 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
         console.log('Product to View::', product);
         this.buyAndSellModal.open(product).then( id => {
 
-
         }, err =>{
             console.log('Product was close', err);
             // this.app.warning(err);
         });
+    }
+
+    onClickProvince() {
+        console.log('Province::', this.formGroup.value.province);
+        if (this.formGroup.value.province != 'all') {
+            this.formGroup.patchValue({ city: this.formGroup.value.province });
+            this.getCities();
+        }
+        else {
+            this.formGroup.patchValue({ city: 'all' });
+            this.showCities = false;
+        }
+    }
+
+    getCities() {
+        this.region.get_cities(this.formGroup.value.province, re => {
+            if (re) {
+                this.cities = re;
+                this.showCities = true;
+            }
+        }, e => {
+        });
+    }
+
+    get cityKeys() {
+        return Object.keys(this.cities);
     }
 
 }

@@ -25,7 +25,7 @@ export class BuyAndSellCreateEditPage {
 
     city: string = 'all';
     province: string = 'all';
-    tag: string = null;
+    tag: string = null;    // can be product, brands, shops
     contact: string = null;
 
 

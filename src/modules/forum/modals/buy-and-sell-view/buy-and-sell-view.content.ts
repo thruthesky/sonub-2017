@@ -31,6 +31,7 @@ export class BuyAndSellViewContent implements OnInit {
 
     setOptions( product) {
         this.product = product;
+
         if(product.files.length) this.selectedImage = product.files[0].url;
     }
 

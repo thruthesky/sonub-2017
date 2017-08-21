@@ -56,11 +56,14 @@ export class BuyAndSellService extends Base {
 
         str = str.replace('price', 'int_1');
         str = str.replace('usedItem', 'char_1');
-        str = str.replace('deliverable', 'char_1');
+        str = str.replace('deliverable', 'char_2');
         str = str.replace('city', 'varchar_1');
         str = str.replace('province', 'varchar_2');
         str = str.replace('tag', 'varchar_3');
         str = str.replace('contact', 'varchar_4');
+
+        str = str.replace('title', 'post_title');
+        str = str.replace('description', 'post_content');
 
         req = JSON.parse(str);
 

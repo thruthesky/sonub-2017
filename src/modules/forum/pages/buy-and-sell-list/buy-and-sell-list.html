@@ -12,6 +12,105 @@
     </div>
 
 
+
+    <form [formGroup]="formGroup" novalidate class="search-form">
+
+
+
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Search for product, brands, shops..." formControlName="tag">
+            <span class="input-group-btn">
+                <button class="btn btn-secondary" type="button"><i class="fa fa-search pointer"></i></button>
+
+            </span>
+        </div>
+
+
+        <!--<ng-container *ngIf="formGroup.value.tag.length">-->
+            <ng-container >
+
+            <div class="row-container">
+                <label for="name" class="text">Unit Name</label>
+                <div class="input">
+                    <input class="form-control" type="text" id="name" formControlName="title" placeholder="Unit Name...">
+                </div>
+            </div>
+
+            <div class="row-container">
+                <label for="description" class="text">Description</label>
+                <div class="input">
+                    <input class="form-control" type="text" id="description" formControlName="description" placeholder="Description">
+                </div>
+            </div>
+
+            <div class="row-container">
+                <label for="price" class="text">Price</label>
+                <div class="input">
+                    <input class="form-control" type="text" id="price" formControlName="price" placeholder="Unit Price">
+                </div>
+            </div>
+
+            <div class="row-container">
+                <label class="text">Used Item?</label>
+                <div class="input">
+                    <label class="form-check-inline">
+                        <input type="checkbox" id="usedItem1" formControlName="usedItemYes"> Yes
+                    </label>
+                    <label class="form-check-inline">
+                        <input type="checkbox" id="usedItem2" formControlName="usedItemNo"> No
+                    </label>
+                    <label class="form-check-inline">
+                        <input type="checkbox" id="usedItem3" formControlName="usedItemNA"> Not Applicable
+                    </label>
+                </div>
+            </div>
+
+            <div class="row-container">
+                <label class="text">Deliverable?</label>
+                <div class="input">
+                    <label class="form-check-inline">
+                        <input type="checkbox" id="deliverable1" formControlName="deliverableYes"> Yes
+                    </label>
+                    <label class="form-check-inline">
+                        <input type="checkbox" id="deliverable2" formControlName="deliverableNo"> No
+                    </label>
+                </div>
+            </div>
+
+
+            <div class="row-container">
+                <label class="text">Province</label>
+                <div class="input">
+                    <select class="form-control" id="searchByProvince" formControlName="province" (change)="onClickProvince()">
+                        <option value="all">All</option>
+                        <option *ngFor="let province of provinces" [value]="province">{{province}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row-container" *ngIf="showCities">
+                <label class="text" *ngIf="showCities">City</label>
+                <div class="input">
+                    <select class="form-control" id="city" formControlName="city">
+                        <option *ngFor="let key of cityKeys" [value]="key">{{cities[key]}}</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="row-container">
+                <label for="contact" class="text">Contact</label>
+                <div class="input">
+                    <input class="form-control" type="text" id="contact" formControlName="contact" placeholder="contact information">
+                </div>
+            </div>
+
+        </ng-container>
+
+
+    </form>
+
+
     <div class="container p-0" *ngIf="pages">
         <div class="jobs mx-0 row no-gutters-job">
             <ng-container *ngFor="let page of pages ">
