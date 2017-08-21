@@ -35,7 +35,9 @@ export class PostViewWidget implements OnInit {
         this.postCreateEditModal.open({ post: post }).then(id => {
             console.log(id);
             this.forumShare.updatePost(post);
-        }, err => console.error(err));
+        }, err => {
+            console.log(err);
+        });
     }
 
     onCommentCreate(comment_ID, post: POST) {

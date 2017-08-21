@@ -169,22 +169,47 @@ export class ForumService extends Base {
 
 
     preview(url: string): Observable<SITE_PREVIEW> {
-        return this.wp.post({ route: 'wordpress.site_preview', url: url });
+        return this.wp.post({ route: 'wordpress.site_preview', session_id: this.user.sessionId, url: url });
+    }
+    deletePreview(id: number): Observable<SITE_PREVIEW> {
+        return this.wp.post({ route: 'wordpress.delete_site_preview', session_id: this.user.sessionId, id: id });
     }
 
 
     /**
-     *  This does pre-processing for a post.
-     * @param post - the post
+     * This does pre-processing for a post.
+     * 
+     * @attention @warning 'post_content' is sanitized and saved at *post_content_pre*
+     * 
+     * @param post - the post. call by reference.
      * @param o - options
      *          o['safe'] - if it is set to true, it does domSanitizing.
+     *          o['autolink'] - if it is set to true, then URL in content will become clickable A tags.
      * 
+     * @return post - it's call by reference so, no need to save the return value unless you need.
+     * @code
+     *  this.app.forum.pre( post );
+     * @endcode
      */
-    pre(post: POST, o = {}): POST {
-        if (o && o['safe']) {
-            post.post_content = <any>this.domSanitizer.bypassSecurityTrustHtml(post.post_content);
-        }
+    pre(post: POST): POST {
+        post.post_content_pre = this.htmlify(post.post_content, { safe: true, autolink: true, nl2br: true });
+        post.post_content_pre = <any>this.domSanitizer.bypassSecurityTrustHtml(post.post_content_pre);
         return post;
     }
 
+    /**
+     * Does 'pre' process for page.
+     * @param page page from server
+     * @param o options
+     * @example 
+     *      this.app.forum.prePage( page );
+     * 
+     */
+    prePage(page: PAGE ) {
+        if (page.posts && page.posts.length) {
+            for (let i = 0; i < page.posts.length; i++) {
+                page.posts[i] = this.pre(page.posts[i]);
+            }
+        }
+    }
 }

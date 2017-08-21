@@ -10,7 +10,7 @@
                 </td>
                 <td><img class="size-36px" src="{{ app.postUserPhotoUrl( comment )}}"></td>
                 <td>
-                    <div class="ml-2">
+                    <div class="comment-content ml-2 break-all">
                         <div class="mb-2">
                             {{ comment.comment_ID }}
                             {{ comment.author.name }} {{ app.shortDate( comment.meta.timestamp_create ) }} {{ comment.comment_content }}
@@ -18,10 +18,10 @@
                         <file-display-widget [files]="comment.files"></file-display-widget>
 
                         <div class="site-preview" *ngIf=" comment.site_preview ">
-                                <img class="w-100" src="{{ comment.site_preview.url_image }}">
-                                <div class="fs-lg">{{ comment.site_preview.title }}</div>
-                                <div>{{ comment.site_preview.content }}</div>
-                            </div>
+                            <img class="w-100" src="{{ comment.site_preview.url_image }}">
+                            <div class="fs-lg">{{ comment.site_preview.title }}</div>
+                            <div>{{ comment.site_preview.content }}</div>
+                        </div>
 
                         <ul class="buttons mt-2">
                             <li>Like</li>

@@ -26,6 +26,8 @@ import { UserLoginLogoutWidget } from './user-login-logout/user-login-logout';
 import { SidebarForumMenuWidget } from './sidebar-forum-menu/sidebar-forum-menu';
 import { AdvertisementMyListSidebarWidget } from './advertisement-my-list-sidebar/advertisement-my-list-sidebar';
 import { CommunityLogWidget } from './community-log/community-log';
+import { SitePreviewWidget } from './site-preview/site-preview';
+
 
 @NgModule({
     imports: [
@@ -51,7 +53,8 @@ import { CommunityLogWidget } from './community-log/community-log';
         UserLoginLogoutWidget,
         SidebarForumMenuWidget,
         AdvertisementMyListSidebarWidget,
-        CommunityLogWidget
+        CommunityLogWidget,
+        SitePreviewWidget
     ],
     declarations: [
         FileDisplayWidget,
@@ -70,7 +73,8 @@ import { CommunityLogWidget } from './community-log/community-log';
         UserLoginLogoutWidget,
         SidebarForumMenuWidget,
         AdvertisementMyListSidebarWidget,
-        CommunityLogWidget
+        CommunityLogWidget,
+        SitePreviewWidget
     ],
     providers: [],
 })

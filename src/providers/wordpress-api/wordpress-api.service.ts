@@ -59,6 +59,10 @@ export class WordpressApiService extends Base {
     }
 
 
+    /**
+     * It gets an HTML page from server and displays to view
+     * @param pageName page name to get a page from server
+     */
     page(pageName: string) {
         let url = this.serverUrl + '/wp-content/plugins/xapi-2/pages/page.php?name=' + pageName + '&ln=' + getLanguage();
         // console.log('page: ', url);

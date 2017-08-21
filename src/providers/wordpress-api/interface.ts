@@ -125,6 +125,7 @@ export interface COMMENT {
     user_id: number;
     files: FILES;
     meta: any;
+    site_preview: SITE_PREVIEW;
 };
 
 /**
@@ -155,6 +156,7 @@ export type COMMENTS = Array<COMMENT>;
 export interface POST_CREATE_COMMON {
     post_title: string;
     post_content?: string;
+    post_content_pre?: string;              /// pre process 'post_content' by forum.service.ts that is available only on client end.
     post_password?: string;
     post_author_name?: string;             /// This is anonymous user name when a anonymous post without login.
     post_author_email?: string;            /// post_author_name, post_author_email, post_author_phone_number will only be available on create.
@@ -171,6 +173,7 @@ export interface POST_CREATE_COMMON {
     varchar_3?: string;
     varchar_4?: string;
     varchar_5?: string;
+    site_preview_id?: number; /// available only 
 };
 export interface POST_READ_COMMON extends ID, POST_CREATE_COMMON {
     author: AUTHOR;
@@ -187,10 +190,12 @@ export interface POST_READ_COMMON extends ID, POST_CREATE_COMMON {
     shortDate?: string;             /// made by client
     readonly count_images?: number;      /// number of image files. made by server.
     readonly count_files?: number;  /// number of files that are not image. made by server.
-    readonly site_preview: any;
+    readonly site_preview: SITE_PREVIEW;
 };
 
-export interface POST_CREATE extends REQUEST, ID_O, CATEGORY, POST_CREATE_COMMON { };
+export interface POST_CREATE extends REQUEST, ID_O, CATEGORY, POST_CREATE_COMMON {
+    
+};
 export type POST_CREATE_RESPONSE = number;
 
 export interface POST_UPDATE extends REQUEST, ID, CATEGORY_O, POST_CREATE_COMMON { };
@@ -256,6 +261,7 @@ export interface POST_SEARCH_RESPONSE extends POST_LIST_RESPONSE { };
 
 
 // https://codex.wordpress.org/Function_Reference/wp_new_comment
+// @todo update is needed since only logged in users can create comments.
 export interface COMMENT_CREATE extends REQUEST {
     comment_post_ID: number; // root post ID. to which post the comment will show up.
     comment_author?: string; // fixed value - can be dynamic
@@ -270,6 +276,7 @@ export interface COMMENT_CREATE extends REQUEST {
 export interface COMMENT_UPDATE extends REQUEST, comment_ID {
     comment_content?: string;
     fid?: Array<number>;
+    site_preview_id?: number;
 };
 
 export interface COMMENT_CREATE_RESPONSE {
@@ -491,9 +498,10 @@ export interface POST_QUERY_RESPONSE {
 ////
 export interface SITE_PREVIEW {
     id: number;
-    url_image: string;
-    content: string;
     url: string;
+    url_image: string;
+    title: string;
+    content: string;
 };
 
 export interface SITE_PREVIEW_FACTORY {

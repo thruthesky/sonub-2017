@@ -1,0 +1,24 @@
+
+    <div class="site-preview-wrapper relative">
+        <div *ngIf=" edit && preview?.id " class="fa-stack fa-lg absolute top right cursor" (click)="onClickDelete()">
+            <i class="fa fa-circle fa-stack-2x" aria-hidden="true"></i>
+            <i class="fa fa-trash-o fa-stack-1x fa-inverse" aria-hidden="true"></i>
+        </div>
+        <div class="loader p-2 bg-lightgrey" *ngIf=" edit && loading ">
+            <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Loading site preview ...
+        </div>
+        <div class="site-preview p-2 bg-lightgrey" *ngIf=" preview?.id ">
+            <img class="w-100" src="{{ preview.url_image }}">
+            <div class="fs-lg">{{ preview.title }}</div>
+            <div>{{ preview.content }}</div>
+        </div>
+    </div>
+    
+
+
+
+<!-- <div class="site-preview" *ngIf=" post.site_preview ">
+        <img class="w-100" src="{{ post.site_preview.url_image }}">
+        <div class="fs-lg">{{ post.site_preview.title }}</div>
+        <div>{{ post.site_preview.content }}</div>
+    </div> -->

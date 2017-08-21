@@ -21,6 +21,8 @@ export class ForumCodeShareService {
             let depth = oComment.depth;
             Object.assign( oComment, comment );
             oComment.depth = depth;
+            console.log('commentData: ', comment);
+            console.log( oComment );
         }, e => this.app.warning(e));
     }
 
@@ -29,6 +31,7 @@ export class ForumCodeShareService {
         this.app.forum.postData(post.ID).subscribe(postData => {
             console.log("post updated: ", postData);
             Object.assign(post, postData);
+            this.app.forum.pre( post );
         }, e => this.app.warning(e));
     }
 

@@ -126,17 +126,19 @@
  * POSITION
  */
  .relative {
-     position: relative;
+     position: relative!important;
  }
  .absolute {
-     position: absolute;
+     position: absolute!important;
  }
 .fixed {
     position: fixed;
 }
-.top-right {
-    top: 0;
-    right: 0;
+.top {
+    top: 0!important;
+}
+.right{
+    right: 0!important;
 }
 
 /**
