@@ -63,10 +63,9 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
 
     initSearchForm() {
         this.formGroup = this.fb.group({
-            title: [null],
-            description: [null],
             tag: [''],
-            price: [null],
+            priceMinimum: [0],
+            priceMaximum: [null],
             city: ['all'],
             province: ['all'],
             usedItemYes: [false],
@@ -85,10 +84,9 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
     resetForm() {
         this.showCities = false;
         this.formGroup.reset({
-            title: null,
-            description: null,
             tag: '',
-            price: null,
+            priceMinimum: 0,
+            priceMaximum: null,
             city: 'all',
             province: 'all',
             usedItemYes: false,
@@ -107,13 +105,27 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
         this.query = {};
 
 
-        // TAG
+        // TAG, TITLE, Description
         if (data.tag) {
-            this.query['tag'] = {
-                exp: 'LIKE',
-                value: `%${data.tag}%`
+            clause.push(`post_title LIKE '%${data.tag}%' OR post_content LIKE '%${data.tag}%' OR varchar_3 LIKE '%${data.tag}%'` );
+        }
+
+        // price
+        if ( data.priceMaximum ) {
+            this.query['price'] = {
+                exp: 'BETWEEN',
+                value: `${data.priceMinimum} AND ${data.priceMaximum}`
+            };
+        }
+        else {
+            this.query['price'] = {
+                exp: '>=',
+                value: data.priceMinimum
             }
         }
+
+
+
 
         //  USED ITEM
         let usedItem = '';

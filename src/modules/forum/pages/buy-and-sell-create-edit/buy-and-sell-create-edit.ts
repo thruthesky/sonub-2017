@@ -78,7 +78,7 @@ export class BuyAndSellCreateEditPage {
                     this.city = post.varchar_1;
                     this.province = post.varchar_2;
                     this.tag = post.varchar_3;
-                    this.contact = post.varchar_4;
+                    this.contact = post.meta.contact;
 
 
                     if (post.files.length) {

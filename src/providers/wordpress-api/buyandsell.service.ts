@@ -42,8 +42,6 @@ export class BuyAndSellService extends Base {
         req.varchar_1 = data.city;
         req.varchar_2 = data.province;
         req.varchar_3 = data.tag;
-        req.varchar_4 = data.contact;
-
 
         req.session_id = this.user.sessionId;
         req.route = 'post.create';
@@ -60,10 +58,6 @@ export class BuyAndSellService extends Base {
         str = str.replace('city', 'varchar_1');
         str = str.replace('province', 'varchar_2');
         str = str.replace('tag', 'varchar_3');
-        str = str.replace('contact', 'varchar_4');
-
-        str = str.replace('title', 'post_title');
-        str = str.replace('description', 'post_content');
 
         req = JSON.parse(str);
 
@@ -92,7 +86,6 @@ export class BuyAndSellService extends Base {
                 post['city'] = post.varchar_1;
                 post['province'] = post.varchar_2;
                 post['tag'] = post.varchar_3;
-                post['contact'] = post.varchar_4;
 
                 post['timestamp_create'] = post.meta['timestamp_create'];
 

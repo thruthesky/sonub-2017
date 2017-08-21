@@ -17,7 +17,7 @@
 
 
 
-        <div class="input-group mb-3">
+        <div class="input-group">
             <input type="text" class="form-control" placeholder="Search for product, brands, shops..." formControlName="tag">
             <span class="input-group-btn">
                 <button class="btn btn-secondary" type="button"><i class="fa fa-search pointer"></i></button>
@@ -26,27 +26,17 @@
         </div>
 
 
-        <!--<ng-container *ngIf="formGroup.value.tag.length">-->
-            <ng-container >
+        <ng-container *ngIf="formGroup.value.tag.length">
 
-            <div class="row-container">
-                <label for="name" class="text">Unit Name</label>
+            <div class="row-container mb-3">
+                <label class="text">Price</label>
                 <div class="input">
-                    <input class="form-control" type="text" id="name" formControlName="title" placeholder="Unit Name...">
-                </div>
-            </div>
-
-            <div class="row-container">
-                <label for="description" class="text">Description</label>
-                <div class="input">
-                    <input class="form-control" type="text" id="description" formControlName="description" placeholder="Description">
-                </div>
-            </div>
-
-            <div class="row-container">
-                <label for="price" class="text">Price</label>
-                <div class="input">
-                    <input class="form-control" type="text" id="price" formControlName="price" placeholder="Unit Price">
+                    <label class="form-check-inline">
+                        <input type="number" id="min" formControlName="priceMinimum" placeholder="Minimum">
+                    </label>
+                    <label class="form-check-inline">
+                        <input type="number" id="max" formControlName="priceMaximum" placeholder="Maximum">
+                    </label>
                 </div>
             </div>
 
@@ -79,7 +69,7 @@
 
 
             <div class="row-container">
-                <label class="text">Province</label>
+                <label class="text">Location</label>
                 <div class="input">
                     <select class="form-control" id="searchByProvince" formControlName="province" (change)="onClickProvince()">
                         <option value="all">All</option>
@@ -98,10 +88,12 @@
             </div>
 
 
-            <div class="row-container">
-                <label for="contact" class="text">Contact</label>
+            <div class="row-container" *ngIf="app.user.isLogin">
+                <label class="text">My Item</label>
                 <div class="input">
-                    <input class="form-control" type="text" id="contact" formControlName="contact" placeholder="contact information">
+                    <label class="form-check-inline">
+                        <input type="checkbox" id="myPost" formControlName="myPost"> My Item Only
+                    </label>
                 </div>
             </div>
 
@@ -109,6 +101,23 @@
 
 
     </form>
+
+    <div class="card p-1 mb-1" *ngIf="formGroup.value.tag.length">
+        <div class="search-summary">
+            <span>Searching...</span>
+            <span *ngIf="formGroup.value.myPost"> My Items</span>
+            <span *ngIf="formGroup.value.tag"> "{{formGroup.value.tag}}" on tag,title,and description </span>
+            <span *ngIf="formGroup.value.priceMinimum"> price starts at "{{formGroup.value.priceMinimum}}"</span>
+            <span *ngIf="formGroup.value.priceMaximum"> between "{{formGroup.value.priceMaximum}}"</span>
+            <span *ngIf="formGroup.value.usedItemYes"> and it is Used Item "</span>
+            <span *ngIf="formGroup.value.usedItemNo"> and it not Used Item "</span>
+            <span *ngIf="formGroup.value.usedItemNA"> and it not applicable as Used Item"</span>
+            <span *ngIf="formGroup.value.deliverableYes"> and it can be delivered"</span>
+            <span *ngIf="formGroup.value.deliverableYes"> and it cannot be delivered"</span>
+            <span *ngIf="formGroup.value.province != 'all' && formGroup.value.city == formGroup.value.province">and province "{{formGroup.value.province}}" </span>
+            <span *ngIf="formGroup.value.city != 'all' && formGroup.value.city != formGroup.value.province">and province "{{formGroup.value.city}}" </span>
+        </div>
+    </div>
 
 
     <div class="container p-0" *ngIf="pages">
@@ -144,3 +153,4 @@
     </div>
 
 </section>
+
