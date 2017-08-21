@@ -137,7 +137,7 @@
                         <div class="info p-2">
                             <div>{{product?.title }}</div>
                             <div>Price: {{product?.price }}</div>
-                            <div>Place: {{product?.province}}</div>
+                            <div>Location: {{ product?.province != product?.city ? product?.city : product?.province}}</div>
                         </div>
                     </div>
                 </a>
