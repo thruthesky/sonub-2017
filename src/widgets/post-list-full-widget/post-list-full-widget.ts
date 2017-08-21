@@ -45,6 +45,8 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
         private forumShare: ForumCodeShareService
     ) {
 
+        
+
         // setTimeout(() => {
         //     this.onClickPostCreate();
         // }, 500);
@@ -77,7 +79,6 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
 
 
     ngAfterViewInit() {
-
         this.watch = this.pageScroll.watch('body', 350).subscribe(e => this.loadPage());
     }
 
@@ -114,6 +115,7 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
             if (page.paged == page.max_num_pages) {
                 this.noMorePosts = true;
             }
+            this.app.forum.prePage( page );
             this.addOrReplacePage(req, page);
         }, err => this.app.displayError(this.app.getErrorString(err)));
     }
@@ -138,7 +140,6 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
         }
         else this.pages.push(page);
         this.app.cacheSetPage(req, page);
-
     }
 
 
@@ -153,11 +154,12 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
 
     insertPost(post_ID) {
         this.app.forum.postData(post_ID).subscribe(post => {
-            console.log('this.posts:: ', this.pages);
+            // console.log('this.posts:: ', this.pages);
 
             if (!this.pages[0].posts) {
                 this.pages[0]['posts'] = [];
             }
+            this.app.forum.pre( post );
             this.pages[0].posts.unshift(post);
 
         }, e => this.app.warning(e));

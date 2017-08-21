@@ -13,6 +13,8 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
 
 
+import { SitePreview } from '../../../../etc/site-preview';
+
 export interface OPTIONS {
     category?: string;
     post?: POST;
@@ -45,33 +47,63 @@ export class PostCreateEditContent implements OnInit {
     // failureCallback;
 
 
+
+
     private typing = new Subject<string>();
     private subscriptionTyping = null;
 
 
+    preview: SitePreview;
+
     constructor(
         public activeModal: NgbActiveModal,
         public app: AppService
-    ) { }
+    ) {
+        this.preview = new SitePreview(app.forum).listen();
+        this.preview.done.subscribe(preview => {
+            /// @see logic of auto titling https://docs.google.com/document/d/1m3-wYZOaZQGbAzXeVlIpJNSdTIt3HCUiIt9UTmZUgXo/edit#heading=h.qlbi1doi8u3z
+            if (!this.post_title) {
+                this.post_title = preview.title;
+                this.unsubscribeTyping();
+            }
+        });
+    }
 
+    isCreate() {
+        if (this.options && this.options.post && this.options.post.ID) return false;
+        else return true;
+    }
 
     ngOnInit() {
-        this.subscriptionTyping = this.typing
-            .debounceTime(300)
-            .subscribe( text => {
-                text = text.replace(/\s+/g, " ");
-                this.post_title = this.app.wordcut( text, 60);
-                console.log('post_title: ', this.post_title);
-            });
+        if (this.isCreate()) {
+            /**
+             * Once you type(keyup) on title box, no more title change.
+             * Until then, if you type on content box, title will be changed also.
+             */
+            this.subscriptionTyping = this.typing
+                .debounceTime(300)
+                .subscribe(text => {
+                    this.post_title = this.app.getTitleOnTextBegin(text);
+                    console.log('post_title: ', this.post_title);
+                });
+        }
     }
-    contentInput( text: string ): void {
-        // console.log('text: ', text);
-        this.typing.next(text);
+
+    contentInput(text: string): void {
+        this.preview.typing.next(text);
+        if ( this.isCreate() ) this.typing.next(text);
     }
+
+    /**
+     * If there is any key up on title(even arrow key), No more subscribing on keyboard input.
+     */
     titleInput() {
-        if ( this.subscriptionTyping ) this.subscriptionTyping.unsubscribe();
+        this.unsubscribeTyping();
     }
-    
+
+    unsubscribeTyping() {
+        if (this.subscriptionTyping) this.subscriptionTyping.unsubscribe();
+    }
 
     setOptions(options: OPTIONS) {
         this.options = options;
@@ -82,6 +114,7 @@ export class PostCreateEditContent implements OnInit {
             this.post_author_email = options.post.author.email;
             this.post_author_phone_number = options.post.author.phone_number;
             this.files = Array.from(options.post.files);
+            this.preview.result = options.post.site_preview;
         }
     }
 
@@ -95,9 +128,9 @@ export class PostCreateEditContent implements OnInit {
             post_author_name: this.post_author_name,
             post_author_email: this.post_author_email,
             post_author_phone_number: this.post_author_phone_number,
-            post_password: this.post_password
+            post_password: this.post_password,
+            site_preview_id: this.preview.id
         };
-
 
         data.fid = this.files.reduce((_, file) => { _.push(file.id); return _; }, []);
 
@@ -107,10 +140,8 @@ export class PostCreateEditContent implements OnInit {
             console.log(ID);
             this.activeModal.close(ID);
         }, err => {
-            this.app.displayError(err);
+            this.app.warning(err);
         });
-
-
 
     }
 
@@ -118,7 +149,8 @@ export class PostCreateEditContent implements OnInit {
         let data: POST_UPDATE = {
             ID: this.options.post.ID,
             post_title: this.post_title,
-            post_content: this.post_content
+            post_content: this.post_content,
+            site_preview_id: this.preview.id
         };
         data.fid = this.files.reduce((_, file) => { _.push(file.id); return _; }, []);
 
@@ -128,7 +160,6 @@ export class PostCreateEditContent implements OnInit {
             if (this.post_author_email) data.post_author_email = this.post_author_email;
             if (this.post_author_phone_number) data.post_author_phone_number = this.post_author_phone_number;
         }
-
 
         this.app.forum.postUpdate(data).subscribe(ID => {
             console.log("update: ", ID);
@@ -144,6 +175,6 @@ export class PostCreateEditContent implements OnInit {
         this.activeModal.dismiss('cancelled');
     }
 
-    
+
 
 }

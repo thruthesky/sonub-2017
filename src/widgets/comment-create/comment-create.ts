@@ -90,11 +90,6 @@ export class CommentCreateWidget implements OnInit, AfterViewInit {
             this.resetForm();
 
 
-            // this.app.user.activity( { action: 'comment-create', target: id } )
-            //     .subscribe( res => console.log("activity: ", res), e => e ); // don't do for the result.
-
-
-
             this.create.emit(id);
 
         }, err => {
@@ -108,6 +103,7 @@ export class CommentCreateWidget implements OnInit, AfterViewInit {
     resetForm() {
         this.files = [];
         this.comment_content = '';
+        this.preview.result = null;
     }
 
     // sendMessage(re: COMMENT_CREATE_RESPONSE) {

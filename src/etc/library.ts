@@ -1,6 +1,7 @@
 import { ERROR } from './error';
-
 export class Library {
+
+    
 
     randomString() {
         let d = new Date();
@@ -219,18 +220,72 @@ export class Library {
     }
 
     /**
-     * Returns URL at the beginning of the text.
-     *  If the text does not begin with 'http', then it will return false.
+     * Returns URL at the beginning of the text. ( 입력된 text 의 첫 부분에서 URL 을 리턴한다.)
+     * @note If the text does not begin with 'http', then it will return false. ( 만약 첫 부분이 http 로 시작하지 않으면 false 를 리턴한다. )
      * @param text - text
      */
     getUrlOnTextBegin(text) {
         if (text.length < 14) return false;
+        text = text.trim();
         if (text.indexOf('http') === 0) {
             let arr = text.split(/\s+/, 2);
             if (text.indexOf('.') === -1) return false;
             if (arr && arr[0]) return arr[0];
         }
         return false;
+    }
+    /**
+     * 
+     * getUrlOnTextBegin() 이 text 앞 부분에서 URL 을 가져온다면,
+     * getUrlOnText() 는 text 에서 맨 처음 나타나는 URL 을 리턴한다.
+     * http:// 또는 https:// 로 시작하고, 문자가 있으면 URL 로 인식한다.
+     * 
+     * @param text
+     * 
+     * @return URL 이 없으면 null, 있으면 URL 을 리턴한다.
+     * 
+     * @tests - Below are test.
+     
+        "abc"         ===> null
+        "abc def http"         ===> null
+        "abc http://www.com "         ===> http://www.com
+        "https:// philgo.com abc"         ===> null
+        "https://philgo.com abc"         ===> https://philgo.com
+        " https://philgo.com abc"         ===> https://philgo.com
+        "  abc http://www.philgo.com?qna&idx=123"         ===> http://www.philgo.com?qna&idx=123
+        "  http://jjj http://www.philgo.com?qna&idx=123"         ===> http://jjj
+        "  https:// http:// http://www.philgo.com#/#/push-id&a=b "         ===> http://www.philgo.com#/#/push-id&a=b
+
+     * @end of tests
+     */
+    getUrlOnText(text) {
+        let re = text.match(/https?:\/\/[^\s]+/);
+        if (re) return re[0];
+        return null;
+    }
+    /**
+     * 입력된 문자열 text 에서 최대 len 길이 만큼 문자열을 리턴한다.
+     * @note 이 문자열은 주로 제목으로 쓰인다. 물론 다른 용도로 사용 가능하다.
+     * 
+     * @logic
+     *      1. 빈 문자열이거나 공백 문자열이면 '' 를 리턴한다.
+     *      2. 첫 부분 문자열이 URL 이면, '' 을 리턴한다.
+     *      3. text 의 전체 글 수가 10자 이하이면, '' 를 리턴한다.
+     * 
+     * @note 위 조건에서는 text 맨 처음에 URL 이 있으면 안되지만, 중간부터는 된다. 예를 들면,
+     *      아래와 같은 경우, URL 이 리턴된다.
+     *      "처음에 URL 주소는 안되지만, https://www.philgo.com/?1273358785"
+     * 
+     * @param text 문자열
+     */
+    getTitleOnTextBegin(text, len = 60) {
+        if (!text) return '';
+        text = text.trim(); /// // text = text.replace(/^\s+|\s+$/gm,''); // trim for old browsers.
+        text = text.replace(/\s+/g, " "); // make multi-lines into one line.
+        if (!text) return '';
+        if (text.length < 10) return '';
+        if (text.indexOf('http') === 0) return '';
+        return this.wordcut(text, 60);
     }
 
 
@@ -262,4 +317,82 @@ export class Library {
             focused = document.querySelector(":focus");
         return <any>focused;
     }
+
+
+    /**
+     * text 를 입력 받고 그 안의 URL 을 HTML A 태그로 변환한다.
+     * 이 함수는 완벽하지는 않지만, 그럭 저럭 사용 가능 하다. 많은 라이브러리가 존재하지만 그 크기가 20Kb 이상인 것이 많다.
+     * 
+     * @param text 
+     * @return text - 리턴되는 TEXT 에는 URL 이 <a href='...' target='_blank'>URL<a> 로 변경되어져 있다.
+     */
+    autoLink(text) {
+        var re = /(\(.*?)?\b((?:https?|ftp|file):\/\/[-a-z0-9+&@#\/%?=~_()|!:,.;]*[-a-z0-9+&@#\/%=~_()|])/ig;
+        return text.replace(re, function (match, lParens, url) {
+            var rParens = '';
+            lParens = lParens || '';
+
+            // Try to strip the same number of right parens from url
+            // as there are left parens.  Here, lParenCounter must be
+            // a RegExp object.  You cannot use a literal
+            //     while (/\(/g.exec(lParens)) { ... }
+            // because an object is needed to store the lastIndex state.
+            var lParenCounter = /\(/g;
+            while (lParenCounter.exec(lParens)) {
+                var m;
+                // We want m[1] to be greedy, unless a period precedes the
+                // right parenthesis.  These tests cannot be simplified as
+                //     /(.*)(\.?\).*)/.exec(url)
+                // because if (.*) is greedy then \.? never gets a chance.
+                if (m = /(.*)(\.\).*)/.exec(url) ||
+                    /(.*)(\).*)/.exec(url)) {
+                    url = m[1];
+                    rParens = m[2] + rParens;
+                }
+            }
+            return lParens + "<a href='" + url + "' target='_blank'>" + url + "</a>" + rParens;
+        });
+    }
+
+    /**
+     * New line to <br> tag.
+     * @note it is coming from locutus.io
+     * @param str 
+     * @param isXhtml 
+     */
+    nl2br(str, isXhtml = false) {
+        //   example 1: nl2br('Kevin\nvan\nZonneveld')
+        //   returns 1: 'Kevin<br />\nvan<br />\nZonneveld'
+        //   example 2: nl2br("\nOne\nTwo\n\nThree\n", false)
+        //   returns 2: '<br>\nOne<br>\nTwo<br>\n<br>\nThree<br>\n'
+        //   example 3: nl2br("\nOne\nTwo\n\nThree\n", true)
+        //   returns 3: '<br />\nOne<br />\nTwo<br />\n<br />\nThree<br />\n'
+        //   example 4: nl2br(null)
+        //   returns 4: ''
+        // Some latest browsers when str is null return and unexpected null value
+        if (typeof str === 'undefined' || str === null) {
+            return ''
+        }
+        // Adjust comment to avoid issue on locutus.io display
+        var breakTag = (isXhtml || typeof isXhtml === 'undefined') ? '<br ' + '/>' : '<br>'
+        return (str + '')
+            .replace(/(\r\n|\n\r|\r|\n)/g, breakTag + '$1')
+    }
+
+
+    /**
+     * 
+     * @param text 
+     * @param o 
+     */
+    htmlify(text, o = {}) {
+
+        if (o && o['autolink']) text = this.autoLink(text);
+        if (o && o['nl2br']) text = this.nl2br(text);
+
+
+        return text;
+    }
+
+
 }

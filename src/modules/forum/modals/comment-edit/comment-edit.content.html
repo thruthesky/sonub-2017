@@ -1,4 +1,3 @@
-
 <div class="modal-header">
     <h4 class="modal-title">Comment Edit</h4>
     <button type="button" class="close" aria-label="Close" (click)="onClickCancel()">
@@ -7,9 +6,14 @@
 </div>
 <div class="modal-body">
 
-    <textarea [(ngModel)]="comment_content"></textarea>
+    <textarea class="w-100" [(ngModel)]="comment_content" #textareaContent (keyup)="preview.typing.next(textareaContent.value)"></textarea>
 
 </div>
+
+
+
+
+
 <div class="modal-footer justify-content-between">
 
     <div>
@@ -21,8 +25,8 @@
     </div>
     <div>
 
-<button type="button" (click)="onClickSubmit()">Submit</button>
-<button type="button" (click)="onClickCancel()">Cancel</button>
+        <button type="button" (click)="onClickSubmit()">Submit</button>
+        <button type="button" (click)="onClickCancel()">Cancel</button>
 
 
 
@@ -35,3 +39,16 @@
 
 <file-upload-widget #fileUploadWidget [title]="false" [fileSelectionButton]="false" [files]="files"></file-upload-widget>
 
+
+<site-preview-widget [preview]="preview.result" [edit]="true" [loading]="preview.loading"></site-preview-widget>
+
+
+
+<!-- <div class="loader" *ngIf=" preview.loading ">
+    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Loading site preview ...
+</div>
+<div class="site-preview" *ngIf=" preview.result ">
+    <img class="w-100" src="{{ preview.result.url_image }}">
+    <div class="fs-lg">{{ preview.result.title }}</div>
+    <div>{{ preview.result.content }}</div>
+</div> -->

@@ -36,14 +36,6 @@
             placeholder="{{ app.text('input_content') }}"></textarea>
     </div>
 
-    <!--     
-        <select class="form-control form-control-sm">
-                    <option value="">{{ app.text('choose_forum') }}</option>
-                    <option value="discussion">{{ app.text('discussion') }}</option>
-                    <option value="qna">{{ app.text('qna') }}</option>
-                    <option value="news">{{ app.text('news') }}</option>
-                  </select> -->
-
 </div>
 <div class="modal-footer justify-content-between">
 
@@ -66,3 +58,5 @@
 <hr class="mx-2" *ngIf="files && files.length">
 
 <file-upload-widget #fileUploadWidget [title]="false" [fileSelectionButton]="false" [files]="files" [post_password]="post_password"></file-upload-widget>
+
+<site-preview-widget [preview]="preview.result" [edit]="true" [loading]="preview.loading"></site-preview-widget>

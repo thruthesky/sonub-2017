@@ -19,7 +19,7 @@ export class ForumViewPage implements OnInit {
             this.post = null;
 
             this.app.forum.postData(params['id'])
-                .subscribe(post => this.post = app.forum.pre(post, {safe: true}), e => this.app.warning(e));
+                .subscribe(post => this.post = app.forum.pre(post), e => this.app.warning(e));
 
         });
 
