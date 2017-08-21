@@ -192,9 +192,23 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
 
     displayPage(page) {
         this.inLoading = false;
+        this.prepare(page);
         if (page.posts.length < page.posts_per_page) this.noMorePosts = true;
         if (page.pageNo == 1) this.pages[0] = page;
         else this.pages.push(page);
+    }
+
+    prepare(page: BUYANDSELL_PAGE) {
+        if (page && page.posts && page.posts.length) {
+            for (let post of page.posts) {
+                if( post.usedItem == 'y' ) post['used'] = 'Yes';
+                if( post.usedItem == 'n' ) post['used'] = 'No';
+                if( post.usedItem == 'x' ) post['used'] = 'Not Applicable';
+
+                if( post.deliverable == 'y' ) post['delivery'] = 'Yes';
+                if( post.deliverable == 'n' ) post['delivery'] = 'No';
+            }
+        }
     }
 
     urlPhoto(post) {
