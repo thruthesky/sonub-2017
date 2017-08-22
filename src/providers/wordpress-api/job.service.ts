@@ -25,7 +25,7 @@ export class JobService extends Base {
 
     convertCreate(data: JOB_CREATE): POST_CREATE {
 
-        let title = `${data.first_name} is a ${data.profession} from ${data.city ? data.city : data.province} looking for a job` ;
+        let title = `${data.first_name} is a ${data.profession} from ${data.city ? data.city : data.province} looking for a job`;
 
         let req: POST_CREATE = {
             category: 'jobs',
@@ -53,7 +53,7 @@ export class JobService extends Base {
         req.post_password = data.password;
         req.session_id = this.user.sessionId;
         req.route = 'post.create';
-        req.ID  =  data.ID;
+        req.ID = data.ID;
         return req;
     }
 
@@ -74,7 +74,7 @@ export class JobService extends Base {
         str = str.replace('fullname', 'varchar_5');
         req = JSON.parse(str);
 
-        if ( req['query'] === void 0 ) req['query'] = {};
+        if (req['query'] === void 0) req['query'] = {};
         req['query']['slug'] = "jobs";
         req['route'] = "wordpress.post_query";
 
@@ -86,49 +86,59 @@ export class JobService extends Base {
     convertPage(page: POST_QUERY_RESPONSE): JOB_PAGE {
 
         console.log('convertPage: ', page);
-        if ( page.posts && page.posts.length) {
+        if (page.posts && page.posts.length) {
             for (let post of page.posts) {
-                post['first_name'] = post.meta['first_name'];
-                post['middle_name'] = post.meta['middle_name'];
-                post['last_name'] = post.meta['last_name'];
-                post['address'] = post.meta['address'];
-                post['mobile'] = post.meta['mobile'];
-                post['city'] = post.varchar_1;
-                post['province'] = post.varchar_2;
-                post['profession'] = post.varchar_4;
-                post['fullname'] = post.varchar_5;
-                post['experience'] = post.int_1 < 12 ? post.int_1 + ' months' : post.int_1/12 + ' years';
-                post['birthday'] = post.int_2;
-                post['gender'] = post.char_1;
-                post['timestamp_create'] = post.meta['timestamp_create'];
-                post['message'] = post.post_content;
-
-                delete post.post_title;
-                delete post.post_content;
-                delete post.post_parent;
-                delete post.post_date;
-                delete post.varchar_1;
-                delete post.comment_count;
-                delete post.comments;
-                delete post.meta;
-
-                delete post.int_1;
-                delete post.int_2;
-                delete post.int_3;
-                delete post.char_1;
-                delete post.char_2;
-                delete post.char_3;
-                delete post.varchar_1;
-                delete post.varchar_2;
-                delete post.varchar_3;
-                delete post.varchar_4;
-                delete post.varchar_5;
-
+                this.convertPostToJob( post );
             }
         }
 
         // console.log('Converted Page:: ', page);
         return <any>page;
+    }
+
+    /**
+     * 
+     * @param post Post ( call by reference )
+     */
+    convertPostToJob(post: POST): JOB {
+
+        post['first_name'] = post.meta['first_name'];
+        post['middle_name'] = post.meta['middle_name'];
+        post['last_name'] = post.meta['last_name'];
+        post['address'] = post.meta['address'];
+        post['mobile'] = post.meta['mobile'];
+        post['city'] = post.varchar_1;
+        post['province'] = post.varchar_2;
+        post['profession'] = post.varchar_4;
+        post['fullname'] = post.varchar_5;
+        post['experience'] = post.int_1 < 12 ? post.int_1 + ' months' : post.int_1 / 12 + ' years';
+        post['birthday'] = post.int_2;
+        post['gender'] = post.char_1;
+        post['timestamp_create'] = post.meta['timestamp_create'];
+        post['message'] = post.post_content;
+
+        delete post.post_title;
+        delete post.post_content;
+        delete post.post_parent;
+        delete post.post_date;
+        delete post.varchar_1;
+        delete post.comment_count;
+        delete post.comments;
+        delete post.meta;
+
+        delete post.int_1;
+        delete post.int_2;
+        delete post.int_3;
+        delete post.char_1;
+        delete post.char_2;
+        delete post.char_3;
+        delete post.varchar_1;
+        delete post.varchar_2;
+        delete post.varchar_3;
+        delete post.varchar_4;
+        delete post.varchar_5;
+
+        return <any>post;
     }
 
 }

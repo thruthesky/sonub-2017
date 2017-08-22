@@ -69,6 +69,8 @@ export class BuyAndSellCreateEditPage {
                     }
 
                     console.log('edit post: ', post);
+
+                    
                     this.ID = post.ID;
                     this.title = post.post_title;
                     this.description = post.post_content;

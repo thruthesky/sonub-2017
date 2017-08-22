@@ -356,7 +356,7 @@ export interface JOB {
     city: string;
     birthday: number;
     gender: string;
-    experience: string;
+    experience: number;
     profession: string;
     message: string;
     files: FILES;

@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppService, ERROR, POST, FILES, FILE, POST_CREATE } from './../../../../providers/app.service';
-import { JOB_CREATE } from "../../../../providers/wordpress-api/interface";
+import { JOB_CREATE, JOB } from "../../../../providers/wordpress-api/interface";
 import { FileUploadWidget } from "../../../../widgets/file-upload/file-upload";
 import { PhilippineRegion } from "../../../../providers/philippine-region";
 import { DATEPICKER } from "../../../../etc/interface";
@@ -60,66 +60,71 @@ export class JobCreateEditPage {
         });
 
         dateConfig.minDate = { year: 1946, month: 1, day: 1 };
-        dateConfig.maxDate =  { year: this.today.getFullYear() - 14, month: 12, day: 31 };
+        dateConfig.maxDate = { year: this.today.getFullYear() - 14, month: 12, day: 31 };
         this.birthday = { year: this.today.getFullYear() - 14, month: 12, day: 31 };
 
 
         let params = activeRoute.snapshot.params;
         if (params['id']) {
-
             this.app.wp.post({ route: 'wordpress.get_post', ID: params['id'] })
                 .subscribe((post: POST) => {
 
-                    if ( post.author.ID ) {
-                        if(!app.user.isLogin ) {
-                            this.app.warning( ERROR.LOGIN_FIRST );
+                    if (post.author.ID) {
+                        if (!app.user.isLogin) {
+                            this.app.warning(ERROR.LOGIN_FIRST);
                             this.router.navigateByUrl('/user/login');
                             return;
                         }
-                        else if( post.author.ID != app.user.id) {
-                            this.app.warning( ERROR.CODE_PERMISSION_DENIED_NOT_OWNER );
+                        else if (post.author.ID != app.user.id) {
+                            this.app.warning(ERROR.CODE_PERMISSION_DENIED_NOT_OWNER);
                             this.router.navigateByUrl('/job');
                             return;
                         }
                     }
                     console.log('edit post: ', post);
-                    this.ID = post.ID;
-                    this.message = post.post_content;
-                    this.gender = post.char_1;
-                    this.firstName = post.meta.first_name;
-                    this.middleName = post.meta.middle_name;
-                    this.lastName = post.meta.last_name;
-                    this.mobile = post.meta.mobile;
-                    this.address = post.meta.address;
-                    this.city = post.varchar_1;
-                    this.province = post.varchar_2;
-                    this.profession = post.varchar_4;
-                    this.experience = post.int_1;
-                    this.birthday = this.birthdayData(post.int_2);
-                    if (post.files.length) {
-                        this.files[0] = post.files[0];
-                        this.file = post.files[0];
+
+                    let job: JOB = this.app.job.convertPostToJob(post);
+
+                    this.ID = job.ID;
+                    this.message = job.message;
+                    this.gender = job.gender;
+                    this.firstName = job.first_name;
+                    this.middleName = job.middle_name;
+                    this.lastName = job.last_name;
+                    this.mobile = job.mobile;
+                    this.address = job.address;
+                    this.city = job.city;
+                    this.province = job.province;
+                    this.profession = job.profession;
+                    this.experience = job.experience;
+                    this.birthday = this.birthdayData(job.birthday);
+                    if (job.files.length) {
+                        this.files[0] = job.files[0];
+                        this.file = job.files[0];
                     }
 
-                    if( post.varchar_4 != 'all' ) this.getCities();
+                    
+
+                    if (job.city != 'all') this.getCities();
                 }, e => this.app.warning(e));
         }
 
 
     }
+    
 
 
-    birthdayData( birthday ) {
-        if( birthday ) return {
-            year: parseInt( birthday.substring(0,4) ),
-            month: parseInt( birthday.substring(4,6) ),
-            day: parseInt( birthday.substring(6,8) )
+    birthdayData(birthday) {
+        if (birthday) return {
+            year: parseInt(birthday.substring(0, 4)),
+            month: parseInt(birthday.substring(4, 6)),
+            day: parseInt(birthday.substring(6, 8))
         };
     }
 
     onClickSubmit() {
 
-        if( this.experience) {
+        if (this.experience) {
             console.log('data::', this.experience);
         }
 
