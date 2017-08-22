@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppService, FILES, FILE } from './../../../../providers/app.service';
-import { BUYANDSELL_CREATE, POST } from "../../../../providers/wordpress-api/interface";
+import { BUYANDSELL, BUYANDSELL_CREATE } from "../../../../providers/wordpress-api/interface";
 import { FileUploadWidget } from "../../../../widgets/file-upload/file-upload";
 import { PhilippineRegion } from "../../../../providers/philippine-region";
 import { error, ERROR} from "../../../../etc/error";
@@ -30,7 +30,6 @@ export class BuyAndSellCreateEditPage {
 
 
     files: FILES = [];
-    file: FILE;
     ID: number;
 
     provinces: Array<string> = [];
@@ -59,38 +58,34 @@ export class BuyAndSellCreateEditPage {
         let params = activeRoute.snapshot.params;
         if (params['id']) {
 
-            this.app.wp.post({ route: 'wordpress.get_post', ID: params['id'] })
-                .subscribe((post: POST) => {
+            this.app.bns.data({ route: 'wordpress.get_post', ID: params['id'] })
+                .subscribe((buyAndSell: BUYANDSELL) => {
 
-                    if ( post.author.ID && post.author.ID != app.user.id) {
+                    if ( buyAndSell.author.ID && buyAndSell.author.ID != app.user.id) {
                             this.app.warning( error( ERROR.CODE_PERMISSION_DENIED_NOT_OWNER) );
                             this.router.navigateByUrl('/buyandsell');
                             return;
                     }
 
-                    console.log('edit post: ', post);
+                    console.log('edit post: ', buyAndSell);
 
-                    
-                    this.ID = post.ID;
-                    this.title = post.post_title;
-                    this.description = post.post_content;
-                    this.price = post.int_1;
-                    this.usedItem = <any>post.char_1;
-                    this.deliverable = <any>post.char_2;
-                    this.city = post.varchar_1;
-                    this.province = post.varchar_2;
-                    this.tag = post.varchar_3;
-                    this.contact = post.meta.contact;
+                    this.ID = buyAndSell.ID;
+                    this.title = buyAndSell.title;
+                    this.description = buyAndSell.description;
+                    this.price = buyAndSell.price;
+                    this.usedItem = buyAndSell.usedItem;
+                    this.deliverable = buyAndSell.deliverable;
+                    this.city = buyAndSell.city;
+                    this.province = buyAndSell.province;
+                    this.tag = buyAndSell.tag;
+                    this.contact = buyAndSell.contact;
 
-
-                    if (post.files.length) {
-                        this.files[0] = post.files[0];
-                        this.file = post.files[0];
+                    if (buyAndSell.files.length) {
+                        this.files = buyAndSell.files;
                     }
+                    if( buyAndSell.tag.length && buyAndSell.province!= 'all' ) this.getCities();
 
-                    if( post.varchar_2 != 'all' ) this.getCities();
                 }, e => this.app.warning(e));
-
         }
 
     }

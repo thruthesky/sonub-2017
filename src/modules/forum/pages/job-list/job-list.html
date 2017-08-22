@@ -109,15 +109,6 @@
             </div>
         </div>
 
-        <div class="row-container" *ngIf="app.user.isLogin">
-            <label class="text">Show My Post</label>
-            <div class="input">
-                <label class="form-check-inline">
-                        <input type="checkbox" id="myPost" formControlName="myPost"> My Post Only
-                    </label>
-            </div>
-        </div>
-
         <i class="close fa fa-times pointer" (click)="hideSearchForm()"></i>
 
     </form>
@@ -125,7 +116,6 @@
     <div class="card p-1 mb-1" *ngIf="searchForm">
         <div class="search-summary">
             <span>Searching...</span>
-            <span *ngIf="formGroup.value.myPost"> My Post</span>
             <span *ngIf="formGroup.value.profession && pages?.length">"{{ formGroup.value.profession }}" </span><span>job </span>
             <span>with Age between "{{ formGroup.value.minAge }}" to "{{ formGroup.value.maxAge }}" </span>
             <span *ngIf="formGroup.value.male">and "Male" </span>
@@ -155,7 +145,7 @@
                             <div class="profession">{{ job?.profession }}, {{ job.gender == 'm' ? 'Male' : 'Female' }}/{{getAge(job.birthday)}}</div>
                             <div class="">Mobile: {{job?.mobile}}</div>
                             <ng-container *ngIf="job['active']">
-                                <div class="">Experience: {{job?.experience}}</div>
+                                <div class="">Experience: {{job.experience < 12 ? job.experience + ' months' : job.experience / 12 + ' years'}}</div>
                                 <div class="">Address: {{job?.address}}</div>
                                 <div class="">Province: {{job?.province}}</div>
                                 <div class="">City: {{job?.city}}</div>

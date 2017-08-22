@@ -116,8 +116,7 @@ export class JobListPage implements OnInit, OnDestroy {
             city: ['all'],
             minAge: [this.minAge],
             maxAge: [this.maxAge],
-            name: [''],
-            myPost: [false]
+            name: ['']
         });
         this.formGroup.valueChanges
             .debounceTime(1000)
@@ -136,8 +135,7 @@ export class JobListPage implements OnInit, OnDestroy {
             city: 'all',
             minAge: this.minAge,
             maxAge: this.maxAge,
-            name: '',
-            myPost: false
+            name: ''
         });
     }
 
@@ -182,13 +180,7 @@ export class JobListPage implements OnInit, OnDestroy {
 
 
         // GENDER
-        if (data.male != data.female) {
-            this.query['gender'] = data.male ? 'm' : 'f';
-        }
-        else {
-            clause.push(`char_1='m' OR char_1='f'`)
-        }
-
+        if (data.male != data.female) this.query['gender'] = data.male ? 'm' : 'f';
 
         // FULL NAME
         if (data.name) {
@@ -216,10 +208,6 @@ export class JobListPage implements OnInit, OnDestroy {
             value: `${max} AND ${min}`
         };
 
-
-        if (data.myPost) this.query['post_author'] = this.app.user.id;
-
-
         // PROFESSION
         if (data.profession != 'all') this.query['profession'] = data.profession;
 
@@ -237,11 +225,10 @@ export class JobListPage implements OnInit, OnDestroy {
             } else this.query['city'] = data.city;
         }
 
-
         // CLAUSE
         if (clause.length) this.query['clause'] = clause;
 
-        console.log('REQUEST ON VALUE CHANGE :::', this.query);
+        // console.log('REQUEST ON VALUE CHANGE :::', this.query);
 
         this.pages = [];
         this.noMorePosts = false;
@@ -297,7 +284,7 @@ export class JobListPage implements OnInit, OnDestroy {
 
 
     onClickProvince() {
-        console.log('Province::', this.formGroup.value.province);
+        // console.log('Province::', this.formGroup.value.province);
         if (this.formGroup.value.province != 'all') {
             this.formGroup.patchValue({ city: this.formGroup.value.province });
             this.getCities();

@@ -66,24 +66,20 @@ export class JobCreateEditPage {
 
         let params = activeRoute.snapshot.params;
         if (params['id']) {
-            this.app.wp.post({ route: 'wordpress.get_post', ID: params['id'] })
-                .subscribe((post: POST) => {
-
-                    if (post.author.ID) {
+            this.app.job.data({ route: 'wordpress.get_post', ID: params['id'] })
+                .subscribe((job: JOB) => {
+                    if (job.author.ID) {
                         if (!app.user.isLogin) {
                             this.app.warning(ERROR.LOGIN_FIRST);
                             this.router.navigateByUrl('/user/login');
                             return;
                         }
-                        else if (post.author.ID != app.user.id) {
+                        else if (job.author.ID != app.user.id) {
                             this.app.warning(ERROR.CODE_PERMISSION_DENIED_NOT_OWNER);
                             this.router.navigateByUrl('/job');
                             return;
                         }
                     }
-                    console.log('edit post: ', post);
-
-                    let job: JOB = this.app.job.convertPostToJob(post);
 
                     this.ID = job.ID;
                     this.message = job.message;
@@ -103,15 +99,13 @@ export class JobCreateEditPage {
                         this.file = job.files[0];
                     }
 
-                    
-
                     if (job.city != 'all') this.getCities();
                 }, e => this.app.warning(e));
         }
 
 
     }
-    
+
 
 
     birthdayData(birthday) {

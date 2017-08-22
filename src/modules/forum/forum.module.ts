@@ -38,8 +38,7 @@ import { MyPostsPage } from './pages/my-posts/my-posts';
 
 import { BuyAndSellCreateEditPage } from './pages/buy-and-sell-create-edit/buy-and-sell-create-edit';
 import { BuyAndSellListPage } from "./pages/buy-and-sell-list/buy-and-sell-list";
-import {BuyAndSellViewContent} from "./modals/buy-and-sell-view/buy-and-sell-view.content";
-import {BuyAndSellViewModalService} from "./modals/buy-and-sell-view/buy-and-sell-view.modal";
+import { BuyAndSellViewPage} from "./pages/buy-and-sell-view/buy-and-sell-view";
 
 
 
@@ -60,6 +59,8 @@ const appRoutes: Routes = [
 
 
     { path: 'buyandsell/create', component: BuyAndSellCreateEditPage},
+
+    { path: 'buyandsell/view/:id', component: BuyAndSellViewPage},
     { path: 'buyandsell/edit/:id', component: BuyAndSellCreateEditPage},
     { path: 'buyandsell', component: BuyAndSellListPage},
 
@@ -87,13 +88,12 @@ const appRoutes: Routes = [
         JobListPage,
         BuyAndSellCreateEditPage,
         BuyAndSellListPage,
-        BuyAndSellViewContent,
+        BuyAndSellViewPage,
         MyPostsPage
     ],
     entryComponents: [
         PostCreateEditContent,
-        CommentEditContent,
-        BuyAndSellViewContent
+        CommentEditContent
     ],
     imports: [
         CommonModule,
@@ -106,8 +106,7 @@ const appRoutes: Routes = [
     providers: [
         PostCreateEditModalService,
         CommentEditModalService,
-        ForumCodeShareService,
-        BuyAndSellViewModalService
+        ForumCodeShareService
     ]
 })
 export class ForumModule { }

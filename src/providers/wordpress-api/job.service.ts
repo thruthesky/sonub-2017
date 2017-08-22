@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Base } from './../../etc/base';
 import { UserService } from './user.service';
 import { WordpressApiService } from './wordpress-api.service';
-import { JOB_CREATE, JOB, JOBS, POST_CREATE, POSTS, POST, POST_QUERY_RESPONSE, JOB_PAGE } from './interface';
+import {JOB_CREATE, JOB, JOBS, POST_CREATE, POSTS, POST, POST_QUERY_RESPONSE, JOB_PAGE, POST_DATA} from './interface';
 import { Observable } from 'rxjs/Observable';
 
 
@@ -22,6 +22,13 @@ export class JobService extends Base {
         // console.log('convertedCreate', req);
         return this.wp.post(req);
     }
+
+
+    data(req: POST_DATA): Observable<JOB> {
+        return this.wp.post( req )
+            .map(e => this.convertPostToJob( e ));
+    }
+
 
     convertCreate(data: JOB_CREATE): POST_CREATE {
 
@@ -97,7 +104,7 @@ export class JobService extends Base {
     }
 
     /**
-     * 
+     *
      * @param post Post ( call by reference )
      */
     convertPostToJob(post: POST): JOB {
@@ -111,7 +118,7 @@ export class JobService extends Base {
         post['province'] = post.varchar_2;
         post['profession'] = post.varchar_4;
         post['fullname'] = post.varchar_5;
-        post['experience'] = post.int_1 < 12 ? post.int_1 + ' months' : post.int_1 / 12 + ' years';
+        post['experience'] = post.int_1;
         post['birthday'] = post.int_2;
         post['gender'] = post.char_1;
         post['timestamp_create'] = post.meta['timestamp_create'];

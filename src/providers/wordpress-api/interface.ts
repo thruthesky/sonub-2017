@@ -173,7 +173,7 @@ export interface POST_CREATE_COMMON {
     varchar_3?: string;
     varchar_4?: string;
     varchar_5?: string;
-    site_preview_id?: number; /// available only 
+    site_preview_id?: number; /// available only
 };
 export interface POST_READ_COMMON extends ID, POST_CREATE_COMMON {
     author: AUTHOR;
@@ -194,7 +194,7 @@ export interface POST_READ_COMMON extends ID, POST_CREATE_COMMON {
 };
 
 export interface POST_CREATE extends REQUEST, ID_O, CATEGORY, POST_CREATE_COMMON {
-    
+
 };
 export type POST_CREATE_RESPONSE = number;
 
@@ -361,6 +361,8 @@ export interface JOB {
     message: string;
     files: FILES;
     timestamp_create: number;
+    author: AUTHOR;
+    meta: any;
 };
 
 export type JOBS = Array<JOB>;
@@ -416,6 +418,8 @@ export interface BUYANDSELL {
     contact: string;
     files: FILES;
     timestamp_create: number;
+    author: AUTHOR;
+    meta: any;
 };
 
 export type BUYANDSELLS = Array<BUYANDSELL>;

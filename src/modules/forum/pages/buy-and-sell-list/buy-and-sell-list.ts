@@ -4,9 +4,7 @@ import {
     AppService, POST_QUERY_REQUEST
 } from './../../../../providers/app.service';
 import {PageScroll} from './../../../../providers/page-scroll';
-import {Router} from "@angular/router";
-import {BUYANDSELL_PAGE, BUYANDSELL_PAGES, PAGE, POST} from "../../../../providers/wordpress-api/interface";
-import {BuyAndSellViewModalService} from "../../modals/buy-and-sell-view/buy-and-sell-view.modal";
+import {BUYANDSELL_PAGE, BUYANDSELL_PAGES,} from "../../../../providers/wordpress-api/interface";
 import {PhilippineRegion} from "../../../../providers/philippine-region";
 
 
@@ -40,9 +38,7 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
         private fb: FormBuilder,
         public app: AppService,
         private region: PhilippineRegion,
-        private pageScroll: PageScroll,
-        private router: Router,
-        private buyAndSellModal: BuyAndSellViewModalService
+        private pageScroll: PageScroll
     ) {
         app.section('job');
         region.get_province(re => {
@@ -73,8 +69,7 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
             usedItemNA: [false],
             deliverableYes: [false],
             deliverableNo: [false],
-            contact: [null],
-            myPost: [false]
+            contact: [null]
         });
         this.formGroup.valueChanges
             .debounceTime(1000)
@@ -94,62 +89,43 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
             usedItemNA: false,
             deliverableYes: false,
             deliverableNo: false,
-            contact: null,
-            myPost: false
+            contact: null
         });
     }
 
     onValueChanged(data?: any) {
-        console.log('onValueChanges::data::', data);
+        // console.log('onValueChanges::data::', data);
         let clause = [];
         this.query = {};
 
 
         // TAG, TITLE, Description
-        if (data.tag) {
-            clause.push(`post_title LIKE '%${data.tag}%' OR post_content LIKE '%${data.tag}%' OR varchar_3 LIKE '%${data.tag}%'` );
-        }
+        if (data.tag) clause.push(`post_title LIKE '%${data.tag}%' OR post_content LIKE '%${data.tag}%' OR varchar_3 LIKE '%${data.tag}%'` );
 
         // price
+        let minimum = data.priceMinimum ? data.priceMinimum : 0;
         if ( data.priceMaximum ) {
             this.query['price'] = {
                 exp: 'BETWEEN',
-                value: `${data.priceMinimum} AND ${data.priceMaximum}`
+                value: `${minimum} AND ${data.priceMaximum}`
             };
         }
         else {
             this.query['price'] = {
                 exp: '>=',
-                value: data.priceMinimum ? data.priceMinimum : 0
+                value: minimum
             }
         }
 
-
-
-
         //  USED ITEM
         let usedItem = '';
-
-        console.log('data.usedItemYes::', data.usedItemYes);
         if( data.usedItemYes ) usedItem += "char_1='y'";
-        if( data.usedItemNo ) {
-            usedItem ? usedItem += " OR char_1='n'" : usedItem += "char_1='n'";
-        }
-        if( data.usedItemNA ) {
-            usedItem ? usedItem += " OR char_1='x'" : usedItem += "char_1='x'";
-        }
+        if( data.usedItemNo ) usedItem ? usedItem += " OR char_1='n'" : usedItem += "char_1='n'";
+        if( data.usedItemNA ) usedItem ? usedItem += " OR char_1='x'" : usedItem += "char_1='x'";
         if( usedItem ) clause.push(usedItem);
 
-
         //  DELIVERABLE
-        if (data.deliverableYes != data.deliverableNo) {
-            this.query['deliverable'] = data.deliverableYes ? 'y' : 'n';
-        }
-        else {
-            clause.push(`char_2='y' OR char_2='n'`)
-        }
-
-        if (data.myPost) this.query['post_author'] = this.app.user.id;
+        if (data.deliverableYes != data.deliverableNo) this.query['deliverable'] = data.deliverableYes ? 'y' : 'n';
 
         // PROVINCE
         if (data.province != 'all') this.query['province'] = data.province;
@@ -168,7 +144,7 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
         // CLAUSE
         if (clause.length) this.query['clause'] = clause;
 
-        console.log('REQUEST ON VALUE CHANGE :::', this.query);
+        // console.log('REQUEST ON VALUE CHANGE :::', this.query);
 
         this.pages = [];
         this.noMorePosts = false;
@@ -193,10 +169,10 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
 
 
         this.app.bns.search(req).subscribe((page: BUYANDSELL_PAGE) => {
-            console.log("buyAndSellSearch", page);
+            // console.log("buyAndSellSearch", page);
             this.displayPage(page);
         }, e => {
-            console.log("loadPage::e::", e);
+            // console.log("loadPage::e::", e);
             this.inLoading = false;
             this.noMorePosts = true;
         });
@@ -204,24 +180,24 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
 
     displayPage(page) {
         this.inLoading = false;
-        this.prepare(page);
+        // this.prepare(page);
         if (page.posts.length < page.posts_per_page) this.noMorePosts = true;
         if (page.pageNo == 1) this.pages[0] = page;
         else this.pages.push(page);
     }
 
-    prepare(page: BUYANDSELL_PAGE) {
-        if (page && page.posts && page.posts.length) {
-            for (let post of page.posts) {
-                if( post.usedItem == 'y' ) post['used'] = 'Yes';
-                if( post.usedItem == 'n' ) post['used'] = 'No';
-                if( post.usedItem == 'x' ) post['used'] = 'Not Applicable';
-
-                if( post.deliverable == 'y' ) post['delivery'] = 'Yes';
-                if( post.deliverable == 'n' ) post['delivery'] = 'No';
-            }
-        }
-    }
+    // prepare(page: BUYANDSELL_PAGE) {
+    //     if (page && page.posts && page.posts.length) {
+    //         for (let post of page.posts) {
+    //             if( post.usedItem == 'y' ) post['used'] = 'Yes';
+    //             if( post.usedItem == 'n' ) post['used'] = 'No';
+    //             if( post.usedItem == 'x' ) post['used'] = 'Not Applicable';
+    //
+    //             if( post.deliverable == 'y' ) post['delivery'] = 'Yes';
+    //             if( post.deliverable == 'n' ) post['delivery'] = 'No';
+    //         }
+    //     }
+    // }
 
     urlPhoto(post) {
         let url = this.app.forum.getFirstImageThumbnailUrl(post);
@@ -229,19 +205,8 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
         // else return this.app.anonymousPhotoURL;
     }
 
-
-    onClickShowProductView( product ) {
-        console.log('Product to View::', product);
-        this.buyAndSellModal.open(product).then( id => {
-
-        }, err =>{
-            console.log('Product was close', err);
-            // this.app.warning(err);
-        });
-    }
-
     onClickProvince() {
-        console.log('Province::', this.formGroup.value.province);
+        // console.log('Province::', this.formGroup.value.province);
         if (this.formGroup.value.province != 'all') {
             this.formGroup.patchValue({ city: this.formGroup.value.province });
             this.getCities();

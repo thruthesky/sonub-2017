@@ -87,16 +87,6 @@
                 </div>
             </div>
 
-
-            <div class="row-container" *ngIf="app.user.isLogin">
-                <label class="text">My Item</label>
-                <div class="input">
-                    <label class="form-check-inline">
-                        <input type="checkbox" id="myPost" formControlName="myPost"> My Item Only
-                    </label>
-                </div>
-            </div>
-
         </ng-container>
 
 
@@ -126,7 +116,7 @@
                 <a class="job col-6 mb-1"
                    *ngFor="let product of page.posts "
                    [attr.post-id]="product.ID"
-                   (click)="onClickShowProductView( product )"
+                   routerLink="/buyandsell/view/{{product.ID}}"
                 >
                     <div class="profile bg-white">
 
