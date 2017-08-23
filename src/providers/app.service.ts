@@ -89,6 +89,7 @@ export class AppService extends Base {
     toastOption = {
         show: false,
         content: '',
+        className: '',
         callback: () => { }
     };
 
@@ -544,7 +545,7 @@ export class AppService extends Base {
                 if (!val) return;
                 if (typeof val !== 'object') return;
 
-                // console.log('snap.val', val);
+                // console.log('listenFirebaseUserActivity() snap.val', val);
                 // let keys = Object.keys(val);
                 // if (keys && keys.length) {
                 //     this.activity = [];
@@ -582,10 +583,9 @@ export class AppService extends Base {
                 let val: COMMUNITY_LOG = snap.val();
                 if (!val) return;
                 if (typeof val !== 'object') return;
-                // console.log('posts-comments: child_added: snap.val: ', val);
+                console.log('posts-comments: child_added: snap.val: ', val);
 
                 this.toastLog(val, 'community');
-
                 this.communityLogs.unshift(val);
                 this.rerenderPage(100);
             });
@@ -601,6 +601,7 @@ export class AppService extends Base {
 
 
     toast(option) {
+        // console.log(`app.toast()`, option);
         if (option.delay === void 0) option.delay = 1;
         setTimeout(() => {
             this.toastOption = option;
@@ -626,11 +627,12 @@ export class AppService extends Base {
         // console.log("toastLog: width: ", this.width);
         // console.log("toastLog: size: ", this.size);
 
-        if (this.size == 'break-d') return;
+        if (this.size == 'break-d') return; // don't toast on wide space.
 
         let toastOption = {
             content: val.content,
-            timeout: 7000,
+            timeout: 10000,
+            className: '',
             callback: () => {
                 this.toastClose();
                 this.postView(val.post_ID);
@@ -638,17 +640,21 @@ export class AppService extends Base {
         };
 
         if (type == 'activity' && this.size == 'mobile') {
-            toastOption.content = '<span class="cap activity-cap">A</span> ' + toastOption.content;
+
+            toastOption.className = 'activity';
+            toastOption.content = '<span class="cap activity-cap">Activity</span><span class="text ellipsis">' + toastOption.content + '</span>';
             this.toast(toastOption);
         }
 
         if (type == 'community') {
-            if (val.author_id == this.user.id) return;
-            if (val.comment_ID === void 0 || !val.comment_ID) {
-                toastOption.content = '<span class="cap community-cap">C</span> ' + toastOption.content;
+            if (val.author_id == this.user.id) return; /// @see sonub build guide. don't show my post on toast : https://docs.google.com/document/d/1m3-wYZOaZQGbAzXeVlIpJNSdTIt3HCUiIt9UTmZUgXo/edit#heading=h.qnbta0l9c186
+            if (val.comment_ID === void 0 || !val.comment_ID) { /// @see sonub build guide. don't show comment.
+                toastOption.className = 'community';
+                toastOption.content = '<span class="cap community-cap">Community</span><span class="text ellipsis">' + toastOption.content + '</span>';
                 this.toast(toastOption);
             }
         }
+    
     }
 
 

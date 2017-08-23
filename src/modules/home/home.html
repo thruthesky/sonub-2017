@@ -1,8 +1,8 @@
 <post-view-widget *ngIf="post" [post]="post"></post-view-widget>
 <!-- <post-create-fake-widget></post-create-fake-widget> -->
 
-<div class="home-form">
-    <ul class="home-form-header pt-1 pointers">
+<div class="home-form box-border">
+    <ul class="home-form-header pointers">
         <li routerLink="/forum/discussion/create">{{ app.text('start_discussion') }}</li>
         <li routerLink="/forum/qna/create">{{ app.text('ask') }}</li>
         <li><a href="/buyandsell" routerLink="/buyandsell">{{ app.text('sell') }}</a></li>

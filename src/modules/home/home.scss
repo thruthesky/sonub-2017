@@ -5,15 +5,13 @@
 .home-form-header {
     color: #002171;
     background-color: #FAFAFA;
-    border-bottom: 2px solid #002171;
+    border-bottom: 1px solid #ccc;
 
     @include list-line();
 
-    height: 30px;
-    line-height: 30px;
     font-size: $fs-xs;
     li {
-        padding: 0 $global-padding;
+        padding: $global-padding;
     }
 }
 

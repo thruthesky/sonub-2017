@@ -4,7 +4,7 @@
 </ul>
 <div *ngIf="post" class="advertisement-side-bar fs-xs">
     <a href="{{post.varchar_4}}" target="_blank">
-        <div *ngIf="post.files.length"><img class="w-100" src="{{ post.files[0].url }}"></div>
+        <div class="pb-1" *ngIf="post.files.length"><img class="w-100" src="{{ post.files[0].url }}"></div>
         <div>{{ post.post_title }}</div>
         <div>{{ post.varchar_2 }}</div>
         <div>{{ post.post_content }}</div>

@@ -1,3 +1,4 @@
+$height-post-list-thumbnail: 65px;
 .post-list-widget {
     .post-list-page {
         box-sizing: border-box;
@@ -14,8 +15,9 @@
     border-bottom: 1px solid #CCCCCC;
     a {
         display: block;
-        height: 75px;
+        height: $height-post-list-thumbnail;
         overflow: hidden;
+        font-size: $fs-sm;
     }
     &:after {
         display: block;
@@ -25,7 +27,7 @@
     .thumbnail {
         float: left;
         width: 120px;
-        height: 75px;
+        height: $height-post-list-thumbnail;
         overflow: hidden;
         img {
             width: 100%;
@@ -33,7 +35,7 @@
     }
     .title {
         padding-left: $global-padding;
-        height: 75px;
+        height: $height-post-list-thumbnail;
         overflow: hidden;
     }
 }

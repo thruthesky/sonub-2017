@@ -7,8 +7,7 @@
 
 <div class="box box-menu my-menu" *ngIf="app.user.isLogin">
     <ul class="fs-sm">
-        <li class="profile mb-1">
-
+        <li class="profile mb-2">
             <a class="flex" href="/user/profile" routerLink="/user/profile">
                 <ol class="list-line">
                     <li><img class="size-32px" src="{{ app.userPhotoUrl }}"></li>
@@ -17,9 +16,18 @@
                     </li>
                 </ol>
             </a>
-
         </li>
-        <li><a href="/user/message" routerLink="/user/message"><i class="fa fa-envelope" aria-hidden="true"></i> {{ app.text('message') }}</a></li>
-        <li><a href="/user/settings" routerLink="/user/settings"><i class="fa fa-gears" aria-hidden="true"></i>  {{ app.text('settings') }}</a></li>
+        <li>
+            <a href="/user/message" routerLink="/user/message">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+                <span class="pl-1">{{ app.text('message') }}</span>
+            </a>
+        </li>
+        <li>
+            <a href="/user/settings" routerLink="/user/settings">
+                <i class="fa fa-gears" aria-hidden="true"></i>
+                <span class="pl-1">{{ app.text('settings') }}</span>
+            </a>
+        </li>
     </ul>
 </div>
