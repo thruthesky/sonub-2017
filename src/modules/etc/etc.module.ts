@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 
 import { MenuPage } from './pages/menu/menu';
 import { PagePage } from './pages/page/page';
+import { ChatPage } from './pages/chat/chat';
+
 
 
 const appRoutes: Routes = [
@@ -15,13 +17,15 @@ const appRoutes: Routes = [
     { path: 'rules', component: PagePage, data: { filename: 'rules', section: 'etc', layout: 'two-column' } },
     { path: 'my-page', component: PagePage, data: { filename: 'my-page', section: 'user', layout: 'two-column' } },
     { path: 'forum', component: PagePage, data: { filename: 'forum-index', section: 'forum', layout: 'two-column' } },
-    { path: 'adv/howto', component: PagePage, data: { filename: 'advertisement-howto', section: 'advertisement', layout: 'wide' } }
+    { path: 'adv/howto', component: PagePage, data: { filename: 'advertisement-howto', section: 'advertisement', layout: 'wide' } },
+    { path: 'chat/:id/:name', component: ChatPage }
 ];
 
 @NgModule({
     declarations: [
         MenuPage,
-        PagePage
+        PagePage,
+        ChatPage
     ],
     imports: [
         CommonModule,

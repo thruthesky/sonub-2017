@@ -1,0 +1,9 @@
+<form (ngSubmit)="onSubmit()">
+    <input name="message" [(ngModel)]="message">
+</form>
+
+<div *ngIf="chats">
+    <div *ngFor="let chat of chats">
+        {{ chat.message }}
+    </div>
+</div>

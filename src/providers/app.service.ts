@@ -33,7 +33,7 @@ export { CONFIRM_OPTIONS } from './modals/confirm/confirm.modal';
 
 // import { TextService } from './text.service';
 
-import { SOCIAL_PROFILE, USER_REGISTER, ACTIVITIES, ACTIVITY, COMMUNITY_LOG, COMMUNITY_LOGS, SITE_PREVIEW } from './wordpress-api/interface';
+import { SOCIAL_PROFILE, USER_REGISTER, ACTIVITIES, ACTIVITY, COMMUNITY_LOG, COMMUNITY_LOGS, SITE_PREVIEW, POST } from './wordpress-api/interface';
 export {
     POST, POSTS, POST_LIST, PAGE, PAGES, FILE, FILES, POST_CREATE, POST_DELETE, POST_DELETE_RESPONSE,
     JOB, JOBS, POST_QUERY_REQUEST, JOB_PAGE, JOB_PAGES, POST_QUERY_RESPONSE,
@@ -301,6 +301,8 @@ export class AppService extends Base {
             console.log("social login failed: ", e);
             console.log('going to register soical: ', profile);
             this.user.registerSocial(profile).subscribe(res => {
+                console.log("firebase socail login ==> xapi register ==> register success");
+                this.firebaseXapiRegistered();
                 callback();
             }, e => this.warning(e));
         });
@@ -394,15 +396,8 @@ export class AppService extends Base {
             if ( errorCode == 'auth/user-not-found' ) {
                 this.auth.createUserWithEmailAndPassword( email, password )
                 .then( a => {
-                    this.auth.signInWithEmailAndPassword(email, password)
-                    .then( a => {
-                        console.log("firebaseLogin_ifNot => login => create => login success");
-                    })
-                    .catch(error => {
-                        var errorCode = error['code'];
-                        var errorMessage = error['message'];
-                        console.log("firebaseLogin_ifNot => login => create => login error. This error is fianl. ", errorCode, errorMessage);
-                    });
+                        console.log("firebaseLogin_ifNot => firebase login => firebase create(register) => auto login success");
+                        this.firebaseXapiRegistered();
                 })
                 .catch(error => {
                     // Handle Errors here.
@@ -412,6 +407,37 @@ export class AppService extends Base {
                 });
             }
           });
+    }
+
+    /**
+     * 
+     * 
+     * This method is called only one time !!
+     *      when a user registered in firebase and at the same time the user is registered on xapi backend.
+     * 
+     * @use when you need to something on only registeration.
+     * @use to update/save xapi backend user id on firebase.
+     * 
+     * @note this method is being invoked right after
+     *  
+     *      1. "google auth login => xapi login"
+     *      2. "xapi login => google auth login"
+     * 
+     * 
+     */
+    firebaseXapiRegistered() {
+        let firebaseUser = this.auth.currentUser;
+        if ( ! firebaseUser ) {
+            console.error("This is error. the firebase user shouldn't be null after register. ");
+            return;
+        }
+        if ( ! this.user.id ) {
+            console.error("This is error. the xapi user id shouldn't be null after register. ");
+            return;
+        }
+        console.log("firebaseXapiRegistered: going to update uid", this.user.id, firebaseUser.uid);
+        this.db.child("xapi-uid").child( this.user.id + '' ).set( { uid: firebaseUser.uid });
+
     }
 
     firebaseOnAuthStateChanged( user: firebase.User ) {
@@ -487,9 +513,13 @@ export class AppService extends Base {
         else return this.anonymousPhotoURL;
     }
 
-    postUserName(data) {
+    postUserName(data: POST) {
         if (data && data.author && data.author.name) return data.author.name;
         else return 'Anonymous';
+    }
+    postUserId( data: POST ): number {
+        if (data && data.author && data.author.ID ) return data.author.ID;
+        else return 0;
     }
 
 
