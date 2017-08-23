@@ -32,7 +32,7 @@ export class JobService extends Base {
 
     convertCreate(data: JOB_CREATE): POST_CREATE {
 
-        let title = `${data.first_name} is a ${data.profession} from ${data.city ? data.city : data.province} looking for a job`;
+        let title = `${data.first_name} is a ${data.profession} from ${data.city ? data.city : data.province}`;
 
         let req: POST_CREATE = {
             category: 'jobs',
