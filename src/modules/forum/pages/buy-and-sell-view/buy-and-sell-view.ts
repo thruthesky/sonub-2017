@@ -30,9 +30,9 @@ export class BuyAndSellViewPage implements OnInit {
             this.app.bns.data({ route: 'wordpress.get_post', ID: params['id'] })
                 .subscribe((buyAndSell: BUYANDSELL) => {
                     console.log('buyAndSell:: ', buyAndSell);
-                    this.prepare( buyAndSell );
+                    this.prepare(buyAndSell);
                     this.product = buyAndSell;
-                    if(buyAndSell.files.length) this.selectedImage = buyAndSell.files[0].url;
+                    if (buyAndSell.files.length) this.selectedImage = buyAndSell.files[0].url;
                 }, e => this.app.warning(e));
         }
 
@@ -41,12 +41,11 @@ export class BuyAndSellViewPage implements OnInit {
     ngOnInit() { }
 
     prepare(buyAndSell: BUYANDSELL) {
-                if( buyAndSell.usedItem == 'y' ) buyAndSell['used'] = 'Yes';
-                if( buyAndSell.usedItem == 'n' ) buyAndSell['used'] = 'No';
-                if( buyAndSell.usedItem == 'x' ) buyAndSell['used'] = 'Not Applicable';
-
-                if( buyAndSell.deliverable == 'y' ) buyAndSell['delivery'] = 'Yes';
-                if( buyAndSell.deliverable == 'n' ) buyAndSell['delivery'] = 'No';
+        if (buyAndSell.usedItem == 'y') buyAndSell['used'] = 'Yes';
+        if (buyAndSell.usedItem == 'n') buyAndSell['used'] = 'No';
+        if (buyAndSell.usedItem == 'x') buyAndSell['used'] = 'Not Applicable';
+        if (buyAndSell.deliverable == 'y') buyAndSell['delivery'] = 'Yes';
+        if (buyAndSell.deliverable == 'n') buyAndSell['delivery'] = 'No';
     }
 
 

@@ -192,7 +192,7 @@ export class ForumService extends Base {
      * @endcode
      */
     pre(post: POST): POST {
-        post.post_content_pre = this.htmlify(post.post_content, { safe: true, autolink: true, nl2br: true });
+        post.post_content_pre = this.htmlify(post.post_content, { safe: true, autolink: true });
         post.post_content_pre = <any>this.domSanitizer.bypassSecurityTrustHtml(post.post_content_pre);
         return post;
     }

@@ -19,6 +19,12 @@ export class PostViewWidget implements OnInit {
 
     @Input() post: POST; // = { ID: 0, author: {}, comment_count: 0, comments: [], guid: '', post_date: '', post_parent: 0, meta: [], count_images: 0, count_files: 0, post_title: 'Loading', post_content: 'Loading', files: [] };
     @Input() page: PAGE;
+
+
+    filePosition = 'bottom';
+    
+
+    
     constructor(
         public app: AppService,
         private postCreateEditModal: PostCreateEditModalService,
@@ -28,7 +34,8 @@ export class PostViewWidget implements OnInit {
     }
 
     ngOnInit() {
-        // setTimeout( () => console.log('post view', this.post) , 1000);
+        setTimeout( () => this.setFilePosition(), 1 );
+        setTimeout( () => console.log('post view', this.post) , 1000);
     }
 
     onClickPostEdit(post) {
@@ -76,15 +83,13 @@ export class PostViewWidget implements OnInit {
 
 
     /// default
-    get filePositionBottom() {
-        return ! this.filePositionTop;
-    }
-
-    get filePositionTop() {
+    setFilePosition() {
         if ( this.post && this.post.category_option && this.post.category_option['file-position'] ) {
-            return this.post.category_option['file-position'] == 'top';
+            this.filePosition = this.post.category_option['file-position'];
         }
-        return false;
+        if ( this.page && this.page.category_option && this.page.category_option['file-position'] ) {
+            this.filePosition = this.page.category_option['file-position'];
+        }
     }
 
 

@@ -105,6 +105,11 @@ export interface FILE_DELETE extends REQUEST {
 
 
 
+export interface CATEGORY_OPTION {
+    file_position: 'top' | 'bottom';
+};
+
+
 /**
  * Used by forum.postList(), forum.postSearch()
  *
@@ -179,7 +184,7 @@ export interface POST_CREATE_COMMON {
 export interface POST_READ_COMMON extends ID, POST_CREATE_COMMON {
     author: AUTHOR;
     readonly category_slug?: string; // category. only available on get_post()
-    readonly category_option?: any; // only available on get_post().
+    readonly category_option?: CATEGORY_OPTION; // only available on get_post().
     comment_count: number;
     comments: COMMENTS;
     guid: string;
@@ -248,6 +253,8 @@ export interface POST_LIST_RESPONSE {
     category_name: string;          // category name
     comments_per_page: string;      // comments_per_page
     paged: number;                  // paged
+
+    readonly category_option?: CATEGORY_OPTION; // only available on get_post().
 
 };
 
