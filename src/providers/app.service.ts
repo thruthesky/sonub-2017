@@ -134,6 +134,8 @@ export class AppService extends Base {
 
         this.width = window.innerWidth;
 
+
+        this.auth.onAuthStateChanged( (user) => this.firebaseOnAuthStateChanged(user) );
         
     }
     
@@ -272,7 +274,9 @@ export class AppService extends Base {
 
 
     /**
-     * All social login comes here. You have to register or login to wordpress.
+     * All social login comes here(including kakao, naver, facebook, google).
+     * 
+     * @note You have to register/login to backend(wordpress)
      *
      * @note flowchart
      *      - All social login must check if their accounts are already created.
@@ -308,7 +312,8 @@ export class AppService extends Base {
      *
      * User logged in sucessfully.
      *
-     * @attention All login comes here.
+     * @attention All login comes here including all social login and user/password login AND user register.
+     *      - Backend(wordpress) user login/email/password registration is considered as login.
      *
      *
      *
@@ -326,6 +331,7 @@ export class AppService extends Base {
 
         this.bootstrapLoginLogout();
 
+        this.firebaseLogin_ifNot();
     }
 
     /**
@@ -334,10 +340,87 @@ export class AppService extends Base {
      */
     logout() {
         this.user.logout();
+        this.auth.signOut();
         this.bootstrapLoginLogout();
     }
 
 
+    /**
+     * All user login and login out comes here.
+     * 
+     * @note a user logs in and logs out, this method is called.
+     * 
+     *
+     * This may be called multiple times. When user
+     *      - app boots
+     *      - login
+     *      - logout
+     */
+    bootstrapLoginLogout() {
+        this.listenFirebaseUserActivity();
+    }
+
+
+    /**
+     * Logs into firebase if the user logged in different way.
+     * 
+     * @note this method is called at
+     *      - app starts ( refreshes )
+     *      - logins
+     *      - registers
+     * @note logs out when user logout.
+     *      
+     * 
+     * @logic
+     *      1. login
+     *          2. if login fails => register.
+     *              3. if register fails, well, alert it.
+     *          4. login again.
+     */
+    firebaseLogin_ifNot() {
+        if ( this.user.isLogout ) return;
+        if ( this.user.provider == 'firebase' ) {
+            console.log("Logged in with firebase already!");
+            return;
+        }
+        let email = 'sonub' + this.user.id + '@' + this.user.provider + '.com';
+        let password = this.user.sessionId;
+        this.auth.signInWithEmailAndPassword(email, password).catch(error => {
+            // Handle Errors here.
+            var errorCode = error['code'];
+            var errorMessage = error['message'];
+            console.log(`errorCode: ${errorCode}, errorMessage: ${errorMessage}`);
+            if ( errorCode == 'auth/user-not-found' ) {
+                this.auth.createUserWithEmailAndPassword( email, password )
+                .then( a => {
+                    this.auth.signInWithEmailAndPassword(email, password)
+                    .then( a => {
+                        console.log("firebaseLogin_ifNot => login => create => login success");
+                    })
+                    .catch(error => {
+                        var errorCode = error['code'];
+                        var errorMessage = error['message'];
+                        console.log("firebaseLogin_ifNot => login => create => login error. This error is fianl. ", errorCode, errorMessage);
+                    });
+                })
+                .catch(error => {
+                    // Handle Errors here.
+                    var errorCode = error['code'];
+                    var errorMessage = error['message'];
+                    console.log(`errorCode: ${errorCode}, errorMessage: ${errorMessage}`);
+                });
+            }
+          });
+    }
+
+    firebaseOnAuthStateChanged( user: firebase.User ) {
+        if ( user ) { // user just logged in or page refreshed.
+            console.log("firebase user login okay! OnAuthStateChanged(): user just logged in or page refreshed.");
+        }
+        else { // user just logged out or page refreshed
+            console.log("firebaseOnAuthStateChanged(): user just logged out or page refreshed");
+        }
+    }
 
     /**
      * Set's section.
@@ -436,20 +519,10 @@ export class AppService extends Base {
      * This is directly called by app.component.ts
      */
     bootstrap() {
+        this.firebaseLogin_ifNot();
         this.listenFirebaseComunityLog();
     }
 
-
-    /**
-     *
-     * This may be called multiple times. When user
-     *      - app boots
-     *      - login
-     *      - logout
-     */
-    bootstrapLoginLogout() {
-        this.listenFirebaseUserActivity();
-    }
 
     listenFirebaseUserActivity() {
         let ref = this.db.child('user-activity').child(this.user.id.toString());

@@ -179,6 +179,11 @@ export class UserService extends Base {
         else return '';
     }
 
+    get provider(): string {
+        if (this.profile && this.profile.provider) return this.profile.provider;
+        else return '';
+    }
+
     get nameOrAnonymous() {
         return this.name || 'Anonymous';
     }

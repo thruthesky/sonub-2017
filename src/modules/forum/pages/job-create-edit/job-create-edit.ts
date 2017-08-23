@@ -81,6 +81,8 @@ export class JobCreateEditPage {
                         }
                     }
 
+                    // Object.assign(this, job);
+
                     this.ID = job.ID;
                     this.message = job.message;
                     this.gender = job.gender;

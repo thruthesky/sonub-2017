@@ -74,6 +74,7 @@ export class RegisterPage extends Base implements OnInit {
                 this.activeForm = 'form2';
             }
             this.loading = false;
+            this.app.loginSuccess();
         }, error => {
             console.log('app.user.register::error', error);
             this.loading = false;

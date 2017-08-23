@@ -73,6 +73,7 @@ export interface USER_REGISTER_RESPONSE {
     session_id: string;
     photoURL: string;
     photo: FILE;
+    provider: string;
 };
 export interface USER_LOGIN_RESPONSE extends USER_REGISTER_RESPONSE { };
 export interface USER_UPDATE_RESPONSE extends USER_REGISTER_RESPONSE { };
@@ -177,8 +178,8 @@ export interface POST_CREATE_COMMON {
 };
 export interface POST_READ_COMMON extends ID, POST_CREATE_COMMON {
     author: AUTHOR;
-    readonly category?: string; // category. only available on get_post()
-    readonly category_option?: any;
+    readonly category_slug?: string; // category. only available on get_post()
+    readonly category_option?: any; // only available on get_post().
     comment_count: number;
     comments: COMMENTS;
     guid: string;
