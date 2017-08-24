@@ -1,5 +1,5 @@
 import { Component, ViewChild, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { AppService } from './../../providers/app.service';
 @Component({
     selector: 'post-header-widget',
@@ -12,8 +12,11 @@ export class PostHeaderWidget implements OnInit {
     @Output() edit = new EventEmitter<any>();
     @Output() delete = new EventEmitter<any>();
 
+    mouse: 'in' | 'out' = 'out';
+    timeout = 600;
+    closingTimeout = 400;
 
-    @ViewChild('p') public popover: NgbPopover;
+    @ViewChild('profileDropdown') public profileDropdown: NgbDropdown;
 
     userName;
     constructor(
@@ -23,12 +26,36 @@ export class PostHeaderWidget implements OnInit {
     ngOnInit() {
         this.userName = this.app.postUserName(this.post);
     }
-    onMouseEnterUserProfile() {
-        console.log("enter");
-        this.popover.open();
+
+    onClickUserProfile(event: MouseEvent) {
+        event.stopPropagation();
+        this.profileDropdown.open();
+        
     }
-    onMouseLeaveUserProfile() {
-        console.log("leave");
-        this.popover.close();
+
+
+    
+
+    onMouseEnterUserProfile(event: MouseEvent) {
+        this.mouse = 'in';
+        // console.log("enter, in");
+
+        setTimeout(() => {
+            if ( this.mouse == 'in' ) {
+                this.profileDropdown.open();
+            }
+            else {
+                // console.log("already out");
+            }
+        }, this.timeout );
+        
+    }
+    
+    onMouseLeaveUserProfileMenu() {
+        // console.log("leave, out");
+        this.mouse = 'out';
+        setTimeout( () => {
+            if ( this.mouse == 'out' ) this.profileDropdown.close();
+        }, this.closingTimeout);
     }
 }

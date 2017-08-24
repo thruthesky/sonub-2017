@@ -2,6 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from './../../../../providers/app.service';
 import { ActivatedRoute } from '@angular/router';
 
+
+
+interface CHAT_MESSAGE {
+    name: string;
+    message: string;
+    time: number;
+    xapiUid: number; // xapi uid. Not firebase auth user id.
+    photoUrl: string;
+};
+
+
 @Component({
     selector: 'chat-page',
     templateUrl: 'chat.html'
@@ -9,8 +20,9 @@ import { ActivatedRoute } from '@angular/router';
 
 export class ChatPage implements OnInit {
     message = '';
-    otherUid = '';
-    chats: Array<any>;
+    otherFirebaseUid = '';
+    otherXapiUid = 0;
+    chats: Array<CHAT_MESSAGE>;
     constructor(
         private active: ActivatedRoute,
         public app: AppService
@@ -18,11 +30,13 @@ export class ChatPage implements OnInit {
 
         active.params.subscribe(params => {
             if ( params['id'] ) {
+                if ( params['id'] == app.user.id ) return app.warning(-8300, "You cannot chat with yourself");
+                this.otherXapiUid = params['id'];
                 app.db.child('xapi-uid').child( params['id'] ).once('value', snap => {
                     if ( snap.val() ) {
                         let val = snap.val();
-                        this.otherUid = val['uid'];
-                        console.log("uid:", this.otherUid);
+                        this.otherFirebaseUid = val['uid'];
+                        console.log("uid:", this.otherFirebaseUid);
 
                         this.observeChat();
                     }
@@ -30,7 +44,6 @@ export class ChatPage implements OnInit {
                         /// error
                         app.warning(-8088, 'Wrong user. User Xapi ID does not exist on firebase.');
                     }
-                    
                 });
             }
         });
@@ -62,18 +75,37 @@ export class ChatPage implements OnInit {
     }
 
     get myPath() {
-        return `chat/message/${this.app.auth.currentUser.uid}/${this.otherUid}`;
+        return `chat/message/${this.app.auth.currentUser.uid}/${this.roomId}`;
     }
     get otherPath() {
-        return `chat/message/${this.otherUid}/${this.app.auth.currentUser.uid}`;
+        return `chat/message/${this.otherFirebaseUid}/${this.roomId}`;
     }
 
-    onEnterMessage( message ) {
-        console.log("message: ", message);
-        
-        this.app.db.child( this.myPath ).push().set({message: message});
-        this.app.db.child( this.otherPath ).push().set({message: message});
+    onEnterMessage() {
+        console.log("message: ", this.message);
+        let data: CHAT_MESSAGE = {
+            message: this.message,
+            name: this.app.user.name,
+            time: (new Date).getTime(),
+            xapiUid: this.app.user.id,
+            photoUrl: this.app.user.photoURL
+        };
+        this.app.db.child( this.myPath ).push().set( data ).then( a => {
 
+            let data = {
+                route: 'wordpress.chat_message',
+                room_id: this.roomId,
+                message: this.message
+            };
+            this.app.wp.post(data).subscribe( res => {
+
+            }, e => this.app.warning(e) );
+        });
+        this.app.db.child( this.otherPath ).push().set( data );
         this.message = '';
+    }
+
+    get roomId(): string {
+        return [ this.app.user.id, this.otherXapiUid ].sort().join('-');
     }
 }

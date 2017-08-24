@@ -183,6 +183,10 @@ export class UserService extends Base {
         if (this.profile && this.profile.provider) return this.profile.provider;
         else return '';
     }
+    get photoURL(): string {
+        if (this.profile && this.profile.photoURL) return this.profile.photoURL;
+        else return '';
+    }
 
     get nameOrAnonymous() {
         return this.name || 'Anonymous';

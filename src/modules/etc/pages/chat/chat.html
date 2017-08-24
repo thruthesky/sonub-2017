@@ -1,8 +1,13 @@
-<input #message name="message" (keyup.enter)="onEnterMessage(message.value)">
+<div class="chat-page">
+    <nav class="menu">
+        <button class="btn btn-secondary">Chat Users</button>
+    </nav>
 
-
-<div *ngIf="chats">
-    <div *ngFor="let chat of chats">
-        {{ chat.message }}
+    <div *ngIf="chats">
+        <div *ngFor="let chat of chats.reverse()">
+            <img src="{{ chat.photoUrl }}" class="size-32px">
+            {{ chat.name }} {{ chat.message }} {{ chat.time }}
+        </div>
     </div>
+    <input [(ngModel)]="message" (keyup.enter)="onEnterMessage()">
 </div>
