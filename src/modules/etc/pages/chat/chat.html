@@ -1,7 +1,19 @@
 <div class="chat-page">
     <nav class="menu">
-        <button class="btn btn-secondary">Chat Users</button>
+        <button class="btn btn-secondary" (click)="onClickChatUsers()">Chat Users</button>
     </nav>
+
+
+    <div class="chat-users" *ngIf="showChatUsers">
+        <h4>Recent Chat Users</h4>
+        
+        <div class="room" *ngFor="let room of rooms">
+            <img class="size-32px" src="{{ room.user.photoURL }}" *ngIf="room.user.photoURL">
+            {{ room.user.name }}
+            {{ room.message }}
+        </div>
+        <hr>
+    </div>
 
     <div *ngIf="chats">
         <div *ngFor="let chat of chats.reverse()">

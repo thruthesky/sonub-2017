@@ -12,6 +12,16 @@ interface CHAT_MESSAGE {
     photoUrl: string;
 };
 
+interface CHAT_ROOM {
+    room_id: string;
+    message: string;
+    stamp: number;
+    user: {             /// this is the other user.
+        ID: string;
+        name: string;
+        photoURL: string;
+    };
+}
 
 @Component({
     selector: 'chat-page',
@@ -23,6 +33,10 @@ export class ChatPage implements OnInit {
     otherFirebaseUid = '';
     otherXapiUid = 0;
     chats: Array<CHAT_MESSAGE>;
+
+    /// chat room
+    showChatUsers = false;
+    rooms: Array<CHAT_ROOM> = [];
     constructor(
         private active: ActivatedRoute,
         public app: AppService
@@ -49,6 +63,7 @@ export class ChatPage implements OnInit {
         });
 
 
+        this.onClickChatUsers();
 
     }
 
@@ -90,22 +105,32 @@ export class ChatPage implements OnInit {
             xapiUid: this.app.user.id,
             photoUrl: this.app.user.photoURL
         };
-        this.app.db.child( this.myPath ).push().set( data ).then( a => {
-
-            let data = {
+        this.app.db.child( this.myPath ).push().set( data ).then( a => { // send chat to myself. if success, send it to backend.
+            let chat_message = {
                 route: 'wordpress.chat_message',
                 room_id: this.roomId,
-                message: this.message
+                message: data.message
             };
-            this.app.wp.post(data).subscribe( res => {
-
+            this.app.wp.post(chat_message).subscribe( res => {
+                console.log("chat message: ", res);
             }, e => this.app.warning(e) );
         });
-        this.app.db.child( this.otherPath ).push().set( data );
+
+        this.app.db.child( this.otherPath ).push().set( data ); // send to other.
         this.message = '';
     }
 
     get roomId(): string {
         return [ this.app.user.id, this.otherXapiUid ].sort().join('-');
+    }
+
+
+
+    onClickChatUsers() {
+        this.showChatUsers = true;
+        this.app.wp.post({ route: 'wordpress.chat_room', session_id: this.app.user.sessionId }).subscribe( res => {
+            console.log("chat rooms: ", res);
+            this.rooms = res;
+        }, e => this.app.warning(e));
     }
 }
