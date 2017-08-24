@@ -1,6 +1,5 @@
-<form (ngSubmit)="onSubmit()">
-    <input name="message" [(ngModel)]="message">
-</form>
+<input #message name="message" (keyup.enter)="onEnterMessage(message.value)">
+
 
 <div *ngIf="chats">
     <div *ngFor="let chat of chats">

@@ -237,8 +237,11 @@ export class AppService extends Base {
     /**
      * 
      * @param e - is an Error Response Object or ERROR code from error.ts
+     * 
+     * @example e => app.warning(e); // 'e' is server response.
+     * @example app.warning(-8088, 'Wrong user. User Xapi ID does not exist on firebase.');
      */
-    warning(e) {
+    warning(e, message?) {
         ///
         /// setTimeout() here is for preventing error of 'ExpressionChangedAfterItHasBeenCheckedError'
         ///     - when the focus is on input-box, and ngb-modal opens, it produces 'expression changed' error.
@@ -246,6 +249,7 @@ export class AppService extends Base {
         // setTimeout(() => {
         if (typeof e == 'number' && e < 0) {
             e = { code: e };
+            if ( message ) e['message'] = message;
         }
         this.alert.error(e);
         setTimeout(() => this.rerenderPage(), 400);

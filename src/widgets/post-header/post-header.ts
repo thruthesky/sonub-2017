@@ -1,4 +1,5 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { AppService } from './../../providers/app.service';
 @Component({
     selector: 'post-header-widget',
@@ -12,9 +13,18 @@ export class PostHeaderWidget implements OnInit {
     @Output() delete = new EventEmitter<any>();
 
 
+    @ViewChild('p') public popover: NgbPopover;
+
+    userName;
     constructor(
         public app: AppService
     ) { }
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.userName = this.app.postUserName(this.post);
+    }
+    onMouseEnterUserProfile() {
+        console.log("enter");
+        this.popover.open();
+    }
 }

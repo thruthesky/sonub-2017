@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 import { FileDisplayWidget } from './file-display/file-display';
@@ -34,7 +34,8 @@ import { SitePreviewWidget } from './site-preview/site-preview';
         CommonModule,
         RouterModule,
         FormsModule,
-        NgbDropdownModule
+        NgbDropdownModule,
+        NgbPopoverModule
     ],
     exports: [
         FileDisplayWidget,

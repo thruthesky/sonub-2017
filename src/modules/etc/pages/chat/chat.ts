@@ -19,7 +19,7 @@ export class ChatPage implements OnInit {
         active.params.subscribe(params => {
             if ( params['id'] ) {
                 app.db.child('xapi-uid').child( params['id'] ).once('value', snap => {
-                    if ( snap ) {
+                    if ( snap.val() ) {
                         let val = snap.val();
                         this.otherUid = val['uid'];
                         console.log("uid:", this.otherUid);
@@ -28,7 +28,7 @@ export class ChatPage implements OnInit {
                     }
                     else {
                         /// error
-                        app.warning('Wrong user. User Xapi ID does not exist on firebase.');
+                        app.warning(-8088, 'Wrong user. User Xapi ID does not exist on firebase.');
                     }
                     
                 });
@@ -45,11 +45,12 @@ export class ChatPage implements OnInit {
     observeChat() {
 
         this.app.db.child( this.myPath ).limitToLast( 10 ).on('value', snap => {
-            if ( ! snap ) {
+            if ( snap.val() === null ) {
                 /// error
                 return
             }
             let val = snap.val();
+            console.log("observeChat() snap.val: ", val);
             let keys = Object.keys(val);
             this.chats = [];
             for( let key of keys.reverse() ) {
@@ -67,11 +68,11 @@ export class ChatPage implements OnInit {
         return `chat/message/${this.otherUid}/${this.app.auth.currentUser.uid}`;
     }
 
-    onSubmit() {
-        console.log("message: ", this.message);
+    onEnterMessage( message ) {
+        console.log("message: ", message);
         
-        this.app.db.child( this.myPath ).push().set({message: this.message});
-        this.app.db.child( this.otherPath ).push().set({message: this.message});
+        this.app.db.child( this.myPath ).push().set({message: message});
+        this.app.db.child( this.otherPath ).push().set({message: message});
 
         this.message = '';
     }
