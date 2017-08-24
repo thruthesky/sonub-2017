@@ -1,5 +1,5 @@
 <div *ngIf="post" class="post-data-header mb-3 flex justify-content-between">
-    <div class="left" (mouseenter)="onMouseEnterUserProfile()">
+    <div class="left" (mouseenter)="onMouseEnterUserProfile()" (mouseleave)="onMouseLeaveUserProfile()">
         <div class="flex">
             <div [ngbPopover]="popContent" #p="ngbPopover" triggers="manual" placement="right">
                 <img class="photo-icon-2x" src="{{ app.postUserPhotoUrl(post) }}">

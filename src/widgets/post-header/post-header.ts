@@ -27,4 +27,8 @@ export class PostHeaderWidget implements OnInit {
         console.log("enter");
         this.popover.open();
     }
+    onMouseLeaveUserProfile() {
+        console.log("leave");
+        this.popover.close();
+    }
 }
