@@ -1,20 +1,28 @@
 <div *ngIf="post" class="post-data-header mb-3 flex justify-content-between">
     <div class="left">
-        <div class="flex pointer" (click)="onClickUserProfile($event)" (mouseenter)="onMouseEnterUserProfile($event)" (mouseleave)="onMouseLeaveUserProfileMenu();">
+        <div class="user-profile relative flex pointer" (click)="onClickUserProfile($event)" (mouseenter)="onMouseEnterUserProfile($event)"
+            (mouseleave)="onMouseLeaveUserProfileMenu();">
             <div>
                 <img class="photo-icon-2x" src="{{ app.postUserPhotoUrl(post) }}">
             </div>
-            <div class="user-profile ml-2 fs-sm">
+            <div class="ml-2 fs-sm">
                 <div class="name flex">
-                    <div>{{ userName }}</div>
-                    <div ngbDropdown #profileDropdown="ngbDropdown" placement="bottom-left" class="d-inline-block">
+                    <div class="ellipsis">{{ userName }}</div>
+                    <div ngbDropdown #profileDropdown="ngbDropdown" placement="auto" class="d-inline-block">
                         <div class="px-2 pointer" ngbDropdownToggle></div>
-                        <div ngbDropdownMenu class="">
+                        <div ngbDropdownMenu class="user-profile-popup p-0 top-50px min-width-250px">
+                            <div class="header flex p-2 bg-lightgrey" routerLink="/profile/{{ post.author.ID }}">
                                 <img class="xy-50px" src="{{ app.postUserPhotoUrl(post) }}">
-                                <b>{{ userName }}</b>!
-                            <button class="dropdown-item" routerLink="/chat/{{app.postUserId(post)}}/{{ userName }}">Chat with {{ userName }}</button>
-                            <button class="dropdown-item" (click)=" delete.emit() ">See what {{ userName }} posted</button>
-                            <button class="dropdown-item">Something else is here</button>
+                                <div class="pl-2">
+                                    <div>{{ userName }}</div>
+                                    <div class="fs-xs">2017-08-27 Lv. 31</div>
+                                </div>
+                            </div>
+                            <div class="content py-2 fs-sm pointers">
+                                <button class="dropdown-item" routerLink="/chat/{{app.postUserId(post)}}/{{ userName }}">Chat with {{ userName }}</button>
+                                <button class="dropdown-item" routerLink="/posts/{{ post.author.ID }}">Posts of {{ userName }}</button>
+
+                            </div>
                         </div>
                     </div>
                 </div>

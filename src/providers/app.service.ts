@@ -161,7 +161,7 @@ export class AppService extends Base {
 
     /**
      *
-     * @note Since the login of naver login different, it is not in 'login.ts'
+     * @note Since naver login refreshes(redirected) by naver login api, it is not in 'login.ts'
      *
      * @note This will be called only one time after naver login.
      */
@@ -236,7 +236,8 @@ export class AppService extends Base {
 
     /**
      * 
-     * @param e - is an Error Response Object or ERROR code from error.ts
+     * @param e - is an Error Response Object or ERROR code ( interger less than 0 ) from error.ts
+     * @param message - is only used when e is ERROR code.
      * 
      * @example e => app.warning(e); // 'e' is server response.
      * @example app.warning(-8088, 'Wrong user. User Xapi ID does not exist on firebase.');
@@ -279,6 +280,7 @@ export class AppService extends Base {
 
 
     /**
+     * When social login success, it is invoked.
      * All social login comes here(including kakao, naver, facebook, google).
      * 
      * @note You have to register/login to backend(wordpress)

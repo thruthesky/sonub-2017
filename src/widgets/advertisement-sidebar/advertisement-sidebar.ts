@@ -1,3 +1,8 @@
+/**
+ * @logic
+ *          1. if 'post' is not set, then load one.
+ */
+
 import { Component, OnInit, Input } from '@angular/core';
 import { AppService, POST, POSTS } from './../../providers/app.service';
 
@@ -7,15 +12,32 @@ import { AppService, POST, POSTS } from './../../providers/app.service';
 })
 export class AdvertisementSidebarWdiget implements OnInit {
 
-    @Input() post: POST;
+    @Input() post: POST;            // coming from advertisement list
     @Input() posts: POSTS;
-    @Input() showMenu = false;
+    @Input() showMyMenu = false;
+
+    @Input() id: string;
 
     constructor(
         public app: AppService
-    ) { }
+    ) {
+        
+    }
 
-    ngOnInit() { }
+    ngOnInit() {
+        if ( ! this.post ) this.loadAdvertisement(); // load avertisement if no post coming from list.
+    }
+
+
+
+
+  loadAdvertisement() {
+    this.app.wp.post({ route: 'wordpress.get_advertisement', position: 'sidebar' })
+      .subscribe((post: POST) => {
+        // console.log('adv: ', post);
+        this.post = post;
+      }, e => this.app.warning(e));
+  }
 
     onClickDelete() {
         this.app.confirm({

@@ -16,7 +16,7 @@ import {
 export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild('headerWidget') headerWidget: HeaderWidget;
 
-  advSidebar: POST;
+  // advSidebar: POST;
   news: PAGE;
   showFooterSticker = true;
   constructor(
@@ -25,7 +25,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   ) {
 
     document.addEventListener('deviceready', () => this.onDeviceReady(), false);
-    this.loadAdvertisement();
     this.app.bootstrap();
     this.app.bootstrapLoginLogout();
 
@@ -49,13 +48,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
 
-  loadAdvertisement() {
-    this.app.wp.post({ route: 'wordpress.get_advertisement', position: 'sidebar' })
-      .subscribe((post: POST) => {
-        // console.log('adv: ', post);
-        this.advSidebar = post;
-      }, e => this.app.warning(e));
-  }
 
 
 }

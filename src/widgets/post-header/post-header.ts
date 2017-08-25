@@ -1,6 +1,6 @@
 import { Component, ViewChild, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
-import { AppService } from './../../providers/app.service';
+import { AppService, POST } from './../../providers/app.service';
 @Component({
     selector: 'post-header-widget',
     templateUrl: 'post-header.html'
@@ -8,7 +8,7 @@ import { AppService } from './../../providers/app.service';
 
 export class PostHeaderWidget implements OnInit {
 
-    @Input() post;
+    @Input() post: POST;
     @Output() edit = new EventEmitter<any>();
     @Output() delete = new EventEmitter<any>();
 
@@ -25,12 +25,14 @@ export class PostHeaderWidget implements OnInit {
 
     ngOnInit() {
         this.userName = this.app.postUserName(this.post);
+        // setTimeout(() => {
+        //     this.onClickUserProfile(null);
+        // }, 100);
     }
 
     onClickUserProfile(event: MouseEvent) {
-        event.stopPropagation();
+        if ( event ) event.stopPropagation();
         this.profileDropdown.open();
-        
     }
 
 

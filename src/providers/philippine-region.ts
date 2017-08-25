@@ -22,7 +22,7 @@ export class PhilippineRegion {
                 catch( e ){
                     errorCallback( data['_body']);
                 }
-            });
+            }, e => console.error("failed to get province"));
     }
 
     get_cities( data, successCallback, errorCallback) {
