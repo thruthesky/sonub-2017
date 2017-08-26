@@ -13,15 +13,18 @@ interface CHAT_MESSAGE {
 };
 
 interface CHAT_ROOM {
-    room_id: string;
     message: string;
     stamp_last_message: number;
     stamp_read: number;
-    user: {             /// this is the other user.
-        ID: string;
+    other: {             /// this is the other user.
+        key: string;
         name: string;
-        photoURL: string;
+        email: string;
+        photoUrl: string;
+        status: string;
+        xapiUid: number;
     };
+    otherUid: string;
 }
 
 interface CHAT_PROFILE {
@@ -153,27 +156,58 @@ export class ChatPage implements OnInit, OnDestroy {
         this.app.db.child(this.myPath).push().set(data).then(a => { // send chat to myself. if success, send it to backend.
 
 
-            // let chat_message = {
-            //     route: 'wordpress.chat_message',
-            //     room_id: this.roomId,
-            //     message: data.message,
-            //     other: this.other
-            // };
-            // this.app.wp.post(chat_message).subscribe( res => {
-            //     console.log("chat message: ", res);
-            // }, e => this.app.warning(e) );
-
-
-            let roomInfo = {
+            /// delete preview room info
+            let myRoomInfo = {
                 message: data.message,
                 other: this.other,
+                otherUid: this.other.key,
                 stamp_last_message: (new Date).getTime(),
                 stamp_read: (new Date).getTime()
             };
-            this.app.db.child(this.myRooms).push().set(roomInfo);
-            roomInfo['other'] = this.me;
-            roomInfo['stamp_read'] = 0;
-            this.app.db.child(this.otherRooms).push().set(roomInfo);
+            console.log("other key:", this.other.key);
+            this.app.db.child(this.myRooms).orderByChild('otherUid').equalTo(this.other.key).once('value', snap => {
+                let ref = this.app.db.child(this.myRooms).push();
+                console.log("snap.val(): ", snap.val());
+                if ( snap.val() ) {
+                    let val = snap.val();
+                    let keys = Object.keys( val );
+                    for( let key of keys ) {
+                        this.app.db.child( this.myRooms ).child( key ).set(null).then( a => ref.set(myRoomInfo) );
+                    }
+                }
+                else {
+                    ref.set(myRoomInfo);
+                }
+            }, e => console.error(e));
+
+
+
+            let otherRoomInfo = {
+                message: data.message,
+                other: this.me,
+                otherUid: this.me.key,
+                stamp_last_message: (new Date).getTime(),
+                stamp_read: 0
+            };
+            this.app.db.child(this.otherRooms).orderByChild('otherUid').equalTo(this.me.key).once('value', snap => {
+                let ref = this.app.db.child(this.otherRooms).push();
+                console.log("snap.val(): ", snap.val());
+                if ( snap.val() ) {
+                    let val = snap.val();
+                    let keys = Object.keys( val );
+                    for( let key of keys ) {
+                        this.app.db.child( this.otherRooms ).child( key ).set(null).then( a => ref.set(otherRoomInfo) );
+                    }
+                }
+                else {
+                    ref.set(otherRoomInfo);
+                }
+            }, e => console.error(e));
+
+
+
+            
+            
         });
 
         this.app.db.child(this.otherPath).push().set(data); // send to other.
@@ -187,13 +221,17 @@ export class ChatPage implements OnInit, OnDestroy {
 
 
     onClickChatUsers() {
+        this.rooms = [];
         this.showChatUsers = !this.showChatUsers;
         this.app.db.child( this.myRooms ).once('value', snap => {
             if ( ! snap.val() ) {
                 return;
             }
             let rooms = snap.val();
-
+            let keys = Object.keys(rooms);
+            for( let key of keys.reverse()) {
+                this.rooms.push( rooms[key] );
+            }
             console.log("rooms: ", rooms);
             // this.rooms = snap.val();
         });

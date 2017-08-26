@@ -10,9 +10,9 @@
         <hr>
         <h4>Recent Chat Users</h4>
 
-        <div class="room" *ngFor="let room of rooms" routerLink="/chat/{{ room.user.ID }}">
-            <img class="size-32px" src="{{ room.user.photoURL }}" *ngIf="room.user.photoURL">
-            {{ room.user.name }}
+        <div class="room" *ngFor="let room of rooms" routerLink="/chat/{{ room.other.xapiUid }}">
+            <img class="size-32px" src="{{ room.other.photoUrl }}" *ngIf="room.other.photoUrl">
+            {{ room.other.name }}
             <span class="red" *ngIf=" room.stamp_read == 0">(new)</span>
             {{ room.message }}
         </div>
