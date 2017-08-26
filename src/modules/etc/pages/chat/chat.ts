@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppService } from './../../../../providers/app.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -15,7 +15,8 @@ interface CHAT_MESSAGE {
 interface CHAT_ROOM {
     room_id: string;
     message: string;
-    stamp: number;
+    stamp_last_message: number;
+    stamp_read: number;
     user: {             /// this is the other user.
         ID: string;
         name: string;
@@ -23,57 +24,87 @@ interface CHAT_ROOM {
     };
 }
 
+interface CHAT_PROFILE {
+    key: string;
+    email: string;
+    name: string;
+    photoUrl: string;
+    status: string;
+    xapiUid: number;
+};
+
 @Component({
     selector: 'chat-page',
     templateUrl: 'chat.html'
 })
 
-export class ChatPage implements OnInit {
+export class ChatPage implements OnInit, OnDestroy {
     message = '';
-    otherFirebaseUid = '';
-    otherXapiUid = 0;
+    // otherFirebaseUid = '';
+    // otherFirebaseProfile;
+    other: CHAT_PROFILE;
+    _me: CHAT_PROFILE;
     chats: Array<CHAT_MESSAGE>;
 
     /// chat room
     showChatUsers = false;
     rooms: Array<CHAT_ROOM> = [];
+
+
+    /// onObserveChat
+    onObserveChat;
+
     constructor(
         private active: ActivatedRoute,
         public app: AppService
     ) {
 
-        active.params.subscribe(params => {
-            if ( params['id'] ) {
-                if ( params['id'] == app.user.id ) return app.warning(-8300, "You cannot chat with yourself");
-                this.otherXapiUid = params['id'];
-                app.db.child('xapi-uid').child( params['id'] ).once('value', snap => {
-                    if ( snap.val() ) {
-                        let val = snap.val();
-                        this.otherFirebaseUid = val['uid'];
-                        console.log("uid:", this.otherFirebaseUid);
 
-                        this.observeChat();
-                    }
-                    else {
-                        /// error
-                        app.warning(-8088, 'Wrong user. User Xapi ID does not exist on firebase.');
-                    }
-                });
+        active.params.subscribe(params => {
+            if (params['id']) {
+                if (params['id'] == app.user.id) return app.warning(-8300, "You cannot chat with yourself");
+                let uid = parseInt(params['id']);
+                console.log("otherXapiUid: ", uid);
+                app.db.child('users').orderByChild('xapiUid').equalTo(uid).once('value', snap => {
+                    let val = snap.val();
+                    if (!val) return app.warning(-8090, "User not exists on chat server");
+                    console.log(val);
+
+                    let keys = Object.keys(val);
+                    let key = keys[0];
+                    let obj = val[key];
+                    obj['key'] = key;
+                    this.other = obj;
+
+                    console.log("firebase uid:", this.other.key);
+
+                    this.observeChat();
+                }, e => console.error(e));
             }
         });
 
 
-        this.onClickChatUsers();
+        // this.onClickChatUsers();
 
     }
 
     ngOnInit() { }
+    ngOnDestroy() {
+        this.unObserveChat();
+    }
 
 
+    unObserveChat() {
+        if ( this.onObserveChat ) {
+            this.app.db.child(this.myPath).off('value', this.onObserveChat);
+            this.onObserveChat = null;
+        }
+    }
     observeChat() {
 
-        this.app.db.child( this.myPath ).limitToLast( 10 ).on('value', snap => {
-            if ( snap.val() === null ) {
+        this.unObserveChat();
+        this.onObserveChat = this.app.db.child(this.myPath).limitToLast(5).on('value', snap => {
+            if (snap.val() === null) {
                 /// error
                 return
             }
@@ -81,10 +112,10 @@ export class ChatPage implements OnInit {
             console.log("observeChat() snap.val: ", val);
             let keys = Object.keys(val);
             this.chats = [];
-            for( let key of keys.reverse() ) {
-                this.chats.push( val[key] );
+            for (let key of keys.reverse()) {
+                this.chats.push(val[key]);
             }
-            console.log( this.chats );
+            console.log(this.chats);
             this.app.rerenderPage();
         });
     }
@@ -93,7 +124,21 @@ export class ChatPage implements OnInit {
         return `chat/message/${this.app.auth.currentUser.uid}/${this.roomId}`;
     }
     get otherPath() {
-        return `chat/message/${this.otherFirebaseUid}/${this.roomId}`;
+        return `chat/message/${this.other.key}/${this.roomId}`;
+    }
+
+    // get myRoomPath() {
+    //     return `chat/rooms/${this.app.auth.currentUser.uid}/${this.roomId}`;
+    // }
+    // get otherRoomPath() {
+    //     return `chat/rooms/${this.other.key}/${this.roomId}`;
+    // }
+
+    get myRooms() {
+        return `chat/rooms/${this.app.auth.currentUser.uid}`;
+    }
+    get otherRooms() {
+        return `chat/rooms/${this.other.key}`;
     }
 
     onEnterMessage() {
@@ -105,32 +150,71 @@ export class ChatPage implements OnInit {
             xapiUid: this.app.user.id,
             photoUrl: this.app.user.photoURL
         };
-        this.app.db.child( this.myPath ).push().set( data ).then( a => { // send chat to myself. if success, send it to backend.
-            let chat_message = {
-                route: 'wordpress.chat_message',
-                room_id: this.roomId,
-                message: data.message
+        this.app.db.child(this.myPath).push().set(data).then(a => { // send chat to myself. if success, send it to backend.
+
+
+            // let chat_message = {
+            //     route: 'wordpress.chat_message',
+            //     room_id: this.roomId,
+            //     message: data.message,
+            //     other: this.other
+            // };
+            // this.app.wp.post(chat_message).subscribe( res => {
+            //     console.log("chat message: ", res);
+            // }, e => this.app.warning(e) );
+
+
+            let roomInfo = {
+                message: data.message,
+                other: this.other,
+                stamp_last_message: (new Date).getTime(),
+                stamp_read: (new Date).getTime()
             };
-            this.app.wp.post(chat_message).subscribe( res => {
-                console.log("chat message: ", res);
-            }, e => this.app.warning(e) );
+            this.app.db.child(this.myRooms).push().set(roomInfo);
+            roomInfo['other'] = this.me;
+            roomInfo['stamp_read'] = 0;
+            this.app.db.child(this.otherRooms).push().set(roomInfo);
         });
 
-        this.app.db.child( this.otherPath ).push().set( data ); // send to other.
+        this.app.db.child(this.otherPath).push().set(data); // send to other.
         this.message = '';
     }
 
     get roomId(): string {
-        return [ this.app.user.id, this.otherXapiUid ].sort().join('-');
+        return [this.app.user.id, this.other.xapiUid].sort().join('-');
     }
 
 
 
     onClickChatUsers() {
-        this.showChatUsers = true;
-        this.app.wp.post({ route: 'wordpress.chat_room', session_id: this.app.user.sessionId }).subscribe( res => {
-            console.log("chat rooms: ", res);
-            this.rooms = res;
-        }, e => this.app.warning(e));
+        this.showChatUsers = !this.showChatUsers;
+        this.app.db.child( this.myRooms ).once('value', snap => {
+            if ( ! snap.val() ) {
+                return;
+            }
+            let rooms = snap.val();
+
+            console.log("rooms: ", rooms);
+            // this.rooms = snap.val();
+        });
+        // this.app.wp.post({ route: 'wordpress.chat_room', session_id: this.app.user.sessionId }).subscribe(res => {
+        //     console.log("chat rooms: ", res);
+        //     this.rooms = res;
+        // }, e => this.app.warning(e));
+    }
+
+    /**
+     * To avoid initialization error. `this.app.auth.currentUser.uid` is only available after firebase init.
+     */
+    get me(): CHAT_PROFILE {
+        this._me = {
+            key: this.app.auth.currentUser.uid,
+            email: this.app.user.email,
+            name: this.app.user.name,
+            photoUrl: this.app.user.photoURL,
+            status: 'online',
+            xapiUid: this.app.user.id
+        };
+        return this._me;
     }
 }

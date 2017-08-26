@@ -24,6 +24,7 @@ import { ForumCodeShareService } from '../../modules/forum/forum-code-share.serv
 export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
 
     @Input() category;
+    @Input() except;    // display posts except this post.
 
     ///
     slug: string = null;
@@ -119,6 +120,8 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
             this.addOrReplacePage(req, page);
         }, err => this.app.displayError(this.app.getErrorString(err)));
     }
+
+    
 
     loadCache(req: POST_LIST) {
         let p = this.app.cacheGetPage(req);

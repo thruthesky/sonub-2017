@@ -1,24 +1,30 @@
 <div class="chat-page">
-    <nav class="menu">
-        <button class="btn btn-primary" (click)="onClickChatUsers()">Chat Users</button>
+    <nav class="menu pointers">
+        <button class="btn btn-primary" (click)="onClickChatUsers()">Recent Chat Users</button>
+        <button class="btn btn-primary" (click)="onClickChatUsers()">Unread Chats</button>
     </nav>
 
 
     <div class="chat-users" *ngIf="showChatUsers">
+
+        <hr>
         <h4>Recent Chat Users</h4>
-        
-        <div class="room" *ngFor="let room of rooms">
+
+        <div class="room" *ngFor="let room of rooms" routerLink="/chat/{{ room.user.ID }}">
             <img class="size-32px" src="{{ room.user.photoURL }}" *ngIf="room.user.photoURL">
             {{ room.user.name }}
+            <span class="red" *ngIf=" room.stamp_read == 0">(new)</span>
             {{ room.message }}
         </div>
-        <hr>
+
+        [ 1 ] [ 2 ] [ 3 ] [ 4 ] [ 5 ] ...
     </div>
 
     <div *ngIf="chats">
+
+        <hr>
         <div *ngFor="let chat of chats.reverse()">
-            <img src="{{ chat.photoUrl }}" class="size-32px">
-            {{ chat.name }} {{ chat.message }} {{ chat.time }}
+            <img src="{{ chat.photoUrl }}" class="size-32px"> {{ chat.name }} {{ chat.message }} {{ chat.time }}
         </div>
     </div>
     <input [(ngModel)]="message" (keyup.enter)="onEnterMessage()">

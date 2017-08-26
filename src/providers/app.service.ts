@@ -6,6 +6,13 @@ import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription'
+import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/observable/timer';
+import 'rxjs/add/operator/throttleTime';
+
+
+
 
 
 import { Base } from './../etc/base';
@@ -101,6 +108,9 @@ export class AppService extends Base {
 
 
 
+    /// user online, offline
+    trackMouseMove: Subscription;
+    timerMouseMove: Subscription;
 
 
     constructor(
@@ -135,8 +145,9 @@ export class AppService extends Base {
 
         this.width = window.innerWidth;
 
-
         this.auth.onAuthStateChanged( (user) => this.firebaseOnAuthStateChanged(user) );
+
+        
         
     }
     
@@ -280,8 +291,9 @@ export class AppService extends Base {
 
 
     /**
-     * When social login success, it is invoked.
-     * All social login comes here(including kakao, naver, facebook, google).
+     * When social login success, it is invoked to register/login to backend.
+     * 
+     * @note    All social login comes here(including kakao, naver, facebook, google). NOT direct login to backend (with id/pass)
      * 
      * @note You have to register/login to backend(wordpress)
      *
@@ -296,19 +308,21 @@ export class AppService extends Base {
     socialLoginSuccess(profile: SOCIAL_PROFILE, callback) {
 
         console.log('Going to socialLgoin: ', profile);
-        this.user.loginSocial(profile.uid).subscribe(res => {
+        this.user.loginSocial(profile.uid).subscribe(res => { // backend login
             console.log("Social login success. res: ", res);
+            this.firebaseXapiLogin();
             callback();
             profile['session_id'] = res.session_id;
-            this.user.updateSocial(profile).subscribe(res => {
+            this.user.updateSocial(profile).subscribe(res => { // backend login ==> update
                 console.log('updateSocial: ', res);
             }, e => this.warning(e));
         }, e => {
             console.log("social login failed: ", e);
             console.log('going to register soical: ', profile);
-            this.user.registerSocial(profile).subscribe(res => {
+            this.user.registerSocial(profile).subscribe(res => { // backend register
                 console.log("firebase socail login ==> xapi register ==> register success");
                 this.firebaseXapiRegistered();
+                this.firebaseXapiLogin();
                 callback();
             }, e => this.warning(e));
         });
@@ -371,9 +385,10 @@ export class AppService extends Base {
 
 
     /**
+     * 
      * Logs into firebase if the user logged in different way.
      * 
-     * @note this method is called at
+     * @note this method is invoked when
      *      - app starts ( refreshes )
      *      - logins
      *      - registers
@@ -394,7 +409,9 @@ export class AppService extends Base {
         }
         let email = 'sonub' + this.user.id + '@' + this.user.provider + '.com';
         let password = this.user.sessionId;
-        this.auth.signInWithEmailAndPassword(email, password).catch(error => {
+        this.auth.signInWithEmailAndPassword(email, password)
+        .then( a => this.firebaseXapiLogin() )
+        .catch(error => {
             // Handle Errors here.
             var errorCode = error['code'];
             var errorMessage = error['message'];
@@ -404,6 +421,7 @@ export class AppService extends Base {
                 .then( a => {
                         console.log("firebaseLogin_ifNot => firebase login => firebase create(register) => auto login success");
                         this.firebaseXapiRegistered();
+                        this.firebaseXapiLogin();
                 })
                 .catch(error => {
                     // Handle Errors here.
@@ -419,7 +437,15 @@ export class AppService extends Base {
      * 
      * 
      * This method is called only one time !!
-     *      when a user registered in firebase and at the same time the user is registered on xapi backend.
+     * 
+     * @note
+     *      - when a user logs in with firebase social login, the user registers/logs in to backend(xapi)
+     *      - when a user logs in other social login like kakao, naver, the user registers/logs into backend(xapi) and registers/logs into the firebase auth.
+     *      - when a user logs directly into the site using id/password, the user registers/logs into the firebase auth.
+     * 
+     * 
+     * @note    This method is called **only one time** when a user successfuly registered in firebase and backend.
+     * @note    In this method, the user must be logged both firebase and backend.
      * 
      * @use when you need to something on only registeration.
      * @use to update/save xapi backend user id on firebase.
@@ -442,18 +468,88 @@ export class AppService extends Base {
             return;
         }
         console.log("firebaseXapiRegistered: going to update uid", this.user.id, firebaseUser.uid);
-        this.db.child("xapi-uid").child( this.user.id + '' ).set( { uid: firebaseUser.uid });
 
+        // this.db.child("xapi-uid").child( this.user.id + '' ).set( { uid: firebaseUser.uid });
+
+
+    }
+
+    /**
+     * This method is being called every time
+     *      After a user registers or logs into both firebase and backend.
+     * 
+     * @note    user_login/user_password register/login and other social login(kakao/naver) will eventually registers/logs into firebase
+     *          And will invoke this method.
+     * 
+     * @note    This method is being called from
+     *          - firebaseLogin_ifNot() ( from backend login including any other social than fierbase. Including registration/login )
+     *          - LoginPage::firebaseSocialLoginSuccess()
+     * 
+     * @note    By the time that this method is invoked, the user has already logged in firebase.
+     *          So, this.auth.currentUser is available.
+     * 
+     * @note    You can NOT use firebaseOnAuthStateChaned() instead of using this method.
+     *          
+     *      This method ensures that the user login/registered both of firebase and backend
+     *      while firebaseOnAuthChanged() may be called only after firebase social login but not in backend.
+     * 
+     * @note    By this time, that this method is being invoked,
+     *          this.auth.currentUser and this.user are available.
+     * 
+     */
+    firebaseXapiLogin() {
+        this.userUpdateProfile();
     }
 
     firebaseOnAuthStateChanged( user: firebase.User ) {
+        
         if ( user ) { // user just logged in or page refreshed.
-            console.log("firebase user login okay! OnAuthStateChanged(): user just logged in or page refreshed.");
+            // console.log("firebase user login okay! OnAuthStateChanged(): user just logged in or page refreshed.");
+            this.beginUserIdleTracking();
+            this.onConnect();
+            
         }
         else { // user just logged out or page refreshed
             console.log("firebaseOnAuthStateChanged(): user just logged out or page refreshed");
+            // this.userUpdate({status: 'offline'});
+            this.endUserIdleTracking();
+            this.userOffline();
+            
         }
+
     }
+
+    get userLocation(): firebase.database.Reference {
+        if ( this.auth && this.auth.currentUser && this.auth.currentUser.uid ) {
+            return this.db.child('users').child( this.auth.currentUser.uid );
+        }
+        else return null;
+    }
+    userUpdate( data ) {
+        if ( this.userLocation ) this.userLocation.update( data );
+    }
+    userUpdateProfile() {
+        let data = {
+            email: this.user.email,
+            name: this.user.name,
+            photoUrl: this.user.photoURL,
+            status: 'online',
+            xapiUid: this.user.id
+        };
+        this.userUpdate( data );
+    }
+    userOnline() {
+        this.userUpdate({status: 'online'});
+    }
+
+    userOffline() {
+        this.userUpdate({status: 'offline'});
+    }
+    
+    userAway() {
+        this.userUpdate({status: 'away'});
+    }
+    
 
     /**
      * Set's section.
@@ -619,7 +715,7 @@ export class AppService extends Base {
                 let val: COMMUNITY_LOG = snap.val();
                 if (!val) return;
                 if (typeof val !== 'object') return;
-                console.log('posts-comments: child_added: snap.val: ', val);
+                // console.log('posts-comments: child_added: snap.val: ', val);
 
                 this.toastLog(val, 'community');
                 this.communityLogs.unshift(val);
@@ -696,5 +792,47 @@ export class AppService extends Base {
 
     go(url) {
         this.router.navigateByUrl(url);
+    }
+
+
+    /**
+     * 
+     * 
+     * This method is being invoked only when user logged in firebase from 'firebaseOnAuthStateChagned()'
+     * 
+     * 
+     */
+    onConnect() {
+        this.db.child('.info/connected').on('value', connected => {
+            if ( connected.val() ) { // connected. online.
+                this.userLocation.onDisconnect().update({ status: 'offline'} );
+                this.userOnline();
+            }
+            else { // disconnected. offline.
+                
+            }
+        });
+
+    }
+    beginUserIdleTracking() {
+        this.trackMouseMove = Observable
+                                .fromEvent(document, 'mousemove')
+                                .throttleTime( 120000 ) // if any mouse move in 2 minutes,
+                                .subscribe( e => {
+                                    this.userOnline();          // then, set user online
+                                    this.resetMoveMoveTimer();  // reset timer.
+                                });
+        this.resetMoveMoveTimer(); // begin tracking immediately after loading ( 처음 로드 하자 마자 한번 호출. )
+    }
+    resetMoveMoveTimer() {
+        if ( this.timerMouseMove ) this.timerMouseMove.unsubscribe();
+        this.timerMouseMove = Observable.timer( 180000 ) // if no mouse move in 3 minuts,
+                                .subscribe( e => {          // then, set user away. until the user closes the app. or logs out.
+                                    this.userAway();
+                                });
+    }
+    endUserIdleTracking() {
+        if ( this.trackMouseMove ) this.trackMouseMove.unsubscribe();
+        if ( this.timerMouseMove ) this.timerMouseMove.unsubscribe();
     }
 }

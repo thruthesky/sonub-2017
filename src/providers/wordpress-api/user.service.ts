@@ -88,6 +88,10 @@ export class UserService extends Base {
             .map(res => this.setUserProfile( res ) );
     }
     
+    /**
+     * This registers social logged in user to backend.
+     * @param data user data
+     */
     registerSocial(data: SOCIAL_REGISTER): Observable<USER_REGISTER_RESPONSE> {
         data.route = 'user.registerSocial';
         // data['timezone_offset'] = this.getTimezoneOffset();
@@ -96,6 +100,12 @@ export class UserService extends Base {
     }
 
     
+    /**
+     * 
+     * This updates social user information(name, photo) into backend.
+     * 
+     * @param data 
+     */
     updateSocial(data: SOCIAL_UPDATE): Observable<USER_REGISTER_RESPONSE> {
         data.route = 'user.updateSocial';
         return this.wp.post(data)
@@ -115,6 +125,15 @@ export class UserService extends Base {
     data(): Observable<USER_DATA_RESPONSE> {
         let data: USER_DATA = {
             route: 'user.data',
+            session_id: this.sessionId
+        };
+        return this.wp.post(data);
+    }
+
+    openProfile(id) {
+        let data = {
+            route: 'user.open_profile',
+            id: id,
             session_id: this.sessionId
         };
         return this.wp.post(data);
@@ -168,6 +187,9 @@ export class UserService extends Base {
         if (this.profile && this.profile.ID) return this.profile.ID;
         else return 0;
     }
+    get uid(): number {
+        return this.id;
+    }
 
     get name(): string {
         if (this.profile && this.profile.display_name) return this.profile.display_name;
@@ -187,6 +209,7 @@ export class UserService extends Base {
         if (this.profile && this.profile.photoURL) return this.profile.photoURL;
         else return '';
     }
+
 
     get nameOrAnonymous() {
         return this.name || 'Anonymous';

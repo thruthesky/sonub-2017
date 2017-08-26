@@ -7,9 +7,7 @@
                 <div class="thumbnail">
                     <img *ngIf="thumbnail && app.forum.getFirstImageThumbnailUrl(post)" src="{{ app.forum.getFirstImageThumbnailUrl(post) }}">
                 </div>
-                <div class="title">
-                    {{ post.post_title }}
-                </div>
+                <div class="title" [innerHTML]="post.post_title"></div>
             </a>
         </div>
 

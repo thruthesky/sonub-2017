@@ -15,12 +15,9 @@ export class ForumViewPage implements OnInit {
         public app: AppService
     ) {
         active.params.subscribe(params => {
-
             this.post = null;
-
             this.app.forum.postData(params['id'])
                 .subscribe(post => this.post = app.forum.pre(post), e => this.app.warning(e));
-
         });
 
     }

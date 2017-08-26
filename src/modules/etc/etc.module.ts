@@ -19,8 +19,8 @@ const appRoutes: Routes = [
     { path: 'forum', component: PagePage, data: { filename: 'forum-index', section: 'forum', layout: 'two-column' } },
     { path: 'adv/howto', component: PagePage, data: { filename: 'advertisement-howto', section: 'advertisement', layout: 'wide' } },
     { path: 'chat/:id/:name', component: ChatPage },
+    { path: 'chat/:id', component: ChatPage },
     { path: 'chat', component: ChatPage }
-    
 ];
 
 @NgModule({

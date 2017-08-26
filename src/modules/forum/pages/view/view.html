@@ -2,6 +2,7 @@
 </post-view-widget>
 <post-list-full-widget
     *ngIf=" post "
-    [category]="post.category"
+    [except]="post"
+    [category]="post.category_slug"
 >
 </post-list-full-widget>

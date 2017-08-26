@@ -2,7 +2,7 @@
 <div *ngIf="app.user.isLogin">
     <div class="text-center mb-3">
         <span class="profile-user-photo" >
-            <img src="{{ userData?.photo?.url ? userData?.photo?.url : 'assets/img/anonymous.png' }}">
+            <img class="w-100" src="{{ userData?.photo?.url ? userData?.photo?.url : 'assets/img/anonymous.png' }}">
         </span>
     </div>
     <div class="input-group mb-3">

@@ -35,7 +35,7 @@ export class PostViewWidget implements OnInit {
 
     ngOnInit() {
         setTimeout( () => this.setFilePosition(), 1 );
-        setTimeout( () => console.log('post view', this.post) , 1000);
+        // setTimeout( () => console.log('post view', this.post) , 1000);
     }
 
     onClickPostEdit(post) {

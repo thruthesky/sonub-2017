@@ -15,8 +15,8 @@
             </div>
 
             <div class="posts">
-                <div class="post" *ngFor="let post of page.posts " [attr.post-id]="post.ID">
-                    <post-view-widget [post]="post" [page]="page"></post-view-widget>
+                <div class="post" *ngFor="let post of page.posts" [attr.post-id]="post.ID">
+                    <post-view-widget *ngIf=" post.ID != except?.ID " [post]="post" [page]="page"></post-view-widget>
                 </div>
             </div>
         </div>

@@ -1,0 +1,33 @@
+<div *ngIf=" !data ">
+    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Loading ...
+</div>
+
+<div *ngIf=" data ">
+
+
+    <img class="max-width-150px" src="{{ data.user.photoURL }}" *ngIf="data.user.photoURL">
+    {{ data.user.name }}'s Profile
+
+    registered at {{ data.user.registered }}
+
+    
+    <hr>
+    Latest posts
+    <div class="posts" *ngIf=" data.posts && data.posts.length ">
+        <div class="post" *ngFor=" let post of data.posts ">
+            {{ post.post_title }}
+            {{ app.forum.shortDate( post.timestamp_create ) }}
+        </div>
+    </div>
+
+    <hr>
+    Latest comments
+    <div class="comments" *ngIf=" data.comments && data.comments.length ">
+        <div class="comment" *ngFor=" let comment of data.comments ">
+            {{ comment.comment_content }}
+            {{ comment.comment_date }}
+        </div>
+    </div>
+
+
+</div>

@@ -99,14 +99,11 @@ export class PostListThumbnailTextWidget implements OnInit, OnDestroy, AfterView
         if ( page && page.posts && page.posts.length ) {
             for( let post of page.posts ) {
                 if ( post.post_title.length < this.titleLength - 20 && post.post_content.length > 20 ) {
-                    post.post_title += ' ▶ ' + post.post_content;
+                    post.post_title = '<b>' + post.post_title + '</b>' + ' ▶ ' + this.app.strip_tags( post.post_content );
                 }
-                post.post_title = this.app.strip_tags( post.post_title );
                 post.post_title = this.app.wordcut( post.post_title, this.titleLength );
-
             }
         }
     }
-
 
 }

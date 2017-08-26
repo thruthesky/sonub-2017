@@ -45,6 +45,7 @@ export class LoginPage implements OnInit, AfterViewInit {
             photoURL: user.photoURL
         };
 
+        
         // console.log('firebaseSocial: ', profile);
         this.app.socialLoginSuccess(profile, () => {
             console.log("firebase social login success");
