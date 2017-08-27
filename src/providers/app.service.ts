@@ -11,6 +11,9 @@ import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/timer';
 import 'rxjs/add/operator/throttleTime';
 
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
+
 
 
 
@@ -66,6 +69,7 @@ import {
 export class AppService extends Base {
     config = config;
     text = text;
+    e = ERROR; /// error codes
 
 
     // section of the page
@@ -76,6 +80,23 @@ export class AppService extends Base {
     auth: firebase.auth.Auth;
     db: firebase.database.Reference;
     kakao;
+
+
+    /**
+     * This event triggered when a user logs in/out from firebase.
+     */
+    firebaseAuthChange = new BehaviorSubject<boolean>(false);
+
+
+    /**
+     * This event is trigged when any chat room updates.
+     * xapi userid  if there is any new message in chat rooms.
+     * false if there is no new message.
+     */
+    chatRoomEvent = new BehaviorSubject<number>(0);
+    onChatRooms;
+    chatUser; /// whom i am chatting with.
+
 
     headerWidget: HeaderWidget;
 
@@ -145,12 +166,12 @@ export class AppService extends Base {
 
         this.width = window.innerWidth;
 
-        this.auth.onAuthStateChanged( (user) => this.firebaseOnAuthStateChanged(user) );
+        this.auth.onAuthStateChanged((user) => this.firebaseOnAuthStateChanged(user));
 
-        
-        
+
+
     }
-    
+
 
     get size(): 'mobile' | 'break-a' | 'break-c' | 'break-d' {
         if (this.width < 600) return 'mobile';
@@ -261,10 +282,11 @@ export class AppService extends Base {
         // setTimeout(() => {
         if (typeof e == 'number' && e < 0) {
             e = { code: e };
-            if ( message ) e['message'] = message;
+            if (message) e['message'] = message;
         }
-        this.alert.error(e);
-        setTimeout(() => this.rerenderPage(), 400);
+        // this.alert.error(e)
+        setTimeout(() => this.alert.error(e), 1); /// for 'ExpressionChangedAfterItHasBeenCheckedError' error
+        setTimeout(() => this.rerenderPage(), 200);
         // }, 100 );
 
     }
@@ -363,7 +385,9 @@ export class AppService extends Base {
      */
     logout() {
         this.user.logout();
-        this.auth.signOut();
+        this.userOffline(() => {
+            this.auth.signOut();
+        });
         this.bootstrapLoginLogout();
     }
 
@@ -402,35 +426,35 @@ export class AppService extends Base {
      *          4. login again.
      */
     firebaseLogin_ifNot() {
-        if ( this.user.isLogout ) return;
-        if ( this.user.provider == 'firebase' ) {
+        if (this.user.isLogout) return;
+        if (this.user.provider == 'firebase') {
             console.log("Logged in with firebase already!");
             return;
         }
         let email = 'sonub' + this.user.id + '@' + this.user.provider + '.com';
         let password = this.user.sessionId;
         this.auth.signInWithEmailAndPassword(email, password)
-        .then( a => this.firebaseXapiLogin() )
-        .catch(error => {
-            // Handle Errors here.
-            var errorCode = error['code'];
-            var errorMessage = error['message'];
-            console.log(`errorCode: ${errorCode}, errorMessage: ${errorMessage}`);
-            if ( errorCode == 'auth/user-not-found' ) {
-                this.auth.createUserWithEmailAndPassword( email, password )
-                .then( a => {
-                        console.log("firebaseLogin_ifNot => firebase login => firebase create(register) => auto login success");
-                        this.firebaseXapiRegistered();
-                        this.firebaseXapiLogin();
-                })
-                .catch(error => {
-                    // Handle Errors here.
-                    var errorCode = error['code'];
-                    var errorMessage = error['message'];
-                    console.log(`errorCode: ${errorCode}, errorMessage: ${errorMessage}`);
-                });
-            }
-          });
+            .then(a => this.firebaseXapiLogin())
+            .catch(error => {
+                // Handle Errors here.
+                var errorCode = error['code'];
+                var errorMessage = error['message'];
+                console.log(`errorCode: ${errorCode}, errorMessage: ${errorMessage}`);
+                if (errorCode == 'auth/user-not-found') {
+                    this.auth.createUserWithEmailAndPassword(email, password)
+                        .then(a => {
+                            console.log("firebaseLogin_ifNot => firebase login => firebase create(register) => auto login success");
+                            this.firebaseXapiRegistered();
+                            this.firebaseXapiLogin();
+                        })
+                        .catch(error => {
+                            // Handle Errors here.
+                            var errorCode = error['code'];
+                            var errorMessage = error['message'];
+                            console.log(`errorCode: ${errorCode}, errorMessage: ${errorMessage}`);
+                        });
+                }
+            });
     }
 
     /**
@@ -459,11 +483,11 @@ export class AppService extends Base {
      */
     firebaseXapiRegistered() {
         let firebaseUser = this.auth.currentUser;
-        if ( ! firebaseUser ) {
+        if (!firebaseUser) {
             console.error("This is error. the firebase user shouldn't be null after register. ");
             return;
         }
-        if ( ! this.user.id ) {
+        if (!this.user.id) {
             console.error("This is error. the xapi user id shouldn't be null after register. ");
             return;
         }
@@ -501,32 +525,36 @@ export class AppService extends Base {
         this.userUpdateProfile();
     }
 
-    firebaseOnAuthStateChanged( user: firebase.User ) {
-        
-        if ( user ) { // user just logged in or page refreshed.
+    firebaseOnAuthStateChanged(user: firebase.User) {
+
+        if (user) { // user just logged in or page refreshed.
             // console.log("firebase user login okay! OnAuthStateChanged(): user just logged in or page refreshed.");
             this.beginUserIdleTracking();
             this.onConnect();
-            
+            this.firebaseAuthChange.next(true);
+            this.observeChat();
+            this.initChat();
         }
         else { // user just logged out or page refreshed
             console.log("firebaseOnAuthStateChanged(): user just logged out or page refreshed");
             // this.userUpdate({status: 'offline'});
             this.endUserIdleTracking();
-            this.userOffline();
-            
+            this.firebaseAuthChange.next(false);
+            this.unObserveChat();
         }
 
     }
 
     get userLocation(): firebase.database.Reference {
-        if ( this.auth && this.auth.currentUser && this.auth.currentUser.uid ) {
-            return this.db.child('users').child( this.auth.currentUser.uid );
+        if (this.auth && this.auth.currentUser && this.auth.currentUser.uid) {
+            return this.db.child('users').child(this.auth.currentUser.uid);
         }
         else return null;
     }
-    userUpdate( data ) {
-        if ( this.userLocation ) this.userLocation.update( data );
+    userUpdate(data, callback?) {
+        if (this.userLocation) this.userLocation.update(data).then( () => {
+            if ( callback ) callback();
+        } );
     }
     userUpdateProfile() {
         let data = {
@@ -536,20 +564,19 @@ export class AppService extends Base {
             status: 'online',
             xapiUid: this.user.id
         };
-        this.userUpdate( data );
+        this.userUpdate(data);
     }
     userOnline() {
-        this.userUpdate({status: 'online'});
+        this.userUpdate({ status: 'online' });
     }
 
-    userOffline() {
-        this.userUpdate({status: 'offline'});
+    userOffline( callback ) {
+        this.userUpdate({ status: 'offline' }, callback);
     }
-    
+
     userAway() {
-        this.userUpdate({status: 'away'});
+        this.userUpdate({ status: 'away' });
     }
-    
 
     /**
      * Set's section.
@@ -564,7 +591,6 @@ export class AppService extends Base {
     layoutColumn() {
         this.pageLayout = 'column';
     }
-
 
     /**
      *
@@ -600,14 +626,10 @@ export class AppService extends Base {
         return this.cacheGet(this.cacheKeyPage(req));
     }
 
-
-
     get userPhotoUrl(): string {
         if (this.user.isLogin && this.user.profile.photoURL) return this.user.profile.photoURL;
         else return '/assets/img/anonymous.png';
     }
-
-
 
 
     postUserPhotoUrl(data) {
@@ -619,8 +641,8 @@ export class AppService extends Base {
         if (data && data.author && data.author.name) return data.author.name;
         else return 'Anonymous';
     }
-    postUserId( data: POST ): number {
-        if (data && data.author && data.author.ID ) return data.author.ID;
+    postUserId(data: POST): number {
+        if (data && data.author && data.author.ID) return data.author.ID;
         else return 0;
     }
 
@@ -709,7 +731,6 @@ export class AppService extends Base {
             this.communityLogs.shift(); // last one(latest log) will be added by 'child_added'
             this.rerenderPage();
 
-
             /// listen the lastest one.
             path.orderByKey().limitToLast(1).on('child_added', snap => {
                 let val: COMMUNITY_LOG = snap.val();
@@ -786,7 +807,7 @@ export class AppService extends Base {
                 this.toast(toastOption);
             }
         }
-    
+
     }
 
 
@@ -804,35 +825,108 @@ export class AppService extends Base {
      */
     onConnect() {
         this.db.child('.info/connected').on('value', connected => {
-            if ( connected.val() ) { // connected. online.
-                this.userLocation.onDisconnect().update({ status: 'offline'} );
+            if (connected.val()) { // connected. online.
+                this.userLocation.onDisconnect().update({ status: 'offline' });
                 this.userOnline();
             }
             else { // disconnected. offline.
-                
+
             }
         });
 
     }
     beginUserIdleTracking() {
         this.trackMouseMove = Observable
-                                .fromEvent(document, 'mousemove')
-                                .throttleTime( 120000 ) // if any mouse move in 2 minutes,
-                                .subscribe( e => {
-                                    this.userOnline();          // then, set user online
-                                    this.resetMoveMoveTimer();  // reset timer.
-                                });
+            .fromEvent(document, 'mousemove')
+            .throttleTime(120000) // if any mouse move in 2 minutes,
+            .subscribe(e => {
+                this.userOnline();          // then, set user online
+                this.resetMoveMoveTimer();  // reset timer.
+            });
         this.resetMoveMoveTimer(); // begin tracking immediately after loading ( 처음 로드 하자 마자 한번 호출. )
     }
     resetMoveMoveTimer() {
-        if ( this.timerMouseMove ) this.timerMouseMove.unsubscribe();
-        this.timerMouseMove = Observable.timer( 180000 ) // if no mouse move in 3 minuts,
-                                .subscribe( e => {          // then, set user away. until the user closes the app. or logs out.
-                                    this.userAway();
-                                });
+        if (this.timerMouseMove) this.timerMouseMove.unsubscribe();
+        this.timerMouseMove = Observable.timer(180000) // if no mouse move in 3 minuts,
+            .subscribe(e => {          // then, set user away. until the user closes the app. or logs out.
+                this.userAway();
+            });
     }
     endUserIdleTracking() {
-        if ( this.trackMouseMove ) this.trackMouseMove.unsubscribe();
-        if ( this.timerMouseMove ) this.timerMouseMove.unsubscribe();
+        if (this.trackMouseMove) this.trackMouseMove.unsubscribe();
+        if (this.timerMouseMove) this.timerMouseMove.unsubscribe();
     }
+
+
+    /**
+     * Returns reference of my chat rooms node path or null.
+     */
+    get chatRooms(): firebase.database.Reference {
+        if (this.auth.currentUser) {
+            let path = `chat/rooms/${this.auth.currentUser.uid}`;
+            console.log("path: ", path);
+            return this.db.child(path);
+        }
+        else return null;
+    }
+
+
+    /**
+     * Observe new chats ( by observing rooms )
+     */
+    observeChat() {
+        if ( this.chatRooms === null ) return;
+        // console.log("Observe count: ");
+        this.unObserveChat();
+        this.onChatRooms = this.chatRooms.orderByKey().limitToLast(1).on('child_added', snap => {
+            let chat = snap.val();
+            // console.log('observeChat() => snap.val: chat: ', chat);
+            if ( chat && chat['stamp_read'] === 0 ) {
+                this.chatRoomEvent.next(chat['other']['xapiUid']);
+            }
+            else this.chatRoomEvent.next(0);
+        });
+    }
+
+    get chatOtherXapiUid() {
+        if ( this.chatUser && this.chatUser['xapiUid'] ) {
+            return this.chatUser['xapiUid'];
+        }
+        else return 0;
+    }
+
+
+    unObserveChat() {
+        if ( this.onChatRooms && this.chatRooms ) {
+            console.log("UnObserve count: ");
+            this.chatRooms.off('child_added', this.onChatRooms );
+            this.onChatRooms = null;
+            this.chatRoomEvent.next(0);
+        }
+    }
+
+
+
+    /**
+     * 
+     * This method does initial check ups for chat room.
+     * 
+     * @note this method is being called when user logs in.
+     * 
+     */
+    initChat() {
+        this.chatRooms.orderByChild('stamp_read').equalTo(0).limitToLast(1).once('value', snap => {
+            if ( snap.val() ) {
+                let val = snap.val();
+                let keys = Object.keys(val);
+                let room = val[ keys[0] ];
+                console.log("initChat() : room : ", room);
+                this.chatRoomEvent.next( room['other']['xapiUid']);
+            }
+            else {
+                this.chatRoomEvent.next(0);
+            }
+        })
+    }
+
 }

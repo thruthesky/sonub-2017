@@ -9,7 +9,7 @@ section.page {
     background-color: $background-color;
     .page-header {
         position: fixed;
-        z-index: 2999;
+        z-index: 999;
         top: 0;
         width: 100%;
         height: $header-height;

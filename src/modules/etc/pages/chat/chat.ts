@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { AppService } from './../../../../providers/app.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -41,11 +41,11 @@ interface CHAT_PROFILE {
     templateUrl: 'chat.html'
 })
 
-export class ChatPage implements OnInit, OnDestroy {
+export class ChatPage implements OnInit, AfterViewInit, OnDestroy {
     message = '';
     // otherFirebaseUid = '';
     // otherFirebaseProfile;
-    other: CHAT_PROFILE;
+    // other: CHAT_PROFILE;
     _me: CHAT_PROFILE;
     chats: Array<CHAT_MESSAGE>;
 
@@ -57,10 +57,15 @@ export class ChatPage implements OnInit, OnDestroy {
     /// onObserveChat
     onObserveChat;
 
+
+    ///
+    firebaseLogin: boolean = false;
+
     constructor(
         private active: ActivatedRoute,
         public app: AppService
     ) {
+
 
 
         active.params.subscribe(params => {
@@ -77,36 +82,71 @@ export class ChatPage implements OnInit, OnDestroy {
                     let key = keys[0];
                     let obj = val[key];
                     obj['key'] = key;
-                    this.other = obj;
+                    // this.other = obj;
+                    app.chatUser = obj;
 
-                    console.log("firebase uid:", this.other.key);
+                    // console.log("my firebse uid: ", app.auth.currentUser.uid);
+                    // console.log("other user firebase uid: ", key);
+                    // console.log("firebase uid:", this.other.key);
 
                     this.observeChat();
+
+
+                    /**
+                     * Set current room 'read'
+                     */
+                    this.room(key).once('value', snap => {
+                        let room = snap.val();
+                        console.log("room: ", room);
+                        let keys = Object.keys(room);
+                        let key = keys[0];
+                        console.log("room key: ", key);
+                        app.chatRooms.child(key).update({ stamp_read: (new Date).getTime() })
+                            .then(a => {
+                                /// set current room read and update chat
+                                app.initChat(); // re do chat updates - new message display, etc.
+                            });
+                    });
                 }, e => console.error(e));
             }
         });
 
 
-        // this.onClickChatUsers();
+        app.firebaseAuthChange.subscribe(login => {
+            this.firebaseLogin = login;
+            console.log("login: ", login);
+        });
+
 
     }
 
     ngOnInit() { }
     ngOnDestroy() {
         this.unObserveChat();
+        this.app.chatUser = null;
+    }
+    ngAfterViewInit() {
+        if (this.app.user.isLogout) {
+            this.app.warning(this.app.e.LOGIN_FIRST);
+        }
     }
 
 
     unObserveChat() {
-        if ( this.onObserveChat ) {
-            this.app.db.child(this.myPath).off('value', this.onObserveChat);
+        if (this.onObserveChat) {
+            this.myChatRoom.off('value', this.onObserveChat);
             this.onObserveChat = null;
         }
     }
     observeChat() {
 
+        let a = this.app;           /// app
+        let p = this.myChatRoom;       /// other room path
+        if (p === null) return a.warning(a.e.CHAT_ROOM_PATH);
+
+
         this.unObserveChat();
-        this.onObserveChat = this.app.db.child(this.myPath).limitToLast(5).on('value', snap => {
+        this.onObserveChat = p.limitToLast(5).on('value', snap => {
             if (snap.val() === null) {
                 /// error
                 return
@@ -123,28 +163,58 @@ export class ChatPage implements OnInit, OnDestroy {
         });
     }
 
-    get myPath() {
-        return `chat/message/${this.app.auth.currentUser.uid}/${this.roomId}`;
-    }
-    get otherPath() {
-        return `chat/message/${this.other.key}/${this.roomId}`;
+
+    get myChatRoom(): firebase.database.Reference {
+        if (this.app.auth.currentUser) {
+            let path = `chat/message/${this.app.auth.currentUser.uid}/${this.roomId}`;
+            return this.app.db.child(path);
+        }
+        else return null;
     }
 
-    // get myRoomPath() {
-    //     return `chat/rooms/${this.app.auth.currentUser.uid}/${this.roomId}`;
-    // }
-    // get otherRoomPath() {
-    //     return `chat/rooms/${this.other.key}/${this.roomId}`;
-    // }
-
-    get myRooms() {
-        return `chat/rooms/${this.app.auth.currentUser.uid}`;
+    get otherChatRoom(): firebase.database.Reference {
+        if (this.app.chatUser && this.app.chatUser.key) {
+            let path = `chat/message/${this.app.chatUser.key}/${this.roomId}`;
+            return this.app.db.child(path);
+        }
+        else return null;
     }
+
+
+    /**
+     * Returns reference of my rooms node path or null.
+     */
+    get myRooms(): firebase.database.Reference {
+        return this.app.chatRooms;
+    }
+
     get otherRooms() {
-        return `chat/rooms/${this.other.key}`;
+        if (this.app.chatUser && this.app.chatUser.key) {
+            let path = `chat/rooms/${this.app.chatUser.key}`;
+            return this.app.db.child(path);
+        }
+        else return null;
     }
+
+    /**
+     * Get a room's query.
+     * @param uid - firebase user uid
+     * @return Returns firebase database query of a chat room info.
+     * 
+     */
+    room(uid: string): firebase.database.Query {
+        let p = this.myRooms;       /// my room path
+        if (p) return p.orderByChild('otherUid').equalTo(uid);
+        else return null;
+    }
+
 
     onEnterMessage() {
+
+        let a = this.app;           /// app
+        let p = this.myChatRoom;       /// other room path
+        if (p === null) return a.warning(a.e.CHAT_ROOM_PATH);
+
         console.log("message: ", this.message);
         let data: CHAT_MESSAGE = {
             message: this.message,
@@ -153,84 +223,41 @@ export class ChatPage implements OnInit, OnDestroy {
             xapiUid: this.app.user.id,
             photoUrl: this.app.user.photoURL
         };
-        this.app.db.child(this.myPath).push().set(data).then(a => { // send chat to myself. if success, send it to backend.
+        p.push().set(data).then(a => { // send chat to myself. if success, send it to backend.
+            this.updateMyRoom(data);
+            this.updateOtherRoom(data);
+            /**
+             * 
+             * @todo from here
+             * 
+             */
+            /// if the user is not online, send push message.
 
-
-            /// delete preview room info
-            let myRoomInfo = {
-                message: data.message,
-                other: this.other,
-                otherUid: this.other.key,
-                stamp_last_message: (new Date).getTime(),
-                stamp_read: (new Date).getTime()
-            };
-            console.log("other key:", this.other.key);
-            this.app.db.child(this.myRooms).orderByChild('otherUid').equalTo(this.other.key).once('value', snap => {
-                let ref = this.app.db.child(this.myRooms).push();
-                console.log("snap.val(): ", snap.val());
-                if ( snap.val() ) {
-                    let val = snap.val();
-                    let keys = Object.keys( val );
-                    for( let key of keys ) {
-                        this.app.db.child( this.myRooms ).child( key ).set(null).then( a => ref.set(myRoomInfo) );
-                    }
-                }
-                else {
-                    ref.set(myRoomInfo);
-                }
-            }, e => console.error(e));
-
-
-
-            let otherRoomInfo = {
-                message: data.message,
-                other: this.me,
-                otherUid: this.me.key,
-                stamp_last_message: (new Date).getTime(),
-                stamp_read: 0
-            };
-            this.app.db.child(this.otherRooms).orderByChild('otherUid').equalTo(this.me.key).once('value', snap => {
-                let ref = this.app.db.child(this.otherRooms).push();
-                console.log("snap.val(): ", snap.val());
-                if ( snap.val() ) {
-                    let val = snap.val();
-                    let keys = Object.keys( val );
-                    for( let key of keys ) {
-                        this.app.db.child( this.otherRooms ).child( key ).set(null).then( a => ref.set(otherRoomInfo) );
-                    }
-                }
-                else {
-                    ref.set(otherRoomInfo);
-                }
-            }, e => console.error(e));
-
-
-
-            
-            
         });
 
-        this.app.db.child(this.otherPath).push().set(data); // send to other.
+        this.otherChatRoom.push().set(data); // send to other.
         this.message = '';
     }
 
     get roomId(): string {
-        return [this.app.user.id, this.other.xapiUid].sort().join('-');
+        return [this.app.user.id, this.app.chatUser.xapiUid].sort().join('-');
     }
 
 
 
-    onClickChatUsers() {
+    onClickRecentChatUsers() {
         this.rooms = [];
         this.showChatUsers = !this.showChatUsers;
-        this.app.db.child( this.myRooms ).once('value', snap => {
-            if ( ! snap.val() ) {
+        if (this.myRooms === null) return this.app.warning(this.app.e.CHAT_ROOM_PATH);
+        this.myRooms.once('value', snap => {
+            if (!snap.val()) {
                 return;
             }
             let rooms = snap.val();
+
             let keys = Object.keys(rooms);
-            for( let key of keys.reverse()) {
-                this.rooms.push( rooms[key] );
+            for (let key of keys.reverse()) {
+                this.rooms.push(rooms[key]);
             }
             console.log("rooms: ", rooms);
             // this.rooms = snap.val();
@@ -254,5 +281,80 @@ export class ChatPage implements OnInit, OnDestroy {
             xapiUid: this.app.user.id
         };
         return this._me;
+    }
+
+
+    /**
+     * Updates my chat rooms (list) info
+     * 
+     * @param data Chat data
+     * 
+     * @logic
+     *          1. delete if previous room info exists.
+     *          2. push room info.
+     *              ==> In this way, rooms with newly chat will be listed in order.
+     */
+    updateMyRoom(data) {
+        let a = this.app;           /// app
+        let p = this.myRooms;       /// my room path
+        if (p === null) return a.warning(a.e.CHAT_ROOM_PATH);
+
+        let myRoomInfo = {
+            message: data.message,
+            other: this.app.chatUser,
+            otherUid: this.app.chatUser.key,
+            stamp_last_message: (new Date).getTime(),
+            stamp_read: (new Date).getTime()
+        };
+        // console.log("other key:", this.other.key);
+
+        /// 1. get previous room(s).
+        p.orderByChild('otherUid').equalTo(this.app.chatUser.key).once('value', snap => {
+            let rooms = snap.val();
+            // console.log("snap.val(): ", rooms);
+
+            /// 2. (attention) set new chat (by create a new room node ) first to avoid double 'child_added' event
+            /// 3. delete after set. In this way, you can avoid 'double child_added event'
+            p.push().set(myRoomInfo).then(a => this.deleteRooms(p, rooms));
+
+        }, e => console.error(e));
+    }
+
+    updateOtherRoom(data) {
+
+        let a = this.app;           /// app
+        let p = this.otherRooms;       /// other room path
+        if (p === null) return a.warning(a.e.CHAT_ROOM_PATH);
+
+        let otherRoomInfo = {
+            message: data.message,
+            other: this.me,
+            otherUid: this.me.key,
+            stamp_last_message: (new Date).getTime(),
+            stamp_read: 0
+        };
+        p.orderByChild('otherUid').equalTo(this.me.key).once('value', snap => {
+            let rooms = snap.val();
+            console.log("snap.val(): ", rooms);
+            p.push().set(otherRoomInfo).then(a => this.deleteRooms(p, rooms));
+        }, e => console.error(e));
+
+    }
+
+    deleteRooms(p, rooms) {
+
+        if (!rooms) return;
+        /// 3. If there is room(s), then delete.
+        ///         if there is key(s), then, remove previously recorded room info.
+        let keys = Object.keys(rooms);
+        /**
+         * @todo improve this with async/await
+         */
+        for (let key of keys) {
+            p.child(key).set(null).then(a => {
+                console.log("previous room deleted. key: ", key);
+            });
+        }
+
     }
 }

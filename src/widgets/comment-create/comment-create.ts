@@ -89,7 +89,6 @@ export class CommentCreateWidget implements OnInit, AfterViewInit {
 
             this.resetForm();
 
-
             this.create.emit(id);
 
         }, err => {

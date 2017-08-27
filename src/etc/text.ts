@@ -337,6 +337,7 @@ TEXT[ERROR.RESPONSE_EMPTY] = { en: 'Response from backend is empty. This may be 
 TEXT[ERROR.RESPONSE_NO_CODE] = { en: 'Response from backend has no code', ko: '서버로 부터 응답 중에 코드 값이 없습니다.' };
 TEXT[ERROR.LOGIN_FIRST] = { en: 'Please login first', ko: '로그인을 먼저하십시오.' };
 TEXT[ERROR.CODE_PERMISSION_DENIED_NOT_OWNER] = { en: 'You do not have permission.', ko: '권한이 없습니다.'};
+TEXT[ERROR.CHAT_ROOM_PATH] = {en: 'Cannot find chat server path. Please inform it to web master.', ko: '채팅 서버의 경로를 찾을 수 없습니다. 웹마스터에게 연락해 주세요.'};
 /**
  * 
  * @note default language is 'en'.
