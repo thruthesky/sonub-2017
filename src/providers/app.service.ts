@@ -33,6 +33,7 @@ import { ForumService } from './wordpress-api/forum.service';
 import { FileService } from './wordpress-api/file.service';
 import { JobService } from './wordpress-api/job.service';
 import { BuyAndSellService } from './wordpress-api/buyandsell.service';
+import { SearchService } from './wordpress-api/search.service';
 
 import { ChatService } from './chat.service';
 import { ShareService } from './share.service';
@@ -64,6 +65,7 @@ import { HeaderWidget } from './../widgets/header/header';
 import {
     POST_LIST, PAGE
 } from './wordpress-api/interface';
+
 
 
 
@@ -137,6 +139,7 @@ export class AppService extends Base {
         public bns: BuyAndSellService,
         public wp: WordpressApiService,
         public file: FileService,
+        public search: SearchService,
         // public text: TextService,
         private confirmModalService: ConfirmModalService,
         
@@ -295,7 +298,6 @@ export class AppService extends Base {
         // alert(msg);
     }
 
-
     warning(e, message?) {
         this.error.alert( e, message );
     }
@@ -320,9 +322,9 @@ export class AppService extends Base {
 
     /**
      * When social login success, it is invoked to register/login to backend.
-     * 
+     *
      * @note    All social login comes here(including kakao, naver, facebook, google). NOT direct login to backend (with id/pass)
-     * 
+     *
      * @note You have to register/login to backend(wordpress)
      *
      * @note flowchart
@@ -397,23 +399,21 @@ export class AppService extends Base {
         //     this.auth.signOut();
         // });
         // this.bootstrapLoginLogout();
-
-        
     }
 
 
 
     /**
-     * 
+     *
      * Logs into firebase if the user logged in different way.
-     * 
+     *
      * @note this method is invoked when
      *      - app starts ( refreshes )
      *      - logins
      *      - registers
      * @note logs out when user logout.
-     *      
-     * 
+     *
+     *
      * @logic
      *      1. login
      *          2. if login fails => register.
@@ -453,28 +453,28 @@ export class AppService extends Base {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * This method is called only one time !!
-     * 
+     *
      * @note
      *      - when a user logs in with firebase social login, the user registers/logs in to backend(xapi)
      *      - when a user logs in other social login like kakao, naver, the user registers/logs into backend(xapi) and registers/logs into the firebase auth.
      *      - when a user logs directly into the site using id/password, the user registers/logs into the firebase auth.
-     * 
-     * 
+     *
+     *
      * @note    This method is called **only one time** when a user successfuly registered in firebase and backend.
      * @note    In this method, the user must be logged both firebase and backend.
-     * 
+     *
      * @use when you need to something on only registeration.
      * @use to update/save xapi backend user id on firebase.
-     * 
+     *
      * @note this method is being invoked right after
-     *  
+     *
      *      1. "google auth login => xapi login"
      *      2. "xapi login => google auth login"
-     * 
-     * 
+     *
+     *
      */
     firebaseXapiRegistered() {
         let firebaseUser = this.auth.currentUser;
@@ -496,25 +496,25 @@ export class AppService extends Base {
     /**
      * This method is being called every time
      *      After a user registers or logs into both firebase and backend.
-     * 
+     *
      * @note    user_login/user_password register/login and other social login(kakao/naver) will eventually registers/logs into firebase
      *          And will invoke this method.
-     * 
+     *
      * @note    This method is being called from
      *          - firebaseLogin_ifNot() ( from backend login including any other social than fierbase. Including registration/login )
      *          - LoginPage::firebaseSocialLoginSuccess()
-     * 
+     *
      * @note    By the time that this method is invoked, the user has already logged in firebase.
      *          So, this.auth.currentUser is available.
-     * 
+     *
      * @note    You can NOT use firebaseOnAuthStateChaned() instead of using this method.
-     *          
+     *
      *      This method ensures that the user login/registered both of firebase and backend
      *      while firebaseOnAuthChanged() may be called only after firebase social login but not in backend.
-     * 
+     *
      * @note    By this time, that this method is being invoked,
      *          this.auth.currentUser and this.user are available.
-     * 
+     *
      */
     firebaseXapiLogin() {
         this.userUpdateProfile();
@@ -693,11 +693,11 @@ export class AppService extends Base {
 
 
     /**
-     * 
-     * 
+     *
+     *
      * This method is being invoked only when user logged in firebase from 'firebaseOnAuthStateChagned()'
-     * 
-     * 
+     *
+     *
      */
     onConnect() {
         this.db.child('.info/connected').on('value', connected => {
