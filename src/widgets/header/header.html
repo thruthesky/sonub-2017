@@ -10,7 +10,10 @@
                                     <div class="input-group float-left">
                                         <a class="input-group-addon" href="/" routerLink="/">S</a>
                                         <input type="text" class="form-control m-0 p-0" placeholder="{{ app.size == 'mobile' ? app.text('search_for') : app.text('what_are_you_searching') }}"
-                                            aria-label="What are you searching for?">
+                                            aria-label="What are you searching for?"
+                                               [(ngModel)]="search"
+                                               (keyup)="onKeyUpStartSearch()"
+                                        >
                                         <span class="input-group-btn">
                                             <button class="btn btn-secondary" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
                                         </span>

@@ -236,53 +236,6 @@ export class JobListPage implements OnInit, OnDestroy {
         this.loadPage();
     }
 
-
-    // loadCache(req: JOB_LIST_REQUEST) {
-    //     let p = this.app.cacheGetPage(req);
-    //     if (p) {
-    //         // console.log("cached for ", this.app.cacheKeyPage(req));
-    //         this.jobs.push(p);
-    //     }
-    // }
-
-
-    // /**
-    //  *
-    //  * @param req
-    //  * @param page
-    //  */
-    // addOrReplacePage(req: JOB_LIST_REQUEST, page: JOB_PAGE) {
-    //     this.prepare(page);
-    //     let i = page.paged - 1;
-    //     if (i < this.pages.length) {
-    //         // console.log("replace cached page for: ", this.app.cacheKeyPage(req));
-    //         this.pages[i] = page;
-
-
-    //     }
-    //     else this.pages.push(page);
-    //     this.app.cacheSetPage(req, page);
-    // }
-
-
-    // prepare(page: JOB_PAGE) {
-    //     if (page && page.posts && page.posts.length) {
-    //         for (let post of page.posts) {
-    //             // prepare
-    //         }
-    //     }
-    // }
-
-    // get request(): JOB_LIST_REQUEST {
-    //     return {
-    //         category_name: 'jobs',
-    //         paged: this.pageNo,
-    //         posts_per_page: this.posts_per_page,
-    //         thumbnail: '160x100'
-    //     };
-    // }
-
-
     onClickProvince() {
         // console.log('Province::', this.formGroup.value.province);
         if (this.formGroup.value.province != 'all') {

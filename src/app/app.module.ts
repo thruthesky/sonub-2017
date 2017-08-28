@@ -29,6 +29,7 @@ import { ForumService } from './../providers/wordpress-api/forum.service';
 import { FileService } from './../providers/wordpress-api/file.service';
 import { JobService } from './../providers/wordpress-api/job.service';
 import { BuyAndSellService } from '../providers/wordpress-api/buyandsell.service';
+import { SearchService } from '../providers/wordpress-api/search.service';
 
 import { AppService } from './../providers/app.service';
 import { TestService } from './../providers/test.service';
@@ -39,6 +40,7 @@ import { PhilippineRegion } from "../providers/philippine-region";
 
 import { ModalServiceModule } from '../providers/modals/modal.service.module';
 import { WidgetsModule } from './../widgets/widgets.module';
+
 
 
 
@@ -71,6 +73,7 @@ const appRoutes: Routes = [
     FileService,
     JobService,
     BuyAndSellService,
+    SearchService,
     WordpressApiService,
     TestService,
     PageScroll,
