@@ -37,6 +37,9 @@ import { FileService } from './wordpress-api/file.service';
 import { JobService } from './wordpress-api/job.service';
 import { BuyAndSellService } from './wordpress-api/buyandsell.service';
 
+import { ChatService } from './chat.service';
+
+
 
 import { ConfirmModalService, CONFIRM_OPTIONS } from './modals/confirm/confirm.modal';
 export { CONFIRM_OPTIONS } from './modals/confirm/confirm.modal';
@@ -86,16 +89,10 @@ export class AppService extends Base {
      * This event triggered when a user logs in/out from firebase.
      */
     firebaseAuthChange = new BehaviorSubject<boolean>(false);
-
-
     /**
-     * This event is trigged when any chat room updates.
-     * xapi userid  if there is any new message in chat rooms.
-     * false if there is no new message.
+     * This is true when a user logged in firebase.
      */
-    chatRoomEvent = new BehaviorSubject<number>(0);
-    onChatRooms;
-    chatUser; /// whom i am chatting with.
+    firebaseLogin: boolean = false;
 
 
     headerWidget: HeaderWidget;
@@ -147,7 +144,8 @@ export class AppService extends Base {
         private ngZone: NgZone,
         private router: Router,
         public alert: AlertModalService,
-        public push: PushMessageService
+        public push: PushMessageService,
+        public chat: ChatService
     ) {
         super();
         // console.log("AppService::constructor()");
@@ -157,6 +155,8 @@ export class AppService extends Base {
 
         this.auth = firebase.auth();
         this.db = firebase.database().ref('/');
+
+        chat.inject( this.auth, this.db, user );
 
         Observable.fromEvent(window, 'resize')
             .debounceTime(100)
@@ -532,15 +532,16 @@ export class AppService extends Base {
             this.beginUserIdleTracking();
             this.onConnect();
             this.firebaseAuthChange.next(true);
-            this.observeChat();
-            this.initChat();
+            this.chat.onFirebaseLogin();
+            this.firebaseLogin = true;
         }
         else { // user just logged out or page refreshed
             console.log("firebaseOnAuthStateChanged(): user just logged out or page refreshed");
             // this.userUpdate({status: 'offline'});
             this.endUserIdleTracking();
             this.firebaseAuthChange.next(false);
-            this.unObserveChat();
+            this.chat.onFirebaseLogout();
+            this.firebaseLogin = false;
         }
 
     }
@@ -855,78 +856,6 @@ export class AppService extends Base {
     endUserIdleTracking() {
         if (this.trackMouseMove) this.trackMouseMove.unsubscribe();
         if (this.timerMouseMove) this.timerMouseMove.unsubscribe();
-    }
-
-
-    /**
-     * Returns reference of my chat rooms node path or null.
-     */
-    get chatRooms(): firebase.database.Reference {
-        if (this.auth.currentUser) {
-            let path = `chat/rooms/${this.auth.currentUser.uid}`;
-            console.log("path: ", path);
-            return this.db.child(path);
-        }
-        else return null;
-    }
-
-
-    /**
-     * Observe new chats ( by observing rooms )
-     */
-    observeChat() {
-        if ( this.chatRooms === null ) return;
-        // console.log("Observe count: ");
-        this.unObserveChat();
-        this.onChatRooms = this.chatRooms.orderByKey().limitToLast(1).on('child_added', snap => {
-            let chat = snap.val();
-            // console.log('observeChat() => snap.val: chat: ', chat);
-            if ( chat && chat['stamp_read'] === 0 ) {
-                this.chatRoomEvent.next(chat['other']['xapiUid']);
-            }
-            else this.chatRoomEvent.next(0);
-        });
-    }
-
-    get chatOtherXapiUid() {
-        if ( this.chatUser && this.chatUser['xapiUid'] ) {
-            return this.chatUser['xapiUid'];
-        }
-        else return 0;
-    }
-
-
-    unObserveChat() {
-        if ( this.onChatRooms && this.chatRooms ) {
-            console.log("UnObserve count: ");
-            this.chatRooms.off('child_added', this.onChatRooms );
-            this.onChatRooms = null;
-            this.chatRoomEvent.next(0);
-        }
-    }
-
-
-
-    /**
-     * 
-     * This method does initial check ups for chat room.
-     * 
-     * @note this method is being called when user logs in.
-     * 
-     */
-    initChat() {
-        this.chatRooms.orderByChild('stamp_read').equalTo(0).limitToLast(1).once('value', snap => {
-            if ( snap.val() ) {
-                let val = snap.val();
-                let keys = Object.keys(val);
-                let room = val[ keys[0] ];
-                console.log("initChat() : room : ", room);
-                this.chatRoomEvent.next( room['other']['xapiUid']);
-            }
-            else {
-                this.chatRoomEvent.next(0);
-            }
-        })
     }
 
 }

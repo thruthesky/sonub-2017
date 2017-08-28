@@ -11,9 +11,9 @@
         <hr>
         <h4>Recent Chat Users</h4>
 
-        <div class="room" *ngFor="let room of rooms" routerLink="/chat/{{ room.other?.xapiUid }}">
-            <img class="size-32px" src="{{ room.other?.photoUrl }}" *ngIf="room.other?.photoUrl">
-            {{ room.other.name }}
+        <div class="room" *ngFor="let room of rooms" routerLink="/chat/{{ room.otherXapiUid }}">
+            <img class="size-32px" src="{{ room.otherPhotoUrl }}" *ngIf="room.otherPhotoUrl">
+            {{ room.otherName }}
             <span class="red" *ngIf=" room.stamp_read == 0">(new)</span>
             {{ room.message }}
         </div>
@@ -24,11 +24,11 @@
     <div *ngIf="chats">
 
         <hr>
-            {{ app.chatUser?.name }}
+            {{ chat.other?.name }}
         <hr>
         <div *ngFor="let chat of chats.reverse()">
             <img src="{{ chat.photoUrl }}" class="size-32px"> {{ chat.name }} {{ chat.message }} {{ chat.time }}
         </div>
     </div>
-    <input *ngIf="app.chatUser" [(ngModel)]="message" (keyup.enter)="onEnterMessage()">
+    <input *ngIf="chat.otherUid" [(ngModel)]="message" (keyup.enter)="onEnterMessage()">
 </div>
