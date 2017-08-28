@@ -31,6 +31,7 @@ import { JobService } from './../providers/wordpress-api/job.service';
 import { BuyAndSellService } from '../providers/wordpress-api/buyandsell.service';
 import { SearchService } from '../providers/wordpress-api/search.service';
 
+import { ChatService } from './../providers/chat.service';
 import { AppService } from './../providers/app.service';
 import { TestService } from './../providers/test.service';
 import { PageScroll } from './../providers/page-scroll';
@@ -76,6 +77,7 @@ const appRoutes: Routes = [
     SearchService,
     WordpressApiService,
     TestService,
+    ChatService,
     PageScroll,
     PhilippineRegion,
     PushMessageService,

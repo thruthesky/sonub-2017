@@ -338,6 +338,7 @@ TEXT[ERROR.RESPONSE_NO_CODE] = { en: 'Response from backend has no code', ko: '�
 TEXT[ERROR.LOGIN_FIRST] = { en: 'Please login first', ko: '로그인을 먼저하십시오.' };
 TEXT[ERROR.CODE_PERMISSION_DENIED_NOT_OWNER] = { en: 'You do not have permission.', ko: '권한이 없습니다.'};
 TEXT[ERROR.CHAT_ROOM_PATH] = {en: 'Cannot find chat server path. Please inform it to web master.', ko: '채팅 서버의 경로를 찾을 수 없습니다. 웹마스터에게 연락해 주세요.'};
+TEXT[ERROR.WRONG_PATH] = {en: 'You have accessed with wrong route.', ko: '잘못된 경로로 접속을 하였습니다.'};
 /**
  * 
  * @note default language is 'en'.
