@@ -1,8 +1,10 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppService } from './../../../../providers/app.service';
-import { ChatService, CHAT_ROOM, CHAT_MESSAGE } from './../../../../providers/chat.service';
+import { ChatService, CHAT_ROOM, CHAT_MESSAGE, CHAT_USER } from './../../../../providers/chat.service';
 import { Subscription } from 'rxjs/Subscription';
+import { Base } from './../../../../etc/base';
+
 
 
 @Component({
@@ -10,7 +12,7 @@ import { Subscription } from 'rxjs/Subscription';
     templateUrl: 'chat.html'
 })
 
-export class ChatPage implements OnInit, AfterViewInit, OnDestroy {
+export class ChatPage extends Base implements OnInit, AfterViewInit, OnDestroy {
     message = '';
 
     chats: Array<CHAT_MESSAGE>;
@@ -21,6 +23,10 @@ export class ChatPage implements OnInit, AfterViewInit, OnDestroy {
 
     /// onObserveChat
     onObserveChat;
+
+    onUsers = {};
+
+    onChatUser;
     
 
     loginSubscription: Subscription;
@@ -30,6 +36,8 @@ export class ChatPage implements OnInit, AfterViewInit, OnDestroy {
         public app: AppService,
         public chat: ChatService
     ) {
+
+        super();
 
         this.loginSubscription = app.firebaseAuthChange.subscribe( login => {
             if ( login ) {
@@ -62,7 +70,9 @@ export class ChatPage implements OnInit, AfterViewInit, OnDestroy {
         if (uid == a.user.id) return a.warning(-8300, "You cannot chat with yourself");
         if ( ! uid ) return a.warning(-80903, "Wrong user id");
         console.log("otherXapiUid: ", uid);
-        a.db.child('users').orderByChild('xapiUid').equalTo(uid).once('value', snap => {
+
+        this.unObserveChatUser();
+        this.queryUserByXapiUid(uid).once('value', snap => {
             let val = snap.val();
             if (!val) return a.warning(-8090, "User not exists on chat server");
             console.log(val);
@@ -71,13 +81,18 @@ export class ChatPage implements OnInit, AfterViewInit, OnDestroy {
             let user = val[uid];
             user['uid'] = uid;
             this.chat.other = user;
-            this.observeChat();
             this.chat.setCurrentRoomAsRead( uid );
+
+            this.observeChat();
+            this.observeChatUser();
+
         }, e => console.error(e));
     }
 
     ngOnInit() { }
     ngOnDestroy() {
+        this.unObserveChatUser();
+        this.unObserveUsers();
         this.chat.onDestroyChatPage();
         if ( this.loginSubscription ) this.loginSubscription.unsubscribe();
     }
@@ -87,11 +102,38 @@ export class ChatPage implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
-
     unObserveChat() {
         if (this.onObserveChat) {
             this.chat.myCurrentRoom.off('value', this.onObserveChat);
             this.onObserveChat = null;
+        }
+    }
+
+    unObserveUsers() {
+        console.log("unObserveUsers()");
+        if ( this.onUsers && Object.keys(this.onUsers).length ) {
+            for( let uid of Object.keys(this.onUsers) ) {
+                console.log(`uid: ${uid} has been un-observed`);
+                let on = this.onUsers[uid];
+                // console.log('on', on);
+                this.referenceUser( uid ).off( 'value', on );
+            }
+        }
+    }
+
+    observeChatUser() {
+        this.onChatUser = this.referenceUser( this.chat.other.uid ).on('value', snap => {
+            let user: CHAT_USER = snap.val();
+            console.log("Observe chat user: ", user);
+            if ( user === null || user.status === void 0 ) return;
+            this.chat.other = user;
+            this.app.rerenderPage();
+        });
+    }
+    unObserveChatUser() {
+        if ( this.onChatUser ) {
+            this.referenceUser( this.chat.uid ).off( 'value', this.onChatUser );
+            this.onChatUser = null;
         }
     }
     
@@ -121,7 +163,6 @@ export class ChatPage implements OnInit, AfterViewInit, OnDestroy {
 
 
     onEnterMessage() {
-
         let a = this.app;           /// app
         if ( ! this.chat.other ) return a.warning( -80901, "No chat user");
 
@@ -140,13 +181,6 @@ export class ChatPage implements OnInit, AfterViewInit, OnDestroy {
             this.chat.updateMyRoom(data);
             this.chat.updateOtherRoom(data);
             this.chat.pushMessage( this.chat.otherXapiUid, data );
-            /**
-             * 
-             * @todo from here
-             * 
-             */
-            /// if the user is not online, send push message.
-
         });
 
         this.chat.otherCurrentRoom.push().set(data); // send to other.
@@ -156,22 +190,49 @@ export class ChatPage implements OnInit, AfterViewInit, OnDestroy {
     onClickRecentChatUsers() {
         let a = this.app;
         if ( a.user.isLogout ) return a.warning( a.e.LOGIN_FIRST );
+        if (this.chat.myRooms === null) return a.warning(a.e.CHAT_ROOM_PATH);
+
         this.rooms = [];
         this.showChatUsers = !this.showChatUsers;
-        if (this.chat.myRooms === null) return a.warning(a.e.CHAT_ROOM_PATH);
+        this.unObserveUsers();
+        if ( this.showChatUsers ) this.openRecentUsers();
+        else this.closeRecentUsers();
+    }
+
+    closeRecentUsers() {
+
+    }
+    openRecentUsers() {
+        let a = this.app;
         this.chat.myRooms.once('value', snap => {
-            if (!snap.val()) {
+            let rooms = snap.val();
+            if ( rooms === null || Object.keys(rooms).length == 0 ) {
                 return;
             }
-            let rooms = snap.val();
-            let keys = Object.keys(rooms);
-            for (let key of keys.reverse()) {
-                this.rooms.push(rooms[key]);
+            for (let key of Object.keys(rooms).reverse()) {
+                let room = rooms[key];
+                if ( room && room['otherUid'] ) {
+                    this.rooms.push( room );
+                    let on = this.referenceUser( room['otherUid'] ).on('value', snap => {
+                        let user: CHAT_USER = snap.val();
+                        // console.log("observe user: ", user);
+                        if ( user === null ) return;
+                        let found = this.rooms.findIndex( (room: CHAT_ROOM) => room.otherUid == snap.key );
+                        // console.log('found: ', found);
+                        if ( found != -1 ) {
+                            this.rooms[found].otherStatus = user.status;
+                        }
+                        a.rerenderPage();
+                    });
+                    this.onUsers[ room['otherUid'] ] = on;
+                }
             }
-            console.log("rooms: ", rooms);
-            // this.rooms = snap.val();
+
         });
-        
+    }
+
+    onClickUnreadChats() {
+
     }
 
 

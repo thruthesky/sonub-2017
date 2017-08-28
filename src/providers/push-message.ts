@@ -5,7 +5,9 @@ import * as firebase from 'firebase';
 import { Base } from './../etc/base';
 import { UserService } from './wordpress-api/user.service';
 
-import { AlertModalService } from './modals/alert/alert.modal';
+// import { AlertModalService } from './modals/alert/alert.modal';
+
+import { ErrorService } from './error.service';
 
 const USER_TOKEN_KEY = 'user-token';
 
@@ -21,7 +23,7 @@ export class PushMessageService extends Base {
     constructor(
         private http: Http,
         private user: UserService,
-        public alert: AlertModalService
+        public error: ErrorService
     ) {
         super();
         /// init
@@ -169,7 +171,7 @@ export class PushMessageService extends Base {
             this.storage.set(USER_TOKEN_KEY, token);
         }, e => {
             console.error(e);
-            this.alert.error(e);
+            this.error.alert(e);
         });
     }
 

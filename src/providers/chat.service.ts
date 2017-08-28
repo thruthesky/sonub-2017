@@ -11,7 +11,10 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import * as firebase from 'firebase/app';
 
+import { WordpressApiService } from './wordpress-api/wordpress-api.service';
 import { UserService } from './../providers/wordpress-api/user.service';
+
+import { Base } from './../etc/base';
 
 
 export interface CHAT_MESSAGE {
@@ -32,9 +35,11 @@ export interface CHAT_ROOM {
     otherName: string;
     otherPhotoUrl: string;
     otherXapiUid: string;
+    otherStatus: string; /// this only exists on chat page class.
 };
 
 
+/// firebase database /users
 export interface CHAT_USER {
     uid: string;
     name: string;
@@ -45,13 +50,15 @@ export interface CHAT_USER {
 
 
 @Injectable()
-export class ChatService {
+export class ChatService extends Base {
 
 
-    //
+    /// injections
     auth: firebase.auth.Auth;
     db: firebase.database.Reference;
     user: UserService;
+    wp: WordpressApiService;
+
     /**
      * This event is trigged when any chat room updates ( by observing all rooms )
      * If there is any new message in any chat rooms, other user's firebase uid will be returned.
@@ -65,12 +72,13 @@ export class ChatService {
 
 
     constructor() {
-
+        super();
     }
-    inject(auth, db, user) {
+    inject(auth, db, user, wp) {
         this.auth = auth;
         this.db = db;
         this.user = user;
+        this.wp = wp;
     }
 
     /**
@@ -267,24 +275,7 @@ export class ChatService {
     }
 
 
-
-
-    /**
-     * To avoid initialization error. `this.app.auth.currentUser.uid` is only available after firebase init.
-     */
-    // get me(): CHAT_PROFILE {
-    //     this._me = {
-    //         key: this.app.auth.currentUser.uid,
-    //         email: this.app.user.email,
-    //         name: this.app.user.name,
-    //         photoUrl: this.app.user.photoURL,
-    //         status: 'online',
-    //         xapiUid: this.app.user.id
-    //     };
-    //     return this._me;
-    // }
-
-
+    
 
 
 
@@ -425,7 +416,29 @@ export class ChatService {
     }
 
 
-    pushMessage( xapiUid, data ) {
-        
+
+    pushMessage(xapiUid, c: CHAT_MESSAGE) {
+        this.queryUserByXapiUid(xapiUid).once('value', snap => {
+            let val = snap.val();
+            if (!val) return console.error(`No user exists on firebase database /user/xxxx/xapiUid=${xapiUid}`);
+            let keys = Object.keys(val);
+            if (keys.length == 0) return console.error(`No user from firebase /users/xxxx/xapiUid=${xapiUid}`);
+            let user: CHAT_USER = val[keys[0]];
+            console.log("user: ", user);
+            if (user.status === void 0 || user.status == 'online') return;
+
+            /// if user is not online, send push
+            let data = {
+                route: 'wordpress.push',
+                ID: xapiUid,
+                body: c.message,
+                title: c.name + ' says ...',
+                click_action: this.homeUrl
+            }
+            this.wp.post(data).subscribe(res => {
+                console.log("pushMessage(): success: uid: ", res);
+            }, e => console.error("pushMessage: error: ", e));
+
+        });
     }
 }

@@ -1,30 +1,28 @@
 <div class="chat-page">
     <nav class="menu pointers">
-        <button class="btn btn-primary" (click)="onClickRecentChatUsers()">Recent Chat Users</button>
+        <button class="btn btn-primary" (click)="onClickRecentChatUsers()">{{ app.text('recent_chat_users') }}</button>
         <button class="btn btn-primary" (click)="onClickUnreadChats()">Unread Chats</button>
     </nav>
 
-
-
-    <div class="chat-users" *ngIf="showChatUsers">
-
-        <hr>
-        <h4>Recent Chat Users</h4>
-
-        <div class="room" *ngFor="let room of rooms" routerLink="/chat/{{ room.otherXapiUid }}">
-            <img class="size-32px" src="{{ room.otherPhotoUrl }}" *ngIf="room.otherPhotoUrl">
-            {{ room.otherName }}
-            <span class="red" *ngIf=" room.stamp_read == 0">(new)</span>
-            {{ room.message }}
+    <section class="chat-recnt-users mt-2 py-2 bg-white" *ngIf="showChatUsers">
+        <h4 class="p-3">{{ app.text('recent_chat_users') }}</h4>
+        <div class="room d-flex px-3 py-3 hover-blue pointers" *ngFor="let room of rooms" routerLink="/chat/{{ room.otherXapiUid }}">
+            <img class="rounded-circle size-48px" src="{{ app.photoUrl( room.otherPhotoUrl ) }}">
+            <div class="ml-2 fs-sm">
+                <div>
+                    {{ room.otherName }}
+                    ({{ room.otherStatus }})
+                </div>
+                <span class="badge badge-danger" style="padding-top: .2em;" *ngIf=" room.stamp_read == 0">new</span>
+                <span class="message">{{ room.message }}</span>
+            </div>
         </div>
+    </section>
 
-        [ 1 ] [ 2 ] [ 3 ] [ 4 ] [ 5 ] ...
-    </div>
 
     <div *ngIf="chats">
-
         <hr>
-            {{ chat.other?.name }}
+        {{ chat.other?.name }} ({{ chat.other?.status }})
         <hr>
         <div *ngFor="let chat of chats.reverse()">
             <img src="{{ chat.photoUrl }}" class="size-32px"> {{ chat.name }} {{ chat.message }} {{ chat.time }}

@@ -18,14 +18,35 @@ import { text } from './text';
 import { environment } from './../environments/environment';
 
 
+import * as firebase from 'firebase/app';
+
+
 
 export class Base extends Library {
+
+
+    // dependencies
+    auth: firebase.auth.Auth;
+    db: firebase.database.Reference;
+
+
+
     constructor() {
         super();
+
+        this.auth = firebase.auth();
+        this.db = firebase.database().ref('/');
+
     }
 
     get serverUrl() {
         return environment.serverUrl;
+    }
+    get homeUrl() {
+        return environment.clientUrl;
+    }
+    get chatUrl() {
+        return this.homeUrl + '/chat';
     }
 
     xapiUrl() {
@@ -49,7 +70,7 @@ export class Base extends Library {
      * @param str 
      */
     getError(e): ERROR_RESPONSE {
-        console.log('getError:', e);
+        console.log('base::getError() : ', e);
         if (!e) return error(ERROR.EMPTY); // e is falsy.
         else if (e.code === void 0) return error(ERROR.NO_CODE);
         return e;
@@ -65,15 +86,15 @@ export class Base extends Library {
      * @param e Error response from backend.
      */
     getErrorString(e: ERROR_RESPONSE): string {
-        if ( this.getError(e).message ) return this.getError(e).message;
+        if (this.getError(e).message) return this.getError(e).message;
 
         let code = this.getError(e).code;
-        console.log("error code: ", code);
+        console.log("base::getErrorString() => e[code]: ", code);
 
         // get error message from the code
         let str = text(code);
 
-        if ( str == code ) {        /// no error message by that code?
+        if (str == code) {        /// no error message by that code?
             str = code + ': ' + this.getError(e).message;
         }
         return str;
@@ -83,6 +104,25 @@ export class Base extends Library {
 
 
 
+    /**
+     * Returns a 'firebase.Query' to query to get a user by xapi uid.
+     * 
+     * @param xapiUid xapi uid
+     */
+    queryUserByXapiUid(xapiUid) {
+        return this.db.child('users').orderByChild('xapiUid').equalTo(xapiUid);
+    }
+
+
+
+    /**
+     * Returns a referencd of a firebase user node.
+     * @param uid Firebase user uid
+     * @param callback 
+     */
+    referenceUser(uid) {
+        return this.db.child('users').child(uid);
+    }
 
 
 }

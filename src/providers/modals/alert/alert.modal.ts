@@ -7,6 +7,7 @@ import { text } from './../../../etc/text';
 
 
 
+
 @Injectable()
 export class AlertModalService extends Base {
 
@@ -55,7 +56,9 @@ export class AlertModalService extends Base {
 
   /**
    * 
-   * @param e 
+   * Display an error box to user ( monitor, phone )
+   * 
+   * @param e Error response from serve
    */
   error(e: ERROR_RESPONSE): Promise<any> {
     let content = this.getErrorString(e);

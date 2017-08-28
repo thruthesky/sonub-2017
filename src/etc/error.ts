@@ -1,5 +1,5 @@
 export interface ERROR_RESPONSE {
-    code: string;
+    code: number;
     message?: string;
 };
 
@@ -16,17 +16,7 @@ export const ERROR = {
     CODE_PERMISSION_DENIED_NOT_OWNER: -80201,
 
     CHAT_ROOM_PATH: -80091,
-
-
     WRONG_PATH: -80060
-
-
-
-    // CODE_KEY_IS_EMPTY: -40101,
-    // CODE_COMMENT_DUPLICATE: -41041,
-    // CODE_WRONG_SESSION_ID: -42001,
-    // CODE_NO_USER_BY_THAT_SESSION_ID: -42011,
-    // CODE_PERMISSION_DENIED: -40444
 };
 
 

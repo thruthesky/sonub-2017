@@ -15,9 +15,6 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 
 
-
-
-
 import { Base } from './../etc/base';
 import { text } from './../etc/text';
 import { ERROR } from './../etc/error';
@@ -38,6 +35,8 @@ import { JobService } from './wordpress-api/job.service';
 import { BuyAndSellService } from './wordpress-api/buyandsell.service';
 
 import { ChatService } from './chat.service';
+import { ShareService } from './share.service';
+import { ErrorService } from './error.service';
 
 
 
@@ -79,9 +78,13 @@ export class AppService extends Base {
     sectionName = 'home';
 
 
-    //
-    auth: firebase.auth.Auth;
-    db: firebase.database.Reference;
+    ///
+
+    // dependencies
+    // auth: firebase.auth.Auth; // moved to base
+    // db: firebase.database.Reference; // moved to base
+
+
     kakao;
 
 
@@ -95,32 +98,20 @@ export class AppService extends Base {
     firebaseLogin: boolean = false;
 
 
-    headerWidget: HeaderWidget;
 
+    /// layout
+    headerWidget: HeaderWidget;
     pageLayout: 'wide' | 'column' | 'two-column' = 'column';
+
+
 
     anonymousPhotoURL = '/assets/img/anonymous.png';
 
 
-    firebaseDatabaseListenActivityEventHandler = null;
-    activity: ACTIVITIES = [];
-    communityLogs: COMMUNITY_LOGS = [];
 
-
+    /// language
     getLanguage = getLanguage;
     setLanguage = setLanguage;
-
-
-    toastOption = {
-        show: false,
-        content: '',
-        className: '',
-        callback: () => { }
-    };
-
-
-    width = 0; /// page width
-
 
 
 
@@ -129,6 +120,13 @@ export class AppService extends Base {
     /// user online, offline
     trackMouseMove: Subscription;
     timerMouseMove: Subscription;
+
+
+    /// page visibility
+    pageVisibility = new BehaviorSubject<boolean>(true);
+
+
+
 
 
     constructor(
@@ -141,11 +139,13 @@ export class AppService extends Base {
         public file: FileService,
         // public text: TextService,
         private confirmModalService: ConfirmModalService,
-        private ngZone: NgZone,
+        
         private router: Router,
         public alert: AlertModalService,
         public push: PushMessageService,
-        public chat: ChatService
+        public chat: ChatService,
+        public share: ShareService,
+        public error: ErrorService
     ) {
         super();
         // console.log("AppService::constructor()");
@@ -153,31 +153,60 @@ export class AppService extends Base {
         this.initKakao();
         this.checkLoginWithNaver();
 
-        this.auth = firebase.auth();
-        this.db = firebase.database().ref('/');
+        // this.auth = firebase.auth();
+        // this.db = firebase.database().ref('/');
 
-        chat.inject( this.auth, this.db, user );
-
-        Observable.fromEvent(window, 'resize')
-            .debounceTime(100)
-            .subscribe((event) => {
-                this.width = window.innerWidth;
-            });
-
-        this.width = window.innerWidth;
+        chat.inject(this.auth, this.db, user, wp);
 
         this.auth.onAuthStateChanged((user) => this.firebaseOnAuthStateChanged(user));
 
 
+        this.observePageVisibility();
+        this.onPageVisibilityChange();
 
     }
 
 
-    get size(): 'mobile' | 'break-a' | 'break-c' | 'break-d' {
-        if (this.width < 600) return 'mobile';
-        else if (this.width < 840) return 'break-a';
-        else if (this.width < 1140) return 'break-c';
-        return 'break-d';
+
+    /**
+     * Observe if app page has been tabbed or set to background.
+     * 
+     * @note    When a user changes browser tab, this.pageVisibility.next(false) happens.
+     * 
+     */
+    observePageVisibility() {
+        // Set the name of the hidden property and the change event for visibility
+        var hidden, visibilityChange;
+        if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support 
+            hidden = "hidden";
+            visibilityChange = "visibilitychange";
+        } else if (typeof document['msHidden'] !== "undefined") {
+            hidden = "msHidden";
+            visibilityChange = "msvisibilitychange";
+        } else if (typeof document['webkitHidden'] !== "undefined") {
+            hidden = "webkitHidden";
+            visibilityChange = "webkitvisibilitychange";
+        }
+        // Handle page visibility change   
+        document.addEventListener(visibilityChange, () => {
+            if (document[hidden]) {
+                this.pageVisibility.next(false);
+            }
+            else {
+                this.pageVisibility.next(true);
+            }
+        }, false);
+    }
+
+    onPageVisibilityChange() {
+        this.pageVisibility.subscribe( visible => {
+            if ( visible ) {
+                this.userOnline();
+            }
+            else {
+                this.userAway();
+            }
+        })
     }
 
 
@@ -266,29 +295,9 @@ export class AppService extends Base {
         // alert(msg);
     }
 
-    /**
-     * 
-     * @param e - is an Error Response Object or ERROR code ( interger less than 0 ) from error.ts
-     * @param message - is only used when e is ERROR code.
-     * 
-     * @example e => app.warning(e); // 'e' is server response.
-     * @example app.warning(-8088, 'Wrong user. User Xapi ID does not exist on firebase.');
-     */
-    warning(e, message?) {
-        ///
-        /// setTimeout() here is for preventing error of 'ExpressionChangedAfterItHasBeenCheckedError'
-        ///     - when the focus is on input-box, and ngb-modal opens, it produces 'expression changed' error.
-        ///
-        // setTimeout(() => {
-        if (typeof e == 'number' && e < 0) {
-            e = { code: e };
-            if (message) e['message'] = message;
-        }
-        // this.alert.error(e)
-        setTimeout(() => this.alert.error(e), 1); /// for 'ExpressionChangedAfterItHasBeenCheckedError' error
-        setTimeout(() => this.rerenderPage(), 200);
-        // }, 100 );
 
+    warning(e, message?) {
+        this.error.alert( e, message );
     }
 
 
@@ -303,10 +312,7 @@ export class AppService extends Base {
 
 
     rerenderPage(timeout = 0) {
-        if (timeout) {
-            setTimeout(() => this.ngZone.run(() => { }), timeout);
-        }
-        else this.ngZone.run(() => { });
+        this.share.rerenderPage( timeout );
     }
 
 
@@ -374,7 +380,7 @@ export class AppService extends Base {
 
         // this.updateUserLogin();
 
-        this.bootstrapLoginLogout();
+        this.share.bootstrapLoginLogout();
 
         this.firebaseLogin_ifNot();
     }
@@ -384,28 +390,17 @@ export class AppService extends Base {
      * @warning this must be the only method to be used to logout.
      */
     logout() {
-        this.user.logout();
-        this.userOffline(() => {
-            this.auth.signOut();
-        });
-        this.bootstrapLoginLogout();
+        this.share.logout();
+
+        // this.user.logout();
+        // this.userOffline(() => {
+        //     this.auth.signOut();
+        // });
+        // this.bootstrapLoginLogout();
+
+        
     }
 
-
-    /**
-     * All user login and login out comes here.
-     * 
-     * @note a user logs in and logs out, this method is called.
-     * 
-     *
-     * This may be called multiple times. When user
-     *      - app boots
-     *      - login
-     *      - logout
-     */
-    bootstrapLoginLogout() {
-        this.listenFirebaseUserActivity();
-    }
 
 
     /**
@@ -546,16 +541,11 @@ export class AppService extends Base {
 
     }
 
-    get userLocation(): firebase.database.Reference {
-        if (this.auth && this.auth.currentUser && this.auth.currentUser.uid) {
-            return this.db.child('users').child(this.auth.currentUser.uid);
-        }
-        else return null;
-    }
     userUpdate(data, callback?) {
-        if (this.userLocation) this.userLocation.update(data).then( () => {
-            if ( callback ) callback();
-        } );
+        this.share.userUpdate( data, callback);
+        // if (this.userLocation) this.userLocation.update(data).then(() => {
+        //     if (callback) callback();
+        // });
     }
     userUpdateProfile() {
         let data = {
@@ -571,7 +561,7 @@ export class AppService extends Base {
         this.userUpdate({ status: 'online' });
     }
 
-    userOffline( callback ) {
+    userOffline(callback) {
         this.userUpdate({ status: 'offline' }, callback);
     }
 
@@ -632,6 +622,15 @@ export class AppService extends Base {
         else return '/assets/img/anonymous.png';
     }
 
+    /**
+     * Returns user photo URL or default photo url.
+     * @param url user photo URL
+     */
+    photoUrl( url ) {
+        if ( url ) return url;
+        else return '/assets/img/anonymous.png';
+    }
+
 
     postUserPhotoUrl(data) {
         if (data && data.author && data.author.photoURL) return data.author.photoURL;
@@ -676,77 +675,9 @@ export class AppService extends Base {
      */
     bootstrap() {
         this.firebaseLogin_ifNot();
-        this.listenFirebaseComunityLog();
+        this.share.listenFirebaseComunityLog();
     }
 
-
-    listenFirebaseUserActivity() {
-        let ref = this.db.child('user-activity').child(this.user.id.toString());
-        if (this.user.isLogout) {
-            if (this.firebaseDatabaseListenActivityEventHandler) {
-                ref.off('value', this.firebaseDatabaseListenActivityEventHandler);
-                this.firebaseDatabaseListenActivityEventHandler = null;
-            }
-            return;
-        }
-        if (this.firebaseDatabaseListenActivityEventHandler) {
-            // ref.off('value', this.firebaseDatabaseListenActivityEventHandler);
-            // this.firebaseDatabaseListenActivityEventHandler = null;
-        }
-        this.firebaseDatabaseListenActivityEventHandler = ref
-            .limitToLast(5)
-            .on('child_added', snap => {
-                let val: ACTIVITY = snap.val();
-                if (!val) return;
-                if (typeof val !== 'object') return;
-
-                // console.log('listenFirebaseUserActivity() snap.val', val);
-                // let keys = Object.keys(val);
-                // if (keys && keys.length) {
-                //     this.activity = [];
-                //     for (let key of keys.reverse()) {
-                //         this.activity.push(val[key]);
-                //     }
-                // }
-                this.activity.unshift(val);
-                this.toastLog(val, 'activity');
-                this.rerenderPage();
-                // val.reverse();
-            }, e => console.error(e));
-    }
-
-    listenFirebaseComunityLog() {
-        let path = this.db.child('forum-log').child('posts-comments');
-        let ref = path.limitToLast(15).once('value', snap => {
-            let val: COMMUNITY_LOGS = snap.val();
-            if (!val) return;
-            if (typeof val !== 'object') return;
-
-            // console.log('posts-comments: snap.val: ', val);
-            let keys = Object.keys(val);
-            if (keys && keys.length) {
-                for (let key of keys.reverse()) {
-                    this.communityLogs.push(val[key]);
-                }
-            }
-            this.communityLogs.shift(); // last one(latest log) will be added by 'child_added'
-            this.rerenderPage();
-
-            /// listen the lastest one.
-            path.orderByKey().limitToLast(1).on('child_added', snap => {
-                let val: COMMUNITY_LOG = snap.val();
-                if (!val) return;
-                if (typeof val !== 'object') return;
-                // console.log('posts-comments: child_added: snap.val: ', val);
-
-                this.toastLog(val, 'community');
-                this.communityLogs.unshift(val);
-                this.rerenderPage(100);
-            });
-
-        }, e => console.error(e));
-
-    }
 
     safeHtml(raw): string {
         return this.domSanitizer.bypassSecurityTrustHtml(raw) as string;
@@ -754,62 +685,6 @@ export class AppService extends Base {
 
 
 
-    toast(option) {
-        // console.log(`app.toast()`, option);
-        if (option.delay === void 0) option.delay = 1;
-        setTimeout(() => {
-            this.toastOption = option;
-            this.toastOption.show = true;
-            if (option.timeout !== void 0) {
-                setTimeout(() => this.toastClose(), option.timeout);
-            }
-        }, option.delay);
-    }
-
-    toastClose() {
-        this.toastOption.show = false;
-        this.rerenderPage();
-    }
-
-
-    postView(post_ID) {
-        this.router.navigateByUrl(this.forum.postUrl(post_ID));
-    }
-
-    toastLog(val, type) {
-
-        // console.log("toastLog: width: ", this.width);
-        // console.log("toastLog: size: ", this.size);
-
-        if (this.size == 'break-d') return; // don't toast on wide space.
-
-        let toastOption = {
-            content: val.content,
-            timeout: 10000,
-            className: '',
-            callback: () => {
-                this.toastClose();
-                this.postView(val.post_ID);
-            }
-        };
-
-        if (type == 'activity' && this.size == 'mobile') {
-
-            toastOption.className = 'activity';
-            toastOption.content = '<span class="cap activity-cap">Activity</span><span class="text ellipsis">' + toastOption.content + '</span>';
-            this.toast(toastOption);
-        }
-
-        if (type == 'community') {
-            if (val.author_id == this.user.id) return; /// @see sonub build guide. don't show my post on toast : https://docs.google.com/document/d/1m3-wYZOaZQGbAzXeVlIpJNSdTIt3HCUiIt9UTmZUgXo/edit#heading=h.qnbta0l9c186
-            if (val.comment_ID === void 0 || !val.comment_ID) { /// @see sonub build guide. don't show comment.
-                toastOption.className = 'community';
-                toastOption.content = '<span class="cap community-cap">Community</span><span class="text ellipsis">' + toastOption.content + '</span>';
-                this.toast(toastOption);
-            }
-        }
-
-    }
 
 
     go(url) {
@@ -827,7 +702,7 @@ export class AppService extends Base {
     onConnect() {
         this.db.child('.info/connected').on('value', connected => {
             if (connected.val()) { // connected. online.
-                this.userLocation.onDisconnect().update({ status: 'offline' });
+                this.share.userLocation.onDisconnect().update({ status: 'offline' });
                 this.userOnline();
             }
             else { // disconnected. offline.

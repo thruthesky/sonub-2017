@@ -48,7 +48,10 @@ export class WordpressApiService extends Base {
             throw error(ERROR.RESPONSE_EMPTY);
         }
         else if (res['code'] === void 0) throw error(ERROR.RESPONSE_NO_CODE);
-        else if (res['code'] !== 0) throw error(res['code'], res['message']);
+        else if (res['code'] !== 0) {
+            // console.log("WordPressApiService::checkResult => error : ", res);
+            throw error(res['code'], res['message']);
+        }
         else return res['data'];
     }
 

@@ -34,6 +34,9 @@ import { AppService } from './../providers/app.service';
 import { TestService } from './../providers/test.service';
 import { PageScroll } from './../providers/page-scroll';
 import { PushMessageService } from './../providers/push-message';
+import { ShareService } from './../providers/share.service';
+import { ErrorService } from './../providers/error.service';
+
 
 import { PhilippineRegion } from "../providers/philippine-region";
 
@@ -77,6 +80,8 @@ const appRoutes: Routes = [
     PageScroll,
     PhilippineRegion,
     PushMessageService,
+    ShareService,
+    ErrorService,
     { provide: ErrorHandler, useClass: CustomErrorHandler }
   ],
   bootstrap: [AppComponent]

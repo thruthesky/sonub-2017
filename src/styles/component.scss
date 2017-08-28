@@ -237,6 +237,10 @@
     width: 36px;
     height: 36px;
 }
+.size-48px {
+    width: 48px;
+    height: 48px;
+}
 
 .h-5em {
     height: 5em;
@@ -300,4 +304,13 @@
 ////
 .box-border {
     border: 1px solid #ccc;
+}
+
+
+
+/// hover
+
+.hover-blue:hover {
+    background-color: blue;
+    color: white;
 }
