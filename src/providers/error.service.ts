@@ -44,7 +44,7 @@ export class ErrorService extends Base {
         console.log("ErrorService::alert() : ", e);
 
         if ( this.isWrongSessionInfo(e) ) {
-            this.user.logout();
+            this.share.logout();
             return;
         }
         if ( this.filterError( e ) ) return;

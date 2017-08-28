@@ -46,9 +46,9 @@ export class LoginPage implements OnInit, AfterViewInit {
         };
 
         
-        // console.log('firebaseSocial: ', profile);
+        console.log('LoginPage::firebaseSocialLoginSuccess() ==> app::socialLoginSuccess(): ', profile);
         this.app.socialLoginSuccess(profile, () => {
-            console.log("firebase social login success");
+            console.log("LoginPage::firebaseSocialLoginSuccess() ==>  app::socialLoginSuccess() ==> app::loginSuccess()");
             this.app.loginSuccess();
         });
     }
@@ -146,12 +146,13 @@ export class LoginPage implements OnInit, AfterViewInit {
 
 
     cordovaFirebaseAuthLogin(provider) {
-        // alert('signInWithRedirect');
+        console.log('LoginPage::cordovaFirebaseAuthLogin() ==> SignInWithRedirect(provider)');
         firebase.auth().signInWithRedirect(provider).then(() => {
+            console.log('LoginPage::cordovaFirebaseAuthLogin() ==> SignInWithRedirect(provider) ==> success ==> getRedirctResult()');
             firebase.auth().getRedirectResult().then(result => {
                 // var token = result.credential.accessToken;
                 let user = result.user;
-                console.log("cordova: social login success. ", user);
+                console.log("LoginPage::cordovaFirebaseAuthLogin() ==> login success. ", user);
                 this.firebaseSocialLoginSuccess(user);
             })
                 .catch(e => this.firebaseSocialLogniError(e));

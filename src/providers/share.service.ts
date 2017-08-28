@@ -33,8 +33,6 @@ export class ShareService extends Base {
     activity: ACTIVITIES = [];
     communityLogs: COMMUNITY_LOGS = [];
 
-
-
     /// toast
     toastOption = {
         show: false,
@@ -131,6 +129,7 @@ export class ShareService extends Base {
      *      - logout
      */
     bootstrapLoginLogout() {
+        console.log("ShareService::bootstrapLoginLogout()")
         this.listenFirebaseUserActivity();
     }
 
@@ -213,6 +212,7 @@ export class ShareService extends Base {
 
 
     listenFirebaseUserActivity() {
+        console.log("ShareService::listenFirebaseUserActivity()")
         let ref = this.db.child('user-activity').child(this.user.id.toString());
         if (this.user.isLogout) {
             if (this.firebaseDatabaseListenActivityEventHandler) {

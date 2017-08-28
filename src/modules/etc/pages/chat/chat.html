@@ -10,8 +10,7 @@
             <img class="rounded-circle size-48px" src="{{ app.photoUrl( room.otherPhotoUrl ) }}">
             <div class="ml-2 fs-sm">
                 <div>
-                    {{ room.otherName }}
-                    ({{ room.otherStatus }})
+                    {{ room.otherName }} ({{ room.otherStatus }})
                 </div>
                 <span class="badge badge-danger" style="padding-top: .2em;" *ngIf=" room.stamp_read == 0">new</span>
                 <span class="message">{{ room.message }}</span>
@@ -20,13 +19,15 @@
     </section>
 
 
-    <div *ngIf="chats">
-        <hr>
-        {{ chat.other?.name }} ({{ chat.other?.status }})
-        <hr>
-        <div *ngFor="let chat of chats.reverse()">
-            <img src="{{ chat.photoUrl }}" class="size-32px"> {{ chat.name }} {{ chat.message }} {{ chat.time }}
+    <section class="chat-box">
+        <div *ngIf="chats">
+            <hr> {{ chat.other?.name }} ({{ chat.other?.status }})
+            <hr>
+            <div *ngFor="let chat of chats.reverse()">
+                <img src="{{ chat.photoUrl }}" class="size-32px"> {{ chat.name }} {{ chat.message }} {{ chat.time }}
+            </div>
         </div>
-    </div>
-    <input *ngIf="chat.otherUid" [(ngModel)]="message" (keyup.enter)="onEnterMessage()">
+
+        <input *ngIf="chat.other?.uid" [(ngModel)]="message" (keyup.enter)="onEnterMessage()">
+    </section>
 </div>

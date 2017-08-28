@@ -107,7 +107,8 @@ export class AppService extends Base {
 
 
 
-    anonymousPhotoURL = '/assets/img/anonymous.png';
+    /// Anonymous photo URL must begin without slash(/) for compatibility with mobile app.
+    anonymousPhotoURL = 'assets/img/anonymous.png';
 
 
 
@@ -119,13 +120,19 @@ export class AppService extends Base {
 
 
 
-    /// user online, offline
+    /// user online, offline, away
+    myStatus: 'online' | 'offline' | 'away' = 'offline';
     trackMouseMove: Subscription;
-    timerMouseMove: Subscription;
+    trackScroll: Subscription;
+    trackKeyup: Subscription;
+    timerAway: Subscription;
+    throttleUserAction = 60000; // if there is any scroll, mouse move, key up in 60s, then it reset the away timeout.
+    throttleOut = 120000; // if there is no scroll, mouse move, key up in 2 minutes, then it sets the user 'away'.
 
 
     /// page visibility
     pageVisibility = new BehaviorSubject<boolean>(true);
+
 
 
 
@@ -247,12 +254,9 @@ export class AppService extends Base {
 
         if (res['code']) return this.warning(res['message']);
 
-
-
-
         // User has just logged in with naver id. ( 방금 로그인 )
         if (res['data']) {
-            console.log("User just logged in with Naver!");
+            // console.log("User just logged in with Naver!");
             history.pushState('', document.title, window.location.pathname);
 
             let naver = res['data']['response'];
@@ -268,14 +272,12 @@ export class AppService extends Base {
 
 
             this.socialLoginSuccess(profile, () => {
-                console.log("naver social login success");
+                // console.log("naver social login success");
                 this.loginSuccess();
             });
 
         }
     }
-
-
 
 
     /**
@@ -287,15 +289,6 @@ export class AppService extends Base {
      */
     displayError(e) {
         this.warning(e);
-        // let msg;
-        // if (typeof e === 'string') msg = e;
-        // else {
-        //     // if ( e.code === void 0 && e.message !== void 0 ) e.code = e.message;
-        //     // msg = `${e.code}: ${message}`;
-
-        //     msg = this.getErrorString(e);
-        // }
-        // alert(msg);
     }
 
     warning(e, message?) {
@@ -337,20 +330,20 @@ export class AppService extends Base {
      */
     socialLoginSuccess(profile: SOCIAL_PROFILE, callback) {
 
-        console.log('Going to socialLgoin: ', profile);
+        // console.log('AppService::socialLoginSuccess() ==> Going to socialLgoin: ', profile);
         this.user.loginSocial(profile.uid).subscribe(res => { // backend login
-            console.log("Social login success. res: ", res);
+            // console.log("Social login success. res: ", res);
             this.firebaseXapiLogin();
             callback();
             profile['session_id'] = res.session_id;
             this.user.updateSocial(profile).subscribe(res => { // backend login ==> update
-                console.log('updateSocial: ', res);
+                // console.log('updateSocial: ', res);
             }, e => this.warning(e));
         }, e => {
-            console.log("social login failed: ", e);
-            console.log('going to register soical: ', profile);
+            // console.log("social login failed: ", e);
+            // console.log('going to register soical: ', profile);
             this.user.registerSocial(profile).subscribe(res => { // backend register
-                console.log("firebase socail login ==> xapi register ==> register success");
+                // console.log("firebase socail login ==> xapi register ==> register success");
                 this.firebaseXapiRegistered();
                 this.firebaseXapiLogin();
                 callback();
@@ -374,16 +367,12 @@ export class AppService extends Base {
      * @note This method is being invoked for alll kinds of login.
      */
     loginSuccess(callback?) {
-        console.log("AppService::loginSuccess()");
-        setTimeout(() => this.rerenderPage(), 10);
+        // console.log("AppService::loginSuccess()");
+        this.rerenderPage(10);
         this.push.updateWebToken();
         this.push.updateCordovaToken();
         if (callback) callback();
-
-        // this.updateUserLogin();
-
         this.share.bootstrapLoginLogout();
-
         this.firebaseLogin_ifNot();
     }
 
@@ -423,7 +412,7 @@ export class AppService extends Base {
     firebaseLogin_ifNot() {
         if (this.user.isLogout) return;
         if (this.user.provider == 'firebase') {
-            console.log("Logged in with firebase already!");
+            // console.log("Logged in with firebase already!");
             return;
         }
         let email = 'sonub' + this.user.id + '@' + this.user.provider + '.com';
@@ -434,11 +423,11 @@ export class AppService extends Base {
                 // Handle Errors here.
                 var errorCode = error['code'];
                 var errorMessage = error['message'];
-                console.log(`errorCode: ${errorCode}, errorMessage: ${errorMessage}`);
+                // console.log(`errorCode: ${errorCode}, errorMessage: ${errorMessage}`);
                 if (errorCode == 'auth/user-not-found') {
                     this.auth.createUserWithEmailAndPassword(email, password)
                         .then(a => {
-                            console.log("firebaseLogin_ifNot => firebase login => firebase create(register) => auto login success");
+                            // console.log("firebaseLogin_ifNot => firebase login => firebase create(register) => auto login success");
                             this.firebaseXapiRegistered();
                             this.firebaseXapiLogin();
                         })
@@ -446,7 +435,7 @@ export class AppService extends Base {
                             // Handle Errors here.
                             var errorCode = error['code'];
                             var errorMessage = error['message'];
-                            console.log(`errorCode: ${errorCode}, errorMessage: ${errorMessage}`);
+                            // console.log(`errorCode: ${errorCode}, errorMessage: ${errorMessage}`);
                         });
                 }
             });
@@ -486,10 +475,9 @@ export class AppService extends Base {
             console.error("This is error. the xapi user id shouldn't be null after register. ");
             return;
         }
-        console.log("firebaseXapiRegistered: going to update uid", this.user.id, firebaseUser.uid);
+        // console.log("firebaseXapiRegistered: going to update uid", this.user.id, firebaseUser.uid);
 
         // this.db.child("xapi-uid").child( this.user.id + '' ).set( { uid: firebaseUser.uid });
-
 
     }
 
@@ -531,7 +519,7 @@ export class AppService extends Base {
             this.firebaseLogin = true;
         }
         else { // user just logged out or page refreshed
-            console.log("firebaseOnAuthStateChanged(): user just logged out or page refreshed");
+            // console.log("firebaseOnAuthStateChanged(): user just logged out or page refreshed");
             // this.userUpdate({status: 'offline'});
             this.endUserIdleTracking();
             this.firebaseAuthChange.next(false);
@@ -557,16 +545,36 @@ export class AppService extends Base {
         };
         this.userUpdate(data);
     }
+
+
+    /**
+     * It updates every track timeout.
+     * 
+     * @note @attention if you only update when it is not 'online', it works no good on cordova-android.
+     * 
+     */
     userOnline() {
-        this.userUpdate({ status: 'online' });
+        // if ( this.myStatus === 'online' ) return;
+        this.myStatus = 'online';
+        this.userUpdate({ status: this.myStatus });
     }
 
+    /**
+     * Sets the user offline.
+     * @note for 'offline', it always updates to database since it is not often happens.
+     * @param callback callback
+     */
     userOffline(callback) {
-        this.userUpdate({ status: 'offline' }, callback);
+        this.myStatus = 'offline';
+        this.userUpdate({ status: this.myStatus }, callback);
     }
-
+    /**
+     * Sets the user 'away'
+     * @note for 'away', it always updates to database since it is not often happens as 'online'.
+     */
     userAway() {
-        this.userUpdate({ status: 'away' });
+        this.myStatus = 'away';
+        this.userUpdate({ status: this.myStatus });
     }
 
     /**
@@ -619,7 +627,7 @@ export class AppService extends Base {
 
     get userPhotoUrl(): string {
         if (this.user.isLogin && this.user.profile.photoURL) return this.user.profile.photoURL;
-        else return '/assets/img/anonymous.png';
+        else return this.anonymousPhotoURL;
     }
 
     /**
@@ -628,7 +636,7 @@ export class AppService extends Base {
      */
     photoUrl( url ) {
         if ( url ) return url;
-        else return '/assets/img/anonymous.png';
+        else return this.anonymousPhotoURL;
     }
 
 
@@ -704,33 +712,39 @@ export class AppService extends Base {
             if (connected.val()) { // connected. online.
                 this.share.userLocation.onDisconnect().update({ status: 'offline' });
                 this.userOnline();
+                // console.log("AppService::onConnect() ==> connected")
             }
             else { // disconnected. offline.
-
+                /// cannot write any code here. this will not work.
             }
         });
-
     }
     beginUserIdleTracking() {
-        this.trackMouseMove = Observable
-            .fromEvent(document, 'mousemove')
-            .throttleTime(120000) // if any mouse move in 2 minutes,
-            .subscribe(e => {
-                this.userOnline();          // then, set user online
-                this.resetMoveMoveTimer();  // reset timer.
-            });
-        this.resetMoveMoveTimer(); // begin tracking immediately after loading ( 처음 로드 하자 마자 한번 호출. )
+        this.trackMouseMove = this.trackAction('mousemove');
+        this.trackScroll = this.trackAction('scroll');
+        this.trackKeyup = this.trackAction('keyup');
+        this.resetTimerAway(); // begin tracking immediately after loading ( 처음 로드 하자 마자 한번 호출. )
     }
-    resetMoveMoveTimer() {
-        if (this.timerMouseMove) this.timerMouseMove.unsubscribe();
-        this.timerMouseMove = Observable.timer(180000) // if no mouse move in 3 minuts,
+    trackAction( action ) {
+        return Observable.fromEvent(document, action)
+            .throttleTime(this.throttleUserAction)
+            .subscribe(e => this.userAction());
+    }
+    userAction() {
+        // console.log("userAction");
+        this.userOnline();          // then, set user online
+        this.resetTimerAway();  // reset timer.
+    }
+    resetTimerAway() {
+        if (this.timerAway) this.timerAway.unsubscribe();
+        this.timerAway = Observable.timer(this.throttleOut) // if no mouse move in 3 minuts,
             .subscribe(e => {          // then, set user away. until the user closes the app. or logs out.
                 this.userAway();
             });
     }
     endUserIdleTracking() {
         if (this.trackMouseMove) this.trackMouseMove.unsubscribe();
-        if (this.timerMouseMove) this.timerMouseMove.unsubscribe();
+        if (this.timerAway) this.timerAway.unsubscribe();
     }
 
 }

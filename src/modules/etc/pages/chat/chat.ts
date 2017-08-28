@@ -69,18 +69,19 @@ export class ChatPage extends Base implements OnInit, AfterViewInit, OnDestroy {
         let uid = parseInt( xapiUid );
         if (uid == a.user.id) return a.warning(-8300, "You cannot chat with yourself");
         if ( ! uid ) return a.warning(-80903, "Wrong user id");
-        console.log("otherXapiUid: ", uid);
+        // console.log("otherXapiUid: ", uid);
 
         this.unObserveChatUser();
         this.queryUserByXapiUid(uid).once('value', snap => {
             let val = snap.val();
             if (!val) return a.warning(-8090, "User not exists on chat server");
-            console.log(val);
             let keys = Object.keys(val);
             let uid = keys[0];
             let user = val[uid];
-            user['uid'] = uid;
-            this.chat.other = user;
+            // user['uid'] = uid;
+            // this.chat.other = user;
+            this.setChatUser( uid, user );
+            // console.log('otherUser: ', this.chat.other);
             this.chat.setCurrentRoomAsRead( uid );
 
             this.observeChat();
@@ -88,6 +89,15 @@ export class ChatPage extends Base implements OnInit, AfterViewInit, OnDestroy {
 
         }, e => console.error(e));
     }
+
+    setChatUser( uid, val ) {
+        let user: CHAT_USER = val;
+        // console.log("Observe chat user: ", user);
+        if ( user === null || user.status === void 0 ) return;
+        this.chat.other = user;
+        this.chat.other.uid = uid;
+    }
+
 
     ngOnInit() { }
     ngOnDestroy() {
@@ -110,10 +120,10 @@ export class ChatPage extends Base implements OnInit, AfterViewInit, OnDestroy {
     }
 
     unObserveUsers() {
-        console.log("unObserveUsers()");
+        // console.log("unObserveUsers()");
         if ( this.onUsers && Object.keys(this.onUsers).length ) {
             for( let uid of Object.keys(this.onUsers) ) {
-                console.log(`uid: ${uid} has been un-observed`);
+                // console.log(`uid: ${uid} has been un-observed`);
                 let on = this.onUsers[uid];
                 // console.log('on', on);
                 this.referenceUser( uid ).off( 'value', on );
@@ -122,11 +132,9 @@ export class ChatPage extends Base implements OnInit, AfterViewInit, OnDestroy {
     }
 
     observeChatUser() {
-        this.onChatUser = this.referenceUser( this.chat.other.uid ).on('value', snap => {
-            let user: CHAT_USER = snap.val();
-            console.log("Observe chat user: ", user);
-            if ( user === null || user.status === void 0 ) return;
-            this.chat.other = user;
+        let uid = this.chat.other.uid; /// @warning this is confusing.
+        this.onChatUser = this.referenceUser( uid ).on('value', snap => {
+            this.setChatUser( uid, snap.val() );
             this.app.rerenderPage();
         });
     }
@@ -138,7 +146,7 @@ export class ChatPage extends Base implements OnInit, AfterViewInit, OnDestroy {
     }
     
     observeChat() {
-        console.log("observeChat");
+        // console.log("observeChat");
         let a = this.app;           /// app
         let p = this.chat.myCurrentRoom;       /// other room path
         if (p === null) return a.warning(a.e.CHAT_ROOM_PATH);
@@ -150,13 +158,13 @@ export class ChatPage extends Base implements OnInit, AfterViewInit, OnDestroy {
                 return
             }
             let val = snap.val();
-            console.log("observeChat() snap.val: ", val);
+            // console.log("observeChat() snap.val: ", val);
             let keys = Object.keys(val);
             this.chats = [];
             for (let key of keys.reverse()) {
                 this.chats.push(val[key]);
             }
-            console.log(this.chats);
+            // console.log(this.chats);
             this.app.rerenderPage( 10 );
         });
     }
@@ -169,7 +177,7 @@ export class ChatPage extends Base implements OnInit, AfterViewInit, OnDestroy {
         let myRoom = this.chat.myCurrentRoom;       /// my current chat room with other user
         if (myRoom === null) return a.warning(a.e.CHAT_ROOM_PATH);
 
-        console.log("message: ", this.message);
+        // console.log("message: ", this.message);
         let data: CHAT_MESSAGE = {
             message: this.message,
             name: this.app.user.name,

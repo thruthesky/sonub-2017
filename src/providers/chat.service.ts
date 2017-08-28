@@ -244,7 +244,7 @@ export class ChatService extends Base {
                 let val = snap.val();
                 let keys = Object.keys(val);
                 let room = val[keys[0]];
-                console.log("initChat() : room : ", room);
+                // console.log("initChat() : room : ", room);
                 this.roomsEvent.next(room['otherUid']);
             }
             else {
@@ -366,7 +366,7 @@ export class ChatService extends Base {
         };
         p.orderByChild('otherUid').equalTo(this.myUid).once('value', snap => {
             let rooms = snap.val();
-            console.log("updateOtherRoom: snap.val(): ", rooms);
+            // console.log("updateOtherRoom: snap.val(): ", rooms);
             p.push().set(otherRoomInfo).then(a => this.deleteRooms(p, rooms));
         }, e => console.error(e));
 
@@ -388,7 +388,7 @@ export class ChatService extends Base {
          */
         for (let key of keys) {
             p.child(key).set(null).then(a => {
-                console.log("previous room deleted. key: ", key);
+                // console.log("previous room deleted. key: ", key);
             });
         }
 
@@ -403,10 +403,10 @@ export class ChatService extends Base {
         this.room(uid).once('value', snap => {
             let rooms = snap.val();
             if (!rooms) return;
-            console.log("room() snap.val(): ", rooms);
+            // console.log("room() snap.val(): ", rooms);
             let keys = Object.keys(rooms);
             let key = keys[0];
-            console.log("room key: ", key);
+            // console.log("room key: ", key);
             this.rooms.child(key).update({ stamp_read: (new Date).getTime() })
                 .then(a => {
                     /// set current room read and update chat
@@ -424,7 +424,7 @@ export class ChatService extends Base {
             let keys = Object.keys(val);
             if (keys.length == 0) return console.error(`No user from firebase /users/xxxx/xapiUid=${xapiUid}`);
             let user: CHAT_USER = val[keys[0]];
-            console.log("user: ", user);
+            // console.log("user: ", user);
             if (user.status === void 0 || user.status == 'online') return;
 
             /// if user is not online, send push
@@ -436,7 +436,7 @@ export class ChatService extends Base {
                 click_action: this.homeUrl
             }
             this.wp.post(data).subscribe(res => {
-                console.log("pushMessage(): success: uid: ", res);
+                // console.log("pushMessage(): success: uid: ", res);
             }, e => console.error("pushMessage: error: ", e));
 
         });
