@@ -11,6 +11,9 @@
                     <span class="content">{{ app.wordcut( activity.content, 42 ) }}</span>
                 </a>
             </div>
+            <div *ngIf="activity.action == 'chat' ">
+                <div class="content" routerLink="/chat">{{ activity.content }}</div>
+            </div>
         </div>
     </div>
     <div *ngIf=" app.share.activity.length == 0">

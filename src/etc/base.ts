@@ -46,7 +46,7 @@ export class Base extends Library {
         return environment.clientUrl;
     }
     get chatUrl() {
-        return this.homeUrl + '/chat';
+        return '/chat';
     }
 
     xapiUrl() {

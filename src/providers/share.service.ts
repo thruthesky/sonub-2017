@@ -23,6 +23,15 @@ import {
     ACTIVITY, ACTIVITIES, COMMUNITY_LOGS, COMMUNITY_LOG
 } from './wordpress-api/interface';
 
+export interface TOAST_OPTIONS {
+    content: string;
+    className?: string;
+    callback?: any;
+    delay?: number; /// to delay before toast.
+    show?: boolean;
+    timeout?: number; /// to hide after toast.
+
+};
 
 @Injectable()
 export class ShareService extends Base {
@@ -34,11 +43,11 @@ export class ShareService extends Base {
     communityLogs: COMMUNITY_LOGS = [];
 
     /// toast
-    toastOption = {
+    toastOption: TOAST_OPTIONS = {
         show: false,
         content: '',
         className: '',
-        callback: () => { }
+        callback: () => {}
     };
 
 
@@ -151,7 +160,7 @@ export class ShareService extends Base {
 
         if (this.size == 'break-d') return; // don't toast on wide space.
 
-        let toastOption = {
+        let toastOption: TOAST_OPTIONS = {
             content: val.content,
             timeout: 10000,
             className: '',
@@ -180,7 +189,7 @@ export class ShareService extends Base {
     }
 
 
-    toast(option) {
+    toast(option: TOAST_OPTIONS) {
         // console.log(`app.toast()`, option);
         if (option.delay === void 0) option.delay = 1;
         setTimeout(() => {
@@ -189,6 +198,7 @@ export class ShareService extends Base {
             if (option.timeout !== void 0) {
                 setTimeout(() => this.toastClose(), option.timeout);
             }
+            this.rerenderPage();
         }, option.delay);
     }
 
@@ -197,6 +207,9 @@ export class ShareService extends Base {
         this.rerenderPage();
     }
 
+    onClickToast() {
+        if ( this.toastOption.callback ) this.toastOption.callback()
+    }
 
 
     /// post
@@ -231,15 +244,6 @@ export class ShareService extends Base {
                 let val: ACTIVITY = snap.val();
                 if (!val) return;
                 if (typeof val !== 'object') return;
-
-                // console.log('listenFirebaseUserActivity() snap.val', val);
-                // let keys = Object.keys(val);
-                // if (keys && keys.length) {
-                //     this.activity = [];
-                //     for (let key of keys.reverse()) {
-                //         this.activity.push(val[key]);
-                //     }
-                // }
                 this.activity.unshift(val);
                 this.toastLog(val, 'activity');
                 this.rerenderPage();
@@ -281,6 +285,13 @@ export class ShareService extends Base {
 
         }, e => console.error(e));
 
+    }
+
+
+
+    go(url) {
+        console.log("go: ", url);
+        this.router.navigateByUrl(url);
     }
 
 

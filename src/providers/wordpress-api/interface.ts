@@ -457,14 +457,14 @@ export interface ACTIVITY_RESPONSE {
 
 
 export interface ACTIVITY {
-    post_ID: number;
+    post_ID?: number;
     action: string;
-    target: number;
-    stamp: number;
-    author_id: number;
-    author_name: string;
-    author_photoURL: string;
-    thumbnail_url: string;
+    target?: number;
+    stamp?: number;
+    author_id?: number;
+    author_name?: string;
+    author_photoURL?: string;
+    thumbnail_url?: string;
     content: string;
 };
 

@@ -135,9 +135,6 @@ export class AppService extends Base {
 
 
 
-
-
-
     constructor(
         private domSanitizer: DomSanitizer,
         public user: UserService,
@@ -696,7 +693,7 @@ export class AppService extends Base {
 
 
     go(url) {
-        this.router.navigateByUrl(url);
+        this.share.go(url);
     }
 
 
