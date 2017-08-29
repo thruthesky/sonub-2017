@@ -14,6 +14,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 export class BuyAndSellViewPage implements OnInit {
 
     product: BUYANDSELL;
+    used: 'Yes' | 'No' | 'Not Applicable' = 'No';
+    deliverable: 'Yes' | 'No' = 'No';
     selectedImage: string;
 
     ID: number;
@@ -41,11 +43,12 @@ export class BuyAndSellViewPage implements OnInit {
     ngOnInit() { }
 
     prepare(buyAndSell: BUYANDSELL) {
-        if (buyAndSell.usedItem == 'y') buyAndSell['used'] = 'Yes';
-        if (buyAndSell.usedItem == 'n') buyAndSell['used'] = 'No';
-        if (buyAndSell.usedItem == 'x') buyAndSell['used'] = 'Not Applicable';
-        if (buyAndSell.deliverable == 'y') buyAndSell['delivery'] = 'Yes';
-        if (buyAndSell.deliverable == 'n') buyAndSell['delivery'] = 'No';
+        if (buyAndSell.usedItem == 'y') this.used = 'Yes';
+        else if (buyAndSell.usedItem == 'n') this.used = 'No';
+        else if (buyAndSell.usedItem == 'x') this.used = 'Not Applicable';
+
+        if (buyAndSell.deliverable == 'y') this.deliverable = 'Yes';
+        else if (buyAndSell.deliverable == 'n') this.deliverable = 'No';
     }
 
 
