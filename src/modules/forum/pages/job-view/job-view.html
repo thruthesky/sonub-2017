@@ -1,0 +1,57 @@
+<div class="container p-0" *ngIf="profile?.ID">
+    <div class="profile bg-white">
+        <a class="float-left ml-1 p-2 fs-lg" href="/job" routerLink="/job"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a>
+        <div class="photo p-2 pt-3 flex justify-content-center">
+            <img class="border-radius-50" src="{{ urlPhoto( profile ) }}">
+        </div>
+
+        <div class="info p-2">
+
+            <div class="input-group mb-3">
+                <label for="fullname" class="input-group-addon">Name</label>
+                <span type="text" class="form-control" id="fullname">{{profile?.fullname}}</span>
+            </div>
+            <div class="input-group mb-3">
+                <label for="profession" class="input-group-addon">Profession</label>
+                <span type="text" class="form-control" id="profession">{{profile?.profession}}, {{ profile?.gender == 'm' ? 'Male' : 'Female'
+                }}/{{getAge(profile?.birthday)}}</span>
+            </div>
+            <div class="input-group mb-3">
+                <label for="mobile" class="input-group-addon">Mobile</label>
+                <span type="text" class="form-control" id="mobile">{{profile?.mobile}}</span>
+            </div>
+            <div class="input-group mb-3">
+                <label for="experience" class="input-group-addon">Experience</label>
+                <span type="text" class="form-control" id="experience">{{profile.experience < 12 ? profile.experience + ' months' : profile.experience / 12 + ' years'}}</span>
+            </div>
+            <div class="input-group mb-3">
+                <label for="address" class="input-group-addon">Address</label>
+                <span type="text" class="form-control" id="address">{{profile?.address}}</span>
+            </div>
+
+            <div class="input-group mb-3">
+                <label for="province" class="input-group-addon">Province</label>
+                <span type="text" class="form-control" id="province">{{profile?.province}}</span>
+            </div>
+            <div class="input-group mb-3">
+                <label for="city" class="input-group-addon">City</label>
+                <span type="text" class="form-control" id="city">{{profile?.city}}</span>
+            </div>
+            <div class="input-group mb-3">
+                <label for="message" class="input-group-addon">Message</label>
+                <span type="text" class="form-control" id="message">{{profile?.message}}</span>
+            </div>
+        </div>
+        <div class="card-footer mt-1 p  -1"
+             *ngIf="(app.my(profile) || (!app.user.isLogin && !profile.author.ID))">
+            <div class="row">
+                <div class="text-center pointer col-6 p-0" (click)="$event.stopPropagation(); onClickEdit( profile?.ID )"><i
+                    class="fa fa-pencil"></i> Update
+                </div>
+                <div class="text-center pointer col-6 p-0"
+                     (click)="$event.stopPropagation(); onClickDelete( profile )"><i class="fa fa-trash-o"></i> Delete
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -132,10 +132,10 @@
     <div class="container p-0" *ngIf="pages">
         <div class="jobs mx-0 row no-gutters-job">
             <ng-container *ngFor="let page of pages ">
-                <div class="job col-6 mb-1" *ngFor="let job of page.posts " [attr.post-id]="job.ID" (click)=" job.active = ! job?.active"
-                    [class.col-12]=" job?.active ">
+                <div class="job col-6 mb-1" *ngFor="let job of page.posts " [attr.post-id]="job.ID" (click)="onClickShowDetail(job)"
+                    [class.col-12]=" activeView == job?.ID ">
                     <div class="profile bg-white">
-
+                        <a class="float-right p-3" href="view/{{job.ID}}" routerLink="view/{{job.ID}}"><i class="fa fa-id-card" aria-hidden="true"></i></a>
                         <div class="photo p-2 pt-3 flex justify-content-center">
                             <img class="border-radius-50" src="{{ urlPhoto( job ) }}">
                         </div>
@@ -144,7 +144,7 @@
                             <div class="">{{ job?.fullname }}</div>
                             <div class="profession">{{ job?.profession }}, {{ job.gender == 'm' ? 'Male' : 'Female' }}/{{getAge(job.birthday)}}</div>
                             <div class="">Mobile: {{job?.mobile}}</div>
-                            <ng-container *ngIf="job['active']">
+                            <ng-container *ngIf="activeView == job?.ID">
                                 <div class="">Experience: {{job.experience < 12 ? job.experience + ' months' : job.experience / 12 + ' years'}}</div>
                                 <div class="">Address: {{job?.address}}</div>
                                 <div class="">Province: {{job?.province}}</div>

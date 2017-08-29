@@ -301,18 +301,34 @@ export let TEXT = {
         en: {
             content: 'Do you want to delete #no?',
             buttons:
-            [
-                { code: 'yes', text: 'Yes' },
-                { code: 'no', text: 'No' }
-            ]
+                [
+                    { code: 'yes', text: 'Yes' },
+                    { code: 'no', text: 'No' }
+                ]
         },
         ko: {
             content: '#no번 글을 삭제를 하시겠습니까?',
             buttons:
-            [
-                { code: 'yes', text: '예' },
-                { code: 'no', text: '아니오' }
-            ]
+                [
+                    { code: 'yes', text: '예' },
+                    { code: 'no', text: '아니오' }
+                ]
+        }
+    },
+    changePassword: {
+        en: {
+            content: 'Change Password Success',
+            buttons:
+                [
+                    { code: 'close', text: 'Close' }
+                ]
+        },
+        ko: {
+            content: '#no번 글을 삭제를 하시겠습니까?',
+            buttons:
+                [
+                    { code: 'close', text: '닫기' }
+                ]
         }
     },
 
@@ -350,10 +366,10 @@ TEXT[ERROR.CODE_PERMISSION_DENIED_NOT_OWNER] = { en: 'You do not have permission
 TEXT[ERROR.CHAT_ROOM_PATH] = {en: 'Cannot find chat server path. Please inform it to web master.', ko: '채팅 서버의 경로를 찾을 수 없습니다. 웹마스터에게 연락해 주세요.'};
 TEXT[ERROR.WRONG_PATH] = {en: 'You have accessed with wrong route.', ko: '잘못된 경로로 접속을 하였습니다.'};
 /**
- * 
+ *
  * @note default language is 'en'.
- * @param code 
- * @param args 
+ * @param code
+ * @param args
  */
 export function text(code, args?) {
     let ln;
