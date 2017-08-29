@@ -13,7 +13,8 @@ import { ChatPage } from './pages/chat/chat';
 
 const appRoutes: Routes = [
     { path: 'menu', component: MenuPage },
-    { path: 'page/:name', component: PagePage },
+    { path: 'page/:filename', component: PagePage },
+    { path: 'search/:keyword', component: PagePage, data: { filename: 'search', section: 'search', layout: 'column' }  },
     { path: 'rules', component: PagePage, data: { filename: 'rules', section: 'etc', layout: 'two-column' } },
     { path: 'my-page', component: PagePage, data: { filename: 'my-page', section: 'user', layout: 'two-column' } },
     { path: 'forum', component: PagePage, data: { filename: 'forum-index', section: 'forum', layout: 'two-column' } },

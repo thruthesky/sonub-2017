@@ -31,6 +31,7 @@ import { WordpressApiService } from './wordpress-api/wordpress-api.service';
 import { UserService } from './wordpress-api/user.service';
 import { ForumService } from './wordpress-api/forum.service';
 import { FileService } from './wordpress-api/file.service';
+import { PageService } from './wordpress-api/page.service';
 import { JobService } from './wordpress-api/job.service';
 import { BuyAndSellService } from './wordpress-api/buyandsell.service';
 import { SearchService } from './wordpress-api/search.service';
@@ -151,6 +152,7 @@ export class AppService extends Base {
         public bns: BuyAndSellService,
         public wp: WordpressApiService,
         public file: FileService,
+        public page: PageService,
         public search: SearchService,
         // public text: TextService,
         private confirmModalService: ConfirmModalService,

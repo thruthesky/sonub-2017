@@ -27,6 +27,7 @@ import { WordpressApiService } from './../providers/wordpress-api/wordpress-api.
 import { UserService } from './../providers/wordpress-api/user.service';
 import { ForumService } from './../providers/wordpress-api/forum.service';
 import { FileService } from './../providers/wordpress-api/file.service';
+import { PageService } from './../providers/wordpress-api/page.service';
 import { JobService } from './../providers/wordpress-api/job.service';
 import { BuyAndSellService } from '../providers/wordpress-api/buyandsell.service';
 import { SearchService } from '../providers/wordpress-api/search.service';
@@ -76,6 +77,7 @@ const appRoutes: Routes = [
     ForumService,
     FileService,
     JobService,
+    PageService,
     BuyAndSellService,
     SearchService,
     WordpressApiService,

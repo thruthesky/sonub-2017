@@ -47,6 +47,10 @@ export class HeaderWidget implements OnInit {
             });
     }
 
+    onEnterSearch() {
+        this.app.share.go("search/" + this.search);
+    }
+
     onKeyUpStartSearch() {
         this.typing.next();
     }

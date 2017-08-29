@@ -4,15 +4,15 @@
 
 
 .hidden-360-down {
-    display: none;
+    display: none !important;
     @media ( min-width: 361px ) {
-        display: initial;
+        display: initial !important;
     }
 }
 .hidden-320-down {
-    display: none;
+    display: none !important;
     @media ( min-width: 321px ) {
-        display: initial;
+        display: initial !important;
     }
 }
 
