@@ -14,8 +14,10 @@ import { LoginPage } from './pages/login/login';
 import { ProfilePage } from './pages/profile/profile';
 import { ProfileEditModalService } from "./pages/modals/profile-edit/profile-edit.modal";
 import { ProfileEditContent } from "./pages/modals/profile-edit/profile-edit.content";
+import { ProfileChangePasswordContent } from './pages/modals/profile-edit/profile-change-password.content';
 import { SettingsPage } from './pages/settings/settings';
 import { OpenProfilePage } from './pages/open-profile/open-profile';
+
 
 
 const appRoutes: Routes = [
@@ -35,11 +37,13 @@ const appRoutes: Routes = [
         LoginPage,
         ProfilePage,
         ProfileEditContent,
+        ProfileChangePasswordContent,
         SettingsPage,
         OpenProfilePage
     ],
     entryComponents: [
-        ProfileEditContent
+        ProfileEditContent,
+        ProfileChangePasswordContent
     ],
     imports: [
         CommonModule,

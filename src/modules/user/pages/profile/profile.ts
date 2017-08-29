@@ -35,11 +35,22 @@ export class ProfilePage implements OnInit {
 
 
     onClickEditProfile() {
-        this.profileEditModal.open(this.userData).then(id => {
+        this.profileEditModal.openProfile(this.userData).then(id => {
             // console.log('comment edit success:', id);
 
             this.initProfile();
 
         }, err => this.app.warning(err));
+    }
+
+    onClickShowChangePassword() {
+        this.profileEditModal.openChangePassword().then( () => {
+            console.log('ChangePasword::result')
+            }, err => this.app.warning(err));
+
+    }
+
+    onClickResign() {
+
     }
 }

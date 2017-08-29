@@ -54,6 +54,8 @@ export class JobListPage implements OnInit, OnDestroy {
     today = new Date();
     currentYear = this.today.getFullYear();
 
+    activeView: number;
+
     constructor(
         private fb: FormBuilder,
         public app: AppService,
@@ -329,6 +331,17 @@ export class JobListPage implements OnInit, OnDestroy {
         this.searchForm = false;
         this.jobProfession = 'all';
         this.resetForm();
+    }
+
+    onClickShowDetail(job) {
+        if( this.activeView != job.ID  ) {
+            this.activeView = job.ID
+            history.pushState('','', `/job/view/${job.ID}`);
+        }
+        else {
+            this.activeView = null;
+            history.pushState('','', '/job'  );
+        }
     }
 
 

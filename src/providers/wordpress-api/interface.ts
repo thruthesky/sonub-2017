@@ -84,6 +84,11 @@ export interface USER_DATA extends REQUEST { };
 export interface USER_DATA_RESPONSE extends USER_COMMON { };
 
 
+export interface USER_CHANGE_PASSWORD extends REQUEST {
+    old_password: string;
+    new_password: string;
+}
+
 
 export interface UPLOADED_FILE {
     id: number;

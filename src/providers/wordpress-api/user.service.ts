@@ -1,5 +1,5 @@
 /**
- * This has combination codes of Wordpress API, Firebase SDK, Kakao, Naver, and other 
+ * This has combination codes of Wordpress API, Firebase SDK, Kakao, Naver, and other
  */
 import { Injectable } from '@angular/core';
 import { Base } from '../../etc/base';
@@ -12,7 +12,7 @@ import {
     USER_REGISTER, USER_REGISTER_RESPONSE, USER_LOGIN, USER_LOGIN_RESPONSE,
     USER_UPDATE, USER_UPDATE_RESPONSE, USER_DATA_RESPONSE, USER_DATA,
     SOCIAL_REGISTER, SOCIAL_UPDATE,
-    ACTIVITY_REQUEST, ACTIVITY_RESPONSE
+    ACTIVITY_REQUEST, ACTIVITY_RESPONSE, USER_CHANGE_PASSWORD
 } from './interface';
 
 @Injectable()
@@ -40,7 +40,7 @@ export class UserService extends Base {
     }
 
     /**
-     * 
+     *
      * @Warning This will load user profile from localStorage.
      * @Warning So, this must be case on every bootstrap.
      * @Attention This is being called in UserService::constructor which will be called by AppService::constructor.
@@ -87,7 +87,7 @@ export class UserService extends Base {
         return this.wp.post( data )
             .map(res => this.setUserProfile( res ) );
     }
-    
+
     /**
      * This registers social logged in user to backend.
      * @param data user data
@@ -99,12 +99,12 @@ export class UserService extends Base {
             .map(res => this.setUserProfile(res));
     }
 
-    
+
     /**
-     * 
+     *
      * This updates social user information(name, photo) into backend.
-     * 
-     * @param data 
+     *
+     * @param data
      */
     updateSocial(data: SOCIAL_UPDATE): Observable<USER_REGISTER_RESPONSE> {
         data.route = 'user.updateSocial';
@@ -112,12 +112,20 @@ export class UserService extends Base {
             .map(res => this.setUserProfile(res));
     }
 
-    
-        
+
+
 
     update(data: USER_UPDATE): Observable<USER_UPDATE_RESPONSE> {
         data.session_id = this.sessionId;
         data.route = 'user.profile';
+        return this.wp.post(data)
+            .map(res => this.setUserProfile(res));
+    }
+
+
+    changePassword(data: USER_CHANGE_PASSWORD): Observable<any> {
+        data.session_id = this.sessionId;
+        data.route = 'user.password';
         return this.wp.post(data)
             .map(res => this.setUserProfile(res));
     }
@@ -170,7 +178,7 @@ export class UserService extends Base {
 
     /**
      * This must only be called by setUserProfile() and logout()
-     * @param data 
+     * @param data
      */
     rawSetUserProfile( data ) {
         this.profile = data;
@@ -220,8 +228,8 @@ export class UserService extends Base {
      * Request for processing user action activiy to backend server.
      * @note use this method after user action like 'like', 'dislike', 'comment', 'post', etc
      * @note the server may do 'push message', 'log into firebase database', etc.
-     * 
-     *  
+     *
+     *
      */
     activity(req: ACTIVITY_REQUEST): Observable<ACTIVITY_RESPONSE> {
         req.route = 'wordpress.activity';
