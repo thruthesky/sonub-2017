@@ -186,19 +186,6 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
         else this.pages.push(page);
     }
 
-    // prepare(page: BUYANDSELL_PAGE) {
-    //     if (page && page.posts && page.posts.length) {
-    //         for (let post of page.posts) {
-    //             if( post.usedItem == 'y' ) post['used'] = 'Yes';
-    //             if( post.usedItem == 'n' ) post['used'] = 'No';
-    //             if( post.usedItem == 'x' ) post['used'] = 'Not Applicable';
-    //
-    //             if( post.deliverable == 'y' ) post['delivery'] = 'Yes';
-    //             if( post.deliverable == 'n' ) post['delivery'] = 'No';
-    //         }
-    //     }
-    // }
-
     urlPhoto(post) {
         let url = this.app.forum.getFirstImageThumbnailUrl(post);
         if (url) return url;
