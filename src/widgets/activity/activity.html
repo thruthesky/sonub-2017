@@ -1,7 +1,7 @@
 <div class="p-2 bg-white fs-xs word-break-all">
     <h4 class="m-0 mb-0 fs-md fw-normal">{{ app.text('my_activity') }}</h4>
-    <div class="logs" *ngIf=" app.activity.length ">
-        <div class="pt-2" *ngFor=" let activity of app.activity ">
+    <div class="logs" *ngIf=" app.share.activity.length ">
+        <div class="pt-2" *ngFor=" let activity of app.share.activity ">
             <div *ngIf=" activity.action == 'comment-create' || activity.action == 'post-create' ">
                 <hr class="mt-0 mb-2 p-0">
                 <a class="clearfix" href="{{ app.forum.postUrl( activity.post_ID ) }}" routerLink="{{ app.forum.postUrl( activity.post_ID ) }}">
@@ -11,9 +11,12 @@
                     <span class="content">{{ app.wordcut( activity.content, 42 ) }}</span>
                 </a>
             </div>
+            <div *ngIf="activity.action == 'chat' ">
+                <div class="content" routerLink="/chat">{{ activity.content }}</div>
+            </div>
         </div>
     </div>
-    <div *ngIf=" app.activity.length == 0">
+    <div *ngIf=" app.share.activity.length == 0">
         You have no record.
     </div>
 

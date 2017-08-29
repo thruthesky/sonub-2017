@@ -37,9 +37,7 @@
                         </section>
                         <!--/sidebar-c-->
                     </div>
-
                 </ng-container>
-
             </div>
             <!--/page-body-content-layout-->
 
@@ -62,9 +60,10 @@
 <!--/page-->
 
 <ng-template ngbModalContainer></ng-template>
-<section id="toast" class="pointer" [class.show]="app.toastOption.show" [ngClass]="[ app.toastOption.className ]">
-    <button type="button" class="p-2 close" aria-label="Close" (click)="app.toastClose()">
+<section id="toast" class="pointer" [class.show]="app.share.toastOption.show" [ngClass]="[ app.share.toastOption.className ]">
+    <button type="button" class="p-2 pr-3 close" aria-label="Close" (click)="app.share.toastClose()">
         <span aria-hidden="true">&times;</span>
     </button>
-    <div id="toast-content" (click)=" app.toastOption.callback() " [innerHTML]="app.toastOption.content"></div>
+    <div id="toast-content" (click)="app.share.onClickToast()" [innerHTML]="app.share.toastOption.content"></div>
 </section>
+

@@ -318,7 +318,14 @@ export let TEXT = {
     this_post_is_not_owned_by_you_on_delete_post: {
         en: 'You cannot delete this. Permission denied.',
         ko: '글을 삭제 할 수 없습니다. 권한 없음.'
-    }
+    },
+
+
+    /// chat
+    recent_chat_users: {
+        en: 'Recent Chat Users',
+        ko: '최근 채팅 사용자 목록'
+    },
 };
 
 

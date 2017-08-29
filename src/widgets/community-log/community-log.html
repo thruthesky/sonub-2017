@@ -1,6 +1,6 @@
 <h4 class="title m-0 p-0 fs-sm fw-normal">{{ app.text('community_logs') }}</h4>
-<div class="bg-white" *ngIf="app.communityLogs.length">
-    <div class="log pt-2 fs-xs" *ngFor=" let log of app.communityLogs ">
+<div class="bg-white" *ngIf="app.share.communityLogs.length">
+    <div class="log pt-2 fs-xs" *ngFor=" let log of app.share.communityLogs ">
         <a href="{{ app.forum.postUrl( log.post_ID ) }}" routerLink="{{ app.forum.postUrl( log.post_ID ) }}">
             <div *ngIf=" imageUrl(log) " class="thumbnail float-left mr-2">
                 <img class="size-32px" src="{{ imageUrl(log) }} ">

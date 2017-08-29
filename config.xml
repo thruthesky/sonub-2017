@@ -7,6 +7,7 @@
     <author email="thruthesky@gmail.com" href="http://sonub.com">
         Withcenter Team
     </author>
+    <preference name="AndroidLaunchMode" value="singleTask" />
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />

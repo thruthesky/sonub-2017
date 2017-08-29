@@ -29,7 +29,8 @@
     "build:www": "ng build --output-path=www",
     "build:prod:www": "ng build --prod --output-path=www",
     "build:prod:aot:www:web": "ng build --prod --aot --output-path=www --base-href=/",
-    "build:android": "ng build --output-path=www --base-href=/android_asset/www/"
+    "build:android": "ng build --output-path=www --base-href=/android_asset/www/",
+    "doc": "compodoc -s -p src/tsconfig.app.json  -d ./doc"
   },
   "private": true,
   "dependencies": {

@@ -59,7 +59,7 @@ export class PostListThumbnailTextWidget implements OnInit, OnDestroy, AfterView
         };
         this.loadCache(req);
         this.app.forum.postList(req).subscribe((page: PAGE) => {
-            console.log('PostListThumbnailTextWidget::loadPage::', page);
+            // console.log('PostListThumbnailTextWidget::loadPage::', page);
             this.inLoading = false;
             if (page.paged == page.max_num_pages) {
                 this.noMorePosts = true;
@@ -91,6 +91,7 @@ export class PostListThumbnailTextWidget implements OnInit, OnDestroy, AfterView
             this.pages[i] = page;
         }
         else this.pages.push(page);
+        this.app.rerenderPage();
         this.app.cacheSetPage(req, page);
     }
 

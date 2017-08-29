@@ -114,3 +114,22 @@ $header-break-menu: 640px;
 .page[section='job'] .page-header .page-header-container {
     background-color: #265C5B;
 }
+
+
+
+
+.new-chat {
+    animation: blinkChatDot 1s infinite;
+}
+
+@keyframes blinkChatDot {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

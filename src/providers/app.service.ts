@@ -15,9 +15,6 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 
 
-
-
-
 import { Base } from './../etc/base';
 import { text } from './../etc/text';
 import { ERROR } from './../etc/error';
@@ -39,6 +36,8 @@ import { BuyAndSellService } from './wordpress-api/buyandsell.service';
 import { SearchService } from './wordpress-api/search.service';
 
 import { ChatService } from './chat.service';
+import { ShareService } from './share.service';
+import { ErrorService } from './error.service';
 
 
 
@@ -81,9 +80,13 @@ export class AppService extends Base {
     sectionName = 'home';
 
 
-    //
-    auth: firebase.auth.Auth;
-    db: firebase.database.Reference;
+    ///
+
+    // dependencies
+    // auth: firebase.auth.Auth; // moved to base
+    // db: firebase.database.Reference; // moved to base
+
+
     kakao;
 
 
@@ -97,40 +100,39 @@ export class AppService extends Base {
     firebaseLogin: boolean = false;
 
 
-    headerWidget: HeaderWidget;
 
+    /// layout
+    headerWidget: HeaderWidget;
     pageLayout: 'wide' | 'column' | 'two-column' = 'column';
 
-    anonymousPhotoURL = '/assets/img/anonymous.png';
 
 
-    firebaseDatabaseListenActivityEventHandler = null;
-    activity: ACTIVITIES = [];
-    communityLogs: COMMUNITY_LOGS = [];
+    /// Anonymous photo URL must begin without slash(/) for compatibility with mobile app.
+    anonymousPhotoURL = 'assets/img/anonymous.png';
 
 
+
+    /// language
     getLanguage = getLanguage;
     setLanguage = setLanguage;
 
 
-    toastOption = {
-        show: false,
-        content: '',
-        className: '',
-        callback: () => { }
-    };
-
-
-    width = 0; /// page width
 
 
 
-
-
-
-    /// user online, offline
+    /// user online, offline, away
+    myStatus: 'online' | 'offline' | 'away' = 'offline';
     trackMouseMove: Subscription;
-    timerMouseMove: Subscription;
+    trackScroll: Subscription;
+    trackKeyup: Subscription;
+    timerAway: Subscription;
+    throttleUserAction = 60000; // if there is any scroll, mouse move, key up in 60s, then it reset the away timeout.
+    throttleOut = 120000; // if there is no scroll, mouse move, key up in 2 minutes, then it sets the user 'away'.
+
+
+    /// page visibility
+    pageVisibility = new BehaviorSubject<boolean>(true);
+
 
 
     constructor(
@@ -144,11 +146,13 @@ export class AppService extends Base {
         public search: SearchService,
         // public text: TextService,
         private confirmModalService: ConfirmModalService,
-        private ngZone: NgZone,
+        
         private router: Router,
         public alert: AlertModalService,
         public push: PushMessageService,
-        public chat: ChatService
+        public chat: ChatService,
+        public share: ShareService,
+        public error: ErrorService
     ) {
         super();
         // console.log("AppService::constructor()");
@@ -156,31 +160,60 @@ export class AppService extends Base {
         this.initKakao();
         this.checkLoginWithNaver();
 
-        this.auth = firebase.auth();
-        this.db = firebase.database().ref('/');
+        // this.auth = firebase.auth();
+        // this.db = firebase.database().ref('/');
 
-        chat.inject( this.auth, this.db, user );
-
-        Observable.fromEvent(window, 'resize')
-            .debounceTime(100)
-            .subscribe((event) => {
-                this.width = window.innerWidth;
-            });
-
-        this.width = window.innerWidth;
+        chat.inject(this.auth, this.db, user, wp);
 
         this.auth.onAuthStateChanged((user) => this.firebaseOnAuthStateChanged(user));
 
 
+        this.observePageVisibility();
+        this.onPageVisibilityChange();
 
     }
 
 
-    get size(): 'mobile' | 'break-a' | 'break-c' | 'break-d' {
-        if (this.width < 600) return 'mobile';
-        else if (this.width < 840) return 'break-a';
-        else if (this.width < 1140) return 'break-c';
-        return 'break-d';
+
+    /**
+     * Observe if app page has been tabbed or set to background.
+     * 
+     * @note    When a user changes browser tab, this.pageVisibility.next(false) happens.
+     * 
+     */
+    observePageVisibility() {
+        // Set the name of the hidden property and the change event for visibility
+        var hidden, visibilityChange;
+        if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support 
+            hidden = "hidden";
+            visibilityChange = "visibilitychange";
+        } else if (typeof document['msHidden'] !== "undefined") {
+            hidden = "msHidden";
+            visibilityChange = "msvisibilitychange";
+        } else if (typeof document['webkitHidden'] !== "undefined") {
+            hidden = "webkitHidden";
+            visibilityChange = "webkitvisibilitychange";
+        }
+        // Handle page visibility change   
+        document.addEventListener(visibilityChange, () => {
+            if (document[hidden]) {
+                this.pageVisibility.next(false);
+            }
+            else {
+                this.pageVisibility.next(true);
+            }
+        }, false);
+    }
+
+    onPageVisibilityChange() {
+        this.pageVisibility.subscribe( visible => {
+            if ( visible ) {
+                this.userOnline();
+            }
+            else {
+                this.userAway();
+            }
+        })
     }
 
 
@@ -218,12 +251,9 @@ export class AppService extends Base {
 
         if (res['code']) return this.warning(res['message']);
 
-
-
-
         // User has just logged in with naver id. ( 방금 로그인 )
         if (res['data']) {
-            console.log("User just logged in with Naver!");
+            // console.log("User just logged in with Naver!");
             history.pushState('', document.title, window.location.pathname);
 
             let naver = res['data']['response'];
@@ -239,14 +269,12 @@ export class AppService extends Base {
 
 
             this.socialLoginSuccess(profile, () => {
-                console.log("naver social login success");
+                // console.log("naver social login success");
                 this.loginSuccess();
             });
 
         }
     }
-
-
 
 
     /**
@@ -258,40 +286,10 @@ export class AppService extends Base {
      */
     displayError(e) {
         this.warning(e);
-        // let msg;
-        // if (typeof e === 'string') msg = e;
-        // else {
-        //     // if ( e.code === void 0 && e.message !== void 0 ) e.code = e.message;
-        //     // msg = `${e.code}: ${message}`;
-
-        //     msg = this.getErrorString(e);
-        // }
-        // alert(msg);
     }
 
-    /**
-     *
-     * @param e - is an Error Response Object or ERROR code ( interger less than 0 ) from error.ts
-     * @param message - is only used when e is ERROR code.
-     *
-     * @example e => app.warning(e); // 'e' is server response.
-     * @example app.warning(-8088, 'Wrong user. User Xapi ID does not exist on firebase.');
-     */
     warning(e, message?) {
-        ///
-        /// setTimeout() here is for preventing error of 'ExpressionChangedAfterItHasBeenCheckedError'
-        ///     - when the focus is on input-box, and ngb-modal opens, it produces 'expression changed' error.
-        ///
-        // setTimeout(() => {
-        if (typeof e == 'number' && e < 0) {
-            e = { code: e };
-            if (message) e['message'] = message;
-        }
-        // this.alert.error(e)
-        setTimeout(() => this.alert.error(e), 1); /// for 'ExpressionChangedAfterItHasBeenCheckedError' error
-        setTimeout(() => this.rerenderPage(), 200);
-        // }, 100 );
-
+        this.error.alert( e, message );
     }
 
 
@@ -306,10 +304,7 @@ export class AppService extends Base {
 
 
     rerenderPage(timeout = 0) {
-        if (timeout) {
-            setTimeout(() => this.ngZone.run(() => { }), timeout);
-        }
-        else this.ngZone.run(() => { });
+        this.share.rerenderPage( timeout );
     }
 
 
@@ -332,20 +327,20 @@ export class AppService extends Base {
      */
     socialLoginSuccess(profile: SOCIAL_PROFILE, callback) {
 
-        console.log('Going to socialLgoin: ', profile);
+        // console.log('AppService::socialLoginSuccess() ==> Going to socialLgoin: ', profile);
         this.user.loginSocial(profile.uid).subscribe(res => { // backend login
-            console.log("Social login success. res: ", res);
+            // console.log("Social login success. res: ", res);
             this.firebaseXapiLogin();
             callback();
             profile['session_id'] = res.session_id;
             this.user.updateSocial(profile).subscribe(res => { // backend login ==> update
-                console.log('updateSocial: ', res);
+                // console.log('updateSocial: ', res);
             }, e => this.warning(e));
         }, e => {
-            console.log("social login failed: ", e);
-            console.log('going to register soical: ', profile);
+            // console.log("social login failed: ", e);
+            // console.log('going to register soical: ', profile);
             this.user.registerSocial(profile).subscribe(res => { // backend register
-                console.log("firebase socail login ==> xapi register ==> register success");
+                // console.log("firebase socail login ==> xapi register ==> register success");
                 this.firebaseXapiRegistered();
                 this.firebaseXapiLogin();
                 callback();
@@ -369,16 +364,12 @@ export class AppService extends Base {
      * @note This method is being invoked for alll kinds of login.
      */
     loginSuccess(callback?) {
-        console.log("AppService::loginSuccess()");
-        setTimeout(() => this.rerenderPage(), 10);
+        // console.log("AppService::loginSuccess()");
+        this.rerenderPage(10);
         this.push.updateWebToken();
         this.push.updateCordovaToken();
         if (callback) callback();
-
-        // this.updateUserLogin();
-
-        this.bootstrapLoginLogout();
-
+        this.share.bootstrapLoginLogout();
         this.firebaseLogin_ifNot();
     }
 
@@ -387,28 +378,15 @@ export class AppService extends Base {
      * @warning this must be the only method to be used to logout.
      */
     logout() {
-        this.user.logout();
-        this.userOffline(() => {
-            this.auth.signOut();
-        });
-        this.bootstrapLoginLogout();
+        this.share.logout();
+
+        // this.user.logout();
+        // this.userOffline(() => {
+        //     this.auth.signOut();
+        // });
+        // this.bootstrapLoginLogout();
     }
 
-
-    /**
-     * All user login and login out comes here.
-     *
-     * @note a user logs in and logs out, this method is called.
-     *
-     *
-     * This may be called multiple times. When user
-     *      - app boots
-     *      - login
-     *      - logout
-     */
-    bootstrapLoginLogout() {
-        this.listenFirebaseUserActivity();
-    }
 
 
     /**
@@ -431,7 +409,7 @@ export class AppService extends Base {
     firebaseLogin_ifNot() {
         if (this.user.isLogout) return;
         if (this.user.provider == 'firebase') {
-            console.log("Logged in with firebase already!");
+            // console.log("Logged in with firebase already!");
             return;
         }
         let email = 'sonub' + this.user.id + '@' + this.user.provider + '.com';
@@ -442,11 +420,11 @@ export class AppService extends Base {
                 // Handle Errors here.
                 var errorCode = error['code'];
                 var errorMessage = error['message'];
-                console.log(`errorCode: ${errorCode}, errorMessage: ${errorMessage}`);
+                // console.log(`errorCode: ${errorCode}, errorMessage: ${errorMessage}`);
                 if (errorCode == 'auth/user-not-found') {
                     this.auth.createUserWithEmailAndPassword(email, password)
                         .then(a => {
-                            console.log("firebaseLogin_ifNot => firebase login => firebase create(register) => auto login success");
+                            // console.log("firebaseLogin_ifNot => firebase login => firebase create(register) => auto login success");
                             this.firebaseXapiRegistered();
                             this.firebaseXapiLogin();
                         })
@@ -454,7 +432,7 @@ export class AppService extends Base {
                             // Handle Errors here.
                             var errorCode = error['code'];
                             var errorMessage = error['message'];
-                            console.log(`errorCode: ${errorCode}, errorMessage: ${errorMessage}`);
+                            // console.log(`errorCode: ${errorCode}, errorMessage: ${errorMessage}`);
                         });
                 }
             });
@@ -494,10 +472,9 @@ export class AppService extends Base {
             console.error("This is error. the xapi user id shouldn't be null after register. ");
             return;
         }
-        console.log("firebaseXapiRegistered: going to update uid", this.user.id, firebaseUser.uid);
+        // console.log("firebaseXapiRegistered: going to update uid", this.user.id, firebaseUser.uid);
 
         // this.db.child("xapi-uid").child( this.user.id + '' ).set( { uid: firebaseUser.uid });
-
 
     }
 
@@ -539,7 +516,7 @@ export class AppService extends Base {
             this.firebaseLogin = true;
         }
         else { // user just logged out or page refreshed
-            console.log("firebaseOnAuthStateChanged(): user just logged out or page refreshed");
+            // console.log("firebaseOnAuthStateChanged(): user just logged out or page refreshed");
             // this.userUpdate({status: 'offline'});
             this.endUserIdleTracking();
             this.firebaseAuthChange.next(false);
@@ -549,16 +526,11 @@ export class AppService extends Base {
 
     }
 
-    get userLocation(): firebase.database.Reference {
-        if (this.auth && this.auth.currentUser && this.auth.currentUser.uid) {
-            return this.db.child('users').child(this.auth.currentUser.uid);
-        }
-        else return null;
-    }
     userUpdate(data, callback?) {
-        if (this.userLocation) this.userLocation.update(data).then( () => {
-            if ( callback ) callback();
-        } );
+        this.share.userUpdate( data, callback);
+        // if (this.userLocation) this.userLocation.update(data).then(() => {
+        //     if (callback) callback();
+        // });
     }
     userUpdateProfile() {
         let data = {
@@ -570,16 +542,36 @@ export class AppService extends Base {
         };
         this.userUpdate(data);
     }
+
+
+    /**
+     * It updates every track timeout.
+     * 
+     * @note @attention if you only update when it is not 'online', it works no good on cordova-android.
+     * 
+     */
     userOnline() {
-        this.userUpdate({ status: 'online' });
+        // if ( this.myStatus === 'online' ) return;
+        this.myStatus = 'online';
+        this.userUpdate({ status: this.myStatus });
     }
 
-    userOffline( callback ) {
-        this.userUpdate({ status: 'offline' }, callback);
+    /**
+     * Sets the user offline.
+     * @note for 'offline', it always updates to database since it is not often happens.
+     * @param callback callback
+     */
+    userOffline(callback) {
+        this.myStatus = 'offline';
+        this.userUpdate({ status: this.myStatus }, callback);
     }
-
+    /**
+     * Sets the user 'away'
+     * @note for 'away', it always updates to database since it is not often happens as 'online'.
+     */
     userAway() {
-        this.userUpdate({ status: 'away' });
+        this.myStatus = 'away';
+        this.userUpdate({ status: this.myStatus });
     }
 
     /**
@@ -632,7 +624,16 @@ export class AppService extends Base {
 
     get userPhotoUrl(): string {
         if (this.user.isLogin && this.user.profile.photoURL) return this.user.profile.photoURL;
-        else return '/assets/img/anonymous.png';
+        else return this.anonymousPhotoURL;
+    }
+
+    /**
+     * Returns user photo URL or default photo url.
+     * @param url user photo URL
+     */
+    photoUrl( url ) {
+        if ( url ) return url;
+        else return this.anonymousPhotoURL;
     }
 
 
@@ -679,77 +680,9 @@ export class AppService extends Base {
      */
     bootstrap() {
         this.firebaseLogin_ifNot();
-        this.listenFirebaseComunityLog();
+        this.share.listenFirebaseComunityLog();
     }
 
-
-    listenFirebaseUserActivity() {
-        let ref = this.db.child('user-activity').child(this.user.id.toString());
-        if (this.user.isLogout) {
-            if (this.firebaseDatabaseListenActivityEventHandler) {
-                ref.off('value', this.firebaseDatabaseListenActivityEventHandler);
-                this.firebaseDatabaseListenActivityEventHandler = null;
-            }
-            return;
-        }
-        if (this.firebaseDatabaseListenActivityEventHandler) {
-            // ref.off('value', this.firebaseDatabaseListenActivityEventHandler);
-            // this.firebaseDatabaseListenActivityEventHandler = null;
-        }
-        this.firebaseDatabaseListenActivityEventHandler = ref
-            .limitToLast(5)
-            .on('child_added', snap => {
-                let val: ACTIVITY = snap.val();
-                if (!val) return;
-                if (typeof val !== 'object') return;
-
-                // console.log('listenFirebaseUserActivity() snap.val', val);
-                // let keys = Object.keys(val);
-                // if (keys && keys.length) {
-                //     this.activity = [];
-                //     for (let key of keys.reverse()) {
-                //         this.activity.push(val[key]);
-                //     }
-                // }
-                this.activity.unshift(val);
-                this.toastLog(val, 'activity');
-                this.rerenderPage();
-                // val.reverse();
-            }, e => console.error(e));
-    }
-
-    listenFirebaseComunityLog() {
-        let path = this.db.child('forum-log').child('posts-comments');
-        let ref = path.limitToLast(15).once('value', snap => {
-            let val: COMMUNITY_LOGS = snap.val();
-            if (!val) return;
-            if (typeof val !== 'object') return;
-
-            // console.log('posts-comments: snap.val: ', val);
-            let keys = Object.keys(val);
-            if (keys && keys.length) {
-                for (let key of keys.reverse()) {
-                    this.communityLogs.push(val[key]);
-                }
-            }
-            this.communityLogs.shift(); // last one(latest log) will be added by 'child_added'
-            this.rerenderPage();
-
-            /// listen the lastest one.
-            path.orderByKey().limitToLast(1).on('child_added', snap => {
-                let val: COMMUNITY_LOG = snap.val();
-                if (!val) return;
-                if (typeof val !== 'object') return;
-                // console.log('posts-comments: child_added: snap.val: ', val);
-
-                this.toastLog(val, 'community');
-                this.communityLogs.unshift(val);
-                this.rerenderPage(100);
-            });
-
-        }, e => console.error(e));
-
-    }
 
     safeHtml(raw): string {
         return this.domSanitizer.bypassSecurityTrustHtml(raw) as string;
@@ -757,66 +690,10 @@ export class AppService extends Base {
 
 
 
-    toast(option) {
-        // console.log(`app.toast()`, option);
-        if (option.delay === void 0) option.delay = 1;
-        setTimeout(() => {
-            this.toastOption = option;
-            this.toastOption.show = true;
-            if (option.timeout !== void 0) {
-                setTimeout(() => this.toastClose(), option.timeout);
-            }
-        }, option.delay);
-    }
-
-    toastClose() {
-        this.toastOption.show = false;
-        this.rerenderPage();
-    }
-
-
-    postView(post_ID) {
-        this.router.navigateByUrl(this.forum.postUrl(post_ID));
-    }
-
-    toastLog(val, type) {
-
-        // console.log("toastLog: width: ", this.width);
-        // console.log("toastLog: size: ", this.size);
-
-        if (this.size == 'break-d') return; // don't toast on wide space.
-
-        let toastOption = {
-            content: val.content,
-            timeout: 10000,
-            className: '',
-            callback: () => {
-                this.toastClose();
-                this.postView(val.post_ID);
-            }
-        };
-
-        if (type == 'activity' && this.size == 'mobile') {
-
-            toastOption.className = 'activity';
-            toastOption.content = '<span class="cap activity-cap">Activity</span><span class="text ellipsis">' + toastOption.content + '</span>';
-            this.toast(toastOption);
-        }
-
-        if (type == 'community') {
-            if (val.author_id == this.user.id) return; /// @see sonub build guide. don't show my post on toast : https://docs.google.com/document/d/1m3-wYZOaZQGbAzXeVlIpJNSdTIt3HCUiIt9UTmZUgXo/edit#heading=h.qnbta0l9c186
-            if (val.comment_ID === void 0 || !val.comment_ID) { /// @see sonub build guide. don't show comment.
-                toastOption.className = 'community';
-                toastOption.content = '<span class="cap community-cap">Community</span><span class="text ellipsis">' + toastOption.content + '</span>';
-                this.toast(toastOption);
-            }
-        }
-
-    }
 
 
     go(url) {
-        this.router.navigateByUrl(url);
+        this.share.go(url);
     }
 
 
@@ -830,35 +707,41 @@ export class AppService extends Base {
     onConnect() {
         this.db.child('.info/connected').on('value', connected => {
             if (connected.val()) { // connected. online.
-                this.userLocation.onDisconnect().update({ status: 'offline' });
+                this.share.userLocation.onDisconnect().update({ status: 'offline' });
                 this.userOnline();
+                // console.log("AppService::onConnect() ==> connected")
             }
             else { // disconnected. offline.
-
+                /// cannot write any code here. this will not work.
             }
         });
-
     }
     beginUserIdleTracking() {
-        this.trackMouseMove = Observable
-            .fromEvent(document, 'mousemove')
-            .throttleTime(120000) // if any mouse move in 2 minutes,
-            .subscribe(e => {
-                this.userOnline();          // then, set user online
-                this.resetMoveMoveTimer();  // reset timer.
-            });
-        this.resetMoveMoveTimer(); // begin tracking immediately after loading ( 처음 로드 하자 마자 한번 호출. )
+        this.trackMouseMove = this.trackAction('mousemove');
+        this.trackScroll = this.trackAction('scroll');
+        this.trackKeyup = this.trackAction('keyup');
+        this.resetTimerAway(); // begin tracking immediately after loading ( 처음 로드 하자 마자 한번 호출. )
     }
-    resetMoveMoveTimer() {
-        if (this.timerMouseMove) this.timerMouseMove.unsubscribe();
-        this.timerMouseMove = Observable.timer(180000) // if no mouse move in 3 minuts,
+    trackAction( action ) {
+        return Observable.fromEvent(document, action)
+            .throttleTime(this.throttleUserAction)
+            .subscribe(e => this.userAction());
+    }
+    userAction() {
+        // console.log("userAction");
+        this.userOnline();          // then, set user online
+        this.resetTimerAway();  // reset timer.
+    }
+    resetTimerAway() {
+        if (this.timerAway) this.timerAway.unsubscribe();
+        this.timerAway = Observable.timer(this.throttleOut) // if no mouse move in 3 minuts,
             .subscribe(e => {          // then, set user away. until the user closes the app. or logs out.
                 this.userAway();
             });
     }
     endUserIdleTracking() {
         if (this.trackMouseMove) this.trackMouseMove.unsubscribe();
-        if (this.timerMouseMove) this.timerMouseMove.unsubscribe();
+        if (this.timerAway) this.timerAway.unsubscribe();
     }
 
 }

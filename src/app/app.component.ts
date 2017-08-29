@@ -26,7 +26,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     document.addEventListener('deviceready', () => this.onDeviceReady(), false);
     this.app.bootstrap();
-    this.app.bootstrapLoginLogout();
+    this.app.share.bootstrapLoginLogout();
 
   }
 

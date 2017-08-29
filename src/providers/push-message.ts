@@ -3,9 +3,15 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import * as firebase from 'firebase';
 
 import { Base } from './../etc/base';
-import { UserService } from './wordpress-api/user.service';
+import { ShareService, TOAST_OPTIONS } from './share.service';
 
-import { AlertModalService } from './modals/alert/alert.modal';
+import { UserService } from './wordpress-api/user.service';
+import { ACTIVITY } from './wordpress-api/interface';
+
+
+// import { AlertModalService } from './modals/alert/alert.modal';
+
+import { ErrorService } from './error.service';
 
 const USER_TOKEN_KEY = 'user-token';
 
@@ -21,7 +27,8 @@ export class PushMessageService extends Base {
     constructor(
         private http: Http,
         private user: UserService,
-        public alert: AlertModalService
+        public error: ErrorService,
+        private share: ShareService
     ) {
         super();
         /// init
@@ -33,9 +40,24 @@ export class PushMessageService extends Base {
         if (this.isCordova) return;
 
         this.updateWebToken();
+
         this.messaging.onMessage((payload) => {
-            // alert(payload['notification']['title'] + "\n" + payload['notification']['body']);
-            // location.href = payload['notification']['click_action'];
+            let content = payload['notification']['title'] + "\n" + payload['notification']['body'];
+            let data: TOAST_OPTIONS = {
+                content: content,
+                timeout: 10000,
+                className: 'chat',
+                callback: () => {
+                    this.share.go(this.chatUrl);
+                }
+            };
+            this.share.toast(data);
+
+            let act: ACTIVITY = {
+                action: 'chat',
+                content: content
+            };
+            this.share.activity.unshift( act );
         });
 
     }
@@ -60,8 +82,25 @@ export class PushMessageService extends Base {
             } else {
                 // Notification was received in foreground. Maybe the user needs to be notified.
                 // alert(JSON.stringify(data));
-
                 // alert("Message arrived on foreground: " + JSON.stringify(data));
+                
+                let content = data['title'] + "\n" + data['body'];
+                let options: TOAST_OPTIONS = {
+                    content: content,
+                    timeout: 10000,
+                    className: 'chat',
+                    callback: () => {
+                        this.share.go(this.chatUrl);
+                    }
+                };
+                this.share.toast(options);
+    
+                let act: ACTIVITY = {
+                    action: 'chat',
+                    content: content
+                };
+                this.share.activity.unshift( act );
+                this.share.rerenderPage();
 
             }
         }, s => {
@@ -169,7 +208,7 @@ export class PushMessageService extends Base {
             this.storage.set(USER_TOKEN_KEY, token);
         }, e => {
             console.error(e);
-            this.alert.error(e);
+            this.error.alert(e);
         });
     }
 
