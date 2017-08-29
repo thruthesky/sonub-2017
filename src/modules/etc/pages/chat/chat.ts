@@ -15,7 +15,7 @@ import { ShareService } from './../../../../providers/share.service';
 export class ChatPage extends Base implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
     message = '';
 
-    chats: Array<CHAT_MESSAGE>;
+    chats: Array<CHAT_MESSAGE> = [];
     countChats = 0;
 
     /// chat room
@@ -82,7 +82,7 @@ export class ChatPage extends Base implements OnInit, AfterViewInit, AfterViewCh
             let div = document.querySelector('section.chat-box');
             if (div) {
                 this.chatBoxHeight = div.scrollHeight;
-                console.log("chat box height: ", this.chatBoxHeight);
+                // console.log("chat box height: ", this.chatBoxHeight);
                 this.app.rerenderPage(100);
             }
         }, 10);
@@ -119,11 +119,12 @@ export class ChatPage extends Base implements OnInit, AfterViewInit, AfterViewCh
 
 
     openChatRoom(xapiUid) {
+        // console.log("ChatPage::openChatRoom() ======> ")
         let a = this.app;
         let uid = parseInt(xapiUid);
         if (uid == a.user.id) return a.warning(-8300, "You cannot chat with yourself");
         if (!uid) return a.warning(-80903, "Wrong user id");
-        // console.log("otherXapiUid: ", uid);
+        // console.log("Going to observe a chat room with otherXapiUid: ", uid);
 
         this.unObserveChatUser();
         this.queryUserByXapiUid(uid).once('value', snap => {
@@ -135,7 +136,7 @@ export class ChatPage extends Base implements OnInit, AfterViewInit, AfterViewCh
             // user['uid'] = uid;
             // this.chat.other = user;
             this.setChatUser(uid, user);
-            // console.log('otherUser: ', this.chat.other);
+            // console.log('Chat room otherUser: ', this.chat.other);
             this.chat.setCurrentRoomAsRead(uid);
 
             this.observeChat();
@@ -158,7 +159,7 @@ export class ChatPage extends Base implements OnInit, AfterViewInit, AfterViewCh
     }
     unsetChatUser() {
         this.chat.other = null;
-        console.log("unsetChatUser() ===> this.chat.other: ", this.chat.other);
+        // console.log("unsetChatUser() ===> this.chat.other: ", this.chat.other);
     }
 
     /**
@@ -201,7 +202,7 @@ export class ChatPage extends Base implements OnInit, AfterViewInit, AfterViewCh
     }
 
     observeChat() {
-        // console.log("observeChat");
+        // console.log("ChatPage::observeChat()==========>");
         let a = this.app;           /// app
         let p = this.chat.myCurrentRoom;       /// other room path
         if (p === null) return a.warning(a.e.CHAT_ROOM_PATH);
@@ -220,15 +221,16 @@ export class ChatPage extends Base implements OnInit, AfterViewInit, AfterViewCh
                 this.chats.push(val[key]);
             }
             // console.log(this.chats);
+
+            this.chats.pop(); //
             this.app.rerenderPage(10);
         });
 
         this.onObserveChat = p.limitToLast(1).on('child_added', snap => {
             let chat = snap.val();
             if (chat === null) return;
-            if (this.chats && this.chats.length) {
-                this.chats.push(chat);
-            }
+            this.chats.push(chat);
+                
         });
     }
 

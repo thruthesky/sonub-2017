@@ -51,9 +51,10 @@
                     [fileSelectionButton]="false"
                     [files]="files"
                     [showUploadedFiles]="false"
-                    (success)="onSuccessUpdateProfile()"
+                    (success)="onSuccessUpdateProfilePicture()"
                 ></file-upload-widget>
                 <button type="button" id="skipProfilePicture" (click)="activeForm = 'form3'">{{ files.length ? 'Next' : 'Skip'}}</button>
+                
             </div>
 
             <div id="form3" *ngIf="activeForm == 'form3'">

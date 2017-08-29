@@ -593,15 +593,18 @@ export class AppService extends Base {
 
     }
 
+    /**
+     * Updates user data on firebae database.
+     * @param data User data object. This is can be a field or combination of fields.
+     * @param callback callback
+     * @code app.userUpdate({ name: 'myName' }, () => {});
+     */
     userUpdate(data, callback?) {
         this.share.userUpdate( data, callback);
-        // if (this.userLocation) this.userLocation.update(data).then(() => {
-        //     if (callback) callback();
-        // });
     }
     userUpdateProfile() {
         let data = {
-            email: this.user.email,
+            // email: this.user.email,
             name: this.user.name,
             photoUrl: this.user.photoURL,
             status: 'online',

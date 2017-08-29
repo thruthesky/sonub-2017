@@ -83,8 +83,8 @@ export class RegisterPage extends Base implements OnInit {
         });
     }
 
-    onSuccessUpdateProfile() {
-        console.log("onSuccessUpdateProfile::", this.files);
+    onSuccessUpdateProfilePicture() {
+        console.log("onSuccessUpdateProfilePicture::", this.files);
         let data: USER_UPDATE = {
             user_email: this.user_email,
             photoURL: this.files[0].url
@@ -94,6 +94,7 @@ export class RegisterPage extends Base implements OnInit {
             setTimeout( () => this.fileUploadComponent.deleteFile( this.files[0]) );
         }
         this.app.user.update(data).subscribe((res: USER_UPDATE_RESPONSE) => {
+            this.app.userUpdate({photoUrl: data['photoURL'] }, () => {});
             console.log('updateProfilePicture:', res);
         }, err => {
             console.log('error while updating user profile picture', err);
@@ -113,8 +114,13 @@ export class RegisterPage extends Base implements OnInit {
         };
         this.app.user.update(data).subscribe((res: USER_UPDATE_RESPONSE) => {
             console.log('updateUserInfo:', res);
-            this.loading = false;
-            this.router.navigateByUrl('/');
+            let userData = {
+                name: data['name']
+            };
+            this.app.userUpdate( userData, () => {
+                this.loading = false;
+                this.router.navigateByUrl('/');
+            });
         }, err => {
             this.loading = false;
             console.log('error while updating user profile picture', err);
