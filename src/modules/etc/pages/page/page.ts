@@ -16,30 +16,33 @@ export class PagePage implements OnInit, OnDestroy {
         public app: AppService
     ) {
 
-        let pageData;
+        let pageData = {
+            filename: '',
+            layout: 'coulmn',
+            section: '',
+        };
+
+        /// set data only
         active.data.subscribe(data => {
             if ( ! data || ! data['filename'] ) return;
-            this.loadPage(data);
-            pageData = data;
+            pageData = <any>data;
         });
+
+        /// load page
         active.params.subscribe(params => {
-            if ( params['name'] === void 0 ) return;
-            pageData = {
-                section: '',
-                layout: 'two-column',
-                filename: params['name']
-            };
+            if ( params['filename'] ) pageData['filename'] = params['filename'];
+            this.loadPage(pageData, params);
         });
 
         /// remove this after test.
         // if ( environment.production === false ) setInterval( () => this.loadPage( pageData ), 2000 );
     }
-    loadPage(data) {
+    loadPage(data, params) {
         console.log('data: ', data);
         this.app.section(data['section']);
         this.app.pageLayout = data['layout'];
         if ( environment.production ) this.html = '';
-        this.app.wp.page(data['filename']).subscribe(html => {
+        this.app.page.load(data['filename'], params).subscribe(html => {
             this.html = html;
             setTimeout(() => this.listenUrlClick(), 0);
         }, e => this.app.warning({ code: -404 }));

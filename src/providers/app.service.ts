@@ -31,6 +31,7 @@ import { WordpressApiService } from './wordpress-api/wordpress-api.service';
 import { UserService } from './wordpress-api/user.service';
 import { ForumService } from './wordpress-api/forum.service';
 import { FileService } from './wordpress-api/file.service';
+import { PageService } from './wordpress-api/page.service';
 import { JobService } from './wordpress-api/job.service';
 import { BuyAndSellService } from './wordpress-api/buyandsell.service';
 import { SearchService } from './wordpress-api/search.service';
@@ -130,6 +131,14 @@ export class AppService extends Base {
     throttleOut = 120000; // if there is no scroll, mouse move, key up in 2 minutes, then it sets the user 'away'.
 
 
+    /// window resize event
+    size = {
+        b: {
+            width: 0
+        }
+    };
+    windowResize = new EventEmitter<any>();
+
     /// page visibility
     pageVisibility = new BehaviorSubject<boolean>(true);
 
@@ -143,6 +152,7 @@ export class AppService extends Base {
         public bns: BuyAndSellService,
         public wp: WordpressApiService,
         public file: FileService,
+        public page: PageService,
         public search: SearchService,
         // public text: TextService,
         private confirmModalService: ConfirmModalService,
@@ -171,8 +181,48 @@ export class AppService extends Base {
         this.observePageVisibility();
         this.onPageVisibilityChange();
 
+        this.trackWindowResize();
     }
 
+
+    trackWindowResize() {
+
+        this.getSize();
+        Observable.fromEvent(window, 'resize')
+            .throttleTime( 200 )
+            .subscribe( (e: UIEvent) => {
+                this.getSize();
+            });
+    }
+
+    /**
+     * @warning when this method is invoked,
+     *          IF DOM are not available, the size will become 0.
+     * 
+     * @warning Especially when the user refreshes a page that needs to use sizes on page initialization,
+     *          you will see SIZE = 0.
+     *          To avoid this, you need to call 'getSize()' once after the view is initialized.
+     * 
+     * @code
+     
+            ngAfterViewInit() {
+                setTimeout(() => this.app.getSize(), 1);
+            }
+
+     * @endcode
+     */
+    getSize() {
+        let b = document.querySelector(".page-body-content-layout > div.b");
+        if ( b ) {
+            this.size.b.width = b.clientWidth;
+            this.windowResize.next( this.size );
+        }
+        return this.size;
+    }
+    get getSizeBWidth() {
+        if ( this.size && this.size.b && this.size.b.width ) return this.size.b.width;
+        else return 0;
+    }
 
 
     /**
@@ -553,7 +603,7 @@ export class AppService extends Base {
     userOnline() {
         // if ( this.myStatus === 'online' ) return;
         this.myStatus = 'online';
-        this.userUpdate({ status: this.myStatus });
+        this.userUpdate({ status: this.myStatus, lastOnline: (new Date).getTime() });
     }
 
     /**

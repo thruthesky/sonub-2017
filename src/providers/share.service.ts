@@ -295,4 +295,21 @@ export class ShareService extends Base {
     }
 
 
+
+    /**
+     * Returns a string if the user logged into firebase.
+     * @return  - a string if logged in
+     *          - null if not logged in.
+     */
+    get isFirebaseLogin(): string {
+        if (this.auth && this.auth.currentUser && this.auth.currentUser.uid) {
+            return this.auth.currentUser.uid;
+        }
+        else return null;
+    }
+    get firebaseUid(): string {
+        return this.isFirebaseLogin;
+    }
+    
+
 }
