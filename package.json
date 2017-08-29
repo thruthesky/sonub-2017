@@ -72,9 +72,11 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "locate-path": "^2.0.0",
     "ng-pwa-tools": "0.0.15",
+    "node-sass": "^4.5.3",
     "protractor": "~5.1.2",
     "ts-node": "~3.0.4",
     "tslint": "~5.3.2",
-    "typescript": "~2.3.3"
+    "typescript": "~2.3.3",
+    "webpack": "^3.5.5"
   }
 }
