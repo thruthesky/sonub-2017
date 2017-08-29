@@ -1,0 +1,18 @@
+// .chat-page-content {
+//     position: relative;
+//     height: 500px;
+//     .chat-box {
+//         position: absolute;
+//         top: 0;
+//         left: 0;
+//         right: 0;
+//         bottom: 0;
+//     }
+// }
+
+
+.chat-box {
+    position: fixed;
+    top: 100px;
+    bottom: 0;
+}

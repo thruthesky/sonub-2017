@@ -4,6 +4,8 @@ import { AppService } from './../../../../providers/app.service';
 import { ChatService, CHAT_ROOM, CHAT_MESSAGE, CHAT_USER } from './../../../../providers/chat.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Base } from './../../../../etc/base';
+import { ShareService } from './../../../../providers/share.service';
+
 
 
 
@@ -34,7 +36,8 @@ export class ChatPage extends Base implements OnInit, AfterViewInit, OnDestroy {
     constructor(
         private active: ActivatedRoute,
         public app: AppService,
-        public chat: ChatService
+        public chat: ChatService,
+        private share: ShareService
     ) {
 
         super();
@@ -56,6 +59,7 @@ export class ChatPage extends Base implements OnInit, AfterViewInit, OnDestroy {
         this.active.params.subscribe(params => {
             if (params['id']) {
                 this.openChatRoom( params['id'] );
+                this.closeRecentUsers();
             }
             else {
                 this.onClickRecentChatUsers();
@@ -110,6 +114,7 @@ export class ChatPage extends Base implements OnInit, AfterViewInit, OnDestroy {
         if (this.app.user.isLogout) {
             this.app.warning(this.app.e.LOGIN_FIRST);
         }
+        setTimeout(() => this.app.getSize(), 1);
     }
 
     unObserveChat() {
@@ -152,7 +157,7 @@ export class ChatPage extends Base implements OnInit, AfterViewInit, OnDestroy {
         if (p === null) return a.warning(a.e.CHAT_ROOM_PATH);
 
         this.unObserveChat();
-        this.onObserveChat = p.limitToLast(5).on('value', snap => {
+        this.onObserveChat = p.limitToLast(8).on('value', snap => {
             if (snap.val() === null) {
                 /// error
                 return
@@ -208,7 +213,8 @@ export class ChatPage extends Base implements OnInit, AfterViewInit, OnDestroy {
     }
 
     closeRecentUsers() {
-
+        this.showChatUsers = false;
+        this.unObserveChat();
     }
     openRecentUsers() {
         let a = this.app;
@@ -244,4 +250,7 @@ export class ChatPage extends Base implements OnInit, AfterViewInit, OnDestroy {
     }
 
 
+    isMyChat(chat: CHAT_MESSAGE) {
+        return chat.otherUid != this.share.firebaseUid;
+    }
 }

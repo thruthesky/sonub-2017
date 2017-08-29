@@ -1,33 +1,41 @@
 <div class="chat-page">
-    <nav class="menu pointers">
+    <nav class="chat-page-header menu pointers">
         <button class="btn btn-primary" (click)="onClickRecentChatUsers()">{{ app.text('recent_chat_users') }}</button>
         <button class="btn btn-primary" (click)="onClickUnreadChats()">Unread Chats</button>
     </nav>
 
-    <section class="chat-recnt-users mt-2 py-2 bg-white" *ngIf="showChatUsers">
-        <h4 class="p-3">{{ app.text('recent_chat_users') }}</h4>
-        <div class="room d-flex px-3 py-3 hover-blue pointers" *ngFor="let room of rooms" routerLink="/chat/{{ room.otherXapiUid }}">
-            <img class="rounded-circle size-48px" src="{{ app.photoUrl( room.otherPhotoUrl ) }}">
-            <div class="ml-2 fs-sm">
-                <div>
-                    {{ room.otherName }} ({{ room.otherStatus }})
+    <div class="chat-page-content">
+        <section class="chat-recnt-users mt-2 py-2 bg-white" *ngIf="showChatUsers">
+            <h4 class="p-3">{{ app.text('recent_chat_users') }}</h4>
+            <div class="room d-flex px-3 py-3 hover-blue pointers" *ngFor="let room of rooms" routerLink="/chat/{{ room.otherXapiUid }}">
+                <img class="rounded-circle size-48px" src="{{ app.photoUrl( room.otherPhotoUrl ) }}">
+                <div class="ml-2 fs-sm">
+                    <div>
+                        {{ room.otherName }} ({{ room.otherStatus }})
+                    </div>
+                    <span class="badge badge-danger" style="padding-top: .2em;" *ngIf=" room.stamp_read == 0">new</span>
+                    <span class="message">{{ room.message }}</span>
                 </div>
-                <span class="badge badge-danger" style="padding-top: .2em;" *ngIf=" room.stamp_read == 0">new</span>
-                <span class="message">{{ room.message }}</span>
             </div>
-        </div>
-    </section>
+        </section>
 
 
-    <section class="chat-box">
-        <div *ngIf="chats">
-            <hr> {{ chat.other?.name }} ({{ chat.other?.status }})
-            <hr>
-            <div *ngFor="let chat of chats.reverse()">
-                <img src="{{ chat.photoUrl }}" class="size-32px"> {{ chat.name }} {{ chat.message }} {{ chat.time }}
+        <section class="chat-box bg-grey" *ngIf=" ! showChatUsers " [style.width.px]="app.getSizeBWidth">
+            <div class="chat-box-header">{{ chat.other?.name }} ({{ chat.other?.status }})</div>
+            <div *ngIf="chats">
+                <ng-container *ngFor="let chat of chats.reverse()">
+                    <div class="chat d-flex py-1" *ngIf="!isMyChat(chat)">
+                        <img class="rounded-circle size-32px" src="{{ chat.photoUrl }}">
+                        <div class="message pl-2">{{ chat.message }}</div>
+                    </div>
+                    <div class="chat d-flex py-1 justify-content-end" *ngIf="isMyChat(chat)">
+                        <div class="message pr-2">{{ chat.message }}</div>
+                        <img class="rounded-circle size-32px" src="{{ chat.photoUrl }}">
+                    </div>
+                </ng-container>
             </div>
-        </div>
 
-        <input *ngIf="chat.other?.uid" [(ngModel)]="message" (keyup.enter)="onEnterMessage()">
-    </section>
+            <input *ngIf="chat.other?.uid" [(ngModel)]="message" (keyup.enter)="onEnterMessage()">
+        </section>
+    </div>
 </div>

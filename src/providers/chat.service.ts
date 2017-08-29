@@ -13,6 +13,8 @@ import * as firebase from 'firebase/app';
 
 import { WordpressApiService } from './wordpress-api/wordpress-api.service';
 import { UserService } from './../providers/wordpress-api/user.service';
+import { ShareService } from './share.service';
+
 
 import { Base } from './../etc/base';
 
@@ -45,6 +47,7 @@ export interface CHAT_USER {
     name: string;
     photoUrl: string;
     status: string;
+    lastOnline: number;
     xapiUid: string;
 };
 
@@ -71,7 +74,9 @@ export class ChatService extends Base {
 
 
 
-    constructor() {
+    constructor(
+        private share: ShareService
+    ) {
         super();
     }
     inject(auth, db, user, wp) {
@@ -119,14 +124,12 @@ export class ChatService extends Base {
      *          - null if not logged in.
      */
     get login(): string {
-        if (this.auth && this.auth.currentUser && this.auth.currentUser.uid) {
-            return this.auth.currentUser.uid;
-        }
-        else return null;
+        return this.share.isFirebaseLogin;
     }
     get uid(): string {
-        return this.login;
+        return this.share.firebaseUid;
     }
+
     // get my(): CHAT_USER {
     //     // if (this.login) return this.auth.currentUser;
     //     // else return null;
