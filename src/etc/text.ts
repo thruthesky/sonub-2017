@@ -204,6 +204,9 @@ export let TEXT = {
     },
 
 
+    input_chat_message: { en: 'Please input message.', ko: '채팅 메세지를 입력하세요.' },
+    unread_chat_messages: { en: 'New Messages', ko: '새 채팅 메세지' },
+
     /// forum create name
     food: {
         en: 'Food',

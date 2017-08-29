@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { MenuPage } from './pages/menu/menu';
 import { PagePage } from './pages/page/page';
 import { ChatPage } from './pages/chat/chat';
+import { ChatUnreadPage } from './pages/chat-unread/chat-unread';
 
 
 
@@ -20,6 +21,7 @@ const appRoutes: Routes = [
     { path: 'forum', component: PagePage, data: { filename: 'forum-index', section: 'forum', layout: 'two-column' } },
     { path: 'adv/howto', component: PagePage, data: { filename: 'advertisement-howto', section: 'advertisement', layout: 'wide' } },
     { path: 'chat/:id/:name', component: ChatPage },
+    { path: 'chat/unread', component: ChatUnreadPage },
     { path: 'chat/:id', component: ChatPage },
     { path: 'chat', component: ChatPage }
 ];
@@ -28,7 +30,8 @@ const appRoutes: Routes = [
     declarations: [
         MenuPage,
         PagePage,
-        ChatPage
+        ChatPage,
+        ChatUnreadPage
     ],
     imports: [
         CommonModule,

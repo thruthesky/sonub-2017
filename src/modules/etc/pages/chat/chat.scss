@@ -15,4 +15,52 @@
     position: fixed;
     top: 100px;
     bottom: 0;
+
+    .chat-box-messages {
+        top: 0;
+        left: 0;
+        right: 0;
+        overflow: auto;
+        overflow-y: scroll;
+        min-height: 100px;
+        background-color: #fff;
+    }
+    .chat-box-form {
+        position: absolute;
+        z-index: 999;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 48px;
+        background-color: #fff;
+
+        input {
+            display: block;
+            width: 100%;
+            border: 1px solid grey;
+            padding: .25em;
+        }
+    }
+}
+
+.chat-box .your-chat {
+
+    .message {
+        margin: 0 .5em;
+        padding: .25em .5em;
+        border-radius: 5px;
+        background-color: #efef5e;
+        font-weight: 100;
+    }
+}
+.chat-box .my-chat {
+    .message {
+        margin: 0 .5em;
+        padding: .25em .5em;
+        border-radius: 5px;
+        background-color: #338fff;
+        color: white;
+        font-size: $fs-sm;
+        font-weight: 100;
+    }
 }

@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs/Subscription'
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/timer';
 import 'rxjs/add/operator/throttleTime';
+import 'rxjs/add/operator/debounceTime';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
@@ -185,26 +186,39 @@ export class AppService extends Base {
     }
 
 
+    /**
+     * This tracks window resize and get app element size after resize.
+     * 
+     */
     trackWindowResize() {
 
         this.getSize();
         Observable.fromEvent(window, 'resize')
-            .throttleTime( 200 )
+            .debounceTime( 250 )
             .subscribe( (e: UIEvent) => {
                 this.getSize();
             });
     }
 
     /**
+     * 
+     * This method is being invoked on window resize.
+     * 
+     * 
+     * 
      * @warning when this method is invoked,
      *          IF DOM are not available, the size will become 0.
      * 
-     * @warning Especially when the user refreshes a page that needs to use sizes on page initialization,
-     *          you will see SIZE = 0.
-     *          To avoid this, you need to call 'getSize()' once after the view is initialized.
      * 
-     * @code
-     
+     * 
+     * @attention to make sure to get proper size after resizing, it uses setTimeout().
+     * 
+     * 
+     * @code Especially when the user refreshes on a page that needs to get/use sizes( on pinitialization of the page ),
+     *          // you may get SIZE of 0.
+     *          // To avoid this( or to get proper size on page load )
+     *          // you need to call 'getSize()' once after the view is initialized.
+     * 
             ngAfterViewInit() {
                 setTimeout(() => this.app.getSize(), 1);
             }
@@ -214,8 +228,11 @@ export class AppService extends Base {
     getSize() {
         let b = document.querySelector(".page-body-content-layout > div.b");
         if ( b ) {
-            this.size.b.width = b.clientWidth;
-            this.windowResize.next( this.size );
+            setTimeout(() => {
+                this.size.b.width = b.clientWidth;
+                // console.log(this.size.b.width);
+                this.windowResize.next( this.size );
+            }, 100);
         }
         return this.size;
     }
@@ -353,8 +370,8 @@ export class AppService extends Base {
     }
 
 
-    rerenderPage(timeout = 0) {
-        this.share.rerenderPage( timeout );
+    rerenderPage(timeout = 0, callback?) {
+        this.share.rerenderPage( timeout, callback );
     }
 
 

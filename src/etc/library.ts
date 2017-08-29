@@ -136,6 +136,16 @@ export class Library {
     }
 
 
+    /**
+     * 
+     * @param a 
+     * @return Objects of params
+     * 
+     * @code
+     *  let params = this.queryString();
+     *  params['abc'];
+     * @endcode
+     */
     queryString(a?) {
         if (!a) {
             if (!window.location.search) return {};

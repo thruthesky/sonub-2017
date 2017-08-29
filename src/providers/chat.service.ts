@@ -203,6 +203,7 @@ export class ChatService extends Base {
         this.onRooms = this.rooms.orderByKey().limitToLast(1).on('child_added', snap => {
             let chat = snap.val();
             // console.log('observeChat() => snap.val: chat: ', chat);
+            // console.log("this.other: ", this.other);
             if (chat && chat['stamp_read'] === 0) {
                 this.roomsEvent.next(chat['otherUid']);
             }

@@ -1,0 +1,24 @@
+<div class="chat-unread-page">
+    <nav class="chat-unread-page-header menu pointers">
+        <button class="btn btn-primary" routerLink="/chat">{{ app.text('recent_chat_users') }}</button>
+        <button class="btn btn-primary" routerLink="/chat/unread">{{ app.text('unread_chat_messages') }}</button>
+    </nav>
+
+    <div class="chat-unread-page-content">
+        <section class="chat-unread-rooms mt-2 py-2 bg-white">
+            <h4 class="p-3">{{ app.text('unread_chat_messages') }}</h4>
+            <div class="room d-flex px-3 py-3 hover-blue pointers" *ngFor="let room of rooms" routerLink="/chat/{{ room.otherXapiUid }}">
+                <img class="rounded-circle size-48px" src="{{ app.photoUrl( room.otherPhotoUrl ) }}">
+                <div class="ml-2 fs-sm">
+                    <div>
+                        {{ room.otherName }}
+                        <span *ngIf="room.otherStatus">({{ room.otherStatus }})</span>
+                    </div>
+                    <span class="badge badge-danger" style="padding-top: .2em;" *ngIf=" room.stamp_read == 0">new</span>
+                    <span class="message">{{ room.message }}</span>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+

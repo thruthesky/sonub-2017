@@ -80,11 +80,15 @@ export class ShareService extends Base {
     }
 
 
-    rerenderPage(timeout?) {
+    rerenderPage(timeout?, callback?) {
         if (timeout) {
-            setTimeout(() => this.ngZone.run(() => { }), timeout);
+            setTimeout(() => this.ngZone.run(() => {
+                if ( callback ) callback();
+            }), timeout);
         }
-        else this.ngZone.run(() => { });
+        else this.ngZone.run(() => {
+            if ( callback ) callback();
+        });
     }
 
 

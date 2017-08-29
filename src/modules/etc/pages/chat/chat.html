@@ -1,7 +1,7 @@
 <div class="chat-page">
     <nav class="chat-page-header menu pointers">
-        <button class="btn btn-primary" (click)="onClickRecentChatUsers()">{{ app.text('recent_chat_users') }}</button>
-        <button class="btn btn-primary" (click)="onClickUnreadChats()">Unread Chats</button>
+        <button class="btn btn-primary" routerLink="/chat">{{ app.text('recent_chat_users') }}</button>
+        <button class="btn btn-primary" routerLink="/chat/unread">{{ app.text('unread_chat_messages') }}</button>
     </nav>
 
     <div class="chat-page-content">
@@ -11,7 +11,8 @@
                 <img class="rounded-circle size-48px" src="{{ app.photoUrl( room.otherPhotoUrl ) }}">
                 <div class="ml-2 fs-sm">
                     <div>
-                        {{ room.otherName }} ({{ room.otherStatus }})
+                        {{ room.otherName }}
+                        <span *ngIf="room.otherStatus">({{ room.otherStatus }})</span>
                     </div>
                     <span class="badge badge-danger" style="padding-top: .2em;" *ngIf=" room.stamp_read == 0">new</span>
                     <span class="message">{{ room.message }}</span>
@@ -20,22 +21,29 @@
         </section>
 
 
-        <section class="chat-box bg-grey" *ngIf=" ! showChatUsers " [style.width.px]="app.getSizeBWidth">
-            <div class="chat-box-header">{{ chat.other?.name }} ({{ chat.other?.status }})</div>
-            <div *ngIf="chats">
-                <ng-container *ngFor="let chat of chats.reverse()">
-                    <div class="chat d-flex py-1" *ngIf="!isMyChat(chat)">
+        <section class="chat-box p-2 bg-white" *ngIf=" ! showChatUsers " [style.width.px]="app.getSizeBWidth">
+            <div class="chat-box-header">
+                {{ chat.other?.name }}
+                <span *ngIf="chat.other?.status">({{ chat.other?.status }})</span>
+            </div>
+            <div class="chat-box-messages" [style.height.px]="chatBoxHeight - 86" *ngIf="chats">
+                <ng-container *ngFor="let chat of chats">
+                    <div class="chat your-chat d-flex py-1" *ngIf="!isMyChat(chat)">
                         <img class="rounded-circle size-32px" src="{{ chat.photoUrl }}">
-                        <div class="message pl-2">{{ chat.message }}</div>
+                        <div class="message">{{ chat.message }}</div>
                     </div>
-                    <div class="chat d-flex py-1 justify-content-end" *ngIf="isMyChat(chat)">
-                        <div class="message pr-2">{{ chat.message }}</div>
+                    <div class="chat my-chat d-flex py-1 justify-content-end" *ngIf="isMyChat(chat)">
+                        <div class="message">{{ chat.message }}</div>
                         <img class="rounded-circle size-32px" src="{{ chat.photoUrl }}">
                     </div>
                 </ng-container>
             </div>
 
-            <input *ngIf="chat.other?.uid" [(ngModel)]="message" (keyup.enter)="onEnterMessage()">
+            <div class="chat-box-form">
+                <div class="px-2">
+                    <input *ngIf="chat.other?.uid" placeholder="{{ app.text('input_chat_message') }}" [(ngModel)]="message" (keyup.enter)="onEnterMessage()">
+                </div>
+            </div>
         </section>
     </div>
 </div>
