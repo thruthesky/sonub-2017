@@ -29,8 +29,8 @@
         <span type="text" class="form-control" id="birthday">{{userData.birthday}}</span>
     </div>
     <div>
-        <button><a href="/user/profile/edit" routerLink="/user/profile/edit">Update Profile</a></button>
-        <button><a href="/user/profile/change-password" routerLink="/user/profile/change-password">Change Password</a></button>
+        <a href="/user/profile/edit" routerLink="/user/profile/edit"><button>Update Profile</button></a>
+        <a href="/user/profile/change-password" routerLink="/user/profile/change-password"><button>Change Password</button></a>
         <button (click)="onClickResign()">Resign</button>
         <button type="button" (click)="logout()">Logout</button>
     </div>

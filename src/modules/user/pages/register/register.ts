@@ -31,7 +31,6 @@ export class RegisterPage extends Base implements OnInit {
     errorMessage: string = null;
     loading: boolean = false;
 
-    days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     now = (new Date());
 
     constructor(
