@@ -103,4 +103,15 @@ export class PostViewWidget implements OnInit {
     }
 
 
+
+
+    onClickLike( post: POST, choice: 'like' | 'dislike' ) {
+        if ( this.app.user.isLogout ) return this.app.warning( this.app.e.LOGIN_FIRST );
+        this.app.wp.post({route: 'wordpress.post_like', choice: choice, ID: post.ID, session_id: this.app.user.sessionId})
+            .subscribe( re => {
+                console.log("like: ", re);
+                this.post.meta['like'] = re['like'];
+                this.post.meta['dislike'] = re['dislike'];
+            }, e => this.app.warning(e));
+    }
 }

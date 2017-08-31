@@ -110,7 +110,7 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
         };
         this.loadCache(req);
         this.app.forum.postList(req).subscribe((page: POST_LIST_RESPONSE) => {
-            // console.log('Page::', page);
+            console.log('Page::', page);
             this.inLoading = false;
             if (page.paged == page.max_num_pages) {
                 this.noMorePosts = true;

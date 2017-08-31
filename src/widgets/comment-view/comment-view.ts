@@ -74,6 +74,18 @@ export class CommentViewWidget implements OnInit, AfterViewInit {
     }
 
 
+    
+    onClickLike( choice: 'like' | 'dislike' ) {
+        if ( this.app.user.isLogout ) return this.app.warning( this.app.e.LOGIN_FIRST );
+        this.app.wp.post({route: 'wordpress.comment_like', choice: choice, comment_ID: this.comment.comment_ID, session_id: this.app.user.sessionId})
+            .subscribe( re => {
+                console.log("like: ", re);
+                this.comment.meta['like'] = re['like'];
+                this.comment.meta['dislike'] = re['dislike'];
+                
+            }, e => this.app.warning(e));
+    }
+
 
 }
 
