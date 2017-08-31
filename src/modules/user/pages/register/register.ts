@@ -31,7 +31,6 @@ export class RegisterPage extends Base implements OnInit {
     errorMessage: string = null;
     loading: boolean = false;
 
-    days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     now = (new Date());
 
     constructor(
@@ -55,7 +54,7 @@ export class RegisterPage extends Base implements OnInit {
 
 
     onSubmitRegister() {
-        console.log('onClickUserRegister::');
+        // console.log('onClickUserRegister::');
         this.errorMessage = null;
         if (!this.user_email && this.user_email.length == 0) return this.errorMessage = '*Email is required';
         if (!this.user_pass && this.user_pass.length == 0) return this.errorMessage = '*Password is required';
@@ -68,15 +67,15 @@ export class RegisterPage extends Base implements OnInit {
             // timezone_offset: this.getTimezoneOffset()
         };
         this.app.user.register(data).subscribe(res => {
-            console.log('app.user.register::res', res);
+            // console.log('app.user.register::res', res);
             if (res.session_id) {
-                console.log('Registration Success::Proceed to Profile Photo');
+                // console.log('Registration Success::Proceed to Profile Photo');
                 this.activeForm = 'form2';
             }
             this.loading = false;
             this.app.loginSuccess();
         }, error => {
-            console.log('app.user.register::error', error);
+            // console.log('app.user.register::error', error);
             this.loading = false;
             this.app.warning(error);
             this.errorMessage = error.code
@@ -84,7 +83,7 @@ export class RegisterPage extends Base implements OnInit {
     }
 
     onSuccessUpdateProfilePicture() {
-        console.log("onSuccessUpdateProfilePicture::", this.files);
+        // console.log("onSuccessUpdateProfilePicture::", this.files);
         let data: USER_UPDATE = {
             user_email: this.user_email,
             photoURL: this.files[0].url
@@ -95,10 +94,10 @@ export class RegisterPage extends Base implements OnInit {
         }
         this.app.user.update(data).subscribe((res: USER_UPDATE_RESPONSE) => {
             this.app.userUpdate({photoUrl: data['photoURL'] }, () => {});
-            console.log('updateProfilePicture:', res);
+            // console.log('updateProfilePicture:', res);
             this.app.rerenderPage();
         }, err => {
-            console.log('error while updating user profile picture', err);
+            // console.log('error while updating user profile picture', err);
         });
     }
 
@@ -114,7 +113,7 @@ export class RegisterPage extends Base implements OnInit {
             birthday: this.birthday.year + this.app.add0(this.birthday.month) + this.app.add0(this.birthday.day)
         };
         this.app.user.update(data).subscribe((res: USER_UPDATE_RESPONSE) => {
-            console.log('updateUserInfo:', res);
+            // console.log('updateUserInfo:', res);
             let userData = {
                 name: data['name']
             };
@@ -124,12 +123,9 @@ export class RegisterPage extends Base implements OnInit {
             });
         }, err => {
             this.loading = false;
-            console.log('error while updating user profile picture', err);
+            // console.log('error while updating user profile picture', err);
             this.errorMessage = err.code;
         });
     }
 
-    onChangeBirthday() {
-        console.log(this.birthday);
-    }
 }

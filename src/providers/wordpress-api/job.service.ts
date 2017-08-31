@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Base } from './../../etc/base';
 import { UserService } from './user.service';
 import { WordpressApiService } from './wordpress-api.service';
-import {JOB_CREATE, JOB, JOBS, POST_CREATE, POSTS, POST, POST_QUERY_RESPONSE, JOB_PAGE, POST_DATA} from './interface';
+import {JOB_CREATE, JOB, POST_CREATE, POST, POST_QUERY_RESPONSE, JOB_PAGE, POST_DATA} from './interface';
 import { Observable } from 'rxjs/Observable';
 
 

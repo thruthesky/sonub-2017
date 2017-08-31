@@ -24,6 +24,7 @@ export class ChangePasswordPage {
 
     constructor(public app: AppService,
                 private router: Router) {
+        app.section('user');
     }
 
     onSubmitChangePassword() {

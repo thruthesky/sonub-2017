@@ -23,10 +23,10 @@ export class SearchService extends Base {
 
         for(let i = 0; i < req.length; i++) {
             this.doSearch(req[i]).subscribe( res => {
-                console.log('doSearch', res);
+                // console.log('doSearch', res);
                 if(res) pages.push(res);
             }, err => {
-                console.log('error on getting data', err);
+                // console.log('error on getting data', err);
             });
         }
 
@@ -34,7 +34,7 @@ export class SearchService extends Base {
     }
 
     doSearch(req): Observable<PAGE> {
-        console.log('REQUEST::', req);
+        // console.log('REQUEST::', req);
         if ( req['query'] === void 0 ) req['query'] = {};
         req['route'] = "wordpress.post_query";
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { AppService } from "../../../../providers/app.service";
 import {JOB, POST} from "../../../../providers/wordpress-api/interface";
@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from "@angular/router";
     templateUrl: 'job-view.html'
 })
 
-export class JobViewPage implements OnInit {
+export class JobViewPage {
 
     profile: JOB;
     ID: number;
@@ -32,17 +32,11 @@ export class JobViewPage implements OnInit {
             this.app.job.data({ route: 'wordpress.get_post', ID: params['id'] })
                 .subscribe((job: JOB) => {
                     console.log('Profile:: ', job);
-                    this.prepare(job);
                     this.profile = job;
                 }, e => this.app.warning(e));
         }
 
     }
-
-    ngOnInit() { }
-
-    prepare(job: JOB) {}
-
 
     onClickEdit(ID) {
         this.router.navigate(['/job/edit', ID]);

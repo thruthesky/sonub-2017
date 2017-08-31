@@ -1,12 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AppService, ERROR, POST, FILES, FILE, POST_CREATE } from './../../../../providers/app.service';
-import { JOB_CREATE, JOB } from "../../../../providers/wordpress-api/interface";
-import { FileUploadWidget } from "../../../../widgets/file-upload/file-upload";
-import { PhilippineRegion } from "../../../../providers/philippine-region";
-import { DATEPICKER } from "../../../../etc/interface";
-import { NgbDatepickerConfig } from "@ng-bootstrap/ng-bootstrap";
-
+import {Component, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AppService, ERROR, FILES, FILE} from './../../../../providers/app.service';
+import {JOB_CREATE, JOB} from "../../../../providers/wordpress-api/interface";
+import {FileUploadWidget} from "../../../../widgets/file-upload/file-upload";
+import {PhilippineRegion} from "../../../../providers/philippine-region";
+import {DATEPICKER} from "../../../../etc/interface";
+import {NgbDatepickerConfig} from "@ng-bootstrap/ng-bootstrap";
 
 
 @Component({
@@ -45,28 +44,25 @@ export class JobCreateEditPage {
 
     numbers = Array.from(new Array(20), (x, i) => i + 1);
 
-    constructor(
-        private region: PhilippineRegion,
-        private router: Router,
-        public app: AppService,
-        private activeRoute: ActivatedRoute,
-        dateConfig: NgbDatepickerConfig,
-
-    ) {
+    constructor(private region: PhilippineRegion,
+                private router: Router,
+                public app: AppService,
+                private activeRoute: ActivatedRoute,
+                dateConfig: NgbDatepickerConfig,) {
         app.section('job');
         region.get_province(re => {
             this.provinces = re;
-        }, e => {
+        }, () => {
         });
 
-        dateConfig.minDate = { year: 1946, month: 1, day: 1 };
-        dateConfig.maxDate = { year: this.today.getFullYear() - 14, month: 12, day: 31 };
-        this.birthday = { year: this.today.getFullYear() - 14, month: 12, day: 31 };
+        dateConfig.minDate = {year: 1946, month: 1, day: 1};
+        dateConfig.maxDate = {year: this.today.getFullYear() - 14, month: 12, day: 31};
+        this.birthday = {year: this.today.getFullYear() - 14, month: 12, day: 31};
 
 
         let params = activeRoute.snapshot.params;
         if (params['id']) {
-            this.app.job.data({ route: 'wordpress.get_post', ID: params['id'] })
+            this.app.job.data({route: 'wordpress.get_post', ID: params['id']})
                 .subscribe((job: JOB) => {
                     if (job.author.ID) {
                         if (!app.user.isLogin) {
@@ -80,8 +76,6 @@ export class JobCreateEditPage {
                             return;
                         }
                     }
-
-                    // Object.assign(this, job);
 
                     this.ID = job.ID;
                     this.message = job.message;
@@ -109,7 +103,6 @@ export class JobCreateEditPage {
     }
 
 
-
     birthdayData(birthday) {
         if (birthday) return {
             year: parseInt(birthday.substring(0, 4)),
@@ -119,12 +112,6 @@ export class JobCreateEditPage {
     }
 
     onClickSubmit() {
-
-        if (this.experience) {
-            console.log('data::', this.experience);
-        }
-
-
         let data: JOB_CREATE = {
             message: this.message,
             gender: this.gender,
@@ -140,13 +127,16 @@ export class JobCreateEditPage {
             address: this.address,
             password: this.password
         };
-        data.fid = this.files.reduce((_, file) => { _.push(file.id); return _; }, []);
+        data.fid = this.files.reduce((_, file) => {
+            _.push(file.id);
+            return _;
+        }, []);
         data['ID'] = this.ID;
 
         console.log('onClickSubmit::data:: ', data);
         this.app.job.create(data).subscribe(res => {
             console.log("job create: ", res);
-            this.app.alert.open({ content: this.app.text('saved') });
+            this.app.alert.open({content: this.app.text('saved')});
             this.router.navigateByUrl('/job');
         }, e => this.app.warning(e));
 
@@ -160,7 +150,7 @@ export class JobCreateEditPage {
     }
 
     onClickProvince() {
-        console.log('Province::', this.province);
+        // console.log('Province::', this.province);
         if (this.province != 'all') {
             this.city = this.province;
             this.getCities();
@@ -177,7 +167,7 @@ export class JobCreateEditPage {
                 this.cities = re;
                 this.showCities = true;
             }
-        }, e => {
+        }, () => {
         });
     }
 
