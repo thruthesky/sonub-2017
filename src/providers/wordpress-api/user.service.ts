@@ -12,7 +12,7 @@ import {
     USER_REGISTER, USER_REGISTER_RESPONSE, USER_LOGIN, USER_LOGIN_RESPONSE,
     USER_UPDATE, USER_UPDATE_RESPONSE, USER_DATA_RESPONSE, USER_DATA,
     SOCIAL_REGISTER, SOCIAL_UPDATE,
-    ACTIVITY_REQUEST, ACTIVITY_RESPONSE, USER_CHANGE_PASSWORD
+    ACTIVITY_REQUEST, ACTIVITY_RESPONSE, USER_CHANGE_PASSWORD, REQUEST
 } from './interface';
 
 @Injectable()
@@ -128,6 +128,19 @@ export class UserService extends Base {
         data.route = 'user.password';
         return this.wp.post(data)
             .map(res => this.setUserProfile(res));
+    }
+
+    resign(): Observable<any> {
+        let data: REQUEST = {
+            session_id : this.sessionId,
+            route : 'user.resign'
+        };
+        return this.wp.post(data)
+            .map(res => {
+                if( res == this.email) this.logout();
+                return res;
+            });
+
     }
 
     data(): Observable<USER_DATA_RESPONSE> {

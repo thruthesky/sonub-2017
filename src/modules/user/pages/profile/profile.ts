@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from './../../../../providers/app.service';
 
 import { USER_DATA_RESPONSE } from './../../../../providers/wordpress-api/interface';
-import {ProfileEditModalService} from "../modals/profile-edit/profile-edit.modal";
+import {ERROR} from "../../../../etc/error";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -15,7 +16,7 @@ export class ProfilePage implements OnInit {
 
     constructor(
         public app: AppService,
-        private profileEditModal: ProfileEditModalService
+        private router: Router
     ) {
         app.section('user');
         this.initProfile();
@@ -33,24 +34,26 @@ export class ProfilePage implements OnInit {
         }, error => this.app.warning(error));
     }
 
-
-    onClickEditProfile() {
-        this.profileEditModal.openProfile(this.userData).then(id => {
-            // console.log('comment edit success:', id);
-
-            this.initProfile();
-
-        }, err => this.app.warning(err));
-    }
-
-    onClickShowChangePassword() {
-        this.profileEditModal.openChangePassword().then( () => {
-            console.log('ChangePasword::result')
-            }, err => this.app.warning(err));
-
-    }
-
     onClickResign() {
+        if (this.app.user.isLogin) {
+            this.app.confirm(this.app.text('resign')).then(code => {
+                if (code == 'yes') {
+                    console.log('confirmResign');
+                    this.app.user.resign().subscribe( res => {
+                        console.log('resign:res', res);
+                        this.router.navigateByUrl('/');
+                    }, err => this.app.warning(err));
+                }
+            });
+        }
+        else {
+            this.app.warning(ERROR.CODE_PERMISSION_DENIED_NOT_OWNER);
+        }
 
+    }
+
+    logout(){
+        this.app.logout();
+        this.router.navigateByUrl('/');
     }
 }

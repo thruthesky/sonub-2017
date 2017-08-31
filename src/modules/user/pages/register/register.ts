@@ -96,6 +96,7 @@ export class RegisterPage extends Base implements OnInit {
         this.app.user.update(data).subscribe((res: USER_UPDATE_RESPONSE) => {
             this.app.userUpdate({photoUrl: data['photoURL'] }, () => {});
             console.log('updateProfilePicture:', res);
+            this.app.rerenderPage();
         }, err => {
             console.log('error while updating user profile picture', err);
         });

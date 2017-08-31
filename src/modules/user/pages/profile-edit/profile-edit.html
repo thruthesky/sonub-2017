@@ -1,10 +1,5 @@
-<div class="modal-header">
-    <h4 class="modal-title">Profile Update</h4>
-    <button type="button" class="close" aria-label="Close" (click)="onClickCancel()">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-<div class="modal-body">
+<h1>Profile Update</h1>
+<div *ngIf="app.user.isLogin">
     <div class="text-center mb-3">
         <div class="profile-user d-inline-block">
             <span class="profile-user-photo">
@@ -23,7 +18,7 @@
                 [fileSelectionButton]="false"
                 [files]="files"
                 [showUploadedFiles]="false"
-                (success)="onSuccessUpdateProfile()"
+                (success)="onSuccessUpdateProfilePicture()"
             ></file-upload-widget>
         </div>
     </div>
@@ -41,7 +36,7 @@
     <label class="input-group-addon">Gender</label>
     <div class="form-control mb-3">
         <div class="form-check">
-            <label for="male"  class="form-check-label">
+            <label for="male" class="form-check-label">
                 <input type="radio" name="gender" id="male" [(ngModel)]="gender" value="m">
                 <span>Male</span>
             </label>
@@ -55,7 +50,7 @@
     <div class="input-group mb-3">
         <span class="input-group-addon input-group-addon-primary" id="date_begin">Birthday</span>
         <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="birthday" ngbDatepicker
-               #b="ngbDatepicker" (ngModelChange)="onChangeBirthday()">
+               [placement]="'top'" #b="ngbDatepicker">
         <div class="input-group-addon" (click)="b.toggle()">
             <i class="fa fa-calendar" style="cursor: pointer;"></i>
         </div>
@@ -72,16 +67,14 @@
         <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
         <span>Loading...</span>
     </div>
-
-</div>
-<div class="modal-footer justify-content-between">
+    <div>
         <div>
             &nbsp;
         </div>
         <div>
             <button type="button" (click)="onSubmitUpdateUserInfo()">Save</button>
-            <button type="button" (click)="onClickCancel()">Cancel</button>
+            <button type="button"><a href="/profile" routerLink="/profile">Cancel</a></button>
         </div>
+    </div>
+
 </div>
-
-

@@ -329,10 +329,30 @@ export let TEXT = {
                 ]
         },
         ko: {
-            content: '#no번 글을 삭제를 하시겠습니까?',
+            content: 'Change Password Success',
             buttons:
                 [
                     { code: 'close', text: '닫기' }
+                ]
+        }
+    },
+    resign: {
+        en: {
+            title: 'Delete your account permanently.',
+            content: 'Are you sure you want to deactivate your account?',
+            buttons:
+                [
+                    { code: 'yes', text: 'Yes' },
+                    { code: 'no', text: 'No' }
+                ]
+        },
+        ko: {
+            title: 'Delete your account permanently.',
+            content: 'Are you sure you want to deactivate your account?',
+            buttons:
+                [
+                    { code: 'yes', text: '예' },
+                    { code: 'no', text: '아니오' }
                 ]
         }
     },

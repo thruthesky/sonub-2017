@@ -1,20 +1,22 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
+import { AppService } from './../../../../providers/app.service';
 
-import {NgbModal, NgbActiveModal, NgbDatepickerConfig} from '@ng-bootstrap/ng-bootstrap';
-
-import { AppService } from './../../../../../providers/app.service';
 import {
-    FILES, USER_UPDATE, USER_UPDATE_RESPONSE
-} from './../../../../../providers/wordpress-api/interface';
-import {FileUploadWidget} from "../../../../../widgets/file-upload/file-upload";
-import {DATEPICKER} from "../../../../../etc/interface";
+    FILES, USER_DATA_RESPONSE, USER_UPDATE,
+    USER_UPDATE_RESPONSE
+} from './../../../../providers/wordpress-api/interface';
+import {NgbDatepickerConfig} from "@ng-bootstrap/ng-bootstrap";
+import {FileUploadWidget} from "../../../../widgets/file-upload/file-upload";
+import {DATEPICKER} from "../../../../etc/interface";
+import {Router} from "@angular/router";
+
+
 
 @Component({
-    selector: 'profile-edit-content',
-    templateUrl: 'profile-edit.content.html'
+    selector: 'profile-edit-page',
+    templateUrl: './profile-edit.html'
 })
-
-export class ProfileEditContent implements OnInit {
+export class ProfileEditPage implements OnInit {
 
     @ViewChild('fileUploadWidget') public fileUploadComponent: FileUploadWidget;
 
@@ -24,9 +26,6 @@ export class ProfileEditContent implements OnInit {
     mobile: string = '';
     gender: string = 'm';
     birthday: DATEPICKER;
-
-
-    user: USER_UPDATE = <USER_UPDATE>{};
     files: FILES = [];
 
 
@@ -36,44 +35,40 @@ export class ProfileEditContent implements OnInit {
     now = (new Date());
 
     constructor(
-        public activeModal: NgbActiveModal,
         public app: AppService,
+        private router: Router,
         dateConfig: NgbDatepickerConfig
     ) {
-        
+        // app.section('user');
         dateConfig.minDate = {year: 1956, month: 1, day: 1};
         dateConfig.maxDate = {year: this.now.getFullYear(), month: 12, day: 31};
+        this.initProfile();
     }
 
-    ngOnInit() { }
+    ngOnInit() {
 
-    setOptions(userData) {
-        Object.assign( this.user,  userData);
-
-        this.user_email = userData.user_email;
-        this.name = userData.name;
-        this.mobile = userData.mobile;
-        this.gender = userData.gender;
-
-        this.birthday = {
-            year: parseInt( userData.birthday.substring(0,4) ),
-            month: parseInt( userData.birthday.substring(4,6) ),
-            day: parseInt( userData.birthday.substring(6,8) )
-        };
-
-
-        if( userData.photo ) this.files[0] = userData.photo;
-        console.log('editUserOption::', this.birthday);
     }
 
-    onClickCancel() {
-        this.activeModal.close();
+    initProfile() {
+        this.app.user.data().subscribe( (userData:USER_DATA_RESPONSE) => {
+            console.log('userData::', userData);
+            this.user_email = userData.user_email;
+            this.name = userData.name;
+            this.mobile = userData.mobile;
+            this.gender = userData.gender;
+            this.birthday = {
+                year: parseInt( userData.birthday.substring(0,4) ),
+                month: parseInt( userData.birthday.substring(4,6) ),
+                day: parseInt( userData.birthday.substring(6,8) )
+            };
+            if( userData.photo ) this.files[0] = userData.photo;
+        }, error => this.app.warning(error));
     }
 
-    onSuccessUpdateProfile() {
+    onSuccessUpdateProfilePicture() {
         console.log("onSuccessUpdateProfile::", this.files);
         let data: USER_UPDATE = {
-            user_email: this.user.user_email,
+            user_email: this.user_email,
             photoURL: this.files[0].url
         };
         if( this.files.length > 1 ) {
@@ -81,6 +76,7 @@ export class ProfileEditContent implements OnInit {
             if( this.files && this.files[0] && this.files[0].id ) setTimeout( () => this.fileUploadComponent.deleteFile( this.files[0]) );
         }
         this.app.user.update(data).subscribe((res: USER_UPDATE_RESPONSE) => {
+            this.app.userUpdate({photoUrl: data['photoURL'] }, () => {});
             console.log('updateProfilePicture:', res);
             this.files[0] = res.photo;
             this.app.rerenderPage();
@@ -103,20 +99,18 @@ export class ProfileEditContent implements OnInit {
         };
         this.app.user.update(data).subscribe((res: USER_UPDATE_RESPONSE) => {
             console.log('updateUserInfo:', res);
-            this.loading = false;
-            this.activeModal.close();
-            this.app.rerenderPage();
+            let userData = {
+                name: data['name']
+            };
+            this.app.userUpdate( userData, () => {
+                this.loading = false;
+                this.router.navigateByUrl('/profile');
+            });
         }, err => {
             this.loading = false;
             console.log('error while updating user profile picture', err);
             this.errorMessage = err.code + ' , '+ err.message;
         });
-    }
-
-
-
-    onChangeBirthday() {
-        console.log(this.birthday);
     }
 
 }

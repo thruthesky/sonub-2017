@@ -29,10 +29,10 @@
         <span type="text" class="form-control" id="birthday">{{userData.birthday}}</span>
     </div>
     <div>
-        <button (click)="onClickEditProfile()">Update Profile</button>
-        <button (click)="onClickShowChangePassword()">Change Password</button>
-        <button (click)="onClickResign()">Resing</button>
-        <button type="button" (click)="app.logout()">Logout</button>
+        <button><a href="/user/profile/edit" routerLink="/user/profile/edit">Update Profile</a></button>
+        <button><a href="/user/profile/change-password" routerLink="/user/profile/change-password">Change Password</a></button>
+        <button (click)="onClickResign()">Resign</button>
+        <button type="button" (click)="logout()">Logout</button>
     </div>
 
 </div>
