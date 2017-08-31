@@ -110,7 +110,7 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
         };
         this.loadCache(req);
         this.app.forum.postList(req).subscribe((page: POST_LIST_RESPONSE) => {
-            console.log('Page::', page);
+            // console.log('Page::', page);
             this.inLoading = false;
             if (page.paged == page.max_num_pages) {
                 this.noMorePosts = true;
@@ -125,7 +125,7 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
     loadCache(req: POST_LIST) {
         let p = this.app.cacheGetPage(req);
         if (p) {
-            console.log("cached for ", this.app.cacheKeyPage(req));
+            // console.log("cached for ", this.app.cacheKeyPage(req));
             this.pages.push(p);
         }
     }
@@ -137,7 +137,7 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
     addOrReplacePage(req: POST_LIST, page: POST_LIST_RESPONSE) {
         let i = page.paged - 1;
         if (i < this.pages.length) {
-            console.log("replace cached page for: ", this.app.cacheKeyPage(req));
+            // console.log("replace cached page for: ", this.app.cacheKeyPage(req));
             this.pages[i] = page;
         }
         else this.pages.push(page);

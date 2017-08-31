@@ -130,10 +130,10 @@ export class JobListPage implements OnInit, OnDestroy {
 
 
         this.app.job.search(req).subscribe((page: JOB_PAGE) => {
-            console.log("jobSearch", page);
+            // console.log("jobSearch", page);
             this.displayPage(page);
         }, e => {
-            console.log("loadPage::e::", e);
+            // console.log("loadPage::e::", e);
             this.inLoading = false;
             this.noMorePosts = true;
         });
@@ -148,7 +148,7 @@ export class JobListPage implements OnInit, OnDestroy {
 
 
     onValueChanged(data?: any) {
-        console.log('onValueChanges::data::', data);
+        // console.log('onValueChanges::data::', data);
         let clause = [];
         this.query = {};
 

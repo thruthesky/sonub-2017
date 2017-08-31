@@ -21,9 +21,7 @@ export class PostViewWidget implements OnInit {
     @Input() page: PAGE;
 
 
-    filePosition = 'bottom';
-    
-
+    // filePosition = 'bottom';
     
     constructor(
         public app: AppService,
@@ -34,7 +32,7 @@ export class PostViewWidget implements OnInit {
     }
 
     ngOnInit() {
-        setTimeout( () => this.setFilePosition(), 1 );
+        // setTimeout( () => this.setFilePosition(), 1 );
         // setTimeout( () => console.log('post view', this.post) , 1000);
     }
 
@@ -48,7 +46,7 @@ export class PostViewWidget implements OnInit {
     }
 
     onCommentCreate(comment_ID, post: POST) {
-        console.log(`ForumListPage::onCommentCreate()  : ${comment_ID}`);
+        // console.log(`ForumListPage::onCommentCreate()  : ${comment_ID}`);
     }
 
 
@@ -83,13 +81,25 @@ export class PostViewWidget implements OnInit {
 
 
     /// default
-    setFilePosition() {
+    // setFilePosition() {
+    //     if ( this.post && this.post.category_option && this.post.category_option['file-position'] ) {
+    //         this.filePosition = this.post.category_option['file-position'];
+    //     }
+    //     if ( this.page && this.page.category_option && this.page.category_option['file-position'] ) {
+    //         this.filePosition = this.page.category_option['file-position'];
+    //     }
+    // }
+
+    get filePosition() {
+
         if ( this.post && this.post.category_option && this.post.category_option['file-position'] ) {
-            this.filePosition = this.post.category_option['file-position'];
+            return this.post.category_option['file-position'];
         }
         if ( this.page && this.page.category_option && this.page.category_option['file-position'] ) {
-            this.filePosition = this.page.category_option['file-position'];
+            return this.page.category_option['file-position'];
         }
+
+        return 'bottom';
     }
 
 

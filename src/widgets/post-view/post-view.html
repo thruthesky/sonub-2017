@@ -7,8 +7,12 @@
 
 </section>
 
+
+
 <section class="post-view-widget mb-2" *ngIf="post">
 
+
+    {{ filePosition | json }}
     <div class="post-area bg-white mb-2 p-2">
         <post-header-widget [post]="post" (edit)="onClickPostEdit( post )" (delete)="onClickPostDelete( post, page )"></post-header-widget>
         <h2 class="post-title fs-xl fw-100">{{ post.post_title }}</h2>
