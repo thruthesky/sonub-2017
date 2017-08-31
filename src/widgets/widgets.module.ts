@@ -28,6 +28,9 @@ import { AdvertisementMyListSidebarWidget } from './advertisement-my-list-sideba
 import { CommunityLogWidget } from './community-log/community-log';
 import { SitePreviewWidget } from './site-preview/site-preview';
 
+import { RecentPopularPostsWidget } from './recent-popular-posts/recent-popular-posts';
+
+
 
 @NgModule({
     imports: [
@@ -55,7 +58,8 @@ import { SitePreviewWidget } from './site-preview/site-preview';
         SidebarForumMenuWidget,
         AdvertisementMyListSidebarWidget,
         CommunityLogWidget,
-        SitePreviewWidget
+        SitePreviewWidget,
+        RecentPopularPostsWidget
     ],
     declarations: [
         FileDisplayWidget,
@@ -75,7 +79,8 @@ import { SitePreviewWidget } from './site-preview/site-preview';
         SidebarForumMenuWidget,
         AdvertisementMyListSidebarWidget,
         CommunityLogWidget,
-        SitePreviewWidget
+        SitePreviewWidget,
+        RecentPopularPostsWidget
     ],
     providers: [],
 })

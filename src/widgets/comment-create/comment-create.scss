@@ -89,3 +89,12 @@ $comment-form-grid-c-width: $comment-button-width * 2+1 -5; // +1 is for border.
         height: $comment-form-grid-height - 2;
     }
 }
+
+
+.comment-create .comment-submit {
+    button {
+        padding: 1em 0;
+        width: 100%;
+        cursor: pointer;
+    }
+}

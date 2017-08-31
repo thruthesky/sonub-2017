@@ -22,11 +22,15 @@
     </form>
 
 
-    
-<site-preview-widget [preview]="preview.result" [edit]="true" [loading]="preview.loading"></site-preview-widget>
+
+    <site-preview-widget [preview]="preview.result" [edit]="true" [loading]="preview.loading"></site-preview-widget>
+
+    <div class="comment-submit" *ngIf="preview?.id && ( ! files || files?.length == 0 )">
+        <button class="btn btn-secondary" (click)="onSubmit()">SUBMIT COMMENT</button>
+    </div>
 
 
-<!-- 
+    <!-- 
     <div class="loader" *ngIf=" preview.loading ">
         <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Loading site preview ...
     </div>
@@ -37,6 +41,8 @@
     </div> -->
 
     <file-upload-widget #fileUploadWidget [title]="false" [fileSelectionButton]="false" [files]="files"></file-upload-widget>
+    <div class="comment-submit" *ngIf="files && files.length">
+        <button class="btn btn-secondary" (click)="onSubmit()">SUBMIT COMMENT</button>
+    </div>
 
 </div>
-

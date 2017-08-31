@@ -204,6 +204,7 @@ export let TEXT = {
     },
 
 
+    recent_popluar_posts: { en: 'Recent Issues', ko: '최근 이슈' },
     input_chat_message: { en: 'Please input message.', ko: '채팅 메세지를 입력하세요.' },
     unread_chat_messages: { en: 'New Messages', ko: '새 채팅 메세지' },
 
@@ -295,6 +296,10 @@ export let TEXT = {
         en: 'Upload photos',
         ko: '사진 올리기'
     },
+    no_activity_description: {
+        en: 'Ooh, You have no activity record. Try to write posts and comments.',
+        ko: '앗, 활동 기록이 없네요. 글이나 코멘트를 작성해 보세요.'
+    },
 
     ///
     confirmDelete: {
@@ -372,7 +377,6 @@ TEXT['auth/account-exists-with-different-credential'] = {
     en: TEXT['social_register_email_exist']['en'],
     ko: TEXT['social_register_email_exist']['ko']
 };
-
 
 /**
  * For number code.

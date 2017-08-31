@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NgbModal, NgbModalRef, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { CommentEditContent } from './comment-edit.content';
+import { AppService } from './../../../../providers/app.service';
 
 
 import {
@@ -16,7 +17,8 @@ export class CommentEditModalService {
 
     modalRef = null;
     constructor(
-        private modalService: NgbModal
+        private modalService: NgbModal,
+        private app: AppService
     ) {
 
     }

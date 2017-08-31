@@ -41,6 +41,9 @@ export class PushMessageService extends Base {
 
         this.updateWebToken();
 
+        /**
+         * @attention push messages are always delayed around 1 minutes upto few hours.
+         */
         this.messaging.onMessage((payload) => {
             let content = payload['notification']['title'] + "\n" + payload['notification']['body'];
             let data: TOAST_OPTIONS = {
@@ -64,7 +67,9 @@ export class PushMessageService extends Base {
 
 
     /**
+     * 
      * This is needed to be run only one time after device ready.
+     * 
      */
     initCordova() {
         if (!this.isCordova) return;
@@ -124,7 +129,11 @@ export class PushMessageService extends Base {
 
 
     /**
-     * We update token every time user logs in.
+     * 
+     * 
+     * We update mobile-app token every time user logs in.
+     * 
+     * @note this method is invoked every time user logs in ( or cordovoa boots ).
      * 
      * @note reason 1. push token is saved on user meta.
      * @note reason 2. Do we really need to broadcast a message to all user?
@@ -193,6 +202,9 @@ export class PushMessageService extends Base {
     }
 
 
+    /**
+     * @todo remove this method if it is not being used.
+     */
     getMyToken() {
         let key = USER_TOKEN_KEY;
         return this.storage.get(key);
