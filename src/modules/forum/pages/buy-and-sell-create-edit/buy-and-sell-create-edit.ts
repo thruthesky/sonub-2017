@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AppService, FILES, FILE } from './../../../../providers/app.service';
+import { AppService, FILES } from './../../../../providers/app.service';
 import { BUYANDSELL, BUYANDSELL_CREATE } from "../../../../providers/wordpress-api/interface";
 import { FileUploadWidget } from "../../../../widgets/file-upload/file-upload";
 import { PhilippineRegion } from "../../../../providers/philippine-region";
@@ -46,7 +46,7 @@ export class BuyAndSellCreateEditPage {
 
         region.get_province(re => {
             this.provinces = re;
-        }, e => {
+        }, () => {
         });
 
         if( !app.user.isLogin ) {
@@ -67,7 +67,7 @@ export class BuyAndSellCreateEditPage {
                             return;
                     }
 
-                    console.log('edit post: ', buyAndSell);
+                    // console.log('edit post: ', buyAndSell);
 
                     this.ID = buyAndSell.ID;
                     this.title = buyAndSell.title;
@@ -91,7 +91,7 @@ export class BuyAndSellCreateEditPage {
     }
 
     onClickProvince() {
-        console.log('Province::', this.province);
+        // console.log('Province::', this.province);
         if (this.province != 'all') {
             this.city = this.province;
             this.getCities();
@@ -108,7 +108,7 @@ export class BuyAndSellCreateEditPage {
                 this.cities = re;
                 this.showCities = true;
             }
-        }, e => {
+        }, () => {
         });
     }
 
@@ -133,9 +133,9 @@ export class BuyAndSellCreateEditPage {
         data.fid = this.files.reduce((_, file) => { _.push(file.id); return _; }, []);
         data['ID'] = this.ID;
 
-        console.log('onClickSubmit::data:: ', data);
+        // console.log('onClickSubmit::data:: ', data);
         this.app.bns.create(data).subscribe(res => {
-            console.log("buyandsell create/edit: ", res);
+            // console.log("buyandsell create/edit: ", res);
             this.app.alert.open({ content: this.app.text('saved') });
             this.router.navigateByUrl('/buyandsell');
         }, e => this.app.warning(e));

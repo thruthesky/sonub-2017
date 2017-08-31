@@ -7,7 +7,7 @@
                 <div class="profile-user d-inline-block">
                         <span class="profile-user-photo">
                             <img *ngIf="files"
-                                 src="{{files[0]?.url ? files[0].url : 'assets/img/anonymous.png'}}"
+                                 src="{{files[0]?.url ? files[0].url : app.anonymousPhotoURL}}"
                                  (click)="fileUploadWidget.onClickCamera()"
                             >
                         </span>

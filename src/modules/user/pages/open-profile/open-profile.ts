@@ -26,7 +26,7 @@ export class OpenProfilePage implements OnInit {
                 this.initProfile();
             }
         });
-        
+
     }
 
     ngOnInit() {
@@ -35,7 +35,7 @@ export class OpenProfilePage implements OnInit {
 
     initProfile() {
         this.app.user.openProfile( this.id ).subscribe( (res:USER_DATA_RESPONSE) => {
-            console.log('open profile::', res);
+            // console.log('open profile::', res);
             this.data = res;
         }, error => this.app.warning(error));
     }

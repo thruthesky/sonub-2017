@@ -34,7 +34,7 @@
                     <div class="profile-user d-inline-block">
                         <span class="profile-user-photo">
                             <img *ngIf="files"
-                                 src="{{files[0]?.url ? files[0].url : 'assets/img/anonymous.png'}}"
+                                 src="{{files[0]?.url ? files[0].url : app.anonymousPhotoURL}}"
                                  (click)="fileUploadWidget.onClickCamera()"
                             >
                         </span>
@@ -54,7 +54,7 @@
                     (success)="onSuccessUpdateProfilePicture()"
                 ></file-upload-widget>
                 <button type="button" id="skipProfilePicture" (click)="activeForm = 'form3'">{{ files.length ? 'Next' : 'Skip'}}</button>
-                
+
             </div>
 
             <div id="form3" *ngIf="activeForm == 'form3'">
@@ -89,7 +89,7 @@
                     <span class="input-group-addon input-group-addon-primary" id="date_begin">Birthday</span>
                     <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="birthday" ngbDatepicker
                            #b="ngbDatepicker"
-                           [placement]="'top'"(ngModelChange)="onChangeBirthday()">
+                           [placement]="'top'">
                     <div class="input-group-addon" (click)="b.toggle()">
                         <i class="fa fa-calendar" style="cursor: pointer;"></i>
                     </div>
