@@ -12,21 +12,23 @@ import { WidgetsModule } from './../../widgets/widgets.module';
 import { RegisterPage } from './pages/register/register';
 import { LoginPage } from './pages/login/login';
 import { ProfilePage } from './pages/profile/profile';
-import { ProfileEditModalService } from "./pages/modals/profile-edit/profile-edit.modal";
-import { ProfileEditContent } from "./pages/modals/profile-edit/profile-edit.content";
-import { ProfileChangePasswordContent } from './pages/modals/profile-edit/profile-change-password.content';
+import { ChangePasswordPage } from './pages/change-password/change-password';
+
 import { SettingsPage } from './pages/settings/settings';
 import { OpenProfilePage } from './pages/open-profile/open-profile';
+import { ProfileEditPage } from './pages/profile-edit/profile-edit';
 
 
 
 const appRoutes: Routes = [
     { path: 'user/profile', component: ProfilePage },
+    { path: 'user/profile/edit', component: ProfileEditPage },
+    { path: 'user/profile/change-password', component: ChangePasswordPage },
     { path: 'user/login', component: LoginPage },
     { path: 'user/register', component: RegisterPage },
     { path: 'user/settings', component: SettingsPage },
     { path: 'user', component: ProfilePage },
-    { path: 'profile/:id', component: OpenProfilePage }
+    { path: 'profile/:id', component: OpenProfilePage },
     // { path: '', pathMatch: 'full', component: LoginPage },
     // { path: '**', component: LoginPage }
 ];
@@ -36,14 +38,10 @@ const appRoutes: Routes = [
         RegisterPage,
         LoginPage,
         ProfilePage,
-        ProfileEditContent,
-        ProfileChangePasswordContent,
+        ProfileEditPage,
+        ChangePasswordPage,
         SettingsPage,
         OpenProfilePage
-    ],
-    entryComponents: [
-        ProfileEditContent,
-        ProfileChangePasswordContent
     ],
     imports: [
         CommonModule,
@@ -51,9 +49,6 @@ const appRoutes: Routes = [
         NgbModule,
         RouterModule.forChild(appRoutes),
         WidgetsModule
-    ],
-    providers: [
-        ProfileEditModalService
     ]
 })
 export class UserModule { }
