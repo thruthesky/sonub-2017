@@ -21,6 +21,8 @@ export class ErrorService extends Base {
     }
     /**
      * 
+     * @use this to display error message.
+     * 
      * @param e - is an Error Response Object or ERROR code ( interger less than 0 ) from error.ts
      * @param message - is only used when e is ERROR code.
      * 
@@ -56,6 +58,9 @@ export class ErrorService extends Base {
     }
 
 
+    warning( e, message? ) {
+        this.alert( e, message );
+    }
 
 
     /**

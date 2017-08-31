@@ -80,14 +80,5 @@ export class CommentEditContent implements OnInit {
         }, err => this.app.warning(err));
     }
 
-    // updateComment(comment_ID) {
-    //     this.app.forum.commentData(comment_ID).subscribe((comment: COMMENT) => {
-    //         let depth = this.comment.depth;
-    //         Object.assign( this.comment, comment );
-    //         this.comment.depth = depth;
-    //     }, e => this.app.warning(e));
-    // }
-
-
 
 }

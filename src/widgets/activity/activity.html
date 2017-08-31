@@ -16,8 +16,9 @@
             </div>
         </div>
     </div>
-    <div *ngIf=" app.share.activity.length == 0">
-        You have no record.
+    <div class="fs-ms" *ngIf=" app.share.activity.length == 0">
+        <hr>
+        {{ app.text('no_activity_description') }}
     </div>
 
 </div>

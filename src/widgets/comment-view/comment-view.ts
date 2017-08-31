@@ -44,7 +44,8 @@ export class CommentViewWidget implements OnInit, AfterViewInit {
         this.commentEditModal.open(this.post, this.comment).then(id => {
             // console.log('comment edit success:', id);
 
-        }, err => this.app.warning(err));
+        }, err => this.app.warning(err))
+        .catch( e => this.app.warning(e) );
     }
 
     onClickDelete() {

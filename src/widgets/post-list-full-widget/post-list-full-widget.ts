@@ -94,7 +94,6 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
         this.noMorePosts = false;
         this.pageNo = 0;
         this.pages = [];
-
     }
     loadPage() {
         // console.log(`::loadPage(). noMorePosts: ${this.noMorePosts}, inLoading: ${this.inLoading}`);

@@ -1,0 +1,11 @@
+<section class="recent-popular-posts mb-3" *ngIf="posts && posts.length">
+    <div class="title fs-sm">{{ app.text('recent_popluar_posts') }}</div>
+    <div class="posts">
+        <div class="post d-flex fs-xs" *ngFor="let post of posts" routerLink="{{ app.postUrl( post.ID ) }}">
+            <div class="mr-1"><div class="badge badge-secondary d-block" style="margin-top: .3em">{{ post.comment_count }}</div></div>
+            <div class="post_title">
+                <a href="{{ app.postUrl( post.ID ) }}" routerLink="{{ app.postUrl( post.ID ) }}">{{ post.post_title }}</a>
+            </div>
+        </div>
+    </div>
+</section>
