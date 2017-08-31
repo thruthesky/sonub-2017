@@ -438,6 +438,11 @@ export class AppService extends Base {
         if (callback) callback();
         this.share.bootstrapLoginLogout();
         this.firebaseLogin_ifNot();
+
+
+
+        /// go to home page.
+        this.go('/');
     }
 
     /**
@@ -452,6 +457,10 @@ export class AppService extends Base {
         //     this.auth.signOut();
         // });
         // this.bootstrapLoginLogout();
+
+
+        /// go to home page.
+        this.go('/');
     }
 
 
