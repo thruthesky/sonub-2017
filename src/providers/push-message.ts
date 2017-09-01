@@ -67,9 +67,9 @@ export class PushMessageService extends Base {
 
 
     /**
-     * 
+     *
      * This is needed to be run only one time after device ready.
-     * 
+     *
      */
     initCordova() {
         if (!this.isCordova) return;
@@ -88,7 +88,7 @@ export class PushMessageService extends Base {
                 // Notification was received in foreground. Maybe the user needs to be notified.
                 // alert(JSON.stringify(data));
                 // alert("Message arrived on foreground: " + JSON.stringify(data));
-                
+
                 let content = data['title'] + "\n" + data['body'];
                 let options: TOAST_OPTIONS = {
                     content: content,
@@ -99,7 +99,7 @@ export class PushMessageService extends Base {
                     }
                 };
                 this.share.toast(options);
-    
+
                 let act: ACTIVITY = {
                     action: 'chat',
                     content: content
@@ -129,15 +129,15 @@ export class PushMessageService extends Base {
 
 
     /**
-     * 
-     * 
+     *
+     *
      * We update mobile-app token every time user logs in.
-     * 
+     *
      * @note this method is invoked every time user logs in ( or cordovoa boots ).
-     * 
+     *
      * @note reason 1. push token is saved on user meta.
      * @note reason 2. Do we really need to broadcast a message to all user?
-     * 
+     *
      */
     updateCordovaToken() {
         if (!this.isCordova) return;
