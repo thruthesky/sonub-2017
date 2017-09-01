@@ -12,8 +12,8 @@
                 <td>
                     <div class="comment-content ml-2 break-all">
                         <div class="mb-2">
-                            {{ comment.comment_ID }}
-                            {{ comment.author.name }} {{ app.shortDate( comment.meta.timestamp_create ) }} {{ comment.comment_content }}
+                            {{ comment.comment_ID }} {{ comment.author.name }} {{ app.shortDate( comment.meta.timestamp_create ) }} {{ comment.comment_content
+                            }}
                         </div>
                         <file-display-widget [files]="comment.files"></file-display-widget>
 
@@ -24,8 +24,13 @@
                             <div>{{ comment.site_preview.content }}</div>
                         </div> -->
 
-                        <ul class="buttons mt-2">
-                            <!-- <li>Like</li> -->
+                        <ul class="buttons mt-2 pointers">
+
+                            <li (click)="onClickLike( 'like' )">Like <span class="badge badge-dark" *ngIf="comment.meta['like']">{{ comment.meta['like'] }}</span></li>
+                            <li (click)="onClickLike( 'dislike' )">Dislike <span class="badge badge-dark" *ngIf="comment.meta['dislike']">{{ comment.meta['dislike'] }}</span></li>
+
+
+
                             <li (click)="showReply=!showReply">Reply</li>
                             <li *ngIf="app.my(comment)" (click)="onClickEdit()">Edit</li>
                             <li *ngIf="app.my(comment)" (click)="onClickDelete()">Delete</li>

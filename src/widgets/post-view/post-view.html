@@ -7,6 +7,8 @@
 
 </section>
 
+
+
 <section class="post-view-widget mb-2" *ngIf="post">
 
     <div class="post-area bg-white mb-2 p-2">
@@ -15,17 +17,15 @@
         <file-display-widget *ngIf="filePosition == 'top' " [files]="post.files"></file-display-widget>
         <div class="post-content mb-2 fs-sm" [innerHTML]=" post.post_content_pre "></div>
         <file-display-widget *ngIf="filePosition == 'bottom' " [files]="post.files"></file-display-widget>
-        <hr>
-
+        <hr class="my-1">
         <site-preview-widget [preview]="post.site_preview"></site-preview-widget>
-
-
-        <ul class="buttons list-line list-dots fs-xs">
+        <ul class="buttons mb-2 list-line list-dots fs-xs pointers">
             <li *ngIf=" app.my( post ) || app.anonymous( post )" (click)="onClickPostEdit( post )">Edit</li>
             <li *ngIf=" app.my( post ) || app.anonymous( post )" (click)="onClickPostDelete( post, page )">Delete</li>
-            <li (click)="onClickPostDelete( post )">Like</li>
+            <li (click)="onClickLike( post, 'like' )">Like <span class="badge badge-dark" *ngIf="post.meta['like']">{{ post.meta['like'] }}</span></li>
+            <li (click)="onClickLike( post, 'dislike' )">Dislike <span class="badge badge-dark" *ngIf="post.meta['dislike']">{{ post.meta['dislike'] }}</span></li>
             <!-- <li (click)="onClickPostDelete( post )">more</li> -->
-            <!-- <li>dislike</li>
+            <!--
             <li>report</li>
             <li>favorite</li>
             <li>share</li> -->

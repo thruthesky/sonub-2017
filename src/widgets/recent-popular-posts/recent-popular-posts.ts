@@ -25,7 +25,7 @@ export class RecentPopularPostsWidget implements OnInit {
         public app: AppService
     ) {
         app.wp.post({route: 'wordpress.recent_posts_by_comment'}).subscribe( (res: RECENT_POSTS ) => {
-            console.log("popular:", res);
+            // console.log("popular:", res);
             this.posts = res;
         }, e => app.warning(e));
     }

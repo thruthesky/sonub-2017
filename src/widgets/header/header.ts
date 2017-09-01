@@ -17,11 +17,11 @@ export class HeaderWidget implements OnInit {
         public chat: ChatService
     ) {
         chat.roomsEvent.subscribe(uid => {
-            console.log("header: event: ", uid);
-            console.log("header: me ", app.user.profile);
-            console.log("header: event: other chat user  ", chat.other );
+            // console.log("header: event: ", uid);
+            // console.log("header: me ", app.user.profile);
+            // console.log("header: event: other chat user  ", chat.other );
             if ( chat.otherUid == uid ) {
-                console.log("chat.other: ", chat.other);
+                // console.log("chat.other: ", chat.other);
                 this.hasNewChat = false;
             }
             else this.hasNewChat = !!uid;
