@@ -11,6 +11,8 @@ import { WidgetsModule } from './../../widgets/widgets.module';
 
 import { RegisterPage } from './pages/register/register';
 import { LoginPage } from './pages/login/login';
+import { LogoutPage } from './pages/logout/logout';
+
 import { ProfilePage } from './pages/profile/profile';
 import { ChangePasswordPage } from './pages/change-password/change-password';
 
@@ -25,6 +27,7 @@ const appRoutes: Routes = [
     { path: 'user/profile/edit', component: ProfileEditPage },
     { path: 'user/profile/change-password', component: ChangePasswordPage },
     { path: 'user/login', component: LoginPage },
+    { path: 'user/logout', component: LogoutPage },
     { path: 'user/register', component: RegisterPage },
     { path: 'user/settings', component: SettingsPage },
     { path: 'user', component: ProfilePage },
@@ -41,7 +44,8 @@ const appRoutes: Routes = [
         ProfileEditPage,
         ChangePasswordPage,
         SettingsPage,
-        OpenProfilePage
+        OpenProfilePage,
+        LogoutPage
     ],
     imports: [
         CommonModule,

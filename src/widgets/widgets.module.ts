@@ -24,7 +24,7 @@ import { ActivityWidget } from './activity/activity';
 import { CopyrightWidget } from './copyright/copyright';
 import { UserLoginLogoutWidget } from './user-login-logout/user-login-logout';
 import { SidebarForumMenuWidget } from './sidebar-forum-menu/sidebar-forum-menu';
-import { AdvertisementMyListSidebarWidget } from './advertisement-my-list-sidebar/advertisement-my-list-sidebar';
+// import { AdvertisementMyListSidebarWidget } from './advertisement-my-list-sidebar/advertisement-my-list-sidebar';
 import { CommunityLogWidget } from './community-log/community-log';
 import { SitePreviewWidget } from './site-preview/site-preview';
 
@@ -56,7 +56,7 @@ import { RecentPopularPostsWidget } from './recent-popular-posts/recent-popular-
         CopyrightWidget,
         UserLoginLogoutWidget,
         SidebarForumMenuWidget,
-        AdvertisementMyListSidebarWidget,
+        // AdvertisementMyListSidebarWidget,
         CommunityLogWidget,
         SitePreviewWidget,
         RecentPopularPostsWidget
@@ -77,7 +77,7 @@ import { RecentPopularPostsWidget } from './recent-popular-posts/recent-popular-
         CopyrightWidget,
         UserLoginLogoutWidget,
         SidebarForumMenuWidget,
-        AdvertisementMyListSidebarWidget,
+        // AdvertisementMyListSidebarWidget,
         CommunityLogWidget,
         SitePreviewWidget,
         RecentPopularPostsWidget

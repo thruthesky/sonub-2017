@@ -183,6 +183,9 @@ export class AppService extends Base {
         this.onPageVisibilityChange();
 
         this.trackWindowResize();
+
+
+        window['routerLink'] = this.go.bind(this);
     }
 
 
@@ -337,7 +340,7 @@ export class AppService extends Base {
 
             this.socialLoginSuccess(profile, () => {
                 // console.log("naver social login success");
-                this.loginSuccess();
+                this.loginSuccess(() => this.goHome());
             });
 
         }
@@ -356,7 +359,7 @@ export class AppService extends Base {
     }
 
     warning(e, message?) {
-        this.error.alert( e, message );
+        this.error.warning( e, message );
     }
 
 
@@ -429,8 +432,9 @@ export class AppService extends Base {
      *
      * @note this includes all kinds of social login and wordpress api login.
      * @note This method is being invoked for alll kinds of login.
+     * 
      */
-    loginSuccess(callback?) {
+    loginSuccess(callback = null, options?: any) {
         // console.log("AppService::loginSuccess()");
         this.rerenderPage(10);
         this.push.updateWebToken();
@@ -439,10 +443,7 @@ export class AppService extends Base {
         this.share.bootstrapLoginLogout();
         this.firebaseLogin_ifNot();
 
-
-
-        /// go to home page.
-        this.go('/');
+        
     }
 
     /**
@@ -667,21 +668,30 @@ export class AppService extends Base {
         this.pageLayout = 'column';
     }
 
+
+
+
     /**
      *
+     * @deprecated use share.setCache()
      * @param key
      * @param value
      */
     cacheSet(key, value) {
-        this.storage.set(key, value);
+        // this.storage.set(key, value);
+        this.share.setCache( key, value);
     }
     /**
      *
+     * 
+     * @deprecated use share.getCache()
+     * 
      * @param key Key
      * @return null if there is no data.
      */
     cacheGet(key) {
-        return this.storage.get(key);
+        // return this.storage.get(key);
+        return this.share.getCache( key );
     }
 
     cacheKeyPage(req: POST_LIST) {
@@ -767,12 +777,12 @@ export class AppService extends Base {
         return this.domSanitizer.bypassSecurityTrustHtml(raw) as string;
     }
 
-
-
-
-
     go(url) {
         this.share.go(url);
+        this.rerenderPage(10);
+    }
+    goHome() {
+        this.share.go('/');
     }
 
 

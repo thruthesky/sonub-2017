@@ -16,11 +16,13 @@ export class LoginPage implements OnInit, AfterViewInit {
 
     user_login;
     user_pass;
+    loginHeaderHTML;
     constructor(
         public app: AppService
     ) {
 
         app.section('user');
+        app.page.cache('login-header', {}, re => this.loginHeaderHTML = re);
             
     }
 
@@ -30,9 +32,7 @@ export class LoginPage implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
         
-        
     }
-
 
 
 
@@ -49,7 +49,7 @@ export class LoginPage implements OnInit, AfterViewInit {
         // console.log('LoginPage::firebaseSocialLoginSuccess() ==> app::socialLoginSuccess(): ', profile);
         this.app.socialLoginSuccess(profile, () => {
             // console.log("LoginPage::firebaseSocialLoginSuccess() ==>  app::socialLoginSuccess() ==> app::loginSuccess()");
-            this.app.loginSuccess();
+            this.app.loginSuccess(() => this.app.goHome());
         });
     }
 
@@ -78,7 +78,7 @@ export class LoginPage implements OnInit, AfterViewInit {
         // console.log("onSubmitLogin() : ...");
         this.app.user.login(this.user_login, this.user_pass).subscribe(profile => {
             // console.log("app.user.login: ", profile);
-            this.app.loginSuccess();
+            this.app.loginSuccess(() => this.app.goHome());
         }, err => this.app.warning(err));
 
     }
@@ -121,7 +121,7 @@ export class LoginPage implements OnInit, AfterViewInit {
                         // console.log('Kakoa profile: ', profile);
                         this.app.socialLoginSuccess(profile, () => {
                             // console.log("Kakao social login success");
-                            this.app.loginSuccess();
+                            this.app.loginSuccess(() => this.app.goHome());
                         });
 
                     },

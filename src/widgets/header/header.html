@@ -33,7 +33,8 @@
                     </td>
                     <td class="right">
                         <span class="d-none d-sm-inline" routerLink="/forum"><i class="fa fa-th-large fa-inverse"></i></span>
-                        <span class="relative d-inline-block hidden-320-down" routerLink="/chat">
+                        <span routerLink="/user/login" *ngIf=" app.user.isLogout "><i class="fa fa-user-plus" aria-hidden="true"></i></span>
+                        <span class="relative d-inline-block hidden-320-down" routerLink="/chat" *ngIf=" app.user.isLogin ">
                             <i class="fa fa-envelope fa-inverse"></i>
                             <div *ngIf="hasNewChat" class="new-chat absolute top right red">*</div>
                         </span>

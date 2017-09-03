@@ -51,6 +51,7 @@ export class PostCreateEditContent implements OnInit {
 
     private typing = new Subject<string>();
     private subscriptionTyping = null;
+    longthenContent = false;
 
 
     preview: SitePreview;
@@ -92,6 +93,8 @@ export class PostCreateEditContent implements OnInit {
     contentInput(text: string): void {
         this.preview.typing.next(text);
         if ( this.isCreate() ) this.typing.next(text);
+        if ( text.length > 100 ) this.longthenContent = true;
+        else this.longthenContent = false;
     }
 
     /**

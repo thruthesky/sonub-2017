@@ -1,6 +1,6 @@
 <ul class="advertisement-menu flex justify-content-between pb-2 fs-xs">
-    <li><a class="link-secondary" href="/adv/howto" routerLink="/adv/howto">{{ app.text('sponsered') }}</a></li>
-    <li><a class="link-primary" href="/adv/create" routerLink="/adv/create">{{ app.text('create_ad') }}</a></li>
+    <li><a class="link-secondary" href="/advertisement-guide-page" routerLink="/advertisement-guide-page">{{ app.text('sponsered') }}</a></li>
+    <li><a class="link-primary" href="/advertisement/create" routerLink="/advertisement/create">{{ app.text('create_ad') }}</a></li>
 </ul>
 <div *ngIf="post" class="advertisement-side-bar fs-xs">
     <a href="{{post.varchar_4}}" target="_blank">
@@ -14,7 +14,7 @@
         <div>
             <ul>
                 <li>Display: {{ post.char_1 == 'Y' ? 'Yes' : 'No, hold' }}</li>
-                <li routerLink="/adv/edit/{{ post.ID }}">Edit</li>
+                <li routerLink="/advertisement/edit/{{ post.ID }}">Edit</li>
                 <li (click)="onClickDelete()">Delete</li>
             </ul>
         </div>

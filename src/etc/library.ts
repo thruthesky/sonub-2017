@@ -48,13 +48,19 @@ export class Library {
 
 
     /**
-     * Returns true if the app is running on Mobile as Cordova mobile app.
+     * Returns true if the app is running as Cordova mobile app.
      */
     get isCordova(): boolean {
         if (window['cordova']) return true;
         if (document.URL.indexOf('http://') === -1
             && document.URL.indexOf('https://') === -1) return true;
         return false;
+    }
+
+    get isWeb(): boolean {
+        if (document.URL.indexOf('http://') != -1
+            || document.URL.indexOf('https://') != -1) return true;
+        else return false;
     }
 
 
@@ -401,5 +407,19 @@ export class Library {
         return text;
     }
 
+
+    /**
+     * Returns the object of HTML Event
+     * @param obj HTML Event
+     */
+    getTarget(obj) {
+        var targ;
+        var e=obj;
+        if (e.target) targ = e.target;
+        else if (e.srcElement) targ = e.srcElement;
+        if (targ.nodeType == 3) // defeat Safari bug
+            targ = targ.parentNode;
+        return targ;
+    }
 
 }

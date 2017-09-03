@@ -15,6 +15,10 @@ export let TEXT = {
         en: 'Register',
         ko: '회원가입'
     },
+    more: {
+        en: 'more',
+        ko: '더보기'
+    },
     name: {
         en: 'Name',
         ko: '이름'
@@ -198,10 +202,6 @@ export let TEXT = {
     },
 
     /// menu, button text
-    my_posts_menu: {
-        en: 'List my posts',
-        ko: '내가 작성한 글 목록'
-    },
 
 
     recent_popluar_posts: { en: 'Recent Issues', ko: '최근 이슈' },

@@ -1,0 +1,37 @@
+
+// page
+
+section.page {
+    header {
+        margin-bottom: .8em;
+        padding: .8em;
+        background-color: white;
+
+        h1 {
+            margin: 0;
+            padding: 0;
+            font-size: 2em;
+            font-weight: 300;
+        }
+
+        p {
+            margin: .5em 0 .25em 0;
+            padding: 0;
+            font-size: $fs-sm;
+        }
+
+        nav {
+            margin-top: 1em;
+            text-align: right;
+            button {
+                display: inline-block;
+                padding: .4em .8em;
+                border: 0;
+                color: white;
+                background-color: #3e649a;
+                font-size: $fs-xs;
+                box-shadow: 0.5px 0.5px 0.5px grey;
+            }
+        }
+    }
+}

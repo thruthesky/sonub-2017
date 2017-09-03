@@ -29,9 +29,6 @@ import { PostViewWidget } from './../../widgets/post-view/post-view';
 import { ForumViewPage } from './pages/view/view';
 
 
-import { AdvertisementCreateEditPage } from './pages/advertisement-create-edit/advertisement-create-edit';
-import { AdvertisementListPage } from './pages/advertisement-list/advertisement-list';
-
 import { JobCreateEditPage } from './pages/job-create-edit/job-create-edit';
 import { JobListPage } from './pages/job-list/job-list';
 import { JobViewPage } from './pages/job-view/job-view';
@@ -49,11 +46,6 @@ const appRoutes: Routes = [
     /// my posts
     { path: 'my-posts', component: MyPostsPage },
 
-
-    /// advertisement
-    { path: 'adv/create', component: AdvertisementCreateEditPage },
-    { path: 'adv/edit/:id', component: AdvertisementCreateEditPage },
-    { path: 'adv/list', component: AdvertisementListPage },
 
     { path: 'job/create', component: JobCreateEditPage},
     { path: 'job/edit/:id', component: JobCreateEditPage},
@@ -85,8 +77,6 @@ const appRoutes: Routes = [
         // CommentViewComponent,
         CommentEditContent,
         ForumViewPage,
-        AdvertisementCreateEditPage,
-        AdvertisementListPage,
         JobCreateEditPage,
         JobListPage,
         JobViewPage,

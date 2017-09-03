@@ -17,6 +17,8 @@ import { ForumService } from './wordpress-api/forum.service';
 import { Base } from './../etc/base';
 
 
+
+
 import * as firebase from 'firebase/app';
 
 import {
@@ -63,7 +65,7 @@ export class ShareService extends Base {
         private ngZone: NgZone,
         private router: Router,
         public user: UserService,
-        public forum: ForumService,
+        public forum: ForumService
     ) {
         super();
 
@@ -313,6 +315,32 @@ export class ShareService extends Base {
     }
     get firebaseUid(): string {
         return this.isFirebaseLogin;
+    }
+    
+
+
+
+    
+    /**
+     *
+     * @param key
+     * @param value
+     */
+    setCache(key, value) {
+        this.storage.set(key, value);
+    }
+    /**
+     *
+     * @param key Key
+     * @return null if there is no data.
+     */
+    getCache(key) {
+        return this.storage.get(key);
+    }
+
+    getPlatform(): string {
+        if ( this.isCordova ) return 'cordova';
+        else return 'web';
     }
     
 

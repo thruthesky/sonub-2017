@@ -1,0 +1,13 @@
+<div class="advertisement-list-page">
+    <h1>Advertisement</h1>
+    <button routerLink="/advertisement-guide-page">Advertisement Guideline</button>
+    <button routerLink="/advertisement/create">Create new advertisement</button>
+    <div class="login" [innerHTML]="loginWarning">
+    </div>
+    <div class="advertisements" *ngIf="posts">
+        <div class="advertisement" *ngFor="let post of posts ">
+            <advertisement-sidebar-widget [posts]="posts" [post]="post" [showMyMenu]="true"></advertisement-sidebar-widget>
+        </div>
+    </div>
+</div>
+

@@ -22,6 +22,8 @@ import { EtcModule } from '../modules/etc/etc.module';
 
 import { AppComponent } from './app.component';
 import { HomeModule, HomePage } from './../modules/home/home.module';
+import { AdvertisementModule } from './../modules/advertisement/advertisement.module';
+
 
 import { WordpressApiService } from './../providers/wordpress-api/wordpress-api.service';
 import { UserService } from './../providers/wordpress-api/user.service';
@@ -67,6 +69,7 @@ const appRoutes: Routes = [
     UserModule,
     ForumModule,
     EtcModule,
+    AdvertisementModule,
     RouterModule.forRoot(appRoutes),
     HttpModule,
     WidgetsModule
@@ -93,3 +96,5 @@ const appRoutes: Routes = [
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+

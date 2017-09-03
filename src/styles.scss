@@ -14,7 +14,8 @@
 @import './styles/component';
 @import './styles/style';
 @import './styles/modal';
-@import './styles/bootstrap-patch.scss';
+@import './styles/component.page';
+@import './styles/bootstrap-patch';
 
 
 
@@ -26,11 +27,11 @@
 @import './modules/forum/pages/list/list';
 @import './modules/user/pages/profile/profile';
 
-@import './modules/forum/pages/advertisement-list/advertisement-list';
+@import './modules/advertisement/pages/advertisement-list/advertisement-list';
 
 @import './modules/forum/pages/job-list/job-list';
 
-@import './modules/etc/pages/menu/menu';
+// @import './modules/etc/pages/menu/menu';
 @import './modules/etc/pages/chat/chat';
 
 @import './modules/home/home';
