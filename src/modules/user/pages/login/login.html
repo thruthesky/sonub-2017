@@ -2,7 +2,6 @@
     <header [innerHTML]="loginHeaderHTML"></header>
     <main>
 
-
         <div *ngIf="app.isWeb">
             <button id="google_login" (click)="onClickLoginWithGoogle()">Google Login</button>
             <button id="facebook_login" (click)="onClickLoginWithFacebook()">Facebook Login</button>
@@ -11,31 +10,31 @@
         </div>
 
         <div *ngIf="app.isCordova">
+
             <button (click)="onClickLoginWithCordovaGoogle()">Google Login</button>
             <button (click)="onClickLoginWithCordovaFacebook()">Facebook Login</button>
 
+            <hr>
 
             <form *ngIf="! app.user.isLogin" (ngSubmit)="onSubmitLogin()">
-                <div>
-                    <label for="register_user_login">Username</label>
-                    <input type="text" id="register_user_login" name="user_login" [(ngModel)]="user_login">
-                </div>
-                <div>
-                    <label for="register_user_pass">Password</label>
-                    <input type="password" id="register_user_pass" name="user_pass" [(ngModel)]="user_pass">
-                </div>
+                <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td><label for="register_user_login">Username</label></td>
+                        <td><input type="text" id="register_user_login" name="user_login" [(ngModel)]="user_login"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="register_user_pass">Password</label></td>
+                        <td><input type="password" id="register_user_pass" name="user_pass" [(ngModel)]="user_pass"></td>
+                    </tr>
+                </table>
                 <button type="submit">Login</button>
                 <button type="button" routerLink="/user/register">Go to Register</button>
-
-
 
             </form>
         </div>
 
-        <div *ngIf="app.user.isLogin">
-            {{ app.user.profile | json }}
-            <img src="{{ app.user.profile.photoURL }}" style="max-width: 100%;">
-            <button type="button" (click)="app.logout()">Logout</button>
-        </div>
+
+        <div class="login-bottom" [innerHTML]="loginBottomHTML"></div>
+
     </main>
 </section>

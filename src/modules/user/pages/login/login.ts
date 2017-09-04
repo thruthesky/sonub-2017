@@ -17,13 +17,15 @@ export class LoginPage implements OnInit, AfterViewInit {
     user_login;
     user_pass;
     loginHeaderHTML;
+    loginBottomHTML;
     constructor(
         public app: AppService
     ) {
 
         app.section('user');
         app.page.cache('login-header', {}, re => this.loginHeaderHTML = re);
-            
+        app.page.cache('login-bottom', {}, re => this.loginBottomHTML = re);
+        
     }
 
     ngOnInit() {
