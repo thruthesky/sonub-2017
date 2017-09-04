@@ -2,39 +2,46 @@
     <header [innerHTML]="loginHeaderHTML"></header>
     <main>
 
-        <div *ngIf="app.isWeb">
+        <nav class="web buttons" *ngIf="app.isWeb">
             <button id="google_login" (click)="onClickLoginWithGoogle()">Google Login</button>
             <button id="facebook_login" (click)="onClickLoginWithFacebook()">Facebook Login</button>
             <button (click)="onClickLoginWithKakao()">Kakao Login</button>
             <button (click)="onClickLoginWithNaver()">Naver Login</button>
-        </div>
+        </nav>
 
-        <div *ngIf="app.isCordova">
-
+        <div class="cordova" *ngIf="app.isCordova">
             <button (click)="onClickLoginWithCordovaGoogle()">Google Login</button>
             <button (click)="onClickLoginWithCordovaFacebook()">Facebook Login</button>
-
-            <hr>
-
-            <form *ngIf="! app.user.isLogin" (ngSubmit)="onSubmitLogin()">
-                <table width="100%" cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td><label for="register_user_login">Username</label></td>
-                        <td><input type="text" id="register_user_login" name="user_login" [(ngModel)]="user_login"></td>
-                    </tr>
-                    <tr>
-                        <td><label for="register_user_pass">Password</label></td>
-                        <td><input type="password" id="register_user_pass" name="user_pass" [(ngModel)]="user_pass"></td>
-                    </tr>
-                </table>
-                <button type="submit">Login</button>
-                <button type="button" routerLink="/user/register">Go to Register</button>
-
-            </form>
         </div>
 
 
         <div class="login-bottom" [innerHTML]="loginBottomHTML"></div>
+
+
+        <hr>
+        <form *ngIf="! app.user.isLogin" (ngSubmit)="onSubmitLogin()">
+            <table width="330" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td width="110"><label for="register_user_login">{{ app.text('email') }}</label></td>
+                    <td width="220"><input class="w-100" type="text" id="register_user_login" name="user_login" [(ngModel)]="user_login"></td>
+                </tr>
+                <tr>
+                    <td width="110"><label for="register_user_pass">{{ app.text('password') }}</label></td>
+                    <td width="220"><input class="w-100" type="password" id="register_user_pass" name="user_pass" [(ngModel)]="user_pass"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <nav class="buttons">
+                            <button class="submit" type="submit">Login</button>
+                            <button class="cancel" type="button" routerLink="/user/register">Go to Register</button>
+                        </nav>
+                    </td>
+                </tr>
+            </table>
+
+
+        </form>
 
     </main>
 </section>

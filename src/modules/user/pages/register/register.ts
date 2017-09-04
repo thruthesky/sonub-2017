@@ -14,6 +14,9 @@ import { DATEPICKER } from "../../../../etc/interface";
 
 export class RegisterPage extends Base implements OnInit {
 
+    registerHeaderHTML1 = '';
+    registerHeaderHTML2 = '';
+
     @ViewChild('fileUploadWidget') public fileUploadComponent: FileUploadWidget;
     activeForm = 'form1';
 
@@ -42,6 +45,9 @@ export class RegisterPage extends Base implements OnInit {
         app.section('user');
         dateConfig.minDate = {year: 1956, month: 1, day: 1};
         dateConfig.maxDate = {year: this.now.getFullYear(), month: 12, day: 31};
+
+        app.page.cache('register-header1', {}, html => this.registerHeaderHTML1 = html );
+        app.page.cache('register-header2', {}, html => this.registerHeaderHTML2 = html );
     }
 
     ngOnInit() {
@@ -78,7 +84,7 @@ export class RegisterPage extends Base implements OnInit {
             // console.log('app.user.register::error', error);
             this.loading = false;
             this.app.warning(error);
-            this.errorMessage = error.code
+            this.errorMessage = this.app.getErrorString(error);
         });
     }
 

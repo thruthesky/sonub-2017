@@ -1,0 +1,25 @@
+nav.buttons {
+    button {
+        display: inline-block;
+        margin: .25em 0;
+        padding: .25em .8em;
+        border: 0;
+        box-shadow: .5px .5px .5px grey;
+        color: white;
+        background-color: #2247B6;
+        font-size: $fs-sm;
+        cursor: pointer;
+    }
+    button.submit {
+        padding: .5em 1em;
+        background-color: #D82828!important;
+    }
+    button.cancel {
+        padding: .5em 1em;
+        background-color: #717171!important;
+    }
+    button.skip {
+        padding: .5em 1em;
+        background-color: #8E8E8E!important;
+    }
+}
