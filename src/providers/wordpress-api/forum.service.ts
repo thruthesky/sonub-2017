@@ -32,7 +32,8 @@ export class ForumService extends Base {
     constructor(
         private domSanitizer: DomSanitizer,
         private wp: WordpressApiService,
-        private user: UserService
+        private user: UserService,
+        // private ngZone: NgZone
     ) {
         super();
     }
@@ -53,7 +54,11 @@ export class ForumService extends Base {
             thumbnail: '200x200'
         };
         return this.wp.post(data)
-        // .map(v => this.parepareData(v));
+            // .map( v => {
+            //     setTimeout(() => this.ngZone.run(()=>{}), 100);
+            //     return v;
+            // })
+            // .map(v => this.parepareData(v));
     }
 
     // parepareData(data) {

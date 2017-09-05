@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -26,7 +26,8 @@ export class WordpressApiService extends Base {
     private url: string;// =  environment.xapiUrl;
     constructor(
         private domSanitizer: DomSanitizer,
-        private http: HttpClient
+        private http: HttpClient,
+        private ngZone: NgZone
     ) {
         super();
         this.url = this.xapiUrl();
@@ -38,7 +39,11 @@ export class WordpressApiService extends Base {
 
     post(data): Observable<any> {
         return this.http.post(this.url, data)
-            .map(e => this.checkResult(e, data));
+            .map(e => this.checkResult(e, data))
+            .map(e => {
+                setTimeout(() => this.ngZone.run(() => { }), 100); // redraw the page. Angular is not 100% redraw when XHR is done.
+                return e;
+            })
     }
 
 

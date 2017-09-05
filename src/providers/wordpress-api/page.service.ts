@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DomSanitizer } from '@angular/platform-browser';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -20,7 +19,6 @@ export class PageService extends Base {
         private user: UserService,
         private share: ShareService,
         private error: ErrorService,
-        private domSanitizer: DomSanitizer
     ) {
         super();
     }
@@ -30,7 +28,11 @@ export class PageService extends Base {
      * @param pageName page name to get a page from server
      */
     load(pageName: string, params?: any): Observable<string> {
-        return this.http.get(this.getUrl(pageName, params), { responseType: 'text' });
+        return this.http.get(this.getUrl(pageName, params), { responseType: 'text' })
+            .map(e => {
+                this.share.rerenderPage(50);
+                return e;
+            });
     }
 
     /**
@@ -49,22 +51,22 @@ export class PageService extends Base {
      * @param callback Callback function. Important: this callback function will be called twice.
      */
     cache(pageName: string, params: any, callback) {
-        let url = this.getUrl( pageName, params );
-        let cache = this.share.getCache( url );
-        if ( cache ) {
+        let url = this.getUrl(pageName, params);
+        let cache = this.share.getCache(url);
+        if (cache) {
             // console.log("RETURN CACHED DATA: ", cache);
-            let safe = this.domSanitizer.bypassSecurityTrustHtml(cache) as string;
-            callback( safe );
+            let safe = this.share.safe(cache);
+            callback(safe);
         }
 
         this.load(pageName, params).subscribe(html => {
-            if ( html === cache ) {
+            if (html === cache) {
                 console.log("DATA SAME: Don't do anything");
                 return;
             }
-            let safe = this.domSanitizer.bypassSecurityTrustHtml(html) as string;
+            let safe = this.share.safe(html);
             callback(safe);
-            this.share.setCache( url, html );
+            this.share.setCache(url, html);
             console.log("Set Cache data: key: ", html);
         }, e => {
             console.error(e);

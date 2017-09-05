@@ -22,6 +22,9 @@
 
 
         <section class="chat-box p-2 bg-white" *ngIf=" ! showChatUsers " [style.width.px]="app.getSizeBWidth">
+
+            <loading-widget *ngIf="!chat.other?.uid"></loading-widget>
+            
             <div class="chat-box-header">
                 {{ chat.other?.name }}
                 <span *ngIf="chat.other?.status">({{ chat.other?.status }})</span>

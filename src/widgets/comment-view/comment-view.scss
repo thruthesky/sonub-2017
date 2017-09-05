@@ -33,3 +33,8 @@
 .comment-content {
     word-break: break-all;
 }
+
+
+.comment-content-area .dropdown-toggle::after {
+    border: 0!important;
+}

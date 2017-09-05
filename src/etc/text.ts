@@ -7,6 +7,10 @@ export let TEXT = {
         en: 'Welcome, #name.',
         ko: '어서오십시오, #name님'
     },
+    loading: {
+        en: 'loading',
+        ko: '로딩 중'
+    },
     login: {
         en: 'Login',
         ko: '로그인'
@@ -299,6 +303,11 @@ export let TEXT = {
     no_activity_description: {
         en: 'Ooh, You have no activity record. Try to write posts and comments.',
         ko: '앗, 활동 기록이 없네요. 글이나 코멘트를 작성해 보세요.'
+    },
+
+    no_more_data: {
+        en: 'No more data.',
+        ko: '더 이상 자료가 없습니다.'
     },
 
     ///

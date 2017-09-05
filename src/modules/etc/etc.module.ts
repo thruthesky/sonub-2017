@@ -3,6 +3,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { WidgetsModule } from '../../widgets/widgets.module';
 
 
 // import { MenuPage } from './pages/menu/menu';
@@ -40,7 +41,8 @@ const appRoutes: Routes = [
     imports: [
         CommonModule,
         FormsModule,
-        RouterModule.forChild(appRoutes)
+        RouterModule.forChild(appRoutes),
+        WidgetsModule
     ]
 })
 export class EtcModule { }

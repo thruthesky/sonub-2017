@@ -8,22 +8,47 @@
                         <i class="fa fa-mail-forward fa-flip-vertical grey" aria-hidden="true"></i>
                     </div>
                 </td>
-                <td><img class="size-36px" src="{{ app.postUserPhotoUrl( comment )}}"></td>
+                <td>
+                    <div
+                        (click)="onClickUserProfile($event)"
+                        (mouseenter)="onMouseEnterUserProfile($event)"
+                        (mouseleave)="onMouseLeaveUserProfileMenu()"
+                    >
+                        <img class="size-36px" src="{{ app.postUserPhotoUrl( comment )}}">
+
+                    <div ngbDropdown #profileDropdown="ngbDropdown" placement="bottom-left" class="d-inline-block">
+                            <div ngbDropdownMenu class="user-profile-popup p-0 min-width-250px">
+                                <div class="header flex p-2 bg-lightgrey" routerLink="/profile/{{ comment.author.ID }}">
+                                    <img class="xy-50px" src="{{ app.postUserPhotoUrl(comment) }}">
+                                    <div class="pl-2">
+                                        <div>{{ comment.author.name }}</div>
+                                        <div class="fs-xs">2017-08-27 Lv. 31</div>
+                                    </div>
+                                </div>
+                                <div class="content py-2 fs-sm pointers">
+                                    <button class="dropdown-item" routerLink="/chat/{{ comment.author.ID }}/{{ comment.author.name }}">Chat with {{ comment.author.name }}</button>
+                                    <button class="dropdown-item" routerLink="/posts/{{ comment.author.ID }}">Posts of {{ comment.author.name }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </td>
                 <td>
                     <div class="comment-content ml-2 break-all">
                         <div class="mb-2">
-                            {{ comment.author.name }}
+                            <span class="author-name"
+                                (click)="onClickUserProfile($event)"
+                                (mouseenter)="onMouseEnterUserProfile($event)"
+                                (mouseleave)="onMouseLeaveUserProfileMenu()"
+                            >{{ comment.author.name }}</span>
+
                             {{ app.shortDate( comment.meta.timestamp_create ) }}
                             {{ comment.comment_content }}
                         </div>
                         <file-display-widget [files]="comment.files"></file-display-widget>
-
                         <site-preview-widget [preview]="comment.site_preview"></site-preview-widget>
-                        <!-- <div class="site-preview" *ngIf=" comment.site_preview ">
-                            <img class="w-100" src="{{ comment.site_preview.url_image }}">
-                            <div class="fs-lg">{{ comment.site_preview.title }}</div>
-                            <div>{{ comment.site_preview.content }}</div>
-                        </div> -->
 
                         <ul class="buttons mt-2 pointers">
 

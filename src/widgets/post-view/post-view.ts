@@ -79,30 +79,15 @@ export class PostViewWidget implements OnInit {
         }, err => this.app.warning(err));
     }
 
-
-    /// default
-    // setFilePosition() {
-    //     if ( this.post && this.post.category_option && this.post.category_option['file-position'] ) {
-    //         this.filePosition = this.post.category_option['file-position'];
-    //     }
-    //     if ( this.page && this.page.category_option && this.page.category_option['file-position'] ) {
-    //         this.filePosition = this.page.category_option['file-position'];
-    //     }
-    // }
-
     get filePosition() {
-
         if ( this.post && this.post.category_option && this.post.category_option['file-position'] ) {
             return this.post.category_option['file-position'];
         }
         if ( this.page && this.page.category_option && this.page.category_option['file-position'] ) {
             return this.page.category_option['file-position'];
         }
-
         return 'bottom';
     }
-
-
 
 
     onClickLike( post: POST, choice: 'like' | 'dislike' ) {

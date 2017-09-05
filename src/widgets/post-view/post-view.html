@@ -1,11 +1,6 @@
-<section class="post-view-widget-loading bg-white p-5" *ngIf=" ! post ">
 
-    <div class="flex">
-        <div><i class="d-block float-left fa fa-circle-o-notch fa-spin fa-2x grey"></i></div>
-        <div class="p-1 pl-2"><span class="loader">{{ app.text('post_view_loading') }}</span></div>
-    </div>
+    <loading-widget *ngIf=" ! post " [text]="app.text('post_view_loading')"></loading-widget>
 
-</section>
 
 
 

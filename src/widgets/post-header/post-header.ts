@@ -35,9 +35,6 @@ export class PostHeaderWidget implements OnInit {
         this.profileDropdown.open();
     }
 
-
-    
-
     onMouseEnterUserProfile(event: MouseEvent) {
         this.mouse = 'in';
         // console.log("enter, in");
@@ -50,7 +47,6 @@ export class PostHeaderWidget implements OnInit {
                 // console.log("already out");
             }
         }, this.timeout );
-        
     }
     
     onMouseLeaveUserProfileMenu() {

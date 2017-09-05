@@ -32,7 +32,7 @@ import { ForumViewPage } from './pages/view/view';
 import { JobCreateEditPage } from './pages/job-create-edit/job-create-edit';
 import { JobListPage } from './pages/job-list/job-list';
 import { JobViewPage } from './pages/job-view/job-view';
-import { MyPostsPage } from './pages/my-posts/my-posts';
+import { PostsPage } from './pages/posts/posts';
 
 import { BuyAndSellCreateEditPage } from './pages/buy-and-sell-create-edit/buy-and-sell-create-edit';
 import { BuyAndSellListPage } from "./pages/buy-and-sell-list/buy-and-sell-list";
@@ -44,7 +44,7 @@ import { BuyAndSellViewPage} from "./pages/buy-and-sell-view/buy-and-sell-view";
 const appRoutes: Routes = [
 
     /// my posts
-    { path: 'my-posts', component: MyPostsPage },
+    { path: 'posts/:uid', component: PostsPage },
 
 
     { path: 'job/create', component: JobCreateEditPage},
@@ -83,7 +83,7 @@ const appRoutes: Routes = [
         BuyAndSellCreateEditPage,
         BuyAndSellListPage,
         BuyAndSellViewPage,
-        MyPostsPage
+        PostsPage
     ],
     entryComponents: [
         PostCreateEditContent,

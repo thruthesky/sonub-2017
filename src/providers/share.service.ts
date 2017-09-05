@@ -8,7 +8,13 @@ import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/timer';
 import 'rxjs/add/operator/throttleTime';
 
+
+
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
+
+import { DomSanitizer } from '@angular/platform-browser';
+
 
 
 
@@ -64,6 +70,7 @@ export class ShareService extends Base {
     constructor(
         private ngZone: NgZone,
         private router: Router,
+        private domSanitizer: DomSanitizer,
         public user: UserService,
         public forum: ForumService
     ) {
@@ -343,5 +350,10 @@ export class ShareService extends Base {
         else return 'web';
     }
     
+
+    safe( html ): string {
+        return this.domSanitizer.bypassSecurityTrustHtml(html) as string;
+    }
+
 
 }

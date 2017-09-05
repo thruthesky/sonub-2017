@@ -30,6 +30,9 @@ import { SitePreviewWidget } from './site-preview/site-preview';
 
 import { RecentPopularPostsWidget } from './recent-popular-posts/recent-popular-posts';
 
+import { LoadingWidget } from './loading/loading';
+import { NoMoreWidget } from './no-more/no-more';
+
 
 
 @NgModule({
@@ -59,7 +62,9 @@ import { RecentPopularPostsWidget } from './recent-popular-posts/recent-popular-
         // AdvertisementMyListSidebarWidget,
         CommunityLogWidget,
         SitePreviewWidget,
-        RecentPopularPostsWidget
+        RecentPopularPostsWidget,
+        LoadingWidget,
+        NoMoreWidget
     ],
     declarations: [
         FileDisplayWidget,
@@ -80,7 +85,9 @@ import { RecentPopularPostsWidget } from './recent-popular-posts/recent-popular-
         // AdvertisementMyListSidebarWidget,
         CommunityLogWidget,
         SitePreviewWidget,
-        RecentPopularPostsWidget
+        RecentPopularPostsWidget,
+        LoadingWidget,
+        NoMoreWidget
     ],
     providers: [],
 })

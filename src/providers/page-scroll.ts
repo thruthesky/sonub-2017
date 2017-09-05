@@ -37,7 +37,7 @@
  * @endcode
  * 
  * 
- * @code example 2
+ * @code example 2 - 게시판 페이지 별로 로딩 할 때 좋음.
     
     watch;
     inLoading: boolean = false;
@@ -87,7 +87,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/throttleTime';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 
@@ -123,7 +123,7 @@ export class PageScroll {
         }
 
         return Observable.fromEvent(document, 'scroll')        // 스크롤은 window 또는 document 에서 발생.
-            .debounceTime(100)
+            .throttleTime(100)
             .map((e: any) => {
                 this.scrollCount++;
                 // console.log("scrollCount: ", this.scrollCount);
@@ -131,15 +131,12 @@ export class PageScroll {
             })
             .filter((x: any) => {
                 if (element['offsetTop'] === void 0) return false; // @attention this is error handling for some reason, especially on first loading of each forum, it creates "'offsetTop' of undefined" error.
-
                 let elementHeight = element['offsetTop'] + element['clientHeight'];
                 let windowYPosition = window.pageYOffset + window.innerHeight;
                 // console.log("page scroll reaches at bottom: windowYPosition=" + windowYPosition + ", elementHeight-distance=" + (elementHeight-distance));
-
                 if (windowYPosition > elementHeight - distance) { // page scrolled. the distance to the bottom is within 200 px from
                     this.scrollCountOnDistance++;
                     // console.log( "scrollCountOnDistance", this.scrollCountOnDistance );
-
                     return true;
                 }
 
