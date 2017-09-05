@@ -12,8 +12,9 @@
                 <td>
                     <div class="comment-content ml-2 break-all">
                         <div class="mb-2">
-                            {{ comment.comment_ID }} {{ comment.author.name }} {{ app.shortDate( comment.meta.timestamp_create ) }} {{ comment.comment_content
-                            }}
+                            {{ comment.author.name }}
+                            {{ app.shortDate( comment.meta.timestamp_create ) }}
+                            {{ comment.comment_content }}
                         </div>
                         <file-display-widget [files]="comment.files"></file-display-widget>
 
