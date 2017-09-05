@@ -306,8 +306,8 @@ export let TEXT = {
     },
 
     no_more_data: {
-        en: 'No more data.',
-        ko: '더 이상 자료가 없습니다.'
+        en: 'Ooh, There is no more data.',
+        ko: '앗, 더 이상 자료가 없습니다.'
     },
 
     ///
