@@ -1,0 +1,37 @@
+<div id="register-profile-photo">
+    <header [innerHTML]="registerHeaderHTML2"></header>
+    <div class="mb-3">
+        <span class="caption">Your email:</span>
+        <span class="text">{{this.app.user.email}}</span>
+    </div>
+    <div class="text-center mb-3">
+        <div class="profile-user d-inline-block">
+                    <span class="profile-user-photo">
+                            <img *ngIf="files"
+                                 src="{{files[0]?.url ? files[0].url : app.anonymousPhotoURL}}"
+                                 (click)="fileUploadWidget.onClickCamera()"
+                            >
+                        </span>
+            <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadWidget.onChangeFile($event)">
+            <nav class="buttons mt-2">
+                <button class="submit" (click)="fileUploadWidget.onClickCamera()"
+                        [class.skip]="files && files.length"
+                >Update Profile</button>
+            </nav>
+        </div>
+    </div>
+
+    <file-upload-widget #fileUploadWidget [title]="false" [fileSelectionButton]="false" [files]="files" [showUploadedFiles]="false"
+                        (success)="onSuccessUpdateProfilePicture()"></file-upload-widget>
+    <nav class="buttons">
+
+        <button class="mt-2"
+                [class.skip] = "!files || !files.length"
+                [class.submit]="files && files.length"
+                [class.float-right]="files && files.length"
+                type="button" id="skipProfilePicture"
+                routerLink="/user/register/profile-information"
+        >{{ files.length ? 'Next' : 'Skip'}}</button>
+    </nav>
+</div>
+
