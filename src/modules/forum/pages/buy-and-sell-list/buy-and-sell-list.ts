@@ -218,4 +218,8 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
         return Object.keys(this.cities);
     }
 
+    numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
 }

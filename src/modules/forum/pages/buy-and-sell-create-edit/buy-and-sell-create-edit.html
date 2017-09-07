@@ -3,16 +3,20 @@
 
 
     <div class="row no-gutters">
-        <div class="input-group">
-            <label for="tag" class="input-group-addon">Tag</label>
-            <input type="text" class="form-control" id="tag" name="tag"
-                   placeholder="What are you selling"
-                   [(ngModel)]="tag">
-        </div>
-        <small class="mb-3">Input tags separated by comma.(car, phone, house and lot, etc.)</small>
+
         <div class="form-group w-100">
-            <div class="input-group mb-3">
-                <label class="input-group-addon">Is it Used?</label>
+
+            <div class="form-group">
+                <label for="tag">Product Tag's</label>
+                <input type="text" class="form-control" id="tag" name="tag"
+                       placeholder="What are you selling"
+                       [(ngModel)]="tag">
+                <small class="form-text text-muted">Input tags separated by comma.(car, phone, house and lot, etc.)</small>
+            </div>
+
+
+            <div class="form-group">
+                <label>Is it Used?</label>
                 <div class="form-control">
                     <div class="form-check mb-0">
                         <label for="usedItem1" class="form-check-label">
@@ -29,10 +33,11 @@
                         </label>
                     </div>
                 </div>
+                <small class="form-text text-muted">Yes, 2nd hand. No, Unused. or Not Applicable.</small>
             </div>
 
-            <div class="input-group mb-3">
-                <label class="input-group-addon">Location</label>
+            <div class="form-group">
+                <label for="province">Location</label>
                 <select class="form-control" id="province" name="province" [(ngModel)]="province"
                         (change)="onClickProvince()">
                     <option value="all">Select Province</option>
@@ -40,16 +45,15 @@
                 </select>
             </div>
 
-            <div *ngIf="showCities" class="input-group mb-3">
-                <label class="input-group-addon">City</label>
+            <div *ngIf="showCities" class="form-group">
+                <label for="city">City</label>
                 <select class="form-control" id="city" name="city" [(ngModel)]="city">
                     <option *ngFor="let key of cityKeys" [value]="key">{{cities[key]}}</option>
                 </select>
             </div>
-
-
-            <div class="input-group mb-3">
-                <label class="input-group-addon">Deliverable</label>
+            
+            <div class="form-group">
+                <label>Deliverable</label>
                 <div class="form-control">
                     <div class="form-check mb-0">
                         <label for="deliver1" class="form-check-label">
@@ -62,34 +66,38 @@
                         </label>
                     </div>
                 </div>
+                <small class="form-text text-muted">Yes, it can be delivered. No, not applicable.</small>
             </div>
 
-
-            <div class="input-group mb-3">
-                <label for="price" class="input-group-addon">Price</label>
+            <div class="form-group">
+                <label for="price">Price</label>
                 <input type="number" class="form-control" name="price" id="price" placeholder="Unit Price"
                        [(ngModel)]="price">
+                <small class="form-text text-muted">Unit price must be in philippine peso</small>
             </div>
 
 
-            <div class="input-group mb-3">
-                <label for="title" class="input-group-addon">Title</label>
+            <div class="form-group">
+                <label for="title">Title</label>
                 <input type="text" class="form-control" id="title" name="title"
                        placeholder="Short description, model name, unit etc..."
                        [(ngModel)]="title">
+                <small class="form-text text-muted">Summary of your product</small>
             </div>
 
-            <div class="input-group mb-3">
-                <label for="description" class="input-group-addon">Description</label>
+            <div class="form-group">
+                <label for="description">Description</label>
                 <textarea class="form-control" id="description" name="description"
                           placeholder="Details of what you are selling..."
                           [(ngModel)]="description"></textarea>
+                <small class="form-text text-muted">Detailed information of what are you trying to sell.</small>
             </div>
 
-            <div class="input-group mb-3">
-                <label for="contact" class="input-group-addon">Contact Info</label>
+            <div class="form-group">
+                <label for="contact">Contact Info</label>
                 <input type="text" class="form-control" id="contact" name="contact" placeholder="Contact information"
                        [(ngModel)]="contact">
+                <small class="form-text text-muted">Mobile Number,Email Address, etc.</small>
             </div>
 
 
