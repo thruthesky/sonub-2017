@@ -1,6 +1,6 @@
 <section class="buyandsell-list-page">
 
-    <div class="job-list-page-header mb-3">
+    <div class="buyandsell-list-page-header mb-3">
         <div class="d-flex justify-content-between bg-white">
             <h3 class="title m-0 p-3 lightblack">Buy and Sell</h3>
             <div class="text-right fs-xs flex flex-column justify-content-between">
@@ -115,23 +115,22 @@
 
 
     <div class="container p-0" *ngIf="pages">
-        <div class="jobs mx-0 row no-gutters-job">
+        <div class="buyandsells mx-0 row no-gutters-buyandsell">
             <ng-container *ngFor="let page of pages ">
-                <a class="job col-6 mb-1"
+                <a class="buyandsell col-6 mb-1"
                    *ngFor="let product of page.posts "
                    [attr.post-id]="product.ID"
                    routerLink="/buyandsell/view/{{product.ID}}"
                 >
-                    <div class="profile bg-white">
-
+                    <div class="product">
                         <div class="photo p-2 pt-3 flex justify-content-center">
                             <img src="{{ urlPhoto( product ) }}">
                         </div>
 
                         <div class="info p-2">
-                            <div>{{product?.title }}</div>
-                            <div>Price: {{product?.price }}</div>
-                            <div>Location: {{ product?.province != product?.city ? product?.city : product?.province}}</div>
+                            <div class="product_title">{{product?.title }}</div>
+                            <div class="price">₱ {{numberWithCommas( product?.price ) }}</div>
+                            <div class="location">{{ product?.province != product?.city ? product?.city : product?.province}}</div>
                         </div>
                     </div>
                 </a>

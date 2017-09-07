@@ -72,6 +72,7 @@ export class BuyAndSellService extends Base {
         if ( req['query'] === void 0 ) req['query'] = {};
         req['query']['slug'] = "buyandsell";
         req['route'] = "wordpress.post_query";
+        req['thumbnail'] = "200x200";
 
         // console.log("buyandsell search request: ", req);
         return this.wp.post(req)

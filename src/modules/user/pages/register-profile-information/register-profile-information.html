@@ -1,0 +1,46 @@
+<div id="register-profile-information">
+    <img *ngIf="app.user.photoURL" src="{{app.user.photoURL}}" style="max-width: 100%;">
+    <div class="input-group">
+        <label for="email3" class="input-group-addon">Email</label>
+        <span class="form-control" id="email3">{{this.app.user.email}}</span>
+    </div>
+    <div class="input-group">
+        <label for="name" class="input-group-addon">Name</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Name" [(ngModel)]="name">
+    </div>
+
+
+    <label class="input-group-addon">Gender</label>
+    <div class="form-control mb-3">
+        <div class="form-check">
+            <label for="male" class="form-check-label">
+                <input type="radio" name="gender" id="male" [(ngModel)]="gender" value="m">
+                <span>Male</span>
+            </label>
+            <label for="female" class="form-check-label">
+                <input type="radio" name="gender" id="female" [(ngModel)]="gender" value="f">
+                <span>Female</span>
+            </label>
+        </div>
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon input-group-addon-primary" id="date_begin">Birthday</span>
+        <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="birthday" ngbDatepicker #b="ngbDatepicker" [placement]="'top'">
+        <div class="input-group-addon" (click)="b.toggle()">
+            <i class="fa fa-calendar" style="cursor: pointer;"></i>
+        </div>
+    </div>
+    <div class="input-group">
+        <label for="mobile" class="input-group-addon">Mobile</label>
+        <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobile" [(ngModel)]="mobile">
+    </div>
+    <div *ngIf="errorMessage">
+        <div id="error_message">{{this.errorMessage}}</div>
+    </div>
+    <nav class="loader" *ngIf="loading">
+        <i class="fa fa-spinner fa-spin"></i>
+        <span>Loading...</span>
+    </nav>
+
+    <button type="button" id="UpdateButton" (click)="onSubmitUpdateUserInfo()">Save</button>
+</div>

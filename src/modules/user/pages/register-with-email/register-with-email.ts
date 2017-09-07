@@ -1,0 +1,59 @@
+import { Component, ViewChild } from '@angular/core';
+import { Router } from "@angular/router";
+import {USER_REGISTER, USER_REGISTER_RESPONSE} from "../../../../providers/wordpress-api/interface";
+import { AppService } from "../../../../providers/app.service";
+import { FileUploadWidget } from "../../../../widgets/file-upload/file-upload";
+
+@Component({
+    selector: 'register-with-email-page',
+    templateUrl: 'register-with-email.html'
+})
+export class RegisterWithEmailPage {
+
+    registerHeaderHTML1 = '';
+
+    @ViewChild('fileUploadWidget') public fileUploadComponent: FileUploadWidget;
+
+    user_pass: string = '';
+    user_email: string = '';
+
+    errorMessage: string = null;
+    loading: boolean = false;
+
+    constructor(public app: AppService,
+                private router: Router
+    ) {
+        app.section('user');
+        app.page.cache('register-header1', {}, html => this.registerHeaderHTML1 = html);
+    }
+
+
+    onSubmitRegister() {
+        // console.log('onClickUserRegister::');
+        this.errorMessage = null;
+        if (!this.user_email && this.user_email.length == 0) return this.errorMessage = '*Email is required';
+        if (!this.user_pass && this.user_pass.length == 0) return this.errorMessage = '*Password is required';
+
+        this.loading = true;
+        let data: USER_REGISTER = {
+            user_login: this.user_email,
+            user_pass: this.user_pass,
+            user_email: this.user_email,
+            // timezone_offset: this.getTimezoneOffset()
+        };
+        this.app.user.register(data).subscribe( (res: USER_REGISTER_RESPONSE) => {
+            // console.log('app.user.register::res', res);
+            if (res.session_id) {
+                // console.log('Registration Success::Proceed to Profile Photo');
+                this.router.navigateByUrl('user/register/profile-photo');
+            }
+            this.loading = false;
+            this.app.loginSuccess();
+        }, error => {
+            // console.log('app.user.register::error', error);
+            this.loading = false;
+            this.app.warning(error);
+            this.errorMessage = this.app.getErrorString(error);
+        });
+    }
+}

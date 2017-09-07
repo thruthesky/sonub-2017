@@ -1,0 +1,34 @@
+.buyandsell-list-page {
+
+    .no-gutters-buyandsell {
+        margin-right: 2px;
+        margin-left: 2px;
+        >.col,
+        >[class*="col-"] {
+            padding-right: 2px;
+            padding-left: 2px;
+        }
+    }
+
+
+    .buyandsell {
+        .product {
+            color: #000;
+            background-color: #fff;
+            &:hover {
+                background-color: #eee;
+            }
+            .product_title {
+                font-size: .9rem;
+            }
+            .price {
+                font-size: .8rem;
+            }
+            .location {
+                font-size: .8rem;
+                color: gray;
+            }
+        }
+    }
+
+}

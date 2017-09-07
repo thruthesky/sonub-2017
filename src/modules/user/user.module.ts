@@ -4,12 +4,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-
 import { WidgetsModule } from './../../widgets/widgets.module';
 
-
-
-import { RegisterPage } from './pages/register/register';
+import { RegisterWithEmailPage } from './pages/register-with-email/register-with-email';
+import { RegisterProfilePhotoPage } from './pages/register-profile-photo/register-profile-photo';
+import { RegisterProfileInformationPage } from './pages/register-profile-information/register-profile-information';
 import { LoginPage } from './pages/login/login';
 import { LogoutPage } from './pages/logout/logout';
 
@@ -22,13 +21,16 @@ import { ProfileEditPage } from './pages/profile-edit/profile-edit';
 
 
 
+
 const appRoutes: Routes = [
     { path: 'user/profile', component: ProfilePage },
     { path: 'user/profile/edit', component: ProfileEditPage },
     { path: 'user/profile/change-password', component: ChangePasswordPage },
     { path: 'user/login', component: LoginPage },
     { path: 'user/logout', component: LogoutPage },
-    { path: 'user/register', component: RegisterPage },
+    { path: 'user/register', component: RegisterWithEmailPage },
+    { path: 'user/register/profile-photo', component: RegisterProfilePhotoPage },
+    { path: 'user/register/profile-information', component: RegisterProfileInformationPage },
     { path: 'user/settings', component: SettingsPage },
     { path: 'user', component: ProfilePage },
     { path: 'profile/:id', component: OpenProfilePage },
@@ -38,7 +40,9 @@ const appRoutes: Routes = [
 
 @NgModule({
     declarations: [
-        RegisterPage,
+        RegisterWithEmailPage,
+        RegisterProfilePhotoPage,
+        RegisterProfileInformationPage,
         LoginPage,
         ProfilePage,
         ProfileEditPage,
