@@ -4,12 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-
 import { WidgetsModule } from './../../widgets/widgets.module';
 
-
-
-import { RegisterPage } from './pages/register/register';
 import { RegisterWithEmailPage } from './pages/register-with-email/register-with-email';
 import { RegisterProfilePhotoPage } from './pages/register-profile-photo/register-profile-photo';
 import { RegisterProfileInformationPage } from './pages/register-profile-information/register-profile-information';
@@ -44,7 +40,6 @@ const appRoutes: Routes = [
 
 @NgModule({
     declarations: [
-        RegisterPage,
         RegisterWithEmailPage,
         RegisterProfilePhotoPage,
         RegisterProfileInformationPage,
