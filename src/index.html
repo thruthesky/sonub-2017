@@ -34,13 +34,22 @@
                 background-color: #eee;
             }
 
+            .app-shell .header-wrapper {
+
+                background-color: #0d47a1;
+            }
             .app-shell header {
                 display: flex;
                 justify-content: space-between;
                 position: relative;
                 padding: .8em;
+
+
+                margin: 0 auto;
+                max-width: 860px;
+
+
                 color: white;
-                background-color: #0d47a1;
             }
 
             .app-shell header .logo-input b {
@@ -79,6 +88,8 @@
             }
 
             .app-shell-content {
+                margin: 0 auto;
+                max-width: 860px;
                 padding: 1em;
                 min-height: 1024px;
                 line-height: 140%;
@@ -99,6 +110,27 @@
                 display: none;
             }
 
+            .app-shell-content .left .content {
+                padding: .5em;
+            }
+            .app-shell-content .left .content i {
+                display: block;
+                line-height: 1.6em;
+                height: 1.6em;
+                font-size: .9em;
+                text-decoration: none;
+                color: #226;
+                cursor: pointer;
+                font-style: normal;
+            }
+            .app-shell-content .left .content i:before {
+                display: block;
+                float: left;
+                width: .8em;
+                content: '•';
+            }
+
+
             @media all and ( min-width: 640px) {
                 .app-shell .logo-input {
                     display: inline-block;
@@ -117,7 +149,6 @@
                     float: left;
                 }
                 .app-shell-content .left .content {
-
                     background-color: white;
                 }
                 .app-shell-content .right {
@@ -165,8 +196,8 @@
 
         </style>
         <section class="app-shell">
+            <div class="header-wrapper">
             <header>
-
                 <div class="left">
                     <div class="logo-input"><b>S</b><input placeholder="Social Network Hub"></div>
                     <div class="text">Ask, Jobs, News</div>
@@ -195,16 +226,17 @@
                 </div>
 
             </header>
+            </div>
             <div class="app-shell-content">
                 <div class="left">
                     What sonub, you can :
                     <div class="content">
-                            Find your jobs !<br>
-                            Find your partners !<br>
-                            adddd<br>
-                            adddd<br>
-                            adddd<br>
-                            
+                        <i>Get your job.</i>
+                        <i>Get your partner.</i>
+                        <i>Get latest news.</i>
+                        <i>Ask whatever.</i>
+                        <i>Advertise your business.</i>
+                        <i>Work and earn money.</i>
                     </div>
                 </div>
                 <div class="right">
