@@ -4,7 +4,7 @@
 </ul>
 <div *ngIf="page && page.posts" class="news-list">
     <ul>
-        <li class="fs-sm mb-1" *ngFor="let post of page.posts">
+        <li class="fs-sm mb-1 py-1" *ngFor="let post of page.posts">
             <a href="{{ app.forum.postUrl( post.ID )}}" routerLink="{{ app.forum.postUrl( post.ID )}}">
                 <div *ngIf="app.forum.getFirstImageThumbnailUrl(post)" class="float-left">
                 <img class="size-32px" src="{{ app.forum.getFirstImageThumbnailUrl(post) }}">

@@ -107,9 +107,11 @@ section.page {
             .c {
                 position: absolute;
                 display: block;
+                z-index: 1!important;
                 top: 0;
                 right: 0;
                 width: $c-width;
+                height: 800px;
             }
         }
     }
@@ -176,7 +178,7 @@ section.page {
 }
 
 .fix-sidebar-c {
-    position: fixed;
+    // position: fixed;
     width: $c-width;
 }
 

@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <title>Sonub</title>
@@ -11,11 +12,82 @@
 
     <script>
         var sonub_version = '1-alpha-1';
+
     </script>
 </head>
 
 <body>
-    <app-root></app-root>
+    <app-root>
+        <script>
+            // setTimeout(() => location.reload(), 2000);
+
+        </script>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            .app-shell {
+                font-size: 12pt;
+                background-color: #eee;
+            }
+
+            .app-shell header {
+                padding: .8em;
+                color: white;
+                background-color: #0d47a1;
+            }
+
+            .app-shell-content {
+                padding: 1em;
+                min-height: 1024px;
+                line-height: 140%;
+            }
+
+
+
+            .app-shell-content .welcome {
+                padding: 1em;
+                background-color: white;
+                font-size: 2em;
+            }
+
+        </style>
+        <section class="app-shell">
+            <header>
+                S <input placeholder="Sonub = Social Network Hubs"> Ask, Jobs, News
+            </header>
+            <div class="app-shell-content">
+                <div class="welcome">
+                    Welcome to Sonub.
+                </div>
+
+                <div>
+                    Today, we have 381 new users and new 312 posts. And we have total of 123412 users and 3141234 posts and 3413413 comments.
+                </div>
+
+                We have 34314 visitors based on unique IP and 342321 visitors based on session. Today's HOT news are: 1. Typhone... 2. A
+                Korean win lottery. 3. More Jananese visits to Philippines. Sonub is being loaded now. Just wait a second.
+
+
+                <div class="app-shell-loader">
+                    <svg width="48" height="48" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#88a">
+                        <g fill="none" fill-rule="evenodd">
+                            <g transform="translate(1 1)" stroke-width="2">
+                                <circle stroke-opacity=".5" cx="18" cy="18" r="18" />
+                                <path d="M36 18c0-9.94-8.06-18-18-18">
+                                    <animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="1s" repeatCount="indefinite"
+                                    />
+                                </path>
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+
+            </div>
+        </section>
+    </app-root>
 
     <script>
         /** Google Analystics */
@@ -37,13 +109,13 @@
     </script>
 
     <script>
-        /** Polyfills by Browser */
-        if (window.document.documentMode) {
+        /** Polyfills for each browser */
+        if (window.document.documentMode) { // For MS IE.
             // polyfill IE11 in a blocking way
             var s = document.createElement('script');
             s.src = 'assets/js/ie-polyfills.min.js';
             document.head.appendChild(s);
-        } else if (!Object.assign) { // If it is not IE,
+        } else if (!Object.assign) { // For old browsers like those in early versions of Android, or the default browser in GenyMotion( except MSIE )
             // polyfill other non-evergreen browsers in a blocking way
             var polyfillUrl =
                 "https://cdn.polyfill.io/v2/polyfill.js?features=default,Array.prototype.find&flags=gated&unknown=polyfill";
@@ -65,4 +137,5 @@
 
     </script>
 </body>
+
 </html>
