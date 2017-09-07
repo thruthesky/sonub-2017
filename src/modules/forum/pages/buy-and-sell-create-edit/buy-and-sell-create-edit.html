@@ -51,7 +51,7 @@
                     <option *ngFor="let key of cityKeys" [value]="key">{{cities[key]}}</option>
                 </select>
             </div>
-            
+
             <div class="form-group">
                 <label>Deliverable</label>
                 <div class="form-control">
@@ -73,7 +73,7 @@
                 <label for="price">Price</label>
                 <input type="number" class="form-control" name="price" id="price" placeholder="Unit Price"
                        [(ngModel)]="price">
-                <small class="form-text text-muted">Unit price must be in philippine peso</small>
+                <small class="form-text text-muted">Unit price must be in philippine peso.</small>
             </div>
 
 
@@ -82,7 +82,7 @@
                 <input type="text" class="form-control" id="title" name="title"
                        placeholder="Short description, model name, unit etc..."
                        [(ngModel)]="title">
-                <small class="form-text text-muted">Summary of your product</small>
+                <small class="form-text text-muted">Summary of the product you are selling.</small>
             </div>
 
             <div class="form-group">
