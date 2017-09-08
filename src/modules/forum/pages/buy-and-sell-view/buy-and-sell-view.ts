@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AppService } from "../../../../providers/app.service";
-import { BUYANDSELL } from "../../../../providers/wordpress-api/interface";
+import {BUYANDSELL, POST} from "../../../../providers/wordpress-api/interface";
 import { ActivatedRoute, Router } from "@angular/router";
 
 
@@ -51,9 +51,21 @@ export class BuyAndSellViewPage implements OnInit {
         else if (buyAndSell.deliverable == 'n') this.deliverable = 'No';
     }
 
+    onClickDelete(post: POST) {
+        if (post.author.ID) {
+            this.app.confirm(this.app.text('confirmDelete')).then(code => {
+                if (code == 'yes') this.postDelete(post.ID);
+            });
+        }
+    }
 
-    onClickUpdate(ID) {
-        this.router.navigateByUrl('/buyandsell/edit/', ID);
+    postDelete( ID ) {
+        this.app.forum.postDelete({ ID: ID }).subscribe(res => {
+            console.log("file deleted: ", res);
+            if (res.mode == 'delete') {
+                this.router.navigateByUrl('/buyandsell');
+            }
+        }, err => this.app.warning(err));
     }
 
 
