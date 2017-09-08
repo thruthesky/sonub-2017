@@ -1,83 +1,92 @@
-<h1>Advertisement create and update</h1>
+<section class="page advertisement-create-edit-page">
+    <header>
+        <h1>Advertisement</h1>
+        <p>
+            Create your advertisement.
+        </p>
+        <nav>
+            <button routerLink="/advertisement/list">My Advertisement List</button>
+        </nav>
+    </header>
 
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <form>
 
-
-<div class="container">
-    <div class="row">
-        <div class="col-sm-6">
-            <form>
-
-                <div class="form-group row">
-                    <label for="adv-create-position">Position</label>
-                    <select name="position" [(ngModel)]="position" id="adv-create-position" class="form-control">
+                    <div class="form-group row">
+                        <label for="adv-create-position">Position</label>
+                        <select name="position" [(ngModel)]="position" id="adv-create-position" class="form-control">
                 <option value="">Select display position</option>
                 <option value="sidebar">Sidebar</option>
                 <option value="list">Content List</option>
             </select>
-                    <small>Select advertisment position.</small>
-                </div>
+                        <small>Select advertisment position.</small>
+                    </div>
 
-                <div class="form-group row">
-                    <file-upload-widget
-                        [files]="files"
-                        [titleText]="app.text('select_advertisement_image')"
-                        (success)="onSuccessUploadAdvertisementImage($event)"
-                    ></file-upload-widget>
-                    <small>Select advertisment image.</small>
-                </div>
+                    <div class="form-group row">
+                        <file-upload-widget [files]="files" [titleText]="app.text('select_advertisement_image')" (success)="onSuccessUploadAdvertisementImage($event)"></file-upload-widget>
+                        <small>
+                        Select advertisment image.
+                        Size 264x264.
+                        Height could be between 100px upto 264px.
+                    </small>
+                    </div>
 
-                <div class="form-group row">
-                    <label for="adv-create-title">Title</label>
-                    <input id="adv-create-title" type="text" name="title" class="form-control" [(ngModel)]="title">
-                    <small>Input advertisement title.</small>
-                </div>
-                <div class="form-group row">
-                    <label for="adv-create-summary">Summary</label>
-                    <input id="adv-create-summary" type="text" name="summary" class="form-control" [(ngModel)]="summary">
-                    <small>Input advertisement summary with in 128 characters.</small>
-                </div>
-                <div class="form-group row">
-                    <label for="adv-create-domain">Domain</label>
-                    <input id="adv-create-domain" type="text" name="domain" class="form-control" [(ngModel)]="domain">
-                    <small>Input homepage display domain. Example) sonub.com or www.sonub.com</small>
-                </div>
-                <div class="form-group row">
-                    <label for="adv-create-url">Url</label>
-                    <input id="adv-create-url" type="text" name="url" class="form-control" [(ngModel)]="url">
-                    <small>Input your site url.</small>
-                </div>
+                    <div class="form-group row">
+                        <label for="adv-create-title">{{ app.text('title') }}</label>
+                        <input id="adv-create-title" type="text" name="title" class="form-control" [(ngModel)]="title">
+                        <small>Input advertisement title.</small>
+                    </div>
+                    <div class="form-group row">
+                        <label for="adv-create-summary">{{ app.text('summary') }}</label>
+                        <input id="adv-create-summary" type="text" name="summary" class="form-control" [(ngModel)]="summary">
+                        <small>Input advertisement summary with in 128 characters.</small>
+                    </div>
+                    <div class="form-group row">
+                        <label for="adv-create-domain">{{ app.text('domain') }}</label>
+                        <input id="adv-create-domain" type="text" name="domain" class="form-control" [(ngModel)]="domain">
+                        <small>Input homepage display domain. Example) sonub.com or www.sonub.com</small>
+                    </div>
+                    <div class="form-group row">
+                        <label for="adv-create-url">Url</label>
+                        <input id="adv-create-url" type="text" name="url" class="form-control" [(ngModel)]="url">
+                        <small>Input your site url.</small>
+                    </div>
 
 
-                <fieldset class="form-group row">
-                    <legend>Display advertisement</legend>
-                    <div class="form-check">
-                        <label class="form-check-label">
+                    <fieldset class="form-group row">
+                        <legend>{{ app.text('display_advertisement') }}</legend>
+                        <div class="form-check">
+                            <label class="form-check-label">
                     <input name="display" [(ngModel)]="display" value="Y" type="radio" class="form-check-input">
                     Yes, display now.
                 </label>
-                        <label class="form-check-label">
+                            <label class="form-check-label">
                     <input name="display" [(ngModel)]="display" value="N" type="radio" class="form-check-input">
                     No, hold it.
                 </label>
+                        </div>
+                    </fieldset>
+
+                    <button type="submit" (click)="onClickSubmit()">POST</button>
+
+
+                </form>
+            </div>
+
+            <div class="col-sm-6">
+                <div>Preview)</div>
+                <div class="">
+                    <div *ngIf="files && files.length ">
+                        <img src="{{ files[0].url }}">
                     </div>
-                </fieldset>
-
-                <button type="submit" (click)="onClickSubmit()">POST</button>
-
-
-            </form>
-        </div>
-
-        <div class="col-sm-6">
-            Sample Advertisement)
-            <div>
-                <div *ngIf="files && files.length ">
-                    <img src="{{ files[0].url }}">
+                    <div>{{ title }}</div>
+                    <div>{{ domain }}</div>
+                    <div>{{ summary }}</div>
                 </div>
-                <div>{{ title }}</div>
-                <div>{{ domain }}</div>
-                <div>{{ summary }}</div>
             </div>
         </div>
     </div>
-</div>
+
+</section>

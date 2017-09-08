@@ -39,6 +39,22 @@ export let TEXT = {
         en: 'Password',
         ko: '비밀번호'
     },
+    title: {
+        en: 'Title',
+        ko: '제목'
+    },
+    summary: {
+        en: 'Summary',
+        ko: '요약'
+    },
+    domain: {
+        en: 'Domain',
+        ko: '도메인'
+    },
+    display_advertisement: {
+        en: 'Display advertisement',
+        ko: '광고 표시'
+    },
     home: {
         en: 'Home',
         ko: '홈'

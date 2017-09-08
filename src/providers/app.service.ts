@@ -23,8 +23,6 @@ export { ERROR } from './../etc/error';
 import { getLanguage, setLanguage } from './../etc/language';
 
 
-
-
 import { config } from './../app/config';
 
 
@@ -157,7 +155,7 @@ export class AppService extends Base {
         public search: SearchService,
         // public text: TextService,
         private confirmModalService: ConfirmModalService,
-        
+
         private router: Router,
         public alert: AlertModalService,
         public push: PushMessageService,
@@ -187,6 +185,8 @@ export class AppService extends Base {
 
 
         window['routerLink'] = this.go.bind(this);
+
+        setTimeout(() => this.fixSidebarC(), 2000);
     }
 
 
@@ -197,8 +197,8 @@ export class AppService extends Base {
     trackWindowResize() {
         this.getSize();
         Observable.fromEvent(window, 'resize')
-            .debounceTime( 250 )
-            .subscribe( (e: UIEvent) => {
+            .debounceTime(250)
+            .subscribe((e: UIEvent) => {
                 this.getSize();
             });
     }
@@ -208,12 +208,33 @@ export class AppService extends Base {
      */
     trackWindowScroll() {
         Observable.fromEvent(window, 'scroll')
-            .debounceTime( 150 )
-            .subscribe( (e: UIEvent) => {
-                console.log("Window Scrolled...");
+            .debounceTime(150)
+            .subscribe((e: UIEvent) => {
+                // console.log("Window Scrolled...");
+                this.fixSidebarC();
             });
     }
-    
+
+
+    /**
+     * Fixing sidebar-c
+     */
+    fixSidebarC() {
+        let c: Element = document.querySelector('.fix-sidebar-c');
+        if ( ! c ) return;
+        let h = c.scrollHeight;
+        let wh = window.innerHeight;
+        let rx = (wh - h) + 'px';
+        let top = window.pageYOffset || document.documentElement.scrollTop;
+        if (h - wh < top) {
+            c['style']['top'] = rx;
+            c['style']['position'] = 'fixed';
+        }
+        else {
+            c['style']['position'] = 'static';
+        }
+    }
+
 
     /**
      * 
@@ -242,17 +263,17 @@ export class AppService extends Base {
      */
     getSize() {
         let b = document.querySelector(".page-body-content-layout > div.b");
-        if ( b ) {
+        if (b) {
             setTimeout(() => {
                 this.size.b.width = b.clientWidth;
                 // console.log(this.size.b.width);
-                this.windowResize.next( this.size );
+                this.windowResize.next(this.size);
             }, 100);
         }
         return this.size;
     }
     get getSizeBWidth() {
-        if ( this.size && this.size.b && this.size.b.width ) return this.size.b.width;
+        if (this.size && this.size.b && this.size.b.width) return this.size.b.width;
         else return 0;
     }
 
@@ -288,8 +309,8 @@ export class AppService extends Base {
     }
 
     onPageVisibilityChange() {
-        this.pageVisibility.subscribe( visible => {
-            if ( visible ) {
+        this.pageVisibility.subscribe(visible => {
+            if (visible) {
                 this.userOnline();
             }
             else {
@@ -371,7 +392,7 @@ export class AppService extends Base {
     }
 
     warning(e, message?) {
-        this.error.warning( e, message );
+        this.error.warning(e, message);
     }
 
 
@@ -386,7 +407,7 @@ export class AppService extends Base {
 
 
     rerenderPage(timeout = 0, callback?) {
-        this.share.rerenderPage( timeout, callback );
+        this.share.rerenderPage(timeout, callback);
     }
 
 
@@ -455,7 +476,7 @@ export class AppService extends Base {
         this.share.bootstrapLoginLogout();
         this.firebaseLogin_ifNot();
 
-        
+
     }
 
     /**
@@ -622,7 +643,7 @@ export class AppService extends Base {
      * @code app.userUpdate({ name: 'myName' }, () => {});
      */
     userUpdate(data, callback?) {
-        this.share.userUpdate( data, callback);
+        this.share.userUpdate(data, callback);
     }
     userUpdateProfile() {
         let data = {
@@ -691,7 +712,7 @@ export class AppService extends Base {
      */
     cacheSet(key, value) {
         // this.storage.set(key, value);
-        this.share.setCache( key, value);
+        this.share.setCache(key, value);
     }
     /**
      *
@@ -703,7 +724,7 @@ export class AppService extends Base {
      */
     cacheGet(key) {
         // return this.storage.get(key);
-        return this.share.getCache( key );
+        return this.share.getCache(key);
     }
 
     cacheKeyPage(req: POST_LIST) {
@@ -732,8 +753,8 @@ export class AppService extends Base {
      * Returns user photo URL or default photo url.
      * @param url user photo URL
      */
-    photoUrl( url ) {
-        if ( url ) return url;
+    photoUrl(url) {
+        if (url) return url;
         else return this.anonymousPhotoURL;
     }
 
@@ -823,7 +844,7 @@ export class AppService extends Base {
         this.trackKeyup = this.trackAction('keyup');
         this.resetTimerAway(); // begin tracking immediately after loading ( 처음 로드 하자 마자 한번 호출. )
     }
-    trackAction( action ) {
+    trackAction(action) {
         return Observable.fromEvent(document, action)
             .throttleTime(this.throttleUserAction)
             .subscribe(e => this.userAction());

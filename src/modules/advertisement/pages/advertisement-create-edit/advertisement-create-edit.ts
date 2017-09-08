@@ -26,9 +26,12 @@ export class AdvertisementCreateEditPage implements OnInit, OnDestroy {
         app.pageLayout = 'wide';
         console.log("cons");
 
+        let codes = ['input_advertisement_title', 'input_advertisement_summary'];
+        app.wp.text(codes, re => console.log("text: ", re));
+
+
         let params = activeRoute.snapshot.params;
         if (params['id']) {
-
             this.app.wp.post({ route: 'wordpress.get_advertisement_by_id', ID: params['id'] })
                 .subscribe((post: POST) => {
                     console.log('adv: ', post);

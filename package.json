@@ -18,7 +18,7 @@
     "publish": "npm run build:prod:aot:www:web && npm run scp-update-patch",
     "republish": "npm run build:prod:aot:www:web && npm run scp",
     "scp": "cd www && scp -r * sonub@www.sonub.com:./www",
-    "scp-update-patch": "cd www && scp index.html *.css *.js sonub@www.sonub.com:./www",
+    "scp-update-patch": "cd www && scp index.html *.css *.js sonub@www.sonub.com:./www && cd ..",
     "seo": "ng build --watch --output-path=/Users/thruthesky/www/wordpress --delete-output-path=false",
     "seo:prod": "ng build --prod --watch --output-path=/Users/thruthesky/www/wordpress --delete-output-path=false",
     "ssl": "ng serve --ssl true --ssl-key './tmp/ssl/privkey.pem' --ssl-cert './tmp/ssl/fullchain.pem' --host sonub.com --port 443",

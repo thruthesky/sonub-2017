@@ -9,3 +9,11 @@
         @include list-dots();
     }
 }
+
+.advertisement-side-bar {
+    .image {
+        max-width: 264px;
+        max-height: 264px;
+        overflow: hidden;
+    }
+}

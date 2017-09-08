@@ -327,24 +327,6 @@ export class ShareService extends Base {
 
 
 
-    
-    /**
-     *
-     * @param key
-     * @param value
-     */
-    setCache(key, value) {
-        this.storage.set(key, value);
-    }
-    /**
-     *
-     * @param key Key
-     * @return null if there is no data.
-     */
-    getCache(key) {
-        return this.storage.get(key);
-    }
-
     getPlatform(): string {
         if ( this.isCordova ) return 'cordova';
         else return 'web';

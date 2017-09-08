@@ -125,4 +125,26 @@ export class Base extends Library {
     }
 
 
+
+    
+    /**
+     *
+     * @param key
+     * @param value
+     */
+    setCache(key: string, value: any) {
+        this.storage.set(key, value);
+    }
+    /**
+     *
+     * @param key Key
+     * @return null if there is no data.
+     */
+    getCache(key) {
+        return this.storage.get(key);
+    }
+
+
+
+
 }
