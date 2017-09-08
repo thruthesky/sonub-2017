@@ -183,6 +183,7 @@ export class AppService extends Base {
         this.onPageVisibilityChange();
 
         this.trackWindowResize();
+        this.trackWindowScroll();
 
 
         window['routerLink'] = this.go.bind(this);
@@ -194,7 +195,6 @@ export class AppService extends Base {
      * 
      */
     trackWindowResize() {
-
         this.getSize();
         Observable.fromEvent(window, 'resize')
             .debounceTime( 250 )
@@ -202,6 +202,18 @@ export class AppService extends Base {
                 this.getSize();
             });
     }
+    /**
+     * This tracks window resize and get app element size after resize.
+     * 
+     */
+    trackWindowScroll() {
+        Observable.fromEvent(window, 'scroll')
+            .debounceTime( 150 )
+            .subscribe( (e: UIEvent) => {
+                console.log("Window Scrolled...");
+            });
+    }
+    
 
     /**
      * 

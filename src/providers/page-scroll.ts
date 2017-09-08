@@ -87,7 +87,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/throttleTime';
+import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 
@@ -123,7 +123,7 @@ export class PageScroll {
         }
 
         return Observable.fromEvent(document, 'scroll')        // 스크롤은 window 또는 document 에서 발생.
-            .throttleTime(100)
+            .debounceTime(100)
             .map((e: any) => {
                 this.scrollCount++;
                 // console.log("scrollCount: ", this.scrollCount);
