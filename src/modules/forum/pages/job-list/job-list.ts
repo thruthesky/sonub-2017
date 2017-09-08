@@ -32,7 +32,7 @@ export class JobListPage implements OnInit, OnDestroy {
     inLoading: boolean = false;
     pageNo: number = 0;
     noMorePosts: boolean = false;
-    posts_per_page = 6;
+    posts_per_page = 10;
     ///
 
 

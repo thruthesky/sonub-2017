@@ -1,32 +1,32 @@
 <h1>User Profile</h1>
 <div *ngIf="app.user.isLogin">
-    <div class="mb-3">
-        <span class="profile-user-photo" >
-            <img class="w-100" src="{{ userData?.photo?.url ? userData?.photo?.url : app.anonymousPhotoURL }}">
-        </span>
+    <div class="flex p-2 justify-content-center">
+        <div class="profile-user-photo rounded-circle overflow-hidden">
+            <img class="mw-100" src="{{ userData?.photo?.url ? userData?.photo?.url : app.anonymousPhotoURL }}">
+        </div>
     </div>
     <div class="form-group">
         <label for="user_email">Email</label>
-        <span type="text" class="form-control" id="user_email">{{userData.user_email}}</span>
+        <span  class="form-control" id="user_email">{{userData.user_email}}</span>
     </div>
     <div class="form-group">
         <label for="display_name">Name</label>
-        <span type="text" class="form-control" id="display_name">{{userData.display_name}}</span>
+        <span  class="form-control" id="display_name">{{userData.display_name}}</span>
     </div>
 
     <div class="form-group">
         <label for="mobile">Mobile</label>
-        <span type="text" class="form-control" id="mobile">{{userData.mobile}}</span>
+        <span  class="form-control" id="mobile">{{userData.mobile}}</span>
     </div>
 
     <div class="form-group">
         <label for="gender">Gender</label>
-        <span type="text" class="form-control" id="Gender">{{ userData.gender == 'm' ? 'Male' : 'Female' }}</span>
+        <span  class="form-control" id="Gender">{{ userData.gender == 'm' ? 'Male' : 'Female' }}</span>
     </div>
 
     <div class="form-group">
         <label for="birthday">Birthday</label>
-        <span type="text" class="form-control" id="birthday">{{userData.birthday}}</span>
+        <span  class="form-control" id="birthday">{{userData.birthday}}</span>
     </div>
     <div>
         <a href="/user/profile/edit" routerLink="/user/profile/edit"><button class="pointer">Update Profile</button></a>

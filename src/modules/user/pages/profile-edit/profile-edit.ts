@@ -53,7 +53,7 @@ export class ProfileEditPage implements OnInit {
         this.app.user.data().subscribe( (userData:USER_DATA_RESPONSE) => {
             console.log('userData::', userData);
             this.user_email = userData.user_email;
-            this.name = userData.name;
+            this.name = userData.display_name;
             this.mobile = userData.mobile;
             this.gender = userData.gender;
             this.birthday = {
