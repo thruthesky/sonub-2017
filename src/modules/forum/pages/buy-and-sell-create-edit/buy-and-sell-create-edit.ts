@@ -16,8 +16,8 @@ export class BuyAndSellCreateEditPage {
 
     @ViewChild('fileUploadWidget') public fileUploadComponent: FileUploadWidget;
 
-    title: string = null;
-    description: string = null;
+    title: string = '';
+    description: string = '';
 
     price: number = null;
     usedItem: 'y' | 'n' | 'x' = 'n';
@@ -25,8 +25,8 @@ export class BuyAndSellCreateEditPage {
 
     city: string = 'all';
     province: string = 'all';
-    tag: string = null;    // can be product, brands, shops
-    contact: string = null;
+    tag: string = '';    // can be product, brands, shops
+    contact: string = '';
 
 
     files: FILES = [];
@@ -35,6 +35,9 @@ export class BuyAndSellCreateEditPage {
     provinces: Array<string> = [];
     cities: Array<string> = [];
     showCities: boolean = false;
+
+    errorMessage: string = null;
+    loading: boolean = false;
 
     constructor(
         private region: PhilippineRegion,
@@ -118,7 +121,16 @@ export class BuyAndSellCreateEditPage {
 
     onClickSubmit() {
 
+        this.errorMessage = null;
+        if (!this.tag && !this.tag.length) return this.errorMessage = '*tag is required';
+        if (this.province == 'all') return this.errorMessage = '*Province is required';
+        if (!this.price) return this.errorMessage = '*price is required';
+        if (!this.title && !this.title.length) return this.errorMessage = '*title is required';
+        if (!this.description && !this.description.length) return this.errorMessage = '*description is required';
+        if (!this.contact && !this.contact.length) return this.errorMessage = '*contact information is required';
 
+
+        this.loading = true;
         let data: BUYANDSELL_CREATE = {
             tag: this.tag,
             usedItem: this.usedItem,
@@ -136,9 +148,15 @@ export class BuyAndSellCreateEditPage {
         // console.log('onClickSubmit::data:: ', data);
         this.app.bns.create(data).subscribe(res => {
             // console.log("buyandsell create/edit: ", res);
+
+            this.loading = false;
             this.app.alert.open({ content: this.app.text('saved') });
             this.router.navigateByUrl('/buyandsell');
-        }, e => this.app.warning(e));
+        }, e => {
+            this.loading = false;
+            this.app.warning(e);
+            this.errorMessage = this.app.getErrorString(e);
+        });
 
     }
 

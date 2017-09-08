@@ -1,38 +1,38 @@
 <h1>User Profile</h1>
 <div *ngIf="app.user.isLogin">
-    <div class="text-center mb-3">
+    <div class="mb-3">
         <span class="profile-user-photo" >
             <img class="w-100" src="{{ userData?.photo?.url ? userData?.photo?.url : app.anonymousPhotoURL }}">
         </span>
     </div>
-    <div class="input-group mb-3">
-        <label for="user_email" class="input-group-addon">Email</label>
+    <div class="form-group">
+        <label for="user_email">Email</label>
         <span type="text" class="form-control" id="user_email">{{userData.user_email}}</span>
     </div>
-    <div class="input-group mb-3">
-        <label for="display_name" class="input-group-addon">Name</label>
+    <div class="form-group">
+        <label for="display_name">Name</label>
         <span type="text" class="form-control" id="display_name">{{userData.display_name}}</span>
     </div>
 
-    <div class="input-group mb-3">
-        <label for="mobile" class="input-group-addon">Mobile</label>
+    <div class="form-group">
+        <label for="mobile">Mobile</label>
         <span type="text" class="form-control" id="mobile">{{userData.mobile}}</span>
     </div>
 
-    <div class="input-group mb-3">
-        <label for="gender" class="input-group-addon">Gender</label>
+    <div class="form-group">
+        <label for="gender">Gender</label>
         <span type="text" class="form-control" id="Gender">{{ userData.gender == 'm' ? 'Male' : 'Female' }}</span>
     </div>
 
-    <div class="input-group mb-3">
-        <label for="birthday" class="input-group-addon">Birthday</label>
+    <div class="form-group">
+        <label for="birthday">Birthday</label>
         <span type="text" class="form-control" id="birthday">{{userData.birthday}}</span>
     </div>
     <div>
-        <a href="/user/profile/edit" routerLink="/user/profile/edit"><button>Update Profile</button></a>
-        <a href="/user/profile/change-password" routerLink="/user/profile/change-password"><button>Change Password</button></a>
-        <button (click)="onClickResign()">Resign</button>
-        <button type="button" (click)="logout()">Logout</button>
+        <a href="/user/profile/edit" routerLink="/user/profile/edit"><button class="pointer">Update Profile</button></a>
+        <a href="/user/profile/change-password" routerLink="/user/profile/change-password"><button class="pointer">Change Password</button></a>
+        <button class="pointer" (click)="onClickResign()">Resign</button>
+        <button class="pointer" type="button" (click)="logout()">Logout</button>
     </div>
 
 </div>

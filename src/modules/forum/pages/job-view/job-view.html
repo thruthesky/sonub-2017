@@ -7,42 +7,42 @@
 
         <div class="info p-2">
 
-            <div class="input-group mb-3">
-                <label for="fullname" class="input-group-addon">Name</label>
+            <div class="form-group">
+                <label for="fullname">Name</label>
                 <span type="text" class="form-control" id="fullname">{{profile?.fullname}}</span>
             </div>
-            <div class="input-group mb-3">
-                <label for="profession" class="input-group-addon">Profession</label>
+            <div class="form-group">
+                <label for="profession">Profession</label>
                 <span type="text" class="form-control" id="profession">{{profile?.profession}}, {{ profile?.gender == 'm' ? 'Male' : 'Female'
                 }}/{{getAge(profile?.birthday)}}</span>
             </div>
-            <div class="input-group mb-3">
-                <label for="mobile" class="input-group-addon">Mobile</label>
+            <div class="form-group">
+                <label for="mobile">Mobile</label>
                 <span type="text" class="form-control" id="mobile">{{profile?.mobile}}</span>
             </div>
-            <div class="input-group mb-3">
-                <label for="experience" class="input-group-addon">Experience</label>
+            <div class="form-group">
+                <label for="experience">Experience</label>
                 <span type="text" class="form-control" id="experience">{{profile.experience < 12 ? profile.experience + ' months' : profile.experience / 12 + ' years'}}</span>
             </div>
-            <div class="input-group mb-3">
-                <label for="address" class="input-group-addon">Address</label>
+            <div class="form-group">
+                <label for="address">Address</label>
                 <span type="text" class="form-control" id="address">{{profile?.address}}</span>
             </div>
 
-            <div class="input-group mb-3">
-                <label for="province" class="input-group-addon">Province</label>
+            <div class="form-group">
+                <label for="province">Province</label>
                 <span type="text" class="form-control" id="province">{{profile?.province}}</span>
             </div>
-            <div class="input-group mb-3">
-                <label for="city" class="input-group-addon">City</label>
+            <div class="form-group">
+                <label for="city">City</label>
                 <span type="text" class="form-control" id="city">{{profile?.city}}</span>
             </div>
-            <div class="input-group mb-3">
-                <label for="message" class="input-group-addon">Message</label>
+            <div class="form-group">
+                <label for="message">Message</label>
                 <span type="text" class="form-control" id="message">{{profile?.message}}</span>
             </div>
         </div>
-        <div class="card-footer mt-1 p  -1"
+        <div class="card-footer mt-1 p-1"
              *ngIf="(app.my(profile) || (!app.user.isLogin && !profile.author.ID))">
             <div class="row">
                 <div class="text-center pointer col-6 p-0" (click)="$event.stopPropagation(); onClickEdit( profile?.ID )"><i
