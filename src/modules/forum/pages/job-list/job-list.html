@@ -141,7 +141,7 @@
                         </div>
 
                         <div class="info p-2">
-                            <div class="">{{ job?.fullname }}</div>
+                            <div class="full-name">{{ job?.fullname }}</div>
                             <div class="profession">{{ job?.profession }}, {{ job.gender == 'm' ? 'Male' : 'Female' }}/{{getAge(job.birthday)}}</div>
                             <div class="">Mobile: {{job?.mobile}}</div>
                             <ng-container *ngIf="activeView == job?.ID">

@@ -80,3 +80,16 @@
         right: .5rem;
     }
 }
+
+
+.job {
+    .info {
+        font-size: .8em;
+        .full-name {
+            text-transform: capitalize;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+}
