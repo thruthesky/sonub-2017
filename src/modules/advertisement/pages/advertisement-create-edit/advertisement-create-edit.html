@@ -1,11 +1,11 @@
 <section class="page advertisement-create-edit-page">
     <header>
-        <h1>Advertisement</h1>
+        <h1>{{ text.advertisement }}</h1>
         <p>
-            Create your advertisement.
+            {{ text.advertisement_desc }}
         </p>
         <nav>
-            <button routerLink="/advertisement/list">My Advertisement List</button>
+            <button routerLink="/advertisement/list">{{ text.my_advertisement_list }}</button>
         </nav>
     </header>
 
@@ -15,7 +15,7 @@
                 <form>
 
                     <div class="form-group row">
-                        <label for="adv-create-position">Position</label>
+                        <label for="adv-create-position">{{ text.advertisement_position }}</label>
                         <select name="position" [(ngModel)]="position" id="adv-create-position" class="form-control">
                 <option value="">Select display position</option>
                 <option value="sidebar">Sidebar</option>
@@ -76,7 +76,7 @@
             </div>
 
             <div class="col-sm-6">
-                <div>Preview)</div>
+                <div>{{ text.preview }})</div>
                 <div class="">
                     <div *ngIf="files && files.length ">
                         <img src="{{ files[0].url }}">

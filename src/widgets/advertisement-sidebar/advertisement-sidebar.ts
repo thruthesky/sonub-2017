@@ -36,7 +36,7 @@ export class AdvertisementSidebarWdiget implements OnInit {
       .subscribe((post: POST) => {
         // console.log('adv: ', post);
         this.post = post;
-      }, e => this.app.warning(e));
+      }, e => console.error(e));
   }
 
     onClickDelete() {

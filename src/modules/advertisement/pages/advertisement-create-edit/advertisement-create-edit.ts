@@ -19,6 +19,9 @@ export class AdvertisementCreateEditPage implements OnInit, OnDestroy {
     file: FILE;
     ID; // for update only.
     // post: POST;
+
+    text: any = {}; /// text
+
     constructor(
         private activeRoute: ActivatedRoute,
         public app: AppService
@@ -26,9 +29,16 @@ export class AdvertisementCreateEditPage implements OnInit, OnDestroy {
         app.pageLayout = 'wide';
         console.log("cons");
 
-        let codes = ['input_advertisement_title', 'input_advertisement_summary'];
-        app.wp.text(codes, re => console.log("text: ", re));
-
+        let codes = [
+            'advertisement',
+            'advertisement_desc',
+            'my_advertisement_list',
+            'advertisement_position',
+            'preview',
+            'input_advertisement_title',
+            'input_advertisement_summary'
+        ];
+        app.wp.text(codes, re => this.text = re);
 
         let params = activeRoute.snapshot.params;
         if (params['id']) {
@@ -55,11 +65,9 @@ export class AdvertisementCreateEditPage implements OnInit, OnDestroy {
     ngOnInit() { }
 
     ngOnDestroy() {
-        console.log("des");
+        // console.log("des");
         this.app.pageLayout = 'column';
     }
-
-
 
     onClickSubmit() {
 
