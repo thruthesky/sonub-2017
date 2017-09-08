@@ -1,30 +1,16 @@
 $profile-user-photo-size: 200px;
-.profile-user {
-    position: relative;
+.profile-user-photo {
     display: inline-block;
+    width: $profile-user-photo-size;
+    height: $profile-user-photo-size;
+    line-height: $profile-user-photo-size;
+    vertical-align: middle;
     overflow: hidden;
-    text-align: center;
-    input {
-        position: absolute;
-        z-index: 100;
-        top: 0;
-        right: 0;
-        opacity: 0.001;
-        font-size: 10em;
+    img {
+        margin:0;
+        display: block;
+        width: $profile-user-photo-size - 2px;
+        height: $profile-user-photo-size - 2px;
+        border-radius: 50%;
     }
-    .profile-user-photo {
-        display: inline-block;
-        width: $profile-user-photo-size;
-        height: $profile-user-photo-size;
-        line-height: $profile-user-photo-size;
-        vertical-align: middle;
-        overflow: hidden;
-        img {
-            display: block;
-            width: $profile-user-photo-size - 2px;
-            height: $profile-user-photo-size - 2px;
-            border-radius: 50%;
-        }
-    }
-
 }

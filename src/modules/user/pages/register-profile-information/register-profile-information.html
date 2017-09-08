@@ -1,5 +1,11 @@
 <div id="register-profile-information">
-    <img *ngIf="app.user.photoURL" src="{{app.user.photoURL}}" style="max-width: 100%;">
+
+    <div class="flex p-2 justify-content-center">
+        <div class="profile-user-photo rounded-circle overflow-hidden">
+            <img class="mw-100" *ngIf="app.user.photoURL" src="{{app.user.photoURL}}">
+        </div>
+    </div>
+
     <div class="form-group">
         <label for="email3" class="form-group-addon">Email</label>
         <span class="form-control" id="email3">{{this.app.user.email}}</span>
@@ -8,7 +14,6 @@
         <label for="name" class="form-group-addon">Name</label>
         <input type="text" class="form-control" id="name" name="name" placeholder="Name" [(ngModel)]="name">
     </div>
-
 
     <label class="form-group-addon">Gender</label>
     <div class="form-control mb-3">

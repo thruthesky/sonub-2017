@@ -20,6 +20,9 @@
             }
             .product_title {
                 font-size: .9rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             .price {
                 font-size: .8rem;

@@ -122,10 +122,9 @@
                    routerLink="/buyandsell/view/{{product.ID}}"
                 >
                     <div class="product">
-                        <div class="photo p-2 pt-3 flex justify-content-center">
-                            <img src="{{ urlPhoto( product ) }}">
+                        <div class="photo flex p-2 justify-content-center">
+                            <img class="mw-100" src="{{ urlPhoto( product ) }}">
                         </div>
-
                         <div class="info p-2">
                             <div class="product_title">{{product?.title }}</div>
                             <div class="price">₱ {{numberWithCommas( product?.price ) }}</div>
