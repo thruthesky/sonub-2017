@@ -108,10 +108,10 @@ $header-break-menu: 640px;
 }
 
 /// color
-.page[section='forum'] .page-header .page-header-container {
+.page-layout[section='forum'] .page-header .page-header-container {
     background-color: #4527a0;
 }
-.page[section='job'] .page-header .page-header-container {
+.page-layout[section='job'] .page-header .page-header-container {
     background-color: #265C5B;
 }
 

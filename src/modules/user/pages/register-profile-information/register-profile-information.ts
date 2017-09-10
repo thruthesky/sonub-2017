@@ -54,13 +54,14 @@ export class RegisterProfileInformationPage {
         };
         this.app.user.update(data).subscribe( (res: USER_UPDATE_RESPONSE) => {
             // console.log('updateUserInfo:', res);
+
+            this.loading = false;
             let userData = {
                 name: data['name']
             };
-            this.app.userUpdate( userData, () => {
-                this.loading = false;
-                this.router.navigateByUrl('/');
-            });
+            this.app.userUpdate( userData, () => {}); /// @doc No-Wait
+
+            this.router.navigateByUrl('/');
         }, err => {
             this.loading = false;
             this.errorMessage = err.code;

@@ -14,7 +14,7 @@
     "hmr:ssl:dev": "ng serve --hmr -e=dev --ssl true --ssl-key './tmp/ssl/privkey.pem' --ssl-cert './tmp/ssl/fullchain.pem' --host sonub.com --port 443",
     "hmr:sssl:dev": "ng serve --hmr -e=dev --ssl true --ssl-key ./tmp/ssl/privkey.pem --ssl-cert ./tmp/ssl/fullchain.pem --host sonub.com --port 443",
     "hmr:ssl:prod": "ng serve --hmr -e=prod --ssl true --ssl-key './tmp/ssl/privkey.pem' --ssl-cert './tmp/ssl/fullchain.pem' --host sonub.com --port 443",
-    "s": "sudo npm run ssl",
+    "s": "sudo npm run hmr:ssl:dev",
     "publish": "npm run build:prod:aot:www:web && npm run scp-update-patch",
     "republish": "npm run build:prod:aot:www:web && npm run scp",
     "scp": "cd www && scp -r * sonub@www.sonub.com:./www",

@@ -61,13 +61,13 @@ export class PageService extends Base {
 
         this.load(pageName, params).subscribe(html => {
             if (html === cache) {
-                console.log("DATA SAME: Don't do anything");
+                // console.log("DATA SAME: Don't do anything");
                 return;
             }
             let safe = this.share.safe(html);
             callback(safe);
             this.share.setCache(url, html);
-            console.log("Set Cache data: key: ", html);
+            // console.log("Set Cache data: key: ", html);
         }, e => {
             console.error(e);
         });

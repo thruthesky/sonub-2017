@@ -14,12 +14,18 @@ export class ProfilePage implements OnInit {
 
     userData: USER_DATA_RESPONSE = <USER_DATA_RESPONSE>{};
 
+    text: any = {};
     constructor(
         public app: AppService,
         private router: Router
     ) {
         app.section('user');
         this.initProfile();
+        let codes = [
+            'user_profile',
+            'user_profile_desc',
+        ];
+        app.wp.text(codes, re => this.text = re);
     }
 
     ngOnInit() {

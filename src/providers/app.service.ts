@@ -475,8 +475,6 @@ export class AppService extends Base {
         if (callback) callback();
         this.share.bootstrapLoginLogout();
         this.firebaseLogin_ifNot();
-
-
     }
 
     /**

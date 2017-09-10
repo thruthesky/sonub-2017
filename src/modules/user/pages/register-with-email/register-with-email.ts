@@ -43,12 +43,14 @@ export class RegisterWithEmailPage {
         };
         this.app.user.register(data).subscribe( (res: USER_REGISTER_RESPONSE) => {
             // console.log('app.user.register::res', res);
+
+
+            this.app.loginSuccess(); /// @warning @see doc #No-wait
             if (res.session_id) {
                 // console.log('Registration Success::Proceed to Profile Photo');
                 this.router.navigateByUrl('user/register/profile-photo');
             }
             this.loading = false;
-            this.app.loginSuccess();
         }, error => {
             // console.log('app.user.register::error', error);
             this.loading = false;

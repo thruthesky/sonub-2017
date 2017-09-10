@@ -1,38 +1,46 @@
-<h1>User Profile</h1>
-<div *ngIf="app.user.isLogin">
-    <div class="flex p-2 justify-content-center">
-        <div class="profile-user-photo rounded-circle overflow-hidden">
-            <img class="mw-100" src="{{ userData?.photo?.url ? userData?.photo?.url : app.anonymousPhotoURL }}">
+<section class="page profile-page">
+    <header>
+        <h1>{{ text.user_profile }}</h1>
+        <p>{{ text.user_profile_desc }}</p>
+        <nav>
+            <button routerLink="/user/profile/edit">Update</button>
+            <button routerLink="/user/profile/change-password">Logout</button>
+            <button (click)="onClickResign()">Change password</button>
+            <button (click)="logout()">Resign</button>
+        </nav>
+    </header>
+
+
+    <div *ngIf="app.user.isLogin">
+        <div class="flex p-2 justify-content-center">
+            <div class="profile-user-photo rounded-circle overflow-hidden">
+                <img class="mw-100" src="{{ userData?.photo?.url ? userData?.photo?.url : app.anonymousPhotoURL }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="user_email">Email</label>
+            <span class="form-control" id="user_email">{{userData.user_email}}</span>
+        </div>
+        <div class="form-group">
+            <label for="display_name">Name</label>
+            <span class="form-control" id="display_name">{{userData.display_name}}</span>
+        </div>
+
+        <div class="form-group">
+            <label for="mobile">Mobile</label>
+            <span class="form-control" id="mobile">{{userData.mobile}}</span>
+        </div>
+
+        <div class="form-group">
+            <label for="gender">Gender</label>
+            <span class="form-control" id="Gender">{{ userData.gender == 'm' ? 'Male' : 'Female' }}</span>
+        </div>
+
+        <div class="form-group">
+            <label for="birthday">Birthday</label>
+            <span class="form-control" id="birthday">{{userData.birthday}}</span>
         </div>
     </div>
-    <div class="form-group">
-        <label for="user_email">Email</label>
-        <span  class="form-control" id="user_email">{{userData.user_email}}</span>
-    </div>
-    <div class="form-group">
-        <label for="display_name">Name</label>
-        <span  class="form-control" id="display_name">{{userData.display_name}}</span>
-    </div>
 
-    <div class="form-group">
-        <label for="mobile">Mobile</label>
-        <span  class="form-control" id="mobile">{{userData.mobile}}</span>
-    </div>
 
-    <div class="form-group">
-        <label for="gender">Gender</label>
-        <span  class="form-control" id="Gender">{{ userData.gender == 'm' ? 'Male' : 'Female' }}</span>
-    </div>
-
-    <div class="form-group">
-        <label for="birthday">Birthday</label>
-        <span  class="form-control" id="birthday">{{userData.birthday}}</span>
-    </div>
-    <div>
-        <a href="/user/profile/edit" routerLink="/user/profile/edit"><button class="pointer">Update Profile</button></a>
-        <a href="/user/profile/change-password" routerLink="/user/profile/change-password"><button class="pointer">Change Password</button></a>
-        <button class="pointer" (click)="onClickResign()">Resign</button>
-        <button class="pointer" type="button" (click)="logout()">Logout</button>
-    </div>
-
-</div>
+</section>

@@ -4,8 +4,8 @@ body {
     padding: 0;
 }
 
-/// header layout only. no size, no placement.
-section.page {
+/// header layout only. no size, no placment.
+section.page-layout {
     background-color: $background-color;
     .page-header {
         position: fixed;
@@ -59,7 +59,7 @@ section.page {
 
 ///
 /// body column layout. no placement, sizing
-section.page {
+section.page-layout {
     .page-body {
         margin-top: $header-height - $header-border-bottom-height;
         padding: 8px;
