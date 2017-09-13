@@ -10,7 +10,8 @@
       </button>
     <p>{{options.content}}</p>
 </div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary button.class" (click)="activeModal.close('close')">{{ options.button }}</button>
+<div class="modal-footer d-flex justify-content-between">
+    <small *ngIf="options.bottom" class="alert-content-bottom grey">{{ options.bottom }}</small>
+    <button type="button" class="alert-close btn btn-secondary button.class" (click)="activeModal.close('close')">{{ options.button }}</button>
 </div>
 

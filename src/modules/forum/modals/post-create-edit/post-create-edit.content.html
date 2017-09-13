@@ -49,9 +49,9 @@
             </span>
     </div>
     <div>
-        <button *ngIf="options.category" type="submit" class="btn btn-secondary" (click)="onClickSubmit()">{{ app.text('submit_post') }}</button>
-        <button *ngIf="options.post" type="submit" class="btn btn-secondary" (click)="onClickEdit()">{{ app.text('update_post') }}</button>
-        <button type="button" class="btn btn-secondary" (click)="onClickCancel()">{{ app.text('cancel') }}</button>
+        <button *ngIf="options.category" type="submit" class="post-create-button btn btn-secondary" (click)="onClickSubmit()">{{ app.text('submit_post') }}</button>
+        <button *ngIf="options.post" type="submit" class="post-edit-button btn btn-secondary" (click)="onClickEdit()">{{ app.text('update_post') }}</button>
+        <button type="button" class="post-cancel-button btn btn-secondary" (click)="onClickCancel()">{{ app.text('cancel') }}</button>
     </div>
 
 </div>

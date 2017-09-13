@@ -62,7 +62,13 @@ export class AlertModalService extends Base {
    */
   error(e: ERROR_RESPONSE): Promise<any> {
     let content = this.getErrorString(e);
-    return this.open({ class: 'error', title: text('error'), content: content, button: text('close') });
+    return this.open({
+      class: 'error error'+this.getError(e).code,
+      title: text('error'),
+      content: content,
+      bottom: 'Error Code: ' + this.getError(e).code,
+      button: text('close')
+    });
   }
 
 

@@ -13,6 +13,7 @@ export class AlertContent implements OnInit {
     options = {
         title: '',
         content: '',
+        bottom: '',
         button: ''
     };
     constructor(
