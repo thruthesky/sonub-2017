@@ -44,7 +44,7 @@
     "@angular/platform-browser-dynamic": "^4.3.6",
     "@angular/router": "^4.3.6",
     "@angular/service-worker": "^1.0.0-beta.16",
-    "@ng-bootstrap/ng-bootstrap": "^1.0.0-beta.2",
+    "@ng-bootstrap/ng-bootstrap": "^1.0.0-beta.4",
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.5.0",
     "firebase": "^4.3.1",
