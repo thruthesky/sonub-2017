@@ -1,0 +1,27 @@
+.buyandsell-view-page {
+
+    .items {
+        overflow: auto;
+        .item-mini {
+            float: left;
+            width: 65px;
+            img {
+                padding: 0 .2em .2em;
+                max-width: 100%;
+            }
+        }
+        .item-preview {
+            margin-left: 65px;
+            padding: 0 .5em;
+            img {
+                width: 100%;
+                max-width: 100%;
+            }
+
+        }
+
+    }
+    #description {
+        word-break: break-all;
+    }
+}
