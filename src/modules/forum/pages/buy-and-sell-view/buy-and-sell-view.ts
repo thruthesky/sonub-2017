@@ -19,6 +19,8 @@ export class BuyAndSellViewPage implements OnInit {
     selectedImage: string;
 
     ID: number;
+    text: any = {};
+
 
     constructor(
         public app: AppService,
@@ -37,6 +39,12 @@ export class BuyAndSellViewPage implements OnInit {
                     if (buyAndSell.files.length) this.selectedImage = buyAndSell.files[0].url;
                 }, e => this.app.warning(e));
         }
+
+        let codes = [
+            'job_edit_create',
+            'job_edit_create_desc',
+        ];
+        app.wp.text(codes, re => this.text = re);
 
     }
 
