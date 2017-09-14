@@ -27,11 +27,13 @@
 @import './app/app.component';
 @import './modules/forum/pages/list/list';
 @import './modules/user/pages/profile/profile';
+@import './modules/user/pages/register-profile-photo/register-profile-photo';
 @import './modules/user/pages/profile-edit/profile-edit';
 
 @import './modules/advertisement/pages/advertisement-list/advertisement-list';
 
 @import './modules/forum/pages/job-list/job-list';
+@import './modules/forum/pages/job-create-edit/job-create-edit';
 @import './modules/forum/pages/buy-and-sell-list/buy-and-sell-list';
 
 // @import './modules/etc/pages/menu/menu';

@@ -38,6 +38,8 @@ export class BuyAndSellCreateEditPage {
 
     errorMessage: string = null;
     loading: boolean = false;
+    text: any = {};
+
 
     constructor(
         private region: PhilippineRegion,
@@ -51,6 +53,12 @@ export class BuyAndSellCreateEditPage {
             this.provinces = re;
         }, () => {
         });
+
+        let codes = [
+            'buyandsell_edit_create',
+            'buyandsell_edit_create_desc',
+        ];
+        app.wp.text(codes, re => this.text = re);
 
         if( !app.user.isLogin ) {
             this.app.warning( error( ERROR.LOGIN_FIRST) );

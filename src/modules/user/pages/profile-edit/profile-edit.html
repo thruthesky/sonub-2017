@@ -1,79 +1,85 @@
-<h1>Profile Update</h1>
-<div *ngIf="app.user.isLogin">
-    <div class="text-center mb-3">
-        <div class="profile-user d-inline-block">
+<section class="page profile-edit-page">
+    <header>
+        <h1>{{ text.user_profile_edit }}</h1>
+        <p>{{ text.user_profile_edit_desc }}</p>
+    </header>
+
+    <main class="bg-white p-3" *ngIf="app.user.isLogin">
+        <div class="text-center mb-3">
+            <div class="profile-user d-inline-block">
             <span class="profile-user-photo">
                 <img *ngIf="files"
                      src="{{files[0]?.url ? files[0].url : app.anonymousPhotoURL}}"
                      (click)="fileUploadWidget.onClickCamera()"
                 >
             </span>
-            <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadWidget.onChangeFile($event)">
-            <div>
-                <button (click)="fileUploadWidget.onClickCamera()">Change Profile</button>
-            </div>
-            <file-upload-widget
-                #fileUploadWidget
-                [title]="false"
-                [fileSelectionButton]="false"
-                [files]="files"
-                [showUploadedFiles]="false"
-                (success)="onSuccessUpdateProfilePicture()"
-            ></file-upload-widget>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="user1">Email Address</label>
-        <input type="text" class="form-control" id="user1" name="user_email" placeholder="Email Address"
-               [(ngModel)]="user_email">
-    </div>
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" name="name" placeholder="Name" [(ngModel)]="name">
-    </div>
-
-    <div class="form-group">
-        <label>Gender</label>
-        <div class="form-control">
-            <div class="row">
-                <label for="male" class="col-6 mb-0">
-                    <input type="radio" name="gender" id="male" [(ngModel)]="gender" value="m">
-                    <span>Male</span>
-                </label>
-                <label for="female" class="col-6 mb-0">
-                    <input type="radio" name="gender" id="female" [(ngModel)]="gender" value="f">
-                    <span>Female</span>
-                </label>
+                <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadWidget.onChangeFile($event)">
+                <nav class="buttons">
+                    <button type="button" (click)="fileUploadWidget.onClickCamera()">Change Profile</button>
+                </nav>
+                <file-upload-widget
+                    #fileUploadWidget
+                    [title]="false"
+                    [fileSelectionButton]="false"
+                    [files]="files"
+                    [showUploadedFiles]="false"
+                    (success)="onSuccessUpdateProfilePicture()"
+                ></file-upload-widget>
             </div>
         </div>
-    </div>
+        <div class="form-group">
+            <label for="user1">Email Address</label>
+            <input type="text" class="form-control" id="user1" name="user_email" placeholder="Email Address"
+                   [(ngModel)]="user_email">
+        </div>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Name" [(ngModel)]="name">
+        </div>
 
-
-    <div class="form-group">
-        <label>Birthday</label>
-        <div class="input-group">
-            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="birthday" ngbDatepicker
-                   [placement]="'top'" #b="ngbDatepicker">
-            <div class="input-group-addon pointer" (click)="b.toggle()">
-                <i class="fa fa-calendar"></i>
+        <div class="form-group">
+            <label>Gender</label>
+            <div class="form-control">
+                <div class="row">
+                    <label for="male" class="col-6 mb-0">
+                        <input type="radio" name="gender" id="male" [(ngModel)]="gender" value="m">
+                        <span>Male</span>
+                    </label>
+                    <label for="female" class="col-6 mb-0">
+                        <input type="radio" name="gender" id="female" [(ngModel)]="gender" value="f">
+                        <span>Female</span>
+                    </label>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="mobile">Mobile</label>
-        <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobile" [(ngModel)]="mobile">
-    </div>
-    <div *ngIf="errorMessage">
-        <div id="error_message" class="alert alert-danger" role="alert">{{this.errorMessage}}</div>
-    </div>
 
-    <div *ngIf="loading" class="alert alert-info" role="alert">
-        <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
-        <span>Loading...</span>
-    </div>
-    <div class="pointers">
-        <button type="button" (click)="onSubmitUpdateUserInfo()">Save</button>
-        <button type="button" routerLink="/profile">Cancel</button>
-    </div>
 
-</div>
+        <div class="form-group">
+            <label>Birthday</label>
+            <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="birthday" ngbDatepicker
+                       [placement]="'top'" #b="ngbDatepicker">
+                <div class="input-group-addon pointer" (click)="b.toggle()">
+                    <i class="fa fa-calendar"></i>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="mobile">Mobile</label>
+            <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobile" [(ngModel)]="mobile">
+        </div>
+        <div *ngIf="errorMessage">
+            <div id="error_message" class="alert alert-danger" role="alert">{{this.errorMessage}}</div>
+        </div>
+
+        <div *ngIf="loading" class="alert alert-info" role="alert">
+            <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+            <span>Loading...</span>
+        </div>
+        <nav class="buttons">
+            <button type="button" (click)="onSubmitUpdateUserInfo()">Save</button>
+            <button type="button" routerLink="/profile">Cancel</button>
+        </nav>
+
+    </main>
+</section>

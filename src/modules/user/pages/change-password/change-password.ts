@@ -14,17 +14,24 @@ import {Router} from "@angular/router";
 
 export class ChangePasswordPage {
 
-
     new_password: string = null;
     old_password: string = null;
 
     errorMessage: string = null;
     loading: boolean = false;
 
+    text: any = {};
 
     constructor(public app: AppService,
                 private router: Router) {
         app.section('user');
+
+
+        let codes = [
+            'user_change_password',
+            'user_change_password_desc',
+        ];
+        app.wp.text(codes, re => this.text = re);
     }
 
     onSubmitChangePassword() {
