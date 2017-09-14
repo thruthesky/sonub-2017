@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from "@angular/router";
-import {USER_REGISTER, USER_REGISTER_RESPONSE} from "../../../../providers/wordpress-api/interface";
+import { USER_REGISTER, USER_REGISTER_RESPONSE } from "../../../../providers/wordpress-api/interface";
 import { AppService } from "../../../../providers/app.service";
 import { FileUploadWidget } from "../../../../widgets/file-upload/file-upload";
 
@@ -21,18 +21,28 @@ export class RegisterWithEmailPage {
     loading: boolean = false;
 
     constructor(public app: AppService,
-                private router: Router
+        private router: Router
     ) {
         app.section('user');
         app.page.cache('register-header1', {}, html => this.registerHeaderHTML1 = html);
     }
 
 
+    error(code, message) {
+        let e = {
+            code: code,
+            message: message
+        };
+        this.errorMessage = e.message;
+        this.app.warning(e);
+        return;
+    }
     onSubmitRegister() {
-        // console.log('onClickUserRegister::');
+        console.log('onClickUserRegister::');
+
         this.errorMessage = null;
-        if (!this.user_email && this.user_email.length == 0) return this.errorMessage = '*Email is required';
-        if (!this.user_pass && this.user_pass.length == 0) return this.errorMessage = '*Password is required';
+        if (!this.user_email && this.user_email.length == 0) return this.error(-8071, 'Email is required');
+        if (!this.user_pass && this.user_pass.length == 0) return this.error(-8072, 'Password is required');
 
         this.loading = true;
         let data: USER_REGISTER = {
@@ -55,7 +65,9 @@ export class RegisterWithEmailPage {
             // console.log('app.user.register::error', error);
             this.loading = false;
             this.app.warning(error);
+            // alert( JSON.parse(error));
             this.errorMessage = this.app.getErrorString(error);
+
         });
     }
 }
