@@ -43,6 +43,7 @@ export class JobCreateEditPage {
     today = (new Date());
 
     numbers = Array.from(new Array(20), (x, i) => i + 1);
+    text: any = {};
 
     constructor(private region: PhilippineRegion,
                 private router: Router,
@@ -54,6 +55,13 @@ export class JobCreateEditPage {
             this.provinces = re;
         }, () => {
         });
+
+
+        let codes = [
+            'job_edit_create',
+            'job_edit_create_desc',
+        ];
+        app.wp.text(codes, re => this.text = re);
 
         dateConfig.minDate = {year: 1946, month: 1, day: 1};
         dateConfig.maxDate = {year: this.today.getFullYear() - 14, month: 12, day: 31};

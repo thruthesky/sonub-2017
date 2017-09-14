@@ -1,63 +1,69 @@
-<div class="container">
-    <h3>{{product?.title}}</h3>
-    <div class="text-center mb-1">
-        <img class="selected-image w-50 mw-100" src="{{selectedImage}}">
-    </div>
-    <div>
-        <img class="list-image w-25 mb-1"
-             *ngFor="let file of product?.files"
-             src="{{file.url}}"
-             (click)="selectedImage = file.url"
-        >
-    </div>
-
-    <div class="form-group">
-        <label for="tag">Tag</label>
-        <span type="text" class="form-control" id="tag">{{product?.tag}}</span>
-    </div>
-    <div class="form-group">
-        <label for="description">Description</label>
-        <span type="text" class="form-control" id="description" style="white-space: pre-line;">{{product?.description}}</span>
-    </div>
-
-    <div class="form-group">
-        <label for="province">Location</label>
-        <span type="text" class="form-control" id="province">{{product?.province}}</span>
-    </div>
-    <div class="form-group">
-        <label for="city">City</label>
-        <span type="text" class="form-control" id="city">{{product?.city}}</span>
-    </div>
-
-    <div class="form-group">
-        <label for="usedItem">Is it Used</label>
-    <span type="text" class="form-control" id="usedItem">{{used}}</span>
-    </div>
-    <div class="form-group">
-        <label for="deliverable">Can it be Delivered</label>
-        <span type="text" class="form-control" id="deliverable">{{deliverable}}</span>
-    </div>
-
-    <div class="form-group">
-        <label for="price">Price</label>
-        <span type="text" class="form-control" id="price">{{product?.price}}</span>
-    </div>
-
-    <div class="form-group">
-        <label for="contact">Contact Information</label>
-        <span type="text" class="form-control" id="contact">{{product?.contact}}</span>
-    </div>
-
-    <div class="mt-1 p-1" *ngIf=" app.my(product) && app.user.isLogin">
-        <div class="row">
-            <div class="text-center pointer col-6 p-0" routerLink="/buyandsell/edit/{{product?.ID}}">
-                <i class="fa fa-pencil"></i> Update
+<section class="page buyandsell-view-page">
+    <header>
+        <h1>{{ text.buyandsell_view }}</h1>
+        <p>{{ text.buyandsell_view_desc }}</p>
+    </header>
+    <main class="bg-white p-3">
+        <div class="items">
+            <div class="item-mini">
+                <img
+                     *ngFor="let file of product?.files"
+                     src="{{file.url}}"
+                     (click)="selectedImage = file.url"
+                >
             </div>
-            <div class="text-center pointer col-6 p-0"
-                 (click)="onClickDelete( product )"><i class="fa fa-trash-o"></i> Delete
+            <div class="item-preview">
+                <img class="selected-image" src="{{selectedImage}}">
             </div>
         </div>
-    </div>
 
+        <div class="form-group">
+            <label for="tag">Tag</label>
+            <span type="text" class="form-control" id="tag">{{product?.tag}}</span>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <span type="text" class="form-control" id="description"
+                  style="white-space: pre-line;">{{product?.description}}</span>
+        </div>
 
-</div>
+        <div class="form-group">
+            <label for="province">Location</label>
+            <span type="text" class="form-control" id="province">{{product?.province}}</span>
+        </div>
+        <div class="form-group">
+            <label for="city">City</label>
+            <span type="text" class="form-control" id="city">{{product?.city}}</span>
+        </div>
+
+        <div class="form-group">
+            <label for="usedItem">Is it Used</label>
+            <span type="text" class="form-control" id="usedItem">{{used}}</span>
+        </div>
+        <div class="form-group">
+            <label for="deliverable">Can it be Delivered</label>
+            <span type="text" class="form-control" id="deliverable">{{deliverable}}</span>
+        </div>
+
+        <div class="form-group">
+            <label for="price">Price</label>
+            <span type="text" class="form-control" id="price">{{product?.price}}</span>
+        </div>
+
+        <div class="form-group">
+            <label for="contact">Contact Information</label>
+            <span type="text" class="form-control" id="contact">{{product?.contact}}</span>
+        </div>
+
+        <div class="mt-1 p-1" *ngIf=" app.my(product) && app.user.isLogin">
+            <div class="row">
+                <div class="text-center pointer col-6 p-0" routerLink="/buyandsell/edit/{{product?.ID}}">
+                    <i class="fa fa-pencil"></i> Update
+                </div>
+                <div class="text-center pointer col-6 p-0"
+                     (click)="onClickDelete( product )"><i class="fa fa-trash-o"></i> Delete
+                </div>
+            </div>
+        </div>
+    </main>
+</section>

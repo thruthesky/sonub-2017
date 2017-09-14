@@ -34,6 +34,8 @@ export class ProfileEditPage implements OnInit {
 
     now = (new Date());
 
+    text: any = {};
+
     constructor(
         public app: AppService,
         private router: Router,
@@ -43,6 +45,11 @@ export class ProfileEditPage implements OnInit {
         dateConfig.minDate = {year: 1956, month: 1, day: 1};
         dateConfig.maxDate = {year: this.now.getFullYear(), month: 12, day: 31};
         this.initProfile();
+        let codes = [
+            'user_profile_edit',
+            'user_profile_edit_desc',
+        ];
+        app.wp.text(codes, re => this.text = re);
     }
 
     ngOnInit() {

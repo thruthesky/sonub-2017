@@ -1,121 +1,128 @@
-<div class="container">
-    <h3>Buy And Sell Create and Edit</h3>
-    <form>
-        <div class="form-group">
-            <label for="tag">Product Tag's</label>
-            <input type="text" class="form-control" id="tag" name="tag"
-                   placeholder="What are you selling"
-                   [(ngModel)]="tag">
-            <small class="form-text text-muted">Input tags separated by comma.(car, phone, house and lot, etc.)</small>
-        </div>
-
-
-        <div class="form-group">
-            <label>Is it Used?</label>
-            <div class="form-control">
-                <div class="form-check mb-0">
-                    <label for="usedItem1" class="form-check-label">
-                        <input type="radio" name="usedItem" id="usedItem1" [(ngModel)]="usedItem" value="y">
-                        <span>Yes</span>
-                    </label>
-                    <label for="usedItem2" class="form-check-label">
-                        <input type="radio" name="usedItem" id="usedItem2" [(ngModel)]="usedItem" value="n">
-                        <span>No</span>
-                    </label>
-                    <label for="usedItem3" class="form-check-label">
-                        <input type="radio" name="usedItem" id="usedItem3" [(ngModel)]="usedItem" value="na">
-                        <span>Not Applicable</span>
-                    </label>
-                </div>
+<section class="page buyandsell-create-edit-page">
+    <header>
+        <h1>{{ text.buyandsell_edit_create }}</h1>
+        <p>{{ text.buyandsell_edit_create_desc }}</p>
+    </header>
+    <main class="bg-white p-3">
+        <form>
+            <div class="form-group">
+                <label for="tag">Product Tag's</label>
+                <input type="text" class="form-control" id="tag" name="tag"
+                       placeholder="What are you selling"
+                       [(ngModel)]="tag">
+                <small class="form-text text-muted">Input tags separated by comma.(car, phone, house and lot, etc.)
+                </small>
             </div>
-            <small class="form-text text-muted">Yes, 2nd hand. No, Unused. or Not Applicable.</small>
-        </div>
 
-        <div class="form-group">
-            <label for="province">Location</label>
-            <select class="form-control custom-select" id="province" name="province" [(ngModel)]="province"
-                    (change)="onClickProvince()">
-                <option value="all">Select Province</option>
-                <option *ngFor="let province of provinces" [value]="province">{{province}}</option>
-            </select>
-        </div>
 
-        <div *ngIf="showCities" class="form-group">
-            <label for="city">City</label>
-            <select class="form-control custom-select" id="city" name="city" [(ngModel)]="city">
-                <option *ngFor="let key of cityKeys" [value]="key">{{cities[key]}}</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>Deliverable</label>
-            <div class="form-control">
-                <div class="form-check mb-0">
-                    <label for="deliver1" class="form-check-label">
-                        <input type="radio" name="deliver" id="deliver1" [(ngModel)]="deliverable" value="y">
-                        <span>Yes</span>
-                    </label>
-                    <label for="usedItem2" class="form-check-label">
-                        <input type="radio" name="deliver" id="deliver2" [(ngModel)]="deliverable" value="n">
-                        <span>No</span>
-                    </label>
+            <div class="form-group">
+                <label>Is it Used?</label>
+                <div class="form-control">
+                    <div class="form-check mb-0">
+                        <label for="usedItem1" class="form-check-label">
+                            <input type="radio" name="usedItem" id="usedItem1" [(ngModel)]="usedItem" value="y">
+                            <span>Yes</span>
+                        </label>
+                        <label for="usedItem2" class="form-check-label">
+                            <input type="radio" name="usedItem" id="usedItem2" [(ngModel)]="usedItem" value="n">
+                            <span>No</span>
+                        </label>
+                        <label for="usedItem3" class="form-check-label">
+                            <input type="radio" name="usedItem" id="usedItem3" [(ngModel)]="usedItem" value="na">
+                            <span>Not Applicable</span>
+                        </label>
+                    </div>
                 </div>
+                <small class="form-text text-muted">Yes, 2nd hand. No, Unused. or Not Applicable.</small>
             </div>
-            <small class="form-text text-muted">Yes, it can be delivered. No, not applicable.</small>
-        </div>
 
-        <div class="form-group">
-            <label for="price">Price</label>
-            <input type="number" class="form-control" name="price" id="price" placeholder="Unit Price"
-                   [(ngModel)]="price">
-            <small class="form-text text-muted">Unit price must be in philippine peso.</small>
-        </div>
+            <div class="form-group">
+                <label for="province">Location</label>
+                <select class="form-control custom-select" id="province" name="province" [(ngModel)]="province"
+                        (change)="onClickProvince()">
+                    <option value="all">Select Province</option>
+                    <option *ngFor="let province of provinces" [value]="province">{{province}}</option>
+                </select>
+            </div>
 
+            <div *ngIf="showCities" class="form-group">
+                <label for="city">City</label>
+                <select class="form-control custom-select" id="city" name="city" [(ngModel)]="city">
+                    <option *ngFor="let key of cityKeys" [value]="key">{{cities[key]}}</option>
+                </select>
+            </div>
 
-        <div class="form-group">
-            <label for="title">Title</label>
-            <input type="text" class="form-control" id="title" name="title"
-                   placeholder="Short description, model name, unit etc..."
-                   [(ngModel)]="title">
-            <small class="form-text text-muted">Summary of the product you are selling.</small>
-        </div>
+            <div class="form-group">
+                <label>Deliverable</label>
+                <div class="form-control">
+                    <div class="form-check mb-0">
+                        <label for="deliver1" class="form-check-label">
+                            <input type="radio" name="deliver" id="deliver1" [(ngModel)]="deliverable" value="y">
+                            <span>Yes</span>
+                        </label>
+                        <label for="usedItem2" class="form-check-label">
+                            <input type="radio" name="deliver" id="deliver2" [(ngModel)]="deliverable" value="n">
+                            <span>No</span>
+                        </label>
+                    </div>
+                </div>
+                <small class="form-text text-muted">Yes, it can be delivered. No, not applicable.</small>
+            </div>
 
-        <div class="form-group">
-            <label for="description">Description</label>
-            <textarea class="form-control" id="description" name="description"
-                      placeholder="Details of what you are selling..."
-                      [(ngModel)]="description"></textarea>
-            <small class="form-text text-muted">Detailed information of what are you trying to sell.</small>
-        </div>
-
-        <div class="form-group">
-            <label for="contact">Contact Info</label>
-            <input type="text" class="form-control" id="contact" name="contact" placeholder="Contact information"
-                   [(ngModel)]="contact">
-            <small class="form-text text-muted">Mobile Number,Email Address, etc.</small>
-        </div>
-
-
-        <div class="text-center mb-3">
-            <file-upload-widget
-                #fileUploadWidget
-                [title]="false"
-                [files]="files"
-            ></file-upload-widget>
-        </div>
-
-        <div *ngIf="errorMessage">
-            <div id="error_message" class="alert alert-danger" role="alert">{{this.errorMessage}}</div>
-        </div>
-
-        <div class="alert alert-info" role="alert" *ngIf="loading">
-            <i class="fa fa-spinner fa-spin"></i>
-            <span>Loading...</span>
-        </div>
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="number" class="form-control" name="price" id="price" placeholder="Unit Price"
+                       [(ngModel)]="price">
+                <small class="form-text text-muted">Unit price must be in philippine peso.</small>
+            </div>
 
 
-        <div class="form-group mb-3">
-            <button type="button" class="btn btn-primary btn-block pointer" (click)="onClickSubmit()">Submit</button>
-        </div>
-    </form>
-</div>
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="title" name="title"
+                       placeholder="Short description, model name, unit etc..."
+                       [(ngModel)]="title">
+                <small class="form-text text-muted">Summary of the product you are selling.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" name="description"
+                          placeholder="Details of what you are selling..."
+                          [(ngModel)]="description"></textarea>
+                <small class="form-text text-muted">Detailed information of what are you trying to sell.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="contact">Contact Info</label>
+                <input type="text" class="form-control" id="contact" name="contact" placeholder="Contact information"
+                       [(ngModel)]="contact">
+                <small class="form-text text-muted">Mobile Number,Email Address, etc.</small>
+            </div>
+
+
+            <div class="text-center mb-3">
+                <file-upload-widget
+                    #fileUploadWidget
+                    [title]="false"
+                    [files]="files"
+                ></file-upload-widget>
+            </div>
+
+            <div *ngIf="errorMessage">
+                <div id="error_message" class="alert alert-danger" role="alert">{{this.errorMessage}}</div>
+            </div>
+
+            <div class="alert alert-info" role="alert" *ngIf="loading">
+                <i class="fa fa-spinner fa-spin"></i>
+                <span>Loading...</span>
+            </div>
+
+
+            <div class="form-group mb-3">
+                <button type="button" class="btn btn-primary btn-block pointer" (click)="onClickSubmit()">Submit
+                </button>
+            </div>
+        </form>
+    </main>
+</section>

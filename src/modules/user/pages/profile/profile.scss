@@ -7,10 +7,10 @@ $profile-user-photo-size: 200px;
     vertical-align: middle;
     overflow: hidden;
     img {
-        margin:0;
         display: block;
         width: $profile-user-photo-size - 2px;
         height: $profile-user-photo-size - 2px;
+        margin:0;
         border-radius: 50%;
     }
 }

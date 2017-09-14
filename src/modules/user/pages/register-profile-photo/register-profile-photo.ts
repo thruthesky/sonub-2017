@@ -20,8 +20,6 @@ export class RegisterProfilePhotoPage {
     ) {
         app.section('user');
         app.page.cache('register-header2', {}, html => this.registerHeaderHTML2 = html );
-
-        if( this.app.user.photoURL ) this.files[0]['url'] = this.app.user.photoURL;
     }
 
     onSuccessUpdateProfilePicture() {

@@ -1,150 +1,156 @@
-<div class="container">
-    <h1>Job create and update</h1>
-    <form>
-        <div class="form-group">
+<section class="page job-create-edit-page">
+    <header>
+        <h1>{{ text.job_edit_create }}</h1>
+        <p>{{ text.job_edit_create_desc }}</p>
+    </header>
+    <main class="bg-white p-3">
+        <form>
+            <div class="form-group">
 
-            <div class="text-center w-100 mb-3">
-                <div class="profile-user d-inline-block">
+                <div class="text-center w-100 mb-3">
+                    <div class="profile-user d-inline-block">
                         <span class="profile-user-photo">
                             <img *ngIf="files"
                                  src="{{files[0]?.url ? files[0].url : app.anonymousPhotoURL}}"
                                  (click)="fileUploadWidget.onClickCamera()"
                             >
                         </span>
-                    <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadWidget.onChangeFile($event)">
-                    <div>
-                        <button (click)="fileUploadWidget.onClickCamera()">Change Profile</button>
+                        <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadWidget.onChangeFile($event)">
+                        <nav class="buttons">
+                            <button (click)="fileUploadWidget.onClickCamera()">Change Profile</button>
+                        </nav>
+                        <file-upload-widget
+                            #fileUploadWidget
+                            [title]="false"
+                            [fileSelectionButton]="false"
+                            [files]="files"
+                            [showUploadedFiles]="false"
+                            (success)="onSuccessUpdateJobProfile()"
+                        ></file-upload-widget>
                     </div>
-                    <file-upload-widget
-                        #fileUploadWidget
-                        [title]="false"
-                        [fileSelectionButton]="false"
-                        [files]="files"
-                        [showUploadedFiles]="false"
-                        (success)="onSuccessUpdateJobProfile()"
-                    ></file-upload-widget>
                 </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label for="firstName">First Name</label>
-            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name"
-                   [(ngModel)]="firstName">
-        </div>
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name"
+                       [(ngModel)]="firstName">
+            </div>
 
-        <div class="form-group">
-            <label for="middleName">Middle Name</label>
-            <input type="text" class="form-control" id="middleName" name="middleName" placeholder="Middle Name"
-                   [(ngModel)]="middleName">
-        </div>
+            <div class="form-group">
+                <label for="middleName">Middle Name</label>
+                <input type="text" class="form-control" id="middleName" name="middleName" placeholder="Middle Name"
+                       [(ngModel)]="middleName">
+            </div>
 
-        <div class="form-group">
-            <label for="firstName">Last Name</label>
-            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name"
-                   [(ngModel)]="lastName">
-        </div>
+            <div class="form-group">
+                <label for="firstName">Last Name</label>
+                <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name"
+                       [(ngModel)]="lastName">
+            </div>
 
-        <div class="form-group">
-            <label for="mobile">Mobile</label>
-            <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobile Number"
-                   [(ngModel)]="mobile">
-        </div>
+            <div class="form-group">
+                <label for="mobile">Mobile</label>
+                <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobile Number"
+                       [(ngModel)]="mobile">
+            </div>
 
-        <div class="form-group">
-            <label for="address">Address</label>
-            <input type="text" class="form-control" id="address" name="address" placeholder="Address"
-                   [(ngModel)]="address">
-        </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" class="form-control" id="address" name="address" placeholder="Address"
+                       [(ngModel)]="address">
+            </div>
 
-        <div class="form-group">
-            <label>Province</label>
-            <select class="form-control custom-select pointer" id="province" name="province" [(ngModel)]="province"
-                    (change)="onClickProvince()">
-                <option value="all">All</option>
-                <option *ngFor="let province of provinces" [value]="province">{{province}}</option>
-            </select>
-        </div>
+            <div class="form-group">
+                <label>Province</label>
+                <select class="form-control custom-select pointer" id="province" name="province" [(ngModel)]="province"
+                        (change)="onClickProvince()">
+                    <option value="all">All</option>
+                    <option *ngFor="let province of provinces" [value]="province">{{province}}</option>
+                </select>
+            </div>
 
-        <div *ngIf="showCities" class="form-group">
-            <label>City</label>
-            <select class="form-control custom-select pointer" id="city" name="city" [(ngModel)]="city">
-                <option *ngFor="let key of cityKeys" [value]="key">{{cities[key]}}</option>
-            </select>
-        </div>
+            <div *ngIf="showCities" class="form-group">
+                <label>City</label>
+                <select class="form-control custom-select pointer" id="city" name="city" [(ngModel)]="city">
+                    <option *ngFor="let key of cityKeys" [value]="key">{{cities[key]}}</option>
+                </select>
+            </div>
 
-        <div class="form-group">
-            <label>Birthday</label>
+            <div class="form-group">
+                <label>Birthday</label>
 
-            <div class="input-group">
-                <input class="form-control"
-                       placeholder="yyyy-mm-dd"
-                       name="dp" [(ngModel)]="birthday"
-                       ngbDatepicker
-                       [placement]="'top'"
-                       #b="ngbDatepicker">
-                <div class="input-group-addon pointer" (click)="b.toggle()">
-                    <i class="fa fa-calendar"></i>
+                <div class="input-group">
+                    <input class="form-control"
+                           placeholder="yyyy-mm-dd"
+                           name="dp" [(ngModel)]="birthday"
+                           ngbDatepicker
+                           [placement]="'top'"
+                           #b="ngbDatepicker">
+                    <div class="input-group-addon pointer" (click)="b.toggle()">
+                        <i class="fa fa-calendar"></i>
+                    </div>
                 </div>
             </div>
-        </div>
 
 
-        <div class="form-group">
-            <label>Gender</label>
-            <div class="form-control">
-                <div class="form-check">
-                    <label for="male" class="form-check-label">
-                        <input type="radio" name="gender" id="male" [(ngModel)]="gender" value="m">
-                        <span>Male</span>
-                    </label>
-                    <label for="female" class="form-check-label">
-                        <input type="radio" name="gender" id="female" [(ngModel)]="gender" value="f">
-                        <span>Female</span>
-                    </label>
+            <div class="form-group">
+                <label>Gender</label>
+                <div class="form-control">
+                    <div class="form-check">
+                        <label for="male" class="form-check-label">
+                            <input type="radio" name="gender" id="male" [(ngModel)]="gender" value="m">
+                            <span>Male</span>
+                        </label>
+                        <label for="female" class="form-check-label">
+                            <input type="radio" name="gender" id="female" [(ngModel)]="gender" value="f">
+                            <span>Female</span>
+                        </label>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label>Experience</label>
-            <select class="form-control custom-select pointer" id="workExperience" name="workExperience"
-                    [(ngModel)]="experience">
-                <option [value]="0">No work Experience</option>
-                <option [value]="3">3 months</option>
-                <option [value]="6">6 months</option>
-                <option [value]="9">9 months</option>
-                <option *ngFor="let number of numbers" [value]="number*12">{{number}} years</option>
-            </select>
-        </div>
-
-
-        <div class="form-group">
-            <label>Profession</label>
-            <select class="form-control custom-select pointer" id="workProfession" name="workProfession"
-                    [(ngModel)]="profession">
-                <option value="housemaid">House Maid</option>
-                <option value="driver">Driver</option>
-                <option value="babysitter">Babysitter</option>
-            </select>
-        </div>
+            <div class="form-group">
+                <label>Experience</label>
+                <select class="form-control custom-select pointer" id="workExperience" name="workExperience"
+                        [(ngModel)]="experience">
+                    <option [value]="0">No work Experience</option>
+                    <option [value]="3">3 months</option>
+                    <option [value]="6">6 months</option>
+                    <option [value]="9">9 months</option>
+                    <option *ngFor="let number of numbers" [value]="number*12">{{number}} years</option>
+                </select>
+            </div>
 
 
-        <div *ngIf=" !app.user.isLogin " class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Password"
-                   [(ngModel)]="password">
-        </div>
-
-        <div class="form-group">
-            <label for="content">Message</label>
-            <textarea class="form-control" id="content" name="content" placeholder="Personal Message"
-                      [(ngModel)]="message"></textarea>
-        </div>
+            <div class="form-group">
+                <label>Profession</label>
+                <select class="form-control custom-select pointer" id="workProfession" name="workProfession"
+                        [(ngModel)]="profession">
+                    <option value="housemaid">House Maid</option>
+                    <option value="driver">Driver</option>
+                    <option value="babysitter">Babysitter</option>
+                </select>
+            </div>
 
 
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block pointer" (click)="onClickSubmit()">Submit</button>
-        </div>
-    </form>
-</div>
+            <div *ngIf=" !app.user.isLogin " class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password"
+                       [(ngModel)]="password">
+            </div>
+
+            <div class="form-group">
+                <label for="content">Message</label>
+                <textarea class="form-control" id="content" name="content" placeholder="Personal Message"
+                          [(ngModel)]="message"></textarea>
+            </div>
+
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block pointer" (click)="onClickSubmit()">Submit
+                </button>
+            </div>
+        </form>
+    </main>
+</section>

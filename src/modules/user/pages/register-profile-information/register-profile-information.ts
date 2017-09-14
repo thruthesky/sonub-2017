@@ -24,6 +24,7 @@ export class RegisterProfileInformationPage {
     loading: boolean = false;
 
     today = (new Date());
+    text: any = {};
 
     constructor(
         public app: AppService,
@@ -33,6 +34,12 @@ export class RegisterProfileInformationPage {
         app.section('user');
         dateConfig.minDate = {year: 1956, month: 1, day: 1};
         dateConfig.maxDate = {year: this.today.getFullYear(), month: 12, day: 31};
+
+        let codes = [
+            'user_register_information',
+            'user_register_information_desc',
+        ];
+        app.wp.text(codes, re => this.text = re);
 
         this.birthday = {
             year: this.today.getFullYear(),
