@@ -1,41 +1,41 @@
-<post-view-widget *ngIf="post" [post]="post"></post-view-widget>
-<!-- <post-create-fake-widget></post-create-fake-widget> -->
+<ng-container *ngIf="post">
+<post-view-widget [post]="post"></post-view-widget>
+<post-list-full-widget [category]="post.slug" [except]="post"></post-list-full-widget>
+</ng-container>
 
-<div class="home-form box-border">
-    <ul class="home-form-header pointers">
-        <li routerLink="/forum/discussion/create">{{ app.text('start_discussion') }}</li>
-        <li routerLink="/forum/qna/create">{{ app.text('ask') }}</li>
-        <li><a href="/buyandsell" routerLink="/buyandsell">{{ app.text('sell') }}</a></li>
-        <li><a href="/job" routerLink="/job">{{ app.text('hire') }}</a></li>
-    </ul>
+<ng-container *ngIf="!post">
+    <div class="home-form box-border">
+        <ul class="home-form-header pointers">
+            <li routerLink="/forum/discussion/create">{{ app.text('start_discussion') }}</li>
+            <li routerLink="/forum/qna/create">{{ app.text('ask') }}</li>
+            <li><a href="/buyandsell" routerLink="/buyandsell">{{ app.text('sell') }}</a></li>
+            <li><a href="/job" routerLink="/job">{{ app.text('hire') }}</a></li>
+        </ul>
 
-    <div class="home-form-text" routerLink="/forum/discussion/create">
-        <img class="size-36px" src="{{ app.userPhotoUrl }}"> What are you thinking{{ app.user.isLogin ? ", " + app.user.name
-        : '' }}?
+        <div class="home-form-text" routerLink="/forum/discussion/create">
+            <img class="size-36px" src="{{ app.userPhotoUrl }}"> What are you thinking{{ app.user.isLogin ? ", " + app.user.name
+            : '' }}?
+        </div>
+        <hr>
+        <div class="home-form-footer d-flex justify-content-between fs-xs">
+            <div class="left flex">
+                <div class="home-form-footer-button photo-button" routerLink="/forum/discussion/create">
+                    <i class="fa fa-photo" aria-hidden="true"></i>
+                    <span>{{ app.text('upload_photo') }}</span>
+                </div>
+                <div class="home-form-footer-button advertisement-button" routerLink="/advertisement-guide-page">
+                    <a href="/advertisement-guide-page" routerLink="/advertisement-guide-page">{{ app.text('create_ad') }}</a>
+                </div>
+            </div>
+
+            <div class="right home-form-footer-button post-button" routerLink="/forum/discussion/create">
+                <span class="d-sm-none"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                <span class="hidden-360-down">{{ app.text('create_a_post') }}</span>
+            </div>
+
+        </div>
+
     </div>
     <hr>
-    <div class="home-form-footer d-flex justify-content-between fs-xs">
-        <div class="left flex">
-            <div class="home-form-footer-button photo-button" routerLink="/forum/discussion/create">
-                <i class="fa fa-photo" aria-hidden="true"></i>
-                <span>{{ app.text('upload_photo') }}</span>
-            </div>
-            <div class="home-form-footer-button advertisement-button" routerLink="/advertisement-guide-page">
-                <a href="/advertisement-guide-page" routerLink="/advertisement-guide-page">{{ app.text('create_ad') }}</a>
-            </div>
-        </div>
-
-        <div class="right home-form-footer-button post-button" routerLink="/forum/discussion/create">
-            <span class="d-sm-none"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-            <span class="hidden-360-down">{{ app.text('create_a_post') }}</span>
-        </div>
-
-    </div>
-
-</div>
-
-<hr>
-
-
-
-<post-list-thumbnail-text-widget [thumbnail]="true" [titleLength]="168"></post-list-thumbnail-text-widget>
+    <post-list-thumbnail-text-widget [thumbnail]="true" [titleLength]="168"></post-list-thumbnail-text-widget>
+</ng-container>
