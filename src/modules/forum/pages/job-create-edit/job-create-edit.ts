@@ -120,6 +120,11 @@ export class JobCreateEditPage {
     }
 
     onClickSubmit() {
+
+
+
+
+
         let data: JOB_CREATE = {
             message: this.message,
             gender: this.gender,

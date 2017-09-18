@@ -6,9 +6,9 @@
     </header>
 
     <main class="bg-white p-3">
-        <div class="flex p-2 justify-content-center">
+        <div *ngIf="app.user.photoURL" class="flex p-2 justify-content-center">
             <div class="profile-user-photo rounded-circle overflow-hidden">
-                <img class="mw-100" *ngIf="app.user.photoURL" src="{{app.user.photoURL}}">
+                <img class="mw-100" src="{{app.user.photoURL}}">
             </div>
         </div>
 
