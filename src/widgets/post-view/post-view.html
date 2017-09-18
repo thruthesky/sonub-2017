@@ -16,8 +16,8 @@
         <ul class="buttons mb-2 list-line list-dots fs-xs pointers">
             <li *ngIf=" app.my( post ) || app.anonymous( post )" (click)="onClickPostEdit( post )">Edit</li>
             <li *ngIf=" app.my( post ) || app.anonymous( post )" (click)="onClickPostDelete( post, page )">Delete</li>
-            <li (click)="onClickLike( post, 'like' )">Like <span class="badge badge-dark" *ngIf="post.meta['like']">{{ post.meta['like'] }}</span></li>
-            <li (click)="onClickLike( post, 'dislike' )">Dislike <span class="badge badge-dark" *ngIf="post.meta['dislike']">{{ post.meta['dislike'] }}</span></li>
+            <li class="like" (click)="onClickLike( post, 'like' )">Like <span class="badge badge-dark" *ngIf="post.meta['like']">{{ post.meta['like'] }}</span></li>
+            <li class="dislike" (click)="onClickLike( post, 'dislike' )">Dislike <span class="badge badge-dark" *ngIf="post.meta['dislike']">{{ post.meta['dislike'] }}</span></li>
             <!-- <li (click)="onClickPostDelete( post )">more</li> -->
             <!--
             <li>report</li>

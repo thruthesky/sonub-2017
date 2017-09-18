@@ -1,13 +1,30 @@
-<div class="advertisement-list-page">
-    <h1>Advertisement</h1>
-    <button routerLink="/advertisement-guide-page">Advertisement Guideline</button>
-    <button routerLink="/advertisement/create">Create new advertisement</button>
-    <div class="login" [innerHTML]="loginWarning">
-    </div>
-    <div class="advertisements" *ngIf="posts">
-        <div class="advertisement" *ngFor="let post of posts ">
-            <advertisement-sidebar-widget [posts]="posts" [post]="post" [showMyMenu]="true"></advertisement-sidebar-widget>
-        </div>
-    </div>
-</div>
+<section class="page register-profile-information-page">
 
+    <header>
+        <h1>Advertisement</h1>
+        <nav>
+            <button routerLink="/advertisement-guide-page">Guideline</button>
+            <button routerLink="/advertisement/create">Create advertisement</button>
+        </nav>
+    </header>
+
+
+    <div *ngIf="app.user.isLogout" class="alert alert-warning">{{ app.text('login_first') }}</div>
+
+    <main *ngIf="app.user.isLogin" class="bg-white p-3">
+
+        <div class="advertisement-list-page">
+
+            <div class="login" [innerHTML]="loginWarning">
+            </div>
+            <div class="advertisements" *ngIf="posts">
+                <div class="advertisement" *ngFor="let post of posts ">
+                    <advertisement-sidebar-widget
+                    class="d-block bg-lightgrey p-2"
+                    [posts]="posts" [post]="post" [showMyMenu]="true"></advertisement-sidebar-widget>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</section>
