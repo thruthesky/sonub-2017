@@ -130,12 +130,30 @@ export class BuyAndSellCreateEditPage {
     onClickSubmit() {
 
         this.errorMessage = null;
-        if (!this.tag && !this.tag.length) return this.errorMessage = '*tag is required';
-        if (this.province == 'all') return this.errorMessage = '*Province is required';
-        if (!this.price) return this.errorMessage = '*price is required';
-        if (!this.title && !this.title.length) return this.errorMessage = '*title is required';
-        if (!this.description && !this.description.length) return this.errorMessage = '*description is required';
-        if (!this.contact && !this.contact.length) return this.errorMessage = '*contact information is required';
+        if (!this.tag && !this.tag.length) {
+            this.app.warning( error(90031,'*tag is required'));
+            return this.errorMessage = '*tag is required';
+        }
+        if (this.province == 'all') {
+            this.app.warning( error(90032,'*Province is required'));
+            return this.errorMessage = '*Province is required';
+        }
+        if (!this.price) {
+            this.app.warning( error(90033,'*price is required'));
+            return this.errorMessage = '*price is required';
+        }
+        if (!this.title && !this.title.length) {
+            this.app.warning( error(90034,'*title is required'));
+            return this.errorMessage = '*title is required';
+        }
+        if (!this.description && !this.description.length) {
+            this.app.warning(error(90035, '*description is required'));
+            return this.errorMessage = '*description is required';
+        }
+        if (!this.contact && !this.contact.length) {
+            this.app.warning(error(90036, '*contact information is required'));
+            return this.errorMessage = '*contact information is required';
+        }
 
 
         this.loading = true;

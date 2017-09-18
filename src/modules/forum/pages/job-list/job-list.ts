@@ -6,7 +6,7 @@ import {
 import { PhilippineRegion } from "../../../../providers/philippine-region";
 import { PageScroll } from './../../../../providers/page-scroll';
 import { Router } from "@angular/router";
-import { PAGE, POST } from "../../../../providers/wordpress-api/interface";
+import {JOB, PAGE, POST} from "../../../../providers/wordpress-api/interface";
 
 
 @Component({
@@ -19,6 +19,9 @@ export class JobListPage implements OnInit, OnDestroy {
     formGroup: FormGroup;
 
     pages: JOB_PAGES = [];
+    page: JOB_PAGE;
+
+    profile: JOB;
 
     query = {};
 
@@ -53,7 +56,7 @@ export class JobListPage implements OnInit, OnDestroy {
     today = new Date();
     currentYear = this.today.getFullYear();
 
-    activeView: number;
+    activeView: boolean = false;
 
     constructor(
         private fb: FormBuilder,
@@ -263,31 +266,32 @@ export class JobListPage implements OnInit, OnDestroy {
         else return this.app.anonymousPhotoURL;
     }
 
-    onClickEdit(job) {
-        this.router.navigate(['/job/edit', job.ID]);
+    onClickEdit() {
+        this.router.navigate(['/job/edit/', this.profile.ID]);
     }
 
 
-    onClickDelete(post: POST, page: PAGE) {
-        if (post.author.ID) {
+    onClickDelete() {
+        if (this.profile.author.ID) {
             this.app.confirm(this.app.text('confirmDelete')).then(code => {
-                if (code == 'yes') this.postDelete(page, post.ID);
+                if (code == 'yes') this.postDelete(this.profile.ID);
             });
         }
         else {
             let password = this.app.input('Input password');
-            if (password) this.postDelete(page, post.ID, password);
+            if (password) this.postDelete(this.profile.ID, password);
         }
     }
 
-    postDelete(page, ID, password?) {
+    postDelete(ID, password?) {
         // debugger;
         this.app.forum.postDelete({ ID: ID, post_password: password }).subscribe(res => {
             console.log("file deleted: ", res);
 
-            let index = page.posts.findIndex(post => post.ID == res.ID);
+            let index = this.page.posts.findIndex(post => post.ID == res.ID);
             if (res.mode == 'delete') {
-                page.posts.splice(index, 1);
+                this.page.posts.splice(index, 1);
+                this.activeView = false;
             }
         }, err => this.app.warning(err));
     }
@@ -304,16 +308,16 @@ export class JobListPage implements OnInit, OnDestroy {
         this.resetForm();
     }
 
-    onClickShowDetail(job) {
-        if( this.activeView != job.ID  ) {
-            this.activeView = job.ID
+    onClickShowDetail(job, page) {
+            this.activeView  = true;
+            this.profile = job;
+            this.page = page;
             history.pushState('','', `/job/view/${job.ID}`);
-        }
-        else {
-            this.activeView = null;
-            history.pushState('','', '/job'  );
-        }
-    }
 
+    }
+    onClickShowList(){
+        this.activeView = false;
+        history.pushState('','', '/job'  );
+    }
 
 }

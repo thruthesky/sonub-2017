@@ -7,6 +7,8 @@ import {PhilippineRegion} from "../../../../providers/philippine-region";
 import {DATEPICKER} from "../../../../etc/interface";
 import {NgbDatepickerConfig} from "@ng-bootstrap/ng-bootstrap";
 
+import { error} from "../../../../etc/error";
+
 
 @Component({
     selector: 'job-create-edit-page',
@@ -43,6 +45,9 @@ export class JobCreateEditPage {
     today = (new Date());
 
     numbers = Array.from(new Array(20), (x, i) => i + 1);
+
+    errorMessage: string = null;
+    loading: boolean = false;
     text: any = {};
 
     constructor(private region: PhilippineRegion,
@@ -120,6 +125,39 @@ export class JobCreateEditPage {
     }
 
     onClickSubmit() {
+
+        this.errorMessage = null;
+        if ( !this.firstName && !this.firstName.length ) {
+            this.app.warning( error(90041,'*First name is required'));
+            return this.errorMessage = '*First name is required';
+        }
+
+        if ( !this.lastName && !this.lastName.length ) {
+            this.app.warning( error(90042,'*Last name is required'));
+            return this.errorMessage = '*Last name is required';
+        }
+
+        if ( !this.mobile && !this.mobile.length ) {
+            this.app.warning( error(90043,'*Mobile number is required'));
+            return this.errorMessage = '*Mobile number is required';
+        }
+
+        if ( !this.address && !this.address.length ) {
+            this.app.warning( error(90044,'*Address is required'));
+            return this.errorMessage = '*Address is required';
+        }
+
+        if ( this.province == 'all' ) {
+            this.app.warning( error(90045,'*Province is required'));
+            return this.errorMessage = '*Province is required';
+        }
+
+        if ( !this.message && !this.message.length ) {
+            this.app.warning( error(90046,'*Message is required'));
+            return this.errorMessage = '*Message is required';
+        }
+
+        this.loading = true;
         let data: JOB_CREATE = {
             message: this.message,
             gender: this.gender,
@@ -144,9 +182,14 @@ export class JobCreateEditPage {
         console.log('onClickSubmit::data:: ', data);
         this.app.job.create(data).subscribe(res => {
             console.log("job create: ", res);
+            this.loading = false;
             this.app.alert.open({content: this.app.text('saved')});
             this.router.navigateByUrl('/job');
-        }, e => this.app.warning(e));
+        }, e => {
+            this.loading = false;
+            this.app.warning(e);
+            this.errorMessage = this.app.getErrorString(e);
+        });
 
     }
 

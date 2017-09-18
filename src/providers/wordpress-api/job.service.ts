@@ -82,6 +82,9 @@ export class JobService extends Base {
         req = JSON.parse(str);
 
         if (req['query'] === void 0) req['query'] = {};
+
+        if ( req['query']['clause'] ) req['query']['clause'].push(`post_status = 'publish'`);
+        else req['query']['clause'] = [`post_status = 'publish'`];
         req['query']['slug'] = "jobs";
         req['route'] = "wordpress.post_query";
 
