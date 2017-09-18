@@ -20,11 +20,13 @@ export class RegisterWithEmailPage {
     errorMessage: string = null;
     loading: boolean = false;
 
+    text: any = {};
     constructor(public app: AppService,
         private router: Router
     ) {
         app.section('user');
         app.page.cache('register-header1', {}, html => this.registerHeaderHTML1 = html);
+        app.wp.text(['register_email_desc', 'register_password_desc'], re => this.text = re);
     }
 
 
@@ -37,6 +39,7 @@ export class RegisterWithEmailPage {
         this.app.warning(e);
         return;
     }
+
     onSubmitRegister() {
         console.log('onClickUserRegister::');
 
