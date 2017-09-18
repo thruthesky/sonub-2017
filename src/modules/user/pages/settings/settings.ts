@@ -6,9 +6,12 @@ import { AppService } from './../../../../providers/app.service';
 })
 
 export class SettingsPage implements OnInit {
+    text: any = {};
     constructor(
         public app: AppService
-    ) { }
+    ) {
+        app.wp.text(['setting', 'setting_desc'], re => this.text = re);
+    }
 
     ngOnInit() { }
 

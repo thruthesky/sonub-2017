@@ -1,13 +1,24 @@
-<h1>Settings</h1>
+<section class="page register-profile-information-page">
+
+    <header>
+        <h1>{{text.setting}}</h1>
+        <p>{{text.setting_desc}}</p>
+    </header>
 
 
-<ul>
-    <li>
-        Select language :
-        <label><input type="radio" name="language" checked="{{ app.getLanguage() == 'en' ? 1 : '' }}" (click)="onClickLanguage('en')"> English</label>
-        <label><input type="radio" name="language" checked="{{ app.getLanguage() == 'ko' ? 1 : '' }}" (click)="onClickLanguage('ko')"> Korean</label>
-        <label><input type="radio" name="language" checked="{{ app.getLanguage() == 'ch' ? 1 : '' }}"  (click)="onClickLanguage('ch')"> Chinese</label>
-    </li>
-    <li><a href="/advertisement/list" routerLink="/advertisement/list">Manage Advertisement</a></li>
-    
-</ul>
+    <div *ngIf="app.user.isLogout" class="alert alert-warning">{{ app.text('login_first') }}</div>
+
+    <main *ngIf="app.user.isLogin" class="bg-white p-3">
+
+        <ul class="list-style-none">
+            <li>
+                Select language<br>
+                <label><input type="radio" name="language" checked="{{ app.getLanguage() == 'en' ? 1 : '' }}" (click)="onClickLanguage('en')"> English</label>
+                <label><input type="radio" name="language" checked="{{ app.getLanguage() == 'ko' ? 1 : '' }}" (click)="onClickLanguage('ko')"> Korean</label>
+                <label><input type="radio" name="language" checked="{{ app.getLanguage() == 'ch' ? 1 : '' }}"  (click)="onClickLanguage('ch')"> Chinese</label>
+            </li>
+            <li><a href="/advertisement/list" routerLink="/advertisement/list">Manage Advertisement</a></li>
+        </ul>
+
+    </main>
+</section>
