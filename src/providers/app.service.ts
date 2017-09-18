@@ -141,6 +141,8 @@ export class AppService extends Base {
     /// page visibility
     pageVisibility = new BehaviorSubject<boolean>(true);
 
+    scrollId: string = null;
+    headerHeight = 64; // 109 for small.
 
 
     constructor(
@@ -192,7 +194,7 @@ export class AppService extends Base {
 
     /**
      * This tracks window resize and get app element size after resize.
-     * 
+     *
      */
     trackWindowResize() {
         this.getSize();
@@ -204,7 +206,7 @@ export class AppService extends Base {
     }
     /**
      * This tracks window resize and get app element size after resize.
-     * 
+     *
      */
     trackWindowScroll() {
         Observable.fromEvent(window, 'scroll')
@@ -237,24 +239,24 @@ export class AppService extends Base {
 
 
     /**
-     * 
+     *
      * This method is being invoked on window resize.
-     * 
-     * 
-     * 
+     *
+     *
+     *
      * @warning when this method is invoked,
      *          IF DOM are not available, the size will become 0.
-     * 
-     * 
-     * 
+     *
+     *
+     *
      * @attention to make sure to get proper size after resizing, it uses setTimeout().
-     * 
-     * 
+     *
+     *
      * @code Especially when the user refreshes on a page that needs to get/use sizes( on pinitialization of the page ),
      *          // you may get SIZE of 0.
      *          // To avoid this( or to get proper size on page load )
      *          // you need to call 'getSize()' once after the view is initialized.
-     * 
+     *
             ngAfterViewInit() {
                 setTimeout(() => this.app.getSize(), 1);
             }
@@ -280,14 +282,14 @@ export class AppService extends Base {
 
     /**
      * Observe if app page has been tabbed or set to background.
-     * 
+     *
      * @note    When a user changes browser tab, this.pageVisibility.next(false) happens.
-     * 
+     *
      */
     observePageVisibility() {
         // Set the name of the hidden property and the change event for visibility
         var hidden, visibilityChange;
-        if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support 
+        if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support
             hidden = "hidden";
             visibilityChange = "visibilitychange";
         } else if (typeof document['msHidden'] !== "undefined") {
@@ -297,7 +299,7 @@ export class AppService extends Base {
             hidden = "webkitHidden";
             visibilityChange = "webkitvisibilitychange";
         }
-        // Handle page visibility change   
+        // Handle page visibility change
         document.addEventListener(visibilityChange, () => {
             if (document[hidden]) {
                 this.pageVisibility.next(false);
@@ -465,7 +467,7 @@ export class AppService extends Base {
      *
      * @note this includes all kinds of social login and wordpress api login.
      * @note This method is being invoked for alll kinds of login.
-     * 
+     *
      */
     loginSuccess(callback = null, options?: any) {
         // console.log("AppService::loginSuccess()");
@@ -657,9 +659,9 @@ export class AppService extends Base {
 
     /**
      * It updates every track timeout.
-     * 
+     *
      * @note @attention if you only update when it is not 'online', it works no good on cordova-android.
-     * 
+     *
      */
     userOnline() {
         // if ( this.myStatus === 'online' ) return;
@@ -714,9 +716,9 @@ export class AppService extends Base {
     }
     /**
      *
-     * 
+     *
      * @deprecated use share.getCache()
-     * 
+     *
      * @param key Key
      * @return null if there is no data.
      */
@@ -862,6 +864,133 @@ export class AppService extends Base {
     endUserIdleTracking() {
         if (this.trackMouseMove) this.trackMouseMove.unsubscribe();
         if (this.timerAway) this.timerAway.unsubscribe();
+    }
+
+
+
+
+    scrollTo(id) {
+        // console.log("clicked id: ", id);
+        let parts = this.getSelectorParts(id);
+        if (parts && parts.length) {
+            for (let i = 0, len = parts.length; i < len; i++) {
+                if (parts[i]['id'] == id) {
+                    // console.log("top of the section: ", parts[i]['top']);
+                    let p = parts[i]['top'] - this.headerHeight;
+                    // console.log('scroll To Y: ', p);
+                    // console.log("headerHeight: ", this.headerHeight);
+                    this.scrollToY(p);
+                    break;
+                }
+            }
+        }
+        return;
+    }
+
+    /**
+     * Returns the array of 'section#names' and its top position in the document.
+     *
+     */
+    getSelectorParts( selector ) {
+        let nodes = document.querySelectorAll( selector );
+        let nodesArray = Array.from(nodes);
+        let parts = [];
+        if (nodesArray && nodesArray.length) {
+            for (let i = 0, len = nodesArray.length; i < len; i++) {
+                let el = nodesArray[i];
+                let pos = this.getOffset(el);
+            }
+        }
+        return parts;
+    }
+
+
+
+    /**
+     *
+     *
+     * @code
+     *          this.scrollToY( parts[i]['top'] - HEADER_HEIGHT );
+     *          scrollToY(0, 1500, 'easeInOutQuint');
+     * @endcode
+     *
+     * @attention the speed and ease does not look like working.
+     * @param speed -
+     * @param easing - easeOutSine, easeInOutSine, easeInOutQuint
+     */
+    scrollToY(scrollTargetY, speed?, easing?) {
+
+        // first add raf shim
+        // http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
+        window['requestAnimFrame'] = (function () {
+            return window.requestAnimationFrame ||
+                window.webkitRequestAnimationFrame ||
+                window['mozRequestAnimationFrame'] ||
+                function (callback) {
+                    window.setTimeout(callback, 1000 / 60);
+                };
+        })();
+
+
+        // scrollTargetY: the target scrollY property of the window
+        // speed: time in pixels per second
+        // easing: easing equation to use
+
+        var scrollY = window.pageYOffset,
+            scrollTargetY = scrollTargetY || 0,
+            speed = speed || 1000,
+            easing = easing || 'easeOutSine',
+            currentTime = 0;
+
+        // min time .1, max time .8 seconds
+        var time = Math.max(.1, Math.min(Math.abs(scrollY - scrollTargetY) / speed, .8));
+
+        // easing equations from https://github.com/danro/easing-js/blob/master/easing.js
+        var easingEquations = {
+            easeOutSine: function (pos) {
+                return Math.sin(pos * (Math.PI / 2));
+            },
+            easeInOutSine: function (pos) {
+                return (-0.5 * (Math.cos(Math.PI * pos) - 1));
+            },
+            easeInOutQuint: function (pos) {
+                if ((pos /= 0.5) < 1) {
+                    return 0.5 * Math.pow(pos, 5);
+                }
+                return 0.5 * (Math.pow((pos - 2), 5) + 2);
+            }
+        };
+
+        // add animation loop
+        function tick() {
+            currentTime += 1 / 60;
+
+            var p = currentTime / time;
+            var t = easingEquations[easing](p);
+
+            if (p < 1) {
+                window['requestAnimFrame'](tick);
+                window.scrollTo(0, scrollY + ((scrollTargetY - scrollY) * t));
+            } else {
+                window.scrollTo(0, scrollTargetY);
+            }
+        }
+
+        // call it once to get started
+        tick();
+    }
+
+
+    /**
+     * To get offset of an element.
+     */
+    getOffset(el) {
+        el = el.getBoundingClientRect();
+        return {
+            left: Math.round(el.left + window.pageYOffset),
+            top: Math.round(el.top + window.pageYOffset)
+        };
+
     }
 
 }

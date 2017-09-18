@@ -71,7 +71,6 @@ export class BuyAndSellService extends Base {
 
         if ( req['query'] === void 0 ) req['query'] = {};
 
-        console.log(req['query']['clause']);
         if ( req['query']['clause'] ) req['query']['clause'].push(`post_status = 'publish'`);
         else req['query']['clause'] = [`post_status = 'publish'`];
         req['query']['slug'] = "buyandsell";

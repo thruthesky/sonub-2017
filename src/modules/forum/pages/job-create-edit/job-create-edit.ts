@@ -147,12 +147,12 @@ export class JobCreateEditPage {
             return this.errorMessage = '*Address is required';
         }
 
-        if ( this.province != 'all' ) {
+        if ( this.province == 'all' ) {
             this.app.warning( error(90045,'*Province is required'));
             return this.errorMessage = '*Province is required';
         }
 
-        if ( this.message && !this.message.length ) {
+        if ( !this.message && !this.message.length ) {
             this.app.warning( error(90046,'*Message is required'));
             return this.errorMessage = '*Message is required';
         }
