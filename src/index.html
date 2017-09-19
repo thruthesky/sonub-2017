@@ -196,7 +196,7 @@
         <section class="app-shell">
             <div class="header-wrapper">
             <header>
-                    <div class="logo-input"><b>S</b><input placeholder="Social Network Hub"></div>
+                    <div class="logo-input"><b>S</b><input placeholder="{{sonub}}"></div>
 
                     <div class="app-shell-icon">
                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 24 24">
@@ -232,10 +232,10 @@
                         </style>
                         
                         <ul id="app-shell-text-menu">
-                            <li>Ask</li>
-                            <li>Jobs</li>
-                        <li>News</li>
-                        <li>Buy&amp;Sell</li>
+                            <li>{{ask}}</li>
+                            <li>{{jobs}}</li>
+                        <li>{{news}}</li>
+                        <li>{{buyandsell}}</li>
                         </ul>
                     </div>
                     
@@ -244,27 +244,25 @@
             </div>
             <div class="app-shell-content">
                 <div class="left">
-                    What sonub, you can :
+                    {{youcan}} :
                     <div class="content">
-                        <i>Get your job.</i>
-                        <i>Get your partner.</i>
-                        <i>Get latest news.</i>
-                        <i>Ask whatever.</i>
-                        <i>Advertise your business.</i>
-                        <i>Work and earn money.</i>
+                        <i>{{get_job}}</i>
+                        <i>{{ask_whatever}}</i>
+                        <i>{{get_news}}</i>
+                        <i>{{do_advertise}}</i>
                     </div>
                 </div>
                 <div class="right">
-                    <div class="italic"><span class="blue">Begin</span> your social with</div>
+                    <div class="italic">{{begin_with}}</div>
                     <div class="welcome">
                         <div class="title py-1 text-center">
                             Sonub
                         </div>
                     </div>
-                    <small class="d-block mt-1 fs-sm grey text-center">The social partner.</small>
+                    <small class="d-block mt-1 fs-sm grey text-center">{{social_partner}}</small>
 
                     <div class="mt-5 text-center">
-                        Sonub is being loaded now. Just wait a second.
+                        {{loading}}
                     </div>
 
                     <div class="app-shell-loader mt-5 text-center">
@@ -280,6 +278,7 @@
                             </g>
                         </svg>
                     </div>
+                    <a style="display:none;" href='https://www.sonub.com/wp-content/plugins/xapi-2/seo.php'>SEO</a>
                 </div>
             </div>
         </section>
