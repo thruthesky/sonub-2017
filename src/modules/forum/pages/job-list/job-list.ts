@@ -313,13 +313,12 @@ export class JobListPage implements OnInit, OnDestroy {
             this.profile = job;
             this.page = page;
             history.pushState('','', `/job/view/${job.ID}`);
-
+            setTimeout( () => this.app.scrollToY(0));
     }
     onClickShowList(){
         this.activeView = false;
         history.pushState('','', '/job'  );
-        this.app.scrollTo( 'job'+this.profile.ID, '#job'+this.profile.ID )
-
+        setTimeout( () => this.app.scrollTo( 'job'+this.profile.ID, '#job'+this.profile.ID ));
     }
 
 }

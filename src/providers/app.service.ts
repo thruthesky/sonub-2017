@@ -142,7 +142,7 @@ export class AppService extends Base {
     pageVisibility = new BehaviorSubject<boolean>(true);
 
     scrollId: string = null;
-    headerHeight = 64; // 109 for small.
+    headerHeight = 55; // 109 for small.
 
 
     constructor(
@@ -872,7 +872,7 @@ export class AppService extends Base {
     scrollTo(id, selector) {
         // console.log("clicked id: ", id);
         let parts = this.getSelectorParts(selector);
-        console.log('parts::', parts);
+        // console.log('parts::', parts);
         if (parts && parts.length) {
             for (let i = 0, len = parts.length; i < len; i++) {
                 if (parts[i]['id'] == id) {
@@ -893,17 +893,17 @@ export class AppService extends Base {
      *
      */
     getSelectorParts( selector ) {
-        console.log('selector::', selector);
+        // console.log('selector::', selector);
         let nodes = document.querySelectorAll( selector );
-        console.log('nodes::', nodes);
+        // console.log('nodes::', nodes);
         let nodesArray = Array.from(nodes);
-        console.log('nodesArray::', nodesArray);
+        // console.log('nodesArray::', nodesArray);
         let parts = [];
         if (nodesArray && nodesArray.length) {
             for (let i = 0, len = nodesArray.length; i < len; i++) {
                 let el = nodesArray[i];
                 let pos = this.getOffset(el);
-                console.log('el::pos', el);
+                // console.log('el::pos', el);
                 parts.push({ id: el['id'], top: pos.top });
             }
         }
@@ -992,7 +992,6 @@ export class AppService extends Base {
      */
     getOffset(el) {
         el = el.getBoundingClientRect();
-        console.log('el::', el);
         return {
             left: Math.round(el.left + window.pageYOffset),
             top: Math.round(el.top + window.pageYOffset)
