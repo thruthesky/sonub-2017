@@ -101,11 +101,21 @@
             </div>
 
 
-            <div class="text-center mb-3">
+            <div class="form-group">
+                <label>Upload Image</label>
+                <div class="upload-product p-2">
+                    <i class="fa fa-picture-o fa-3x"></i>
+                    <input *ngIf=" ! app.isCordova " type="file" (change)="fileUploadWidget.onChangeFile($event)">
+                    <nav class="buttons">
+                        <button (click)="fileUploadWidget.onClickCamera()">Upload Image</button>
+                    </nav>
+                </div>
+                <small class="form-text text-muted">Upload your images.</small>
                 <file-upload-widget
                     #fileUploadWidget
                     [title]="false"
                     [files]="files"
+                    [fileSelectionButton]="false"
                 ></file-upload-widget>
             </div>
 

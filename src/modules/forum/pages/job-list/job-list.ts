@@ -124,7 +124,7 @@ export class JobListPage implements OnInit, OnDestroy {
         this.pageNo++;
 
         let req: POST_QUERY_REQUEST = {
-            posts_per_page: 6,
+            posts_per_page: this.posts_per_page,
             page: this.pageNo,
             query: this.query,
             order: 'ID',

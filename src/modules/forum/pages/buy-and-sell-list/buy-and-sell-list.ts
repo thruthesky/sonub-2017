@@ -17,7 +17,7 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
 
     formGroup: FormGroup;
 
-    pages: BUYANDSELL_PAGES = [];
+    pages: BUYANDSELL_PAGES = <BUYANDSELL_PAGES>[];
 
     query = {};
 
@@ -43,7 +43,7 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
         app.section('job');
         region.get_province(re => {
             this.provinces = re;
-        }, e => {
+        }, () => {
         });
     }
 
@@ -160,7 +160,7 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
         this.pageNo++;
 
         let req: POST_QUERY_REQUEST = {
-            posts_per_page: 6,
+            posts_per_page: this.posts_per_page,
             page: this.pageNo,
             query: this.query,
             order: 'ID',
@@ -184,6 +184,8 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
         if (page.posts.length < page.posts_per_page) this.noMorePosts = true;
         if (page.pageNo == 1) this.pages[0] = page;
         else this.pages.push(page);
+
+        console.log('Pages::', this.pages);
     }
 
     urlPhoto(post) {

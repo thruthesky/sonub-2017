@@ -1,25 +1,17 @@
 <section class="buyandsell-list-page">
 
-    <div class="buyandsell-list-page-header mb-3">
+    <div class="buyandsell-list-page-header mb-1">
         <div class="d-flex justify-content-between bg-white">
             <h3 class="title m-0 p-3 lightblack">Buy and Sell</h3>
             <div class="text-right fs-xs flex flex-column justify-content-between">
                 <a class="p-2 blue" id="post-list-create-button" href="/buyandsell/create" routerLink="/buyandsell/create">{{ app.text('create_a_post') }}</a>
-                <div class="pr-2 pb-2 fs-sm">Page 1. 438 posts.</div>
+                <div class="pr-2 pb-2 fs-sm">Total {{pages[0]?.count}} posts.</div>
             </div>
         </div>
         <small>This is Buy and Sell forum.</small>
     </div>
 
-
-
-    <ul class="pb-2 list-line list-dots fs-xs pointers">
-        <li>Category</li>
-        <li>Location</li>
-    </ul>
     <form [formGroup]="formGroup" novalidate class="search-form">
-
-
 
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Search for product, brands, shops..." formControlName="tag">
@@ -116,6 +108,18 @@
     <div class="container p-0" *ngIf="pages">
         <div class="buyandsells mx-0 row no-gutters-buyandsell">
             <ng-container *ngFor="let page of pages ">
+                <div *ngIf="page['query']?.page !=1" class="inline-buyandsell-list-page-header">
+                    <div class="d-flex justify-content-between bg-white">
+                        <h3 class="title m-0 p-3 lightblack">Buy and Sell</h3>
+                        <div class="text-right fs-xs flex flex-column justify-content-between">
+                            <a class="p-2 blue" href="/buyandsell/create" routerLink="/buyandsell/create">{{ app.text('create_a_post') }}</a>
+                            <div class="pr-2 pb-2 fs-sm">
+                                Page {{page['query']?.page}}. Total {{page['count']}} posts.
+                                <span class="pointer" (click)="app.scrollToY(0)"><i class="fa fa-search"></i> Search</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <a class="buyandsell col-6 mb-1"
                    *ngFor="let product of page.posts "
                    [attr.post-id]="product.ID"

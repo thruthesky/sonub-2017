@@ -141,7 +141,6 @@ export class AppService extends Base {
     /// page visibility
     pageVisibility = new BehaviorSubject<boolean>(true);
 
-    scrollId: string = null;
     headerHeight = 55; // 109 for small.
 
 
