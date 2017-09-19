@@ -1,6 +1,6 @@
 <section class="job-list-page">
     <main>
-        <div class="job-listing" *ngIf="!activeView">
+        <div class="job-listing" [class.d-none]="activeView">
             <div class="job-list-page-header mb-3">
                 <div class="d-flex justify-content-between bg-white">
                     <h3 class="title m-0 p-3 lightblack">Job</h3>
@@ -139,7 +139,7 @@
             <div class="container p-0" *ngIf="pages">
                 <div class="jobs mx-0 row no-gutters-job">
                     <ng-container *ngFor="let page of pages ">
-                        <div class="job col-6 mb-1" *ngFor="let job of page.posts " [attr.post-id]="job.ID"
+                        <div class="job col-6 mb-1" *ngFor="let job of page.posts " id="job{{job.ID}}"
                              (click)="onClickShowDetail(job, page)">
                             <div class="profile bg-white">
                                 <div class="photo p-2 pt-3 flex justify-content-center">
@@ -182,7 +182,7 @@
             </div>
         </div>
 
-        <div class="job-view p-0" *ngIf="activeView">
+        <div class="job-view p-0" [class.d-none]="!activeView">
             <div class="profile bg-white">
                 <span class="absolute p-2 fs-lg pointer" (click)="onClickShowList()">
                     <i class="fa fa-angle-double-left"></i> back
@@ -208,7 +208,7 @@
                     </div>
                     <div class="form-group">
                         <label>Experience</label>
-                        <span type="text" class="form-control">{{profile.experience < 12 ? profile.experience + ' months' : profile.experience / 12 + ' years'}}</span>
+                        <span type="text" class="form-control">{{profile?.experience < 12 ? profile?.experience + ' months' : profile?.experience / 12 + ' years'}}</span>
                     </div>
                     <div class="form-group">
                         <label>Address</label>
