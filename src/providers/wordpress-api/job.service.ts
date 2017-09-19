@@ -88,14 +88,14 @@ export class JobService extends Base {
         req['query']['slug'] = "jobs";
         req['route'] = "wordpress.post_query";
 
-        console.log("job search request: ", req);
+        // console.log("job search request: ", req);
         return this.wp.post(req)
             .map(e => this.convertPage(e));
     }
 
     convertPage(page: POST_QUERY_RESPONSE): JOB_PAGE {
 
-        console.log('convertPage: ', page);
+        // console.log('convertPage: ', page);
         if (page.posts && page.posts.length) {
             for (let post of page.posts) {
                 this.convertPostToJob( post );

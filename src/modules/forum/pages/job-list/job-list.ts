@@ -318,6 +318,8 @@ export class JobListPage implements OnInit, OnDestroy {
     onClickShowList(){
         this.activeView = false;
         history.pushState('','', '/job'  );
+        this.app.scrollTo( 'job'+this.profile.ID, '#job'+this.profile.ID )
+
     }
 
 }

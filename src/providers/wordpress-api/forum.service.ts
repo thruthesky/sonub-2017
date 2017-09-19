@@ -100,7 +100,7 @@ export class ForumService extends Base {
 
 
     /**
-     * 
+     *
      * @example test.service.ts
      * @param req Comment create data
      */
@@ -151,7 +151,7 @@ export class ForumService extends Base {
 
 
     getFirstImage(post: POST): FILE {
-        if (post.files && post.files.length) {
+        if ( post && post.files && post.files.length) {
             for (let file of post.files) {
                 if (file.type.indexOf('image') == -1) continue;
                 else return file;
@@ -183,14 +183,14 @@ export class ForumService extends Base {
 
     /**
      * This does pre-processing for a post.
-     * 
+     *
      * @attention @warning 'post_content' is sanitized and saved at *post_content_pre*
-     * 
+     *
      * @param post - the post. call by reference.
      * @param o - options
      *          o['safe'] - if it is set to true, it does domSanitizing.
      *          o['autolink'] - if it is set to true, then URL in content will become clickable A tags.
-     * 
+     *
      * @return post - it's call by reference so, no need to save the return value unless you need.
      * @code
      *  this.app.forum.pre( post );
@@ -206,9 +206,9 @@ export class ForumService extends Base {
      * Does 'pre' process for page.
      * @param page page from server
      * @param o options
-     * @example 
+     * @example
      *      this.app.forum.prePage( page );
-     * 
+     *
      */
     prePage(page: PAGE ) {
         if (page.posts && page.posts.length) {
