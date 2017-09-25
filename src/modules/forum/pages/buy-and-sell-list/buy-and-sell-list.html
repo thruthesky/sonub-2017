@@ -4,8 +4,9 @@
         <div class="d-flex justify-content-between bg-white">
             <h3 class="title m-0 p-3 lightblack">Buy and Sell</h3>
             <div class="text-right fs-xs flex flex-column justify-content-between">
-                <a class="p-2 blue" id="post-list-create-button" href="/buyandsell/create" routerLink="/buyandsell/create">{{ app.text('create_a_post') }}</a>
+                <a class="p-2 blue" id="buyandsell-list-create-button" href="/buyandsell/create" routerLink="/buyandsell/create">{{ app.text('create_a_post') }}</a>
                 <div *ngIf="pages.length" class="pr-2 pb-2 fs-sm">Total {{pages[0]['count']}} posts.</div>
+
             </div>
         </div>
         <small>This is Buy and Sell forum.</small>
