@@ -50,7 +50,7 @@ export class ProfilePage implements OnInit {
                         this.router.navigateByUrl('/');
                     }, err => this.app.warning(err));
                 }
-            });
+            }, () => {});
         }
         else {
             this.app.warning(ERROR.CODE_PERMISSION_DENIED_NOT_OWNER);
