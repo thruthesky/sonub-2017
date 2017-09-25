@@ -58,6 +58,7 @@ export class JobListPage implements OnInit, OnDestroy {
 
     activeView: boolean = false;
 
+    text: any = {};
     constructor(
         private fb: FormBuilder,
         public app: AppService,
@@ -70,6 +71,13 @@ export class JobListPage implements OnInit, OnDestroy {
             this.provinces = re;
         }, () => {
         });
+
+        let codes = [
+            'job_desc', 'total', 'look_for'
+        ];
+        app.wp.text(codes, re => this.text = re);
+
+
     }
 
 

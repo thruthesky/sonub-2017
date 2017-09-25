@@ -1,11 +1,11 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import {
     AppService, POST_QUERY_REQUEST
 } from './../../../../providers/app.service';
-import {PageScroll} from './../../../../providers/page-scroll';
-import {BUYANDSELL_PAGE, BUYANDSELL_PAGES,} from "../../../../providers/wordpress-api/interface";
-import {PhilippineRegion} from "../../../../providers/philippine-region";
+import { PageScroll } from './../../../../providers/page-scroll';
+import { BUYANDSELL_PAGE, BUYANDSELL_PAGES, } from "../../../../providers/wordpress-api/interface";
+import { PhilippineRegion } from "../../../../providers/philippine-region";
 
 
 @Component({
@@ -34,6 +34,8 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
     cities = [];
     showCities: boolean = false;
 
+
+    text: any = {};
     constructor(
         private fb: FormBuilder,
         public app: AppService,
@@ -42,9 +44,16 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
     ) {
         app.section('job');
         region.get_province(re => {
-            this.provinces = re;
-        }, () => {
+                this.provinces = re;
+            }, () => {
         });
+
+        let codes = [
+            'buyandsell','buyandsell_desc', 'buyandsell_search_holder'
+        ];
+        app.wp.text(codes, re => this.text = re);
+
+
     }
 
     ngOnInit() {
@@ -100,11 +109,11 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
 
 
         // TAG, TITLE, Description
-        if (data.tag) clause.push(`post_title LIKE '%${data.tag}%' OR post_content LIKE '%${data.tag}%' OR varchar_3 LIKE '%${data.tag}%'` );
+        if (data.tag) clause.push(`post_title LIKE '%${data.tag}%' OR post_content LIKE '%${data.tag}%' OR varchar_3 LIKE '%${data.tag}%'`);
 
         // price
         let minimum = data.priceMinimum ? data.priceMinimum : 0;
-        if ( data.priceMaximum ) {
+        if (data.priceMaximum) {
             this.query['price'] = {
                 exp: 'BETWEEN',
                 value: `${minimum} AND ${data.priceMaximum}`
@@ -119,10 +128,10 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
 
         //  USED ITEM
         let usedItem = '';
-        if( data.usedItemYes ) usedItem += "char_1='y'";
-        if( data.usedItemNo ) usedItem ? usedItem += " OR char_1='n'" : usedItem += "char_1='n'";
-        if( data.usedItemNA ) usedItem ? usedItem += " OR char_1='x'" : usedItem += "char_1='x'";
-        if( usedItem ) clause.push(usedItem);
+        if (data.usedItemYes) usedItem += "char_1='y'";
+        if (data.usedItemNo) usedItem ? usedItem += " OR char_1='n'" : usedItem += "char_1='n'";
+        if (data.usedItemNA) usedItem ? usedItem += " OR char_1='x'" : usedItem += "char_1='x'";
+        if (usedItem) clause.push(usedItem);
 
         //  DELIVERABLE
         if (data.deliverableYes != data.deliverableNo) this.query['deliverable'] = data.deliverableYes ? 'y' : 'n';

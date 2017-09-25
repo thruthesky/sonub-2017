@@ -57,6 +57,16 @@ export class BuyAndSellCreateEditPage {
         let codes = [
             'buyandsell_edit_create',
             'buyandsell_edit_create_desc',
+            'tag_title', 'tag_desc', 'tag_placeholder',
+            'is_used', 'is_used_desc', 'yes', 'no', 'not_applicable',
+            'location', 'select_province', 'city',
+            'price', 'price_desc', 'price_holder',
+            'deliverable', 'deliverable_desc',
+            'buyandsell_title_holder', 'buyandsell_title_desc',
+            'buyandsell_description', 'buyandsell_description_desc', 'buyandsell_description_holder',
+            'contact_info', 'contact_info_holder', 'contact_info_desc', 
+            'buyandsell_upload_image', 'buyandsell_upload_image_desc', 'upload_image',
+            'buyandsell_submit'
         ];
         app.wp.text(codes, re => this.text = re);
 

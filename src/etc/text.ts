@@ -325,6 +325,51 @@ export let TEXT = {
         en: 'Ooh, There is no more data.',
         ko: '앗, 더 이상 자료가 없습니다.'
     },
+    _resign: {
+        en: 'Resign',
+        ko: '탈퇴'
+    },
+    profile_update: {
+        en: 'Update',
+        ko: '회원 정보 수정'
+    },
+    logout: {
+        en: 'Logout',
+        ko: '로그아웃'
+    },
+    change_password: {
+        en: 'Change Password',
+        ko: '비밀번호 변경'
+    },
+
+    gender: {
+        en: 'Gender',
+        ko: '성별'
+    },
+    birthday: {
+        en: 'Birthday',
+        ko: '성별'
+    },
+    male: {
+        en: 'Male',
+        ko: '남자'
+    },
+    female: {
+        en: 'Female',
+        ko: '여자'
+    },
+    change_profile_photo: {
+        en: 'Change Profile Photo',
+        ko: '회원 사진 변경'
+    },
+    save: {
+        en: 'Save',
+        ko: '저장'
+    },
+    save_profile: {
+        en: 'Save Profile',
+        ko: '회원 정보 저장'
+    },
 
     ///
     confirmDelete: {
@@ -372,8 +417,8 @@ export let TEXT = {
                 ]
         },
         ko: {
-            title: 'Delete your account permanently.',
-            content: 'Are you sure you want to deactivate your account?',
+            title: '회원 탈퇴',
+            content: '정말 회원 탈퇴를 하시겠습니까?',
             buttons:
                 [
                     { code: 'yes', text: '예' },

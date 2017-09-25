@@ -3,10 +3,10 @@
         <h1>{{ text.user_profile }}</h1>
         <p>{{ text.user_profile_desc }}</p>
         <nav *ngIf="app.user.isLogin">
-            <button routerLink="/user/profile/edit">Update</button>
-            <button (click)="logout()">Logout</button>
-            <button routerLink="/user/profile/change-password">Change password</button>
-            <button (click)="onClickResign()">Resign</button>
+            <button routerLink="/user/profile/edit">{{ app.text('profile_update') }}</button>
+            <button (click)="logout()">{{ app.text('logout') }}</button>
+            <button routerLink="/user/profile/change-password">{{ app.text('change_password') }}</button>
+            <button (click)="onClickResign()">{{ app.text('_resign') }}</button>
         </nav>
     </header>
 
@@ -18,26 +18,26 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="user_email">Email</label>
+            <label for="user_email">{{ app.text('email') }}</label>
             <span class="form-control" id="user_email">{{userData.user_email}}</span>
         </div>
         <div class="form-group">
-            <label for="display_name">Name</label>
+            <label for="display_name">{{ app.text('name') }}</label>
             <span class="form-control" id="display_name">{{userData.display_name}}</span>
         </div>
 
         <div class="form-group">
-            <label for="mobile">Mobile</label>
+            <label for="mobile">{{ app.text('mobile_no') }}</label>
             <span class="form-control" id="mobile">{{userData.mobile}}</span>
         </div>
 
         <div class="form-group">
-            <label for="gender">Gender</label>
-            <span class="form-control" id="Gender">{{ userData.gender == 'm' ? 'Male' : 'Female' }}</span>
+            <label for="gender">{{ app.text('gender') }}</label>
+            <span class="form-control" id="Gender">{{ userData.gender == 'm' ? app.text('male') : app.text('female') }}</span>
         </div>
 
         <div class="form-group">
-            <label for="birthday">Birthday</label>
+            <label for="birthday">{{ app.text('birthday') }}</label>
             <span class="form-control" id="birthday">{{userData.birthday}}</span>
         </div>
     </main>

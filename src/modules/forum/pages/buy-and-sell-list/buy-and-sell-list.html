@@ -2,19 +2,19 @@
 
     <div class="buyandsell-list-page-header mb-1">
         <div class="d-flex justify-content-between bg-white">
-            <h3 class="title m-0 p-3 lightblack">Buy and Sell</h3>
+            <h3 class="title m-0 p-3 lightblack">{{ text.buyandsell }}</h3>
             <div class="text-right fs-xs flex flex-column justify-content-between">
                 <a class="p-2 blue" id="post-list-create-button" href="/buyandsell/create" routerLink="/buyandsell/create">{{ app.text('create_a_post') }}</a>
-                <div class="pr-2 pb-2 fs-sm">Total {{pages[0]?.count}} posts.</div>
+                <div class="pr-2 pb-2 fs-sm">Total items: {{pages[0]?.count | number }}</div>
             </div>
         </div>
-        <small>This is Buy and Sell forum.</small>
+        <small>{{ text.buyandsell }}</small>
     </div>
 
     <form [formGroup]="formGroup" novalidate class="search-form">
 
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search for product, brands, shops..." formControlName="tag">
+            <input type="text" class="form-control" placeholder="{{ text.buyandsell_search_holder }}" formControlName="tag">
             <span class="input-group-btn">
                 <button class="btn btn-secondary pointer" type="button"><i class="fa fa-search"></i></button>
             </span>
@@ -110,7 +110,7 @@
             <ng-container *ngFor="let page of pages ">
                 <div *ngIf="page['query']?.page !=1" class="inline-buyandsell-list-page-header">
                     <div class="d-flex justify-content-between bg-white">
-                        <h3 class="title m-0 p-3 lightblack">Buy and Sell</h3>
+                        <h3 class="title m-0 p-3 lightblack">{{ text.buyandsell }}</h3>
                         <div class="text-right fs-xs flex flex-column justify-content-between">
                             <a class="p-2 blue" href="/buyandsell/create" routerLink="/buyandsell/create">{{ app.text('create_a_post') }}</a>
                             <div class="pr-2 pb-2 fs-sm">
