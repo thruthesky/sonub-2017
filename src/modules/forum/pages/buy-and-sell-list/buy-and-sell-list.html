@@ -127,7 +127,7 @@
                    routerLink="/buyandsell/view/{{product.ID}}"
                 >
                     <div class="product">
-                        <div class="photo flex p-2 justify-content-center">
+                        <div *ngIf="product.files.length" class="photo flex p-2 justify-content-center">
                             <img class="mw-100" src="{{ urlPhoto( product ) }}">
                         </div>
                         <div class="info p-2">

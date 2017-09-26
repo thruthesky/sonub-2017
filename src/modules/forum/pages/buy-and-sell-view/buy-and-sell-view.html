@@ -10,10 +10,11 @@
         <nav *ngIf=" app.my(product) && app.user.isLogin">
             <button routerLink="/buyandsell/edit/{{product?.ID}}"><i class="fa fa-pencil"></i>Edit</button>
             <button (click)="onClickDelete( product )"><i class="fa fa-trash-o"></i> Delete</button>
+            <button routerLink="/buyandsell">&times; Back</button>
         </nav>
     </header>
     <main>
-        <div class="items">
+        <div *ngIf="product?.files?.length" class="items">
             <div class="item-mini">
                 <img
                     *ngFor="let file of product?.files"

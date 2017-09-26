@@ -64,7 +64,7 @@ export class BuyAndSellCreateEditPage {
             'deliverable', 'deliverable_desc',
             'buyandsell_title_holder', 'buyandsell_title_desc',
             'buyandsell_description', 'buyandsell_description_desc', 'buyandsell_description_holder',
-            'contact_info', 'contact_info_holder', 'contact_info_desc', 
+            'contact_info', 'contact_info_holder', 'contact_info_desc',
             'buyandsell_upload_image', 'buyandsell_upload_image_desc', 'upload_image',
             'buyandsell_submit'
         ];
@@ -141,27 +141,27 @@ export class BuyAndSellCreateEditPage {
 
         this.errorMessage = null;
         if (!this.tag && !this.tag.length) {
-            this.app.warning( error(90031,'*tag is required'));
+            this.app.warning( error(-90031,'*tag is required'));
             return this.errorMessage = '*tag is required';
         }
         if (this.province == 'all') {
-            this.app.warning( error(90032,'*Province is required'));
+            this.app.warning( error(-90032,'*Province is required'));
             return this.errorMessage = '*Province is required';
         }
         if (!this.price) {
-            this.app.warning( error(90033,'*price is required'));
+            this.app.warning( error(-90033,'*price is required'));
             return this.errorMessage = '*price is required';
         }
         if (!this.title && !this.title.length) {
-            this.app.warning( error(90034,'*title is required'));
+            this.app.warning( error(-90034,'*title is required'));
             return this.errorMessage = '*title is required';
         }
         if (!this.description && !this.description.length) {
-            this.app.warning(error(90035, '*description is required'));
+            this.app.warning(error(-90035, '*description is required'));
             return this.errorMessage = '*description is required';
         }
         if (!this.contact && !this.contact.length) {
-            this.app.warning(error(90036, '*contact information is required'));
+            this.app.warning(error(-90036, '*contact information is required'));
             return this.errorMessage = '*contact information is required';
         }
 
@@ -186,7 +186,7 @@ export class BuyAndSellCreateEditPage {
             // console.log("buyandsell create/edit: ", res);
 
             this.loading = false;
-            this.app.alert.open({ content: this.app.text('saved') });
+            this.app.alert.open({ content: this.app.text('saved'), class: 'buyandsell-success' });
             this.router.navigateByUrl('/buyandsell');
         }, e => {
             this.loading = false;

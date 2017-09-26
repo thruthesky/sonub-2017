@@ -200,7 +200,6 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
     urlPhoto(post) {
         let url = this.app.forum.getFirstImageThumbnailUrl(post);
         if (url) return url;
-        // else return this.app.anonymousPhotoURL;
     }
 
     onClickProvince() {
