@@ -1,12 +1,12 @@
 <div class="modal-header" *ngIf=" options && options.title ">
     <h4 class="modal-title">{{options.title}}</h4>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <button type="button" class="close pointer" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
 </div>
 <div class="modal-body">
 
-    <button *ngIf=" !options.title " type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <button *ngIf=" !options.title " type="button" class="close pointer" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     <p>{{options.content}}</p>

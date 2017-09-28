@@ -283,7 +283,7 @@ export class JobListPage implements OnInit, OnDestroy {
         if (this.profile.author.ID) {
             this.app.confirm(this.app.text('confirmDelete')).then(code => {
                 if (code == 'yes') this.postDelete(this.profile.ID);
-            });
+            }, () => {});
         }
         else {
             let password = this.app.input('Input password');

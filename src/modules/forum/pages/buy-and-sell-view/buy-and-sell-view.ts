@@ -63,7 +63,7 @@ export class BuyAndSellViewPage implements OnInit {
         if (post.author.ID) {
             this.app.confirm(this.app.text('confirmDelete')).then(code => {
                 if (code == 'yes') this.postDelete(post.ID);
-            });
+            }, () => {});
         }
     }
 
