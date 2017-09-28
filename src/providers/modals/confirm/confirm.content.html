@@ -12,5 +12,5 @@
     <p>{{options.content}}</p>
 </div>
 <div class="modal-footer">
-    <button *ngFor="let button of options.buttons " type="button" class="btn btn-secondary button.class" (click)="activeModal.close(button.code)">{{ button.text }}</button>
+    <button *ngFor="let button of options.buttons " type="button" class="btn btn-secondary {{button.class}}" (click)="activeModal.close(button.code)">{{ button.text }}</button>
 </div>

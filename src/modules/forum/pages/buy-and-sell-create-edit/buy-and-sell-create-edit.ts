@@ -181,9 +181,9 @@ export class BuyAndSellCreateEditPage {
         data.fid = this.files.reduce((_, file) => { _.push(file.id); return _; }, []);
         data['ID'] = this.ID;
 
-        // console.log('onClickSubmit::data:: ', data);
+        console.log('onClickSubmit::data:: ', data);
         this.app.bns.create(data).subscribe(res => {
-            // console.log("buyandsell create/edit: ", res);
+            console.log("buyandsell create/edit: ", res);
 
             this.loading = false;
             this.app.alert.open({ content: this.app.text('saved'), class: 'buyandsell-success' });

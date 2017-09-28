@@ -55,10 +55,10 @@
                 <label class="text">Deliverable?</label>
                 <div class="input">
                     <label class="form-check-inline">
-                        <input type="checkbox" id="deliverable1" formControlName="deliverableYes"> Yes
+                        <input type="checkbox" id="deliver1" formControlName="deliverableYes"> Yes
                     </label>
                     <label class="form-check-inline">
-                        <input type="checkbox" id="deliverable2" formControlName="deliverableNo"> No
+                        <input type="checkbox" id="deliver2" formControlName="deliverableNo"> No
                     </label>
                 </div>
             </div>
@@ -67,7 +67,7 @@
             <div class="row-container">
                 <label class="text">Location</label>
                 <div class="input">
-                    <select class="form-control" id="searchByProvince" formControlName="province" (change)="onClickProvince()">
+                    <select class="form-control custom-select" id="province" formControlName="province" (change)="onClickProvince()">
                         <option value="all">All</option>
                         <option *ngFor="let province of provinces" [value]="province">{{province}}</option>
                     </select>
@@ -77,7 +77,7 @@
             <div class="row-container" *ngIf="showCities">
                 <label class="text" *ngIf="showCities">City</label>
                 <div class="input">
-                    <select class="form-control" id="city" formControlName="city">
+                    <select class="form-control custom-select" id="city" formControlName="city">
                         <option *ngFor="let key of cityKeys" [value]="key">{{cities[key]}}</option>
                     </select>
                 </div>
@@ -100,8 +100,8 @@
             <span *ngIf="formGroup.value.usedItemNA"> and it not applicable as Used Item"</span>
             <span *ngIf="formGroup.value.deliverableYes"> and it can be delivered"</span>
             <span *ngIf="formGroup.value.deliverableYes"> and it cannot be delivered"</span>
-            <span *ngIf="formGroup.value.province != 'all' && formGroup.value.city == formGroup.value.province">and province1 "{{formGroup.value.province}}" </span>
-            <span *ngIf="formGroup.value.city != 'all' && formGroup.value.city != formGroup.value.province">and province2 "{{formGroup.value.city}}" </span>
+            <span *ngIf="formGroup.value.province != 'all' && formGroup.value.city == formGroup.value.province">and province "{{formGroup.value.province}}" </span>
+            <span *ngIf="formGroup.value.city != 'all' && formGroup.value.city != formGroup.value.province">and province "{{formGroup.value.city}}" </span>
         </div>
     </div>
 
@@ -145,7 +145,7 @@
     </div>
 
     <div *ngIf="noMorePosts">
-        <h3 class="text-center">No more posts ... !</h3>
+        <h3 class="text-center no-more-post">No more posts ... !</h3>
     </div>
 
 </section>
