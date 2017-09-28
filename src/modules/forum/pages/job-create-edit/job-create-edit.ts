@@ -128,32 +128,32 @@ export class JobCreateEditPage {
 
         this.errorMessage = null;
         if ( !this.firstName && !this.firstName.length ) {
-            this.app.warning( error(90041,'*First name is required'));
+            this.app.warning( error(-90041,'*First name is required'));
             return this.errorMessage = '*First name is required';
         }
 
         if ( !this.lastName && !this.lastName.length ) {
-            this.app.warning( error(90042,'*Last name is required'));
+            this.app.warning( error(-90042,'*Last name is required'));
             return this.errorMessage = '*Last name is required';
         }
 
         if ( !this.mobile && !this.mobile.length ) {
-            this.app.warning( error(90043,'*Mobile number is required'));
+            this.app.warning( error(-90043,'*Mobile number is required'));
             return this.errorMessage = '*Mobile number is required';
         }
 
         if ( !this.address && !this.address.length ) {
-            this.app.warning( error(90044,'*Address is required'));
+            this.app.warning( error(-90044,'*Address is required'));
             return this.errorMessage = '*Address is required';
         }
 
         if ( this.province == 'all' ) {
-            this.app.warning( error(90045,'*Province is required'));
+            this.app.warning( error(-90045,'*Province is required'));
             return this.errorMessage = '*Province is required';
         }
 
         if ( !this.message && !this.message.length ) {
-            this.app.warning( error(90046,'*Message is required'));
+            this.app.warning( error(-90046,'*Message is required'));
             return this.errorMessage = '*Message is required';
         }
 

@@ -153,7 +153,7 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
         // CLAUSE
         if (clause.length) this.query['clause'] = clause;
 
-        // console.log('REQUEST ON VALUE CHANGE :::', this.query);
+        console.log('REQUEST ON VALUE CHANGE :::', this.query);
 
         this.pages = [];
         this.noMorePosts = false;
@@ -175,6 +175,8 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
             order: 'ID',
             by: 'DESC'
         };
+
+        console.log('req:::: ', req);
 
 
         this.app.bns.search(req).subscribe((page: BUYANDSELL_PAGE) => {
@@ -200,7 +202,6 @@ export class BuyAndSellListPage implements OnInit, OnDestroy {
     urlPhoto(post) {
         let url = this.app.forum.getFirstImageThumbnailUrl(post);
         if (url) return url;
-        // else return this.app.anonymousPhotoURL;
     }
 
     onClickProvince() {

@@ -2,7 +2,7 @@
     <h4 class="modal-title">{{options.title}}</h4>
     <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
-      </button>
+    </button>
 </div>
 <div class="modal-body">
         <button *ngIf=" ! options.title " type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
@@ -12,6 +12,6 @@
 </div>
 <div class="modal-footer d-flex justify-content-between">
     <small *ngIf="options.bottom" class="alert-content-bottom grey">{{ options.bottom }}</small>
-    <button type="button" class="alert-close btn btn-secondary button.class" (click)="activeModal.close('close')">{{ options.button }}</button>
+    <button type="button" class="alert-close btn btn-secondary" (click)="activeModal.close('close')">{{ options.button }}</button>
 </div>
 

@@ -62,10 +62,10 @@
                     <label class="text">Gender</label>
                     <div class="input">
                         <label class="form-check-inline">
-                            <input type="checkbox" id="male" formControlName="male"> Male
+                            <input type="checkbox" id="gender1" formControlName="male"> Male
                         </label>
                         <label class="form-check-inline">
-                            <input type="checkbox" id="female" formControlName="female"> Female
+                            <input type="checkbox" id="gender2" formControlName="female"> Female
                         </label>
                     </div>
                 </div>
@@ -167,7 +167,7 @@
                                     <div class="">{{ app.text('mobile_no') }}: {{job?.mobile}}</div>
                                 </div>
                                 <div class="card-footer mt-1 p-1"
-                                     *ngIf=" job['active'] && (app.my(job) || (!app.user.isLogin && !job.author.ID))">
+                                     *ngIf=" job['active'] && (app.my(job) || (!app.user.isLogin && !job?.author['ID']))">
                                     <div class="row">
                                         <div class="text-center pointer col-6 p-0"
                                              (click)="$event.stopPropagation(); onClickEdit( job )"><i
@@ -241,7 +241,7 @@
                     </div>
                 </div>
                 <div class="mt-1 p-1"
-                     *ngIf="(app.my(profile) || (!app.user.isLogin && !profile.author.ID))">
+                     *ngIf="(app.my(profile) || (!app.user.isLogin && !profile?.author.ID))">
                     <div class="row">
                         <div class="text-center pointer col-6 p-0"
                              (click)="$event.stopPropagation(); onClickEdit()"><i

@@ -28,7 +28,7 @@
                             <span>{{ text.no }}</span>
                         </label>
                         <label for="usedItem3" class="form-check-label">
-                            <input type="radio" name="usedItem" id="usedItem3" [(ngModel)]="usedItem" value="na">
+                            <input type="radio" name="usedItem" id="usedItem3" [(ngModel)]="usedItem" value="x">
                             <span>{{ text.not_applicable }}</span>
                         </label>
                     </div>
@@ -130,7 +130,7 @@
 
 
             <div class="form-group mb-3">
-                <button type="button" class="btn btn-primary btn-block pointer" (click)="onClickSubmit()">{{ text.buyandsell_submit }}
+                <button type="button" class="product-submit btn btn-primary btn-block pointer" (click)="onClickSubmit()">{{ text.buyandsell_submit }}
                 </button>
             </div>
         </form>
