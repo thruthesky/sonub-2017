@@ -77,7 +77,7 @@ export class CommentViewWidget implements OnInit, AfterViewInit {
 
                     }, e => this.app.warning(e));
                 }
-            })
+            }, () => {})
         }
         else {
             this.app.warning('Please login to delete comment');
@@ -86,7 +86,7 @@ export class CommentViewWidget implements OnInit, AfterViewInit {
     }
 
 
-    
+
     onClickLike( choice: 'like' | 'dislike' ) {
         if ( this.app.user.isLogout ) return this.app.warning( this.app.e.LOGIN_FIRST );
         this.app.wp.post({route: 'wordpress.comment_like', choice: choice, comment_ID: this.comment.comment_ID, session_id: this.app.user.sessionId})
@@ -94,7 +94,7 @@ export class CommentViewWidget implements OnInit, AfterViewInit {
                 console.log("like: ", re);
                 this.comment.meta['like'] = re['like'];
                 this.comment.meta['dislike'] = re['dislike'];
-                
+
             }, e => this.app.warning(e));
     }
 
@@ -112,7 +112,7 @@ export class CommentViewWidget implements OnInit, AfterViewInit {
             if ( this.mouse == 'in' ) this.profileDropdown.open();
         }, this.timeout );
     }
-    
+
     onMouseLeaveUserProfileMenu() {
         this.mouse = 'out';
         setTimeout( () => {

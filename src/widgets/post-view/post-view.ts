@@ -1,7 +1,7 @@
 /**
  * Post View Widget is not only used in forum pages but also other pages.
  * So, it is not in forum pages folder.
- * 
+ *
  * When you need it, import it in that module and use it.
  */
 import { Component, OnInit, Input } from '@angular/core';
@@ -22,13 +22,13 @@ export class PostViewWidget implements OnInit {
 
 
     // filePosition = 'bottom';
-    
+
     constructor(
         public app: AppService,
         private postCreateEditModal: PostCreateEditModalService,
         private forumShare: ForumCodeShareService
     ) {
-        
+
     }
 
     ngOnInit() {
@@ -56,7 +56,7 @@ export class PostViewWidget implements OnInit {
         if (post.author.ID) {
             this.app.confirm(this.app.text('confirmDelete')).then(code => {
                 if (code == 'yes') this.postDelete(page, post.ID);
-            });
+            }, () => {});
         }
         else {
             let password = this.app.input('Input password');
