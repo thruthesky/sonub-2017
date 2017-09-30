@@ -1,7 +1,7 @@
 import { ERROR } from './error';
 export class Library {
 
-    
+
 
     randomString() {
         let d = new Date();
@@ -333,6 +333,8 @@ export class Library {
 
 
     /**
+     * @deprecated
+     * 
      * text 를 입력 받고 그 안의 URL 을 HTML A 태그로 변환한다.
      * 이 함수는 완벽하지는 않지만, 그럭 저럭 사용 가능 하다. 많은 라이브러리가 존재하지만 그 크기가 20Kb 이상인 것이 많다.
      * 
@@ -340,31 +342,7 @@ export class Library {
      * @return text - 리턴되는 TEXT 에는 URL 이 <a href='...' target='_blank'>URL<a> 로 변경되어져 있다.
      */
     autoLink(text) {
-        var re = /(\(.*?)?\b((?:https?|ftp|file):\/\/[-a-z0-9+&@#\/%?=~_()|!:,.;]*[-a-z0-9+&@#\/%=~_()|])/ig;
-        return text.replace(re, function (match, lParens, url) {
-            var rParens = '';
-            lParens = lParens || '';
-
-            // Try to strip the same number of right parens from url
-            // as there are left parens.  Here, lParenCounter must be
-            // a RegExp object.  You cannot use a literal
-            //     while (/\(/g.exec(lParens)) { ... }
-            // because an object is needed to store the lastIndex state.
-            var lParenCounter = /\(/g;
-            while (lParenCounter.exec(lParens)) {
-                var m;
-                // We want m[1] to be greedy, unless a period precedes the
-                // right parenthesis.  These tests cannot be simplified as
-                //     /(.*)(\.?\).*)/.exec(url)
-                // because if (.*) is greedy then \.? never gets a chance.
-                if (m = /(.*)(\.\).*)/.exec(url) ||
-                    /(.*)(\).*)/.exec(url)) {
-                    url = m[1];
-                    rParens = m[2] + rParens;
-                }
-            }
-            return lParens + "<a href='" + url + "' target='_blank'>" + url + "</a>" + rParens;
-        });
+        return text
     }
 
     /**
@@ -400,7 +378,7 @@ export class Library {
      */
     htmlify(text, o = {}) {
 
-        if (o && o['autolink']) text = this.autoLink(text);
+        // if (o && o['autolink']) text = this.autoLink(text);
         if (o && o['nl2br']) text = this.nl2br(text);
 
 
@@ -414,7 +392,7 @@ export class Library {
      */
     getTarget(obj) {
         var targ;
-        var e=obj;
+        var e = obj;
         if (e.target) targ = e.target;
         else if (e.srcElement) targ = e.srcElement;
         if (targ.nodeType == 3) // defeat Safari bug
