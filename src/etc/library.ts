@@ -346,28 +346,15 @@ export class Library {
     }
 
     /**
+     * @deprecated
+     * 
      * New line to <br> tag.
      * @note it is coming from locutus.io
      * @param str 
      * @param isXhtml 
      */
     nl2br(str, isXhtml = false) {
-        //   example 1: nl2br('Kevin\nvan\nZonneveld')
-        //   returns 1: 'Kevin<br />\nvan<br />\nZonneveld'
-        //   example 2: nl2br("\nOne\nTwo\n\nThree\n", false)
-        //   returns 2: '<br>\nOne<br>\nTwo<br>\n<br>\nThree<br>\n'
-        //   example 3: nl2br("\nOne\nTwo\n\nThree\n", true)
-        //   returns 3: '<br />\nOne<br />\nTwo<br />\n<br />\nThree<br />\n'
-        //   example 4: nl2br(null)
-        //   returns 4: ''
-        // Some latest browsers when str is null return and unexpected null value
-        if (typeof str === 'undefined' || str === null) {
-            return ''
-        }
-        // Adjust comment to avoid issue on locutus.io display
-        var breakTag = (isXhtml || typeof isXhtml === 'undefined') ? '<br ' + '/>' : '<br>'
-        return (str + '')
-            .replace(/(\r\n|\n\r|\r|\n)/g, breakTag + '$1')
+        return str
     }
 
 
@@ -379,7 +366,7 @@ export class Library {
     htmlify(text, o = {}) {
 
         // if (o && o['autolink']) text = this.autoLink(text);
-        if (o && o['nl2br']) text = this.nl2br(text);
+        // if (o && o['nl2br']) text = this.nl2br(text);
 
 
         return text;
