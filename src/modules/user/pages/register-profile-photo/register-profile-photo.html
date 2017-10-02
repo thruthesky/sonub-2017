@@ -2,7 +2,7 @@
     <header [innerHTML]="registerHeaderHTML2"></header>
     <main class="bg-white p-3">
         <div class="mb-3">
-            <span class="caption">Your email:</span>
+            <span class="caption">{{ app.text('email') }} :</span>
             <span class="text">{{this.app.user.email}}</span>
         </div>
         <div class="text-center mb-3">
@@ -16,7 +16,7 @@
                 <nav class="buttons mt-2">
                     <button class="submit" (click)="fileUploadWidget.onClickCamera()"
                             [class.skip]="files && files.length"
-                    >Update Profile
+                    >{{ app.text('upload_photo') }}
                     </button>
                 </nav>
             </div>
@@ -32,7 +32,7 @@
                     [class.float-right]="files && files.length"
                     type="button" id="skipProfilePicture"
                     routerLink="/user/register/profile-information"
-            >{{ files.length ? 'Next' : 'Skip'}}
+            >{{ files.length ? app.text('next') : app.text('skip') }}
             </button>
         </nav>
     </main>
