@@ -27,6 +27,10 @@ export let TEXT = {
         en: 'Name',
         ko: '이름'
     },
+    name_holder: {
+        en: 'Please input your name.',
+        ko: '이름을 입력해 주세요.'
+    },
     email: {
         en: 'Email',
         ko: '이메일'
@@ -34,6 +38,10 @@ export let TEXT = {
     mobile_no: {
         en: 'Mobile No.',
         ko: '휴대폰 번호'
+    },
+    mobile_no_holder: {
+        en: 'Please input your mobile no.',
+        ko: '휴대폰 번호를 입력해 주세요.'
     },
     password: {
         en: 'Password',
@@ -90,6 +98,14 @@ export let TEXT = {
     cancel: {
         en: 'Cancel',
         ko: '취소'
+    },
+    skip: {
+        en: 'Skip',
+        ko: '건너뛰기'
+    },
+    next: {
+        en: 'Next',
+        ko: '다음'
     },
     submit_post: {
         en: 'Submit Post',
@@ -313,7 +329,7 @@ export let TEXT = {
     },
 
     upload_photo: {
-        en: 'Upload photos',
+        en: 'Upload Photo',
         ko: '사진 올리기'
     },
     no_activity_description: {
@@ -348,7 +364,7 @@ export let TEXT = {
     },
     birthday: {
         en: 'Birthday',
-        ko: '성별'
+        ko: '생년월일'
     },
     male: {
         en: 'Male',

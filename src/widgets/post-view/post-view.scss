@@ -4,6 +4,9 @@
     }
 
     .post-content {
-        white-space: pre-line;
+        // white-space: pre-line; /// @Warning this make extra line space at the bottom of a string. No good.
+        img {
+            max-width: 100%;
+        }
     }
 }

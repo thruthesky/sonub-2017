@@ -1,7 +1,7 @@
 import { ERROR } from './error';
 export class Library {
 
-    
+
 
     randomString() {
         let d = new Date();
@@ -333,6 +333,8 @@ export class Library {
 
 
     /**
+     * @deprecated
+     * 
      * text 를 입력 받고 그 안의 URL 을 HTML A 태그로 변환한다.
      * 이 함수는 완벽하지는 않지만, 그럭 저럭 사용 가능 하다. 많은 라이브러리가 존재하지만 그 크기가 20Kb 이상인 것이 많다.
      * 
@@ -340,56 +342,19 @@ export class Library {
      * @return text - 리턴되는 TEXT 에는 URL 이 <a href='...' target='_blank'>URL<a> 로 변경되어져 있다.
      */
     autoLink(text) {
-        var re = /(\(.*?)?\b((?:https?|ftp|file):\/\/[-a-z0-9+&@#\/%?=~_()|!:,.;]*[-a-z0-9+&@#\/%=~_()|])/ig;
-        return text.replace(re, function (match, lParens, url) {
-            var rParens = '';
-            lParens = lParens || '';
-
-            // Try to strip the same number of right parens from url
-            // as there are left parens.  Here, lParenCounter must be
-            // a RegExp object.  You cannot use a literal
-            //     while (/\(/g.exec(lParens)) { ... }
-            // because an object is needed to store the lastIndex state.
-            var lParenCounter = /\(/g;
-            while (lParenCounter.exec(lParens)) {
-                var m;
-                // We want m[1] to be greedy, unless a period precedes the
-                // right parenthesis.  These tests cannot be simplified as
-                //     /(.*)(\.?\).*)/.exec(url)
-                // because if (.*) is greedy then \.? never gets a chance.
-                if (m = /(.*)(\.\).*)/.exec(url) ||
-                    /(.*)(\).*)/.exec(url)) {
-                    url = m[1];
-                    rParens = m[2] + rParens;
-                }
-            }
-            return lParens + "<a href='" + url + "' target='_blank'>" + url + "</a>" + rParens;
-        });
+        return text
     }
 
     /**
+     * @deprecated
+     * 
      * New line to <br> tag.
      * @note it is coming from locutus.io
      * @param str 
      * @param isXhtml 
      */
     nl2br(str, isXhtml = false) {
-        //   example 1: nl2br('Kevin\nvan\nZonneveld')
-        //   returns 1: 'Kevin<br />\nvan<br />\nZonneveld'
-        //   example 2: nl2br("\nOne\nTwo\n\nThree\n", false)
-        //   returns 2: '<br>\nOne<br>\nTwo<br>\n<br>\nThree<br>\n'
-        //   example 3: nl2br("\nOne\nTwo\n\nThree\n", true)
-        //   returns 3: '<br />\nOne<br />\nTwo<br />\n<br />\nThree<br />\n'
-        //   example 4: nl2br(null)
-        //   returns 4: ''
-        // Some latest browsers when str is null return and unexpected null value
-        if (typeof str === 'undefined' || str === null) {
-            return ''
-        }
-        // Adjust comment to avoid issue on locutus.io display
-        var breakTag = (isXhtml || typeof isXhtml === 'undefined') ? '<br ' + '/>' : '<br>'
-        return (str + '')
-            .replace(/(\r\n|\n\r|\r|\n)/g, breakTag + '$1')
+        return str
     }
 
 
@@ -400,8 +365,8 @@ export class Library {
      */
     htmlify(text, o = {}) {
 
-        if (o && o['autolink']) text = this.autoLink(text);
-        if (o && o['nl2br']) text = this.nl2br(text);
+        // if (o && o['autolink']) text = this.autoLink(text);
+        // if (o && o['nl2br']) text = this.nl2br(text);
 
 
         return text;
@@ -414,7 +379,7 @@ export class Library {
      */
     getTarget(obj) {
         var targ;
-        var e=obj;
+        var e = obj;
         if (e.target) targ = e.target;
         else if (e.srcElement) targ = e.srcElement;
         if (targ.nodeType == 3) // defeat Safari bug

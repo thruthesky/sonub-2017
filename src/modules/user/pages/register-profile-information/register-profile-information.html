@@ -13,29 +13,29 @@
         </div>
 
         <div class="form-group">
-            <label for="email3" class="form-group-addon">Email</label>
+            <label for="email3" class="form-group-addon">{{ app.text('email') }}</label>
             <span class="form-control" id="email3">{{this.app.user.email}}</span>
         </div>
         <div class="form-group">
-            <label for="name" class="form-group-addon">Name</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Name" [(ngModel)]="name">
+            <label for="name" class="form-group-addon">{{ app.text('name') }}</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="{{ app.text('name_holder') }}" [(ngModel)]="name">
         </div>
 
-        <label class="form-group-addon">Gender</label>
+        <label class="form-group-addon">{{ app.text('gender') }}</label>
         <div class="form-control">
             <div class="form-check mb-0">
                 <label for="male" class="form-check-label mb-0">
                     <input type="radio" name="gender" id="male" [(ngModel)]="gender" value="m">
-                    <span>Male</span>
+                    <span>{{ app.text('male') }}</span>
                 </label>
                 <label for="female" class="form-check-label mb-0">
                     <input type="radio" name="gender" id="female" [(ngModel)]="gender" value="f">
-                    <span>Female</span>
+                    <span>{{ app.text('female') }}</span>
                 </label>
             </div>
         </div>
         <div class="form-group">
-            <label>Birthday</label>
+            <label>{{ app.text('birthday') }}</label>
 
             <div class="input-group">
                 <input class="form-control"
@@ -50,8 +50,8 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="mobile" class="form-group-addon">Mobile</label>
-            <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobile" [(ngModel)]="mobile">
+            <label for="mobile" class="form-group-addon">{{ app.text('mobile_no') }}</label>
+            <input type="text" class="form-control" id="mobile" name="mobile" placeholder="{{ app.text('mobile_no_holder') }}" [(ngModel)]="mobile">
         </div>
         <div *ngIf="errorMessage">
             <div id="error_message" class="alert alert-danger" role="alert">{{this.errorMessage}}</div>
@@ -59,10 +59,10 @@
 
         <div class="alert alert-info" role="alert" *ngIf="loading">
             <i class="fa fa-spinner fa-spin"></i>
-            <span>Loading...</span>
+            <span>{{ app.text('loading') }}...</span>
         </div>
         <nav class="buttons">
-            <button class="pointer" type="button" id="UpdateButton" (click)="onSubmitUpdateUserInfo()">Save</button>
+            <button class="pointer" type="button" id="UpdateButton" (click)="onSubmitUpdateUserInfo()">{{ app.text('save') }}</button>
         </nav>
     </main>
 </section>
