@@ -121,7 +121,7 @@ export class FileUploadWidget extends Base implements OnInit {
             // @todo This is not working....
             if (progressEvent.lengthComputable) {
                 try {
-                    percentage = Math.round(progressEvent.loaded / progressEvent.total);
+                    percentage = Math.round(progressEvent.loaded / progressEvent.total * 100);
                 }
                 catch (e) {
                     // console.error( 'percentage computation error' );
