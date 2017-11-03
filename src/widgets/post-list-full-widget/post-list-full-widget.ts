@@ -5,7 +5,7 @@ import { AppService } from './../../providers/app.service';
 import {
     POST_LIST, POST_LIST_RESPONSE, POST, PAGE,
     COMMENT, PAGES
-} from './../..//providers/wordpress-api/interface';
+} from './../../providers/wordpress-api/interface';
 
 
 import { PageScroll } from './../../providers/page-scroll';
@@ -46,7 +46,7 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
         private forumShare: ForumCodeShareService
     ) {
 
-        
+
 
         // setTimeout(() => {
         //     this.onClickPostCreate();
@@ -120,7 +120,7 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
         }, err => this.app.displayError(this.app.getErrorString(err)));
     }
 
-    
+
 
     loadCache(req: POST_LIST) {
         let p = this.app.cacheGetPage(req);
@@ -130,9 +130,9 @@ export class PostListFullWidget implements OnInit, AfterViewInit, OnDestroy {
         }
     }
     /**
-     * 
-     * @param req 
-     * @param page 
+     *
+     * @param req
+     * @param page
      */
     addOrReplacePage(req: POST_LIST, page: POST_LIST_RESPONSE) {
         let i = page.paged - 1;
