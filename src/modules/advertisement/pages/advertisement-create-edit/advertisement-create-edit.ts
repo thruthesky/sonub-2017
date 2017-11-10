@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { AppService, POST, FILES, FILE, POST_CREATE } from './../../../../providers/app.service';
+import {ERROR} from "../../../../etc/error";
 
 
 @Component({
@@ -13,7 +14,7 @@ export class AdvertisementCreateEditPage implements OnInit, OnDestroy {
     summary;
     domain;
     url;
-    display;
+    display = "Y";
     position;
     files: FILES = [];
     file: FILE;
@@ -24,6 +25,7 @@ export class AdvertisementCreateEditPage implements OnInit, OnDestroy {
 
     constructor(
         private activeRoute: ActivatedRoute,
+        private router: Router,
         public app: AppService
     ) {
         app.pageLayout = 'wide';
@@ -41,6 +43,13 @@ export class AdvertisementCreateEditPage implements OnInit, OnDestroy {
         app.wp.text(codes, re => this.text = re);
 
         let params = activeRoute.snapshot.params;
+
+        if( ! this.app.user.isLogin) {
+            this.app.error.warning(ERROR.LOGIN_FIRST, "Please Login to post Advertisement");
+            this.router.navigateByUrl('/user/login');
+            return;
+        }
+
         if (params['id']) {
             this.app.wp.post({ route: 'wordpress.get_advertisement_by_id', ID: params['id'] })
                 .subscribe((post: POST) => {
@@ -70,6 +79,9 @@ export class AdvertisementCreateEditPage implements OnInit, OnDestroy {
     }
 
     onClickSubmit() {
+        if ( !this.position && !this.position.length ) return this.app.error.warning( -90081,'*Position is required');
+        if ( !this.files.length ) return this.app.error.warning( -90082,'*Image is required');
+        if ( !this.title && !this.title.length ) return this.app.error.warning( -90083,'*Title is required');
 
         let data: POST_CREATE = {
             category: 'advertisement',
