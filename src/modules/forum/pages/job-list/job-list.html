@@ -6,7 +6,7 @@
                     <h3 class="title m-0 p-3 lightblack">{{ app.text('jobs') }}</h3>
                     <div class="text-right fs-xs flex flex-column justify-content-between">
                         <a class="p-2 blue" id="jobs-list-create-button" href="/job/create" routerLink="/job/create">{{
-                            app.text('create_a_post') }}</a>
+                            app.text('submit_resume') }}</a>
                         <div *ngIf="pages.length"  class="pr-2 pb-2 fs-sm">{{ text.total }}: {{pages[0]['count'] | number }}</div>
                     </div>
                 </div>

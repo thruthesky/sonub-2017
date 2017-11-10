@@ -172,6 +172,10 @@ export let TEXT = {
         en: 'Create a Post',
         ko: '글 등록하기'
     },
+    submit_resume: {
+        en: 'Submit your Resume',
+        ko: '이력서 업로드'
+    },
 
     input_title: {
         en: 'Input title',
