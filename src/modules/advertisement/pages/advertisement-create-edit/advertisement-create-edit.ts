@@ -10,12 +10,12 @@ import {ERROR} from "../../../../etc/error";
 })
 
 export class AdvertisementCreateEditPage implements OnInit, OnDestroy {
-    title;
-    summary;
-    domain;
-    url;
-    display = "Y";
-    position;
+    title: string = "";
+    summary: string = "";
+    domain: string = "";
+    url: string = "";
+    display: string = "Y";
+    position: string = "";
     files: FILES = [];
     file: FILE;
     ID; // for update only.
